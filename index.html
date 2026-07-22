@@ -3,90 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Market Intelligence Cockpit</title>
 
 <style>
+
 body{
-    font-family: Arial, sans-serif;
     margin:0;
+    font-family:Segoe UI, Arial, sans-serif;
     background:#F4F6F8;
 }
 
 header{
     background:#0B2540;
     color:white;
-    padding:20px;
+    padding:30px;
+    text-align:center;
 }
 
-h1{
+header h1{
     margin:0;
+    font-size:40px;
+}
+
+header p{
+    margin-top:10px;
+    opacity:0.9;
 }
 
 .container{
     max-width:1200px;
     margin:auto;
-    padding:20px;
+    padding:40px 20px;
 }
 
-.card{
-    background:white;
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:20px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-.nav{
+.dashboard-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
 }
 
-.nav a{
-    text-decoration:none;
-    color:white;
-}
-
-.button{
+.dashboard-card{
     background:#005195;
-    padding:30px;
+    color:white;
+    text-decoration:none;
+    padding:50px;
+    border-radius:15px;
     text-align:center;
-    border-radius:10px;
-    font-size:20px;
+    font-size:32px;
+    letter-spacing:0.5px
+
     font-weight:bold;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
+
+.dashboard-card:hover{
+    transform:translateY(-5px);
+    background:#0B2540;
+}
+
+@media(max-width:768px){
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+}
+
 </style>
+
 </head>
 
 <body>
 
 <header>
     <h1>Market Intelligence Cockpit</h1>
+    <p>Executive Management Dashboard</p>
 </header>
 
 <div class="container">
 
-    <div class="card">
-        <h2>Management Dashboard</h2>
-        <p>Select a section.</p>
-    </div>
+    <div class="dashboard-grid">
 
-    <div class="nav">
-
-        <aoduction.html
-            <div class="button">Production Dashboard</div>
+        production.html
+            Production
         </a>
 
-        <ales.html
-            <div class="button">Sales Dashboard</div>
+        sales.html
+            Sales
         </a>
 
         propulsion.html
-            <div class="button">Propulsion Dashboard</div>
+            Propulsion
         </a>
 
-        news.html
-            <div class="button">News Dashboard</div>
+        <aws.html
+            News
         </a>
 
     </div>
