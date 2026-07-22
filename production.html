@@ -11,19 +11,6 @@ body{
     margin:0;
     font-family:Segoe UI, Arial, sans-serif;
     background:#F4F6F8;
-    color:#1f2933;<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Production & Propulsion Dashboard</title>
-
-<style>
-body{
-    margin:0;
-    font-family:Segoe UI, Arial, sans-serif;
-    background:#F4F6F8;
     color:#1f2933;
 }
 
@@ -112,25 +99,38 @@ input{
     color:#005195;
 }
 
-.chart-card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    margin-bottom:25px;
-    height:320px;
-}
-
-.chart-card h2{
-    margin-top:0;
-    color:#0B2540;
-}
-
 .chart-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:20px;
     margin-bottom:25px;
+}
+
+.chart-card{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    height:330px;
+    box-sizing:border-box;
+}
+
+.chart-card h2{
+    margin-top:0;
+    margin-bottom:10px;
+    color:#0B2540;
+    font-size:20px;
+}
+
+.chart-wrap{
+    position:relative;
+    height:255px;
+    width:100%;
+}
+
+.chart-wrap canvas{
+    width:100% !important;
+    height:100% !important;
 }
 
 .table-card{
@@ -188,6 +188,14 @@ tr:hover{
     .kpi-grid,
     .chart-grid{
         grid-template-columns:1fr;
+    }
+
+    .chart-card{
+        height:350px;
+    }
+
+    .chart-wrap{
+        height:275px;
     }
 }
 </style>
@@ -297,36 +305,48 @@ tr:hover{
 
     </div>
 
-    <div class="chart-card">
-        <h2>Production Forecast Trend — NEV vs Fuel-powered</h2>
-        <canvas id="forecastTrendChart" height="120"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h2>Propulsion Mix by Year</h2>
-        <canvas id="propulsionMixChart" height="70"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h2>Global Sales Sub-Segment</h2>
-        <canvas id="segmentChart" height="70"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h2>Regional Sales Price Class</h2>
-        <canvas id="priceClassChart" height="70"></canvas>
-    </div>
-
     <div class="chart-grid">
 
         <div class="chart-card">
+            <h2>Production Forecast Trend — NEV vs Fuel-powered</h2>
+            <div class="chart-wrap">
+                <canvas id="forecastTrendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Propulsion Mix by Year</h2>
+            <div class="chart-wrap">
+                <canvas id="propulsionMixChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Global Sales Sub-Segment</h2>
+            <div class="chart-wrap">
+                <canvas id="segmentChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Regional Sales Price Class</h2>
+            <div class="chart-wrap">
+                <canvas id="priceClassChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
             <h2>Model Line Share</h2>
-            <canvas id="modelLineChart" height="220"></canvas>
+            <div class="chart-wrap">
+                <canvas id="modelLineChart"></canvas>
+            </div>
         </div>
 
         <div class="chart-card">
             <h2>Top Brands</h2>
-            <canvas id="topBrandsChart" height="220"></canvas>
+            <div class="chart-wrap">
+                <canvas id="topBrandsChart"></canvas>
+            </div>
         </div>
 
     </div>
@@ -375,7 +395,6 @@ const propulsionColors = {
     "REEV":"#A1CB6C",
     "FCEV":"#BEDF8A",
     "Other":"#D8D8D8"
-
 };
 
 fetch("./Dashboard_data_Production_Propulsion.csv")
@@ -687,6 +706,7 @@ function getCategoryColor(category){
     ];
 
     let hash = 0;
+
     for(let i = 0; i < category.length; i++){
         hash = category.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -765,6 +785,7 @@ function renderForecastTrendChart(data){
         },
         options:{
             responsive:true,
+            maintainAspectRatio:false,
             plugins:{
                 tooltip:{
                     callbacks:{
@@ -809,1040 +830,8 @@ function renderPropulsionMixChart(data){
         },
         options:{
             responsive:true,
-            scales:createNoGridScale(true)
-        }
-    });
-}
-
-function renderSegmentChart(data, yearField){
-    const categories = getTopCategories(data, "VP: Global Sales Sub-Segment", yearField, 8);
-    const datasets = makeStackedByCategoryData(data, "VP: Global Sales Sub-Segment", categories);
-
-    const ctx = document.getElementById("segmentChart");
-
-    if(segmentChart){
-        segmentChart.destroy();
-    }
-
-    segmentChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:["2025","2026","2027","2028","2029","2030","2031"],
-            datasets:datasets
-        },
-        options:{
-            responsive:true,
-            scales:createNoGridScale(true)
-        }
-    });
-}
-
-function renderPriceClassChart(data, yearField){
-    const categories = getTopCategories(data, "VP: Regional Sales Price Class", yearField, 8);
-    const datasets = makeStackedByCategoryData(data, "VP: Regional Sales Price Class", categories);
-
-    const ctx = document.getElementById("priceClassChart");
-
-    if(priceClassChart){
-        priceClassChart.destroy();
-    }
-
-    priceClassChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:["2025","2026","2027","2028","2029","2030","2031"],
-            datasets:datasets
-        },
-        options:{
-            responsive:true,
-            scales:createNoGridScale(true)
-        }
-    });
-}
-
-function renderModelLineChart(data, yearField){
-    const totals = {};
-
-    data.forEach(row => {
-        const nameplate = row["VP: Production Nameplate"] || "Unknown";
-        const volume = toNumber(row[yearField]);
-
-        if(!totals[nameplate]){
-            totals[nameplate] = 0;
-        }
-
-        totals[nameplate] += volume;
-    });
-
-    const top = Object.entries(totals)
-        .sort((a,b) => b[1] - a[1])
-        .slice(0,10);
-
-    const labels = top.map(item => item[0]);
-    const values = top.map(item => item[1]);
-
-    const ctx = document.getElementById("modelLineChart");
-
-    if(modelLineChart){
-        modelLineChart.destroy();
-    }
-
-    modelLineChart = new Chart(ctx, {
-        type:"doughnut",
-        data:{
-            labels:labels,
-            datasets:[{
-                data:values,
-                backgroundColor:[
-                    "#005195",
-                    "#69A032",
-                    "#B4AA9B",
-                    "#0B2540",
-                    "#8FAFCB",
-                    "#C4DAEC",
-                    "#667085",
-                    "#98A2B3",
-                    "#4D4D4D",
-                    "#BFC4C9"
-                ]
-            }]
-        },
-        options:{
-            responsive:true,
-            plugins:{
-                tooltip:{
-                    callbacks:{
-                        label:function(context){
-                            return context.label + ": " + formatNumber(context.raw);
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-function renderTopBrandsChart(data, yearField){
-    const totals = {};
-
-    data.forEach(row => {
-        const brand = row["VP: Production Brand"] || "Unknown";
-        const volume = toNumber(row[yearField]);
-
-        if(!totals[brand]){
-            totals[brand] = 0;
-        }
-
-        totals[brand] += volume;
-    });
-
-    const top = Object.entries(totals)
-        .sort((a,b) => b[1] - a[1])
-        .slice(0,10);
-
-    const labels = top.map(item => item[0]);
-    const values = top.map(item => item[1]);
-
-    const ctx = document.getElementById("topBrandsChart");
-
-    if(topBrandsChart){
-        topBrandsChart.destroy();
-    }
-
-    topBrandsChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:labels,
-            datasets:[{
-                label:"Production",
-                data:values,
-                backgroundColor:"#005195"
-            }]
-        },
-        options:{
-            responsive:true,
-            indexAxis:"y",
-            plugins:{
-                legend:{
-                    display:false
-                }
-            },
-            scales:{
-                x:{
-                    beginAtZero:true,
-                    grid:{
-                        display:false
-                    },
-                    ticks:{
-                        callback:function(value){
-                            return formatNumber(value);
-                        }
-                    }
-                },
-                y:{
-                    grid:{
-                        display:false
-                    }
-                }
-            }
-        }
-    });
-}
-
-function renderTable(data, yearField){
-    const container = document.getElementById("tableContainer");
-
-    if(data.length === 0){
-        container.innerHTML = '<div class="empty">No model line details found for the selected filters.</div>';
-        return;
-    }
-
-    const sorted = [...data].sort((a,b) => toNumber(b[yearField]) - toNumber(a[yearField]));
-    const topRows = sorted.slice(0,300);
-
-    let html = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Nameplate</th>
-                    <th>Brand</th>
-                    <th>Manufacturer</th>
-                    <th>Plant</th>
-                    <th>Country/Territory</th>
-                    <th>Propulsion Type</th>
-                    <th>Production Type</th>
-                    <th>${yearField}</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
-    topRows.forEach(row => {
-        html += `
-            <tr>
-                <td>${escapeHTML(row["VP: Production Nameplate"])}</td>
-                <td>${escapeHTML(row["VP: Production Brand"])}</td>
-                <td>${escapeHTML(row["VP: Manufacturer"])}</td>
-                <td>${escapeHTML(row["VP: Production Plant"])}</td>
-                <td>${escapeHTML(row["VP: Country/Territory"])}</td>
-                <td>${escapeHTML(row["VP: Propulsion Type"])}</td>
-                <td>${escapeHTML(row["VP: Production Type"])}</td>
-                <td>${formatNumber(toNumber(row[yearField]))}</td>
-            </tr>
-        `;
-    });
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-    container.innerHTML = html;
-}
-
-function renderDashboard(){
-    const yearField = document.getElementById("yearFilter").value;
-    const data = getFilteredData();
-
-    renderKpis(data, yearField);
-    renderForecastTrendChart(data);
-    renderPropulsionMixChart(data);
-    renderSegmentChart(data, yearField);
-    renderPriceClassChart(data, yearField);
-    renderModelLineChart(data, yearField);
-    renderTopBrandsChart(data, yearField);
-    renderTable(data, yearField);
-}
-</script>
-
-</body>
-</html>
-}
-
-header{
-    background:#0B2540;
-    color:white;
-    text-align:center;
-    padding:25px;
-}
-
-header h1{
-    margin:0;
-    font-size:36px;
-}
-
-.back-link{
-    display:inline-block;
-    margin-top:10px;
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.back-link:hover{
-    text-decoration:underline;
-}
-
-.container{
-    max-width:1550px;
-    margin:auto;
-    padding:25px;
-}
-
-.filter-bar{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:25px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:15px;
-}
-
-.filter-group label{
-    display:block;
-    font-weight:bold;
-    margin-bottom:6px;
-    color:#0B2540;
-    font-size:14px;
-}
-
-select,
-input{
-    width:100%;
-    padding:9px;
-    border:1px solid #ccc;
-    border-radius:6px;
-    font-size:14px;
-}
-
-.kpi-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:20px;
-    margin-bottom:25px;
-}
-
-.kpi-card{
-    background:white;
-    padding:22px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-.kpi-title{
-    font-size:14px;
-    color:#667085;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-.kpi-value{
-    font-size:28px;
-    font-weight:800;
-    color:#005195;
-}
-
-.chart-card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    margin-bottom:25px;
-    height:380px;
-}
-
-.chart-card h2{
-    margin-top:0;
-    color:#0B2540;
-}
-
-.chart-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-    margin-bottom:25px;
-}
-
-.table-card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:14px;
-}
-
-th{
-    background:#0B2540;
-    color:white;
-    padding:10px;
-    text-align:left;
-    white-space:nowrap;
-}
-
-td{
-    padding:9px;
-    border-bottom:1px solid #e5e7eb;
-    white-space:nowrap;
-}
-
-tr:hover{
-    background:#F4F6F8;
-}
-
-.empty{
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    color:#667085;
-}
-
-@media(max-width:1100px){
-    .filter-bar{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .kpi-grid,
-    .chart-grid{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media(max-width:750px){
-    .filter-bar,
-    .kpi-grid,
-    .chart-grid{
-        grid-template-columns:1fr;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-    <h1>Production & Propulsion Dashboard</h1>
-    <a href="index.html" class="back-link">← Back to Cockpit</a>
-</header>
-
-<div class="container">
-
-    <div class="filter-bar">
-
-        <div class="filter-group">
-            <label for="regionFilter">Region</label>
-            <select id="regionFilter">
-                <option value="All">All Regions</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="countryFilter">Country/Territory</label>
-            <select id="countryFilter">
-                <option value="All">All Countries</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="salesGroupFilter">Sales Group</label>
-            <select id="salesGroupFilter">
-                <option value="All">All Sales Groups</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="brandFilter">Production Brand</label>
-            <select id="brandFilter">
-                <option value="All">All Brands</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="manufacturerFilter">Manufacturer</label>
-            <select id="manufacturerFilter">
-                <option value="All">All Manufacturers</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="productionTypeFilter">Production Type</label>
-            <select id="productionTypeFilter">
-                <option value="All">All Production Types</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="priceClassFilter">Regional Sales Price Class</label>
-            <select id="priceClassFilter">
-                <option value="All">All Price Classes</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="yearFilter">Year</label>
-            <select id="yearFilter">
-                <option value="CY 2025" selected>2025</option>
-                <option value="CY 2026">2026</option>
-                <option value="CY 2027">2027</option>
-                <option value="CY 2028">2028</option>
-                <option value="CY 2029">2029</option>
-                <option value="CY 2030">2030</option>
-                <option value="CY 2031">2031</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="searchInput">Search</label>
-            <input id="searchInput" type="text" placeholder="Search nameplate or plant...">
-        </div>
-
-    </div>
-
-    <div class="kpi-grid">
-
-        <div class="kpi-card">
-            <div class="kpi-title">Global Production</div>
-            <div class="kpi-value" id="kpiProduction">-</div>
-        </div>
-
-        <div class="kpi-card">
-            <div class="kpi-title">CAGR 2026–2031</div>
-            <div class="kpi-value" id="kpiCagr">-</div>
-        </div>
-
-        <div class="kpi-card">
-            <div class="kpi-title">NEV Share %</div>
-            <div class="kpi-value" id="kpiNevShare">-</div>
-        </div>
-
-        <div class="kpi-card">
-            <div class="kpi-title">Fuel-powered Share %</div>
-            <div class="kpi-value" id="kpiFuelShare">-</div>
-        </div>
-
-    </div>
-
-    <div class="chart-card">
-        <h2>Production Forecast Trend — NEV vs Fuel-powered</h2>
-        <canvas id="forecastTrendChart" height="70"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h2>Propulsion Mix by Year</h2>
-        <canvas id="propulsionMixChart" height="70"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h2>Global Sales Sub-Segment</h2>
-        <canvas id="segmentChart" height="70"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h2>Regional Sales Price Class</h2>
-        <canvas id="priceClassChart" height="70"></canvas>
-    </div>
-
-    <div class="chart-grid">
-
-        <div class="chart-card">
-            <h2>Model Line Share</h2>
-            <canvas id="modelLineChart" height="220"></canvas>
-        </div>
-
-        <div class="chart-card">
-            <h2>Top Brands</h2>
-            <canvas id="topBrandsChart" height="220"></canvas>
-        </div>
-
-    </div>
-
-    <div class="table-card">
-        <h2>Model Line Details</h2>
-        <div id="tableContainer">
-            <div class="empty">Loading production and propulsion data...</div>
-        </div>
-    </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-let allData = [];
-
-let forecastTrendChart = null;
-let propulsionMixChart = null;
-let segmentChart = null;
-let priceClassChart = null;
-let modelLineChart = null;
-let topBrandsChart = null;
-
-const years = [
-    "CY 2025",
-    "CY 2026",
-    "CY 2027",
-    "CY 2028",
-    "CY 2029",
-    "CY 2030",
-    "CY 2031"
-];
-
-const fuelTypes = ["ICE", "MHEV", "FHEV"];
-const nevTypes = ["BEV", "PHEV", "REEV", "FCEV"];
-const propulsionOrder = ["ICE", "MHEV", "FHEV", "BEV", "PHEV", "REEV", "FCEV"];
-
-const propulsionColors = {
-    "ICE":"#005195",
-    "MHEV":"#4D77A1",
-    "FHEV":"#7FA4C5",
-    "BEV":"#69A032",
-    "PHEV":"#9BBF73",
-    "REEV":"#B4AA9B",
-    "FCEV":"#667085",
-    "Other":"#BFC4C9"
-};
-
-fetch("./Dashboard_data_Production_Propulsion.csv")
-    .then(response => {
-        if(!response.ok){
-            throw new Error("CSV file not found");
-        }
-        return response.text();
-    })
-    .then(text => {
-        allData = parseCSV(text);
-        populateFilters();
-        renderDashboard();
-    })
-    .catch(error => {
-        document.getElementById("tableContainer").innerHTML =
-            '<div class="empty">Could not load Dashboard_data_Production_Propulsion.csv. Please check the filename and location.</div>';
-        console.error(error);
-    });
-
-const filterIds = [
-    "regionFilter",
-    "countryFilter",
-    "salesGroupFilter",
-    "brandFilter",
-    "manufacturerFilter",
-    "productionTypeFilter",
-    "priceClassFilter",
-    "yearFilter",
-    "searchInput"
-];
-
-filterIds.forEach(id => {
-    document.getElementById(id).addEventListener("change", renderDashboard);
-    document.getElementById(id).addEventListener("input", renderDashboard);
-});
-
-function detectDelimiter(firstLine){
-    if(firstLine.includes(";")) return ";";
-    if(firstLine.includes("\t")) return "\t";
-    return ",";
-}
-
-function splitLine(line, delimiter){
-    const result = [];
-    let current = "";
-    let insideQuotes = false;
-
-    for(let i = 0; i < line.length; i++){
-        const char = line[i];
-
-        if(char === '"'){
-            insideQuotes = !insideQuotes;
-        } else if(char === delimiter && !insideQuotes){
-            result.push(current);
-            current = "";
-        } else {
-            current += char;
-        }
-    }
-
-    result.push(current);
-    return result;
-}
-
-function cleanCell(value){
-    return value
-        .replace(/^"|"$/g, "")
-        .replace(/""/g, '"')
-        .trim();
-}
-
-function parseCSV(text){
-    const lines = text.trim().split(/\r?\n/);
-    const delimiter = detectDelimiter(lines[0]);
-    const headers = splitLine(lines[0], delimiter).map(h => cleanCell(h));
-
-    return lines.slice(1).map(line => {
-        const values = splitLine(line, delimiter);
-        const row = {};
-
-        headers.forEach((header, index) => {
-            row[header] = values[index] ? cleanCell(values[index]) : "";
-        });
-
-        return row;
-    }).filter(row =>
-        row["VP: Region"] ||
-        row["VP: Production Brand"] ||
-        row["VP: Manufacturer"] ||
-        row["VP: Production Nameplate"]
-    );
-}
-
-function toNumber(value){
-    if(!value) return 0;
-
-    return Number(
-        value
-            .toString()
-            .replace(/\./g, "")
-            .replace(/,/g, "")
-            .replace(/\s/g, "")
-    ) || 0;
-}
-
-function formatNumber(value){
-    if(value >= 1000000000){
-        return (value / 1000000000).toFixed(1) + "B";
-    }
-
-    if(value >= 1000000){
-        return (value / 1000000).toFixed(1) + "M";
-    }
-
-    if(value >= 1000){
-        return (value / 1000).toFixed(0) + "k";
-    }
-
-    return value.toLocaleString();
-}
-
-function formatPercent(value){
-    if(!isFinite(value)) return "-";
-    return value.toFixed(1) + "%";
-}
-
-function escapeHTML(value){
-    if(!value) return "";
-
-    return value
-        .toString()
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-function normalizePropulsion(value){
-    const text = (value || "").toUpperCase();
-
-    if(text.includes("MHEV")) return "MHEV";
-    if(text.includes("FHEV")) return "FHEV";
-    if(text.includes("PHEV")) return "PHEV";
-    if(text.includes("REEV")) return "REEV";
-    if(text.includes("FCEV")) return "FCEV";
-    if(text.includes("BEV")) return "BEV";
-    if(text.includes("ICE")) return "ICE";
-
-    return "Other";
-}
-
-function isNEV(propulsion){
-    return nevTypes.includes(normalizePropulsion(propulsion));
-}
-
-function isFuel(propulsion){
-    return fuelTypes.includes(normalizePropulsion(propulsion));
-}
-
-function populateSelect(id, fieldName){
-    const select = document.getElementById(id);
-    const existing = new Set(Array.from(select.options).map(o => o.value));
-    const values = [...new Set(allData.map(row => row[fieldName]).filter(Boolean))].sort();
-
-    values.forEach(value => {
-        if(!existing.has(value)){
-            const option = document.createElement("option");
-            option.value = value;
-            option.textContent = value;
-            select.appendChild(option);
-        }
-    });
-}
-
-function populateFilters(){
-    populateSelect("regionFilter", "VP: Region");
-    populateSelect("countryFilter", "VP: Country/Territory");
-    populateSelect("salesGroupFilter", "VP: Sales Group");
-    populateSelect("brandFilter", "VP: Production Brand");
-    populateSelect("manufacturerFilter", "VP: Manufacturer");
-    populateSelect("productionTypeFilter", "VP: Production Type");
-    populateSelect("priceClassFilter", "VP: Regional Sales Price Class");
-}
-
-function getFilteredData(){
-    const region = document.getElementById("regionFilter").value;
-    const country = document.getElementById("countryFilter").value;
-    const salesGroup = document.getElementById("salesGroupFilter").value;
-    const brand = document.getElementById("brandFilter").value;
-    const manufacturer = document.getElementById("manufacturerFilter").value;
-    const productionType = document.getElementById("productionTypeFilter").value;
-    const priceClass = document.getElementById("priceClassFilter").value;
-    const search = document.getElementById("searchInput").value.toLowerCase();
-
-    return allData.filter(row => {
-        const regionMatch = region === "All" || row["VP: Region"] === region;
-        const countryMatch = country === "All" || row["VP: Country/Territory"] === country;
-        const salesGroupMatch = salesGroup === "All" || row["VP: Sales Group"] === salesGroup;
-        const brandMatch = brand === "All" || row["VP: Production Brand"] === brand;
-        const manufacturerMatch = manufacturer === "All" || row["VP: Manufacturer"] === manufacturer;
-        const productionTypeMatch = productionType === "All" || row["VP: Production Type"] === productionType;
-        const priceClassMatch = priceClass === "All" || row["VP: Regional Sales Price Class"] === priceClass;
-
-        const searchText = [
-            row["VP: Production Nameplate"],
-            row["VP: Production Plant"],
-            row["VP: Vehicle"],
-            row["VP: Production Brand"],
-            row["VP: Manufacturer"]
-        ].join(" ").toLowerCase();
-
-        const searchMatch = searchText.includes(search);
-
-        return regionMatch &&
-               countryMatch &&
-               salesGroupMatch &&
-               brandMatch &&
-               manufacturerMatch &&
-               productionTypeMatch &&
-               priceClassMatch &&
-               searchMatch;
-    });
-}
-
-function sumYear(data, yearField){
-    return data.reduce((sum, row) => sum + toNumber(row[yearField]), 0);
-}
-
-function cagr(startValue, endValue, periods){
-    if(startValue <= 0 || endValue <= 0) return null;
-    return (Math.pow(endValue / startValue, 1 / periods) - 1) * 100;
-}
-
-function createNoGridScale(stacked){
-    return {
-        x:{
-            stacked:stacked,
-            grid:{
-                display:false
-            }
-        },
-        y:{
-            stacked:stacked,
-            beginAtZero:true,
-            grid:{
-                display:false
-            },
-            ticks:{
-                callback:function(value){
-                    return formatNumber(value);
-                }
-            }
-        }
-    };
-}
-
-function getTopCategories(data, fieldName, yearField, limit){
-    const totals = {};
-
-    data.forEach(row => {
-        const key = row[fieldName] || "Unknown";
-        const volume = toNumber(row[yearField]);
-
-        if(!totals[key]){
-            totals[key] = 0;
-        }
-
-        totals[key] += volume;
-    });
-
-    return Object.entries(totals)
-        .sort((a,b) => b[1] - a[1])
-        .slice(0, limit)
-        .map(item => item[0]);
-}
-
-function makeStackedByCategoryData(data, fieldName, categories){
-    return categories.map(category => {
-        return {
-            label:category,
-            data:years.map(year => {
-                return data.reduce((sum, row) => {
-                    const value = row[fieldName] || "Unknown";
-                    if(value === category){
-                        return sum + toNumber(row[year]);
-                    }
-                    return sum;
-                }, 0);
-            }),
-            backgroundColor:getCategoryColor(category)
-        };
-    });
-}
-
-function getCategoryColor(category){
-    const palette = [
-        "#005195",
-        "#69A032",
-        "#B4AA9B",
-        "#0B2540",
-        "#8FAFCB",
-        "#C4DAEC",
-        "#667085",
-        "#98A2B3",
-        "#4D4D4D",
-        "#BFC4C9"
-    ];
-
-    let hash = 0;
-    for(let i = 0; i < category.length; i++){
-        hash = category.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    return palette[Math.abs(hash) % palette.length];
-}
-
-function renderKpis(data, yearField){
-    const total = sumYear(data, yearField);
-
-    const nevTotal = data.reduce((sum, row) => {
-        if(isNEV(row["VP: Propulsion Type"])){
-            return sum + toNumber(row[yearField]);
-        }
-        return sum;
-    }, 0);
-
-    const fuelTotal = data.reduce((sum, row) => {
-        if(isFuel(row["VP: Propulsion Type"])){
-            return sum + toNumber(row[yearField]);
-        }
-        return sum;
-    }, 0);
-
-    const start2026 = sumYear(data, "CY 2026");
-    const end2031 = sumYear(data, "CY 2031");
-    const cagrValue = cagr(start2026, end2031, 5);
-
-    document.getElementById("kpiProduction").textContent = formatNumber(total);
-    document.getElementById("kpiCagr").textContent = cagrValue === null ? "-" : formatPercent(cagrValue);
-    document.getElementById("kpiNevShare").textContent = total === 0 ? "-" : formatPercent((nevTotal / total) * 100);
-    document.getElementById("kpiFuelShare").textContent = total === 0 ? "-" : formatPercent((fuelTotal / total) * 100);
-}
-
-function renderForecastTrendChart(data){
-    const fuelData = years.map(year => {
-        return data.reduce((sum, row) => {
-            if(isFuel(row["VP: Propulsion Type"])){
-                return sum + toNumber(row[year]);
-            }
-            return sum;
-        }, 0);
-    });
-
-    const nevData = years.map(year => {
-        return data.reduce((sum, row) => {
-            if(isNEV(row["VP: Propulsion Type"])){
-                return sum + toNumber(row[year]);
-            }
-            return sum;
-        }, 0);
-    });
-
-    const ctx = document.getElementById("forecastTrendChart");
-
-    if(forecastTrendChart){
-        forecastTrendChart.destroy();
-    }
-
-    forecastTrendChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:["2025","2026","2027","2028","2029","2030","2031"],
-            datasets:[
-                {
-                    label:"Fuel-powered",
-                    data:fuelData,
-                    backgroundColor:"#B4AA9B"
-                },
-                {
-                    label:"NEV",
-                    data:nevData,
-                    backgroundColor:"#69A032"
-                }
-            ]
-        },
-        options:{
-            responsive:true,
-            plugins:{
-                tooltip:{
-                    callbacks:{
-                        label:function(context){
-                            return context.dataset.label + ": " + formatNumber(context.raw);
-                        }
-                    }
-                }
-            },
-            scales:createNoGridScale(true)
-        }
-    });
-}
-
-function renderPropulsionMixChart(data){
-    const datasets = propulsionOrder.map(type => {
-        return {
-            label:type,
-            data:years.map(year => {
-                return data.reduce((sum, row) => {
-                    if(normalizePropulsion(row["VP: Propulsion Type"]) === type){
-                        return sum + toNumber(row[year]);
-                    }
-                    return sum;
-                }, 0);
-            }),
-            backgroundColor:propulsionColors[type]
-        };
-    });
-
-    const ctx = document.getElementById("propulsionMixChart");
-
-    if(propulsionMixChart){
-        propulsionMixChart.destroy();
-    }
-
-    propulsionMixChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:["2025","2026","2027","2028","2029","2030","2031"],
-            datasets:datasets
-        },
-        options:{
-            responsive:true,            
             maintainAspectRatio:false,
             scales:createNoGridScale(true)
-
         }
     });
 }
@@ -1865,6 +854,7 @@ function renderSegmentChart(data, yearField){
         },
         options:{
             responsive:true,
+            maintainAspectRatio:false,
             scales:createNoGridScale(true)
         }
     });
@@ -1888,6 +878,7 @@ function renderPriceClassChart(data, yearField){
         },
         options:{
             responsive:true,
+            maintainAspectRatio:false,
             scales:createNoGridScale(true)
         }
     });
@@ -1942,6 +933,7 @@ function renderModelLineChart(data, yearField){
         },
         options:{
             responsive:true,
+            maintainAspectRatio:false,
             plugins:{
                 tooltip:{
                     callbacks:{
@@ -1994,6 +986,7 @@ function renderTopBrandsChart(data, yearField){
         },
         options:{
             responsive:true,
+            maintainAspectRatio:false,
             indexAxis:"y",
             plugins:{
                 legend:{
