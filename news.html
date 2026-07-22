@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +8,11 @@
 <title>News Dashboard</title>
 
 <style>
-
 body{
     margin:0;
     font-family:Segoe UI, Arial, sans-serif;
     background:#F4F6F8;
+    color:#1f2933;
 }
 
 header{
@@ -23,6 +24,7 @@ header{
 
 header h1{
     margin:0;
+    font-size:36px;
 }
 
 .back-link{
@@ -47,96 +49,405 @@ header h1{
     background:white;
     padding:20px;
     border-radius:10px;
-    margin-bottom:20px;
+    margin-bottom:25px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    display:flex;
+    gap:20px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.filter-group label{
+    font-weight:bold;
+    margin-right:8px;
+}
+
+select,
+input{
+    padding:9px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:14px;
+}
+
+input{
+    min-width:260px;
+}
+
+.section-title{
+    color:#0B2540;
+    margin-top:30px;
+    margin-bottom:15px;
+    border-left:6px solid #005195;
+    padding-left:12px;
+}
+
+.news-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
 }
 
 .news-card{
     background:white;
     padding:20px;
-    border-radius:10px;
-    margin-bottom:15px;
+    border-radius:12px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:230px;
+}
+
+.badge-row{
+    margin-bottom:10px;
+}
+
+.badge{
+    display:inline-block;
+    background:#C4DAEC;
+    color:#0B2540;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    margin-right:6px;
+    margin-bottom:6px;
+}
+
+.news-date{
+    color:#667085;
+    font-size:13px;
+    margin-bottom:8px;
 }
 
 .news-title{
-    font-size:22px;
+    font-size:21px;
     font-weight:bold;
     color:#005195;
+    margin-bottom:10px;
+}
+
+.news-text{
+    font-size:15px;
+    line-height:1.45;
+    color:#333;
+    margin-bottom:12px;
 }
 
 .news-info{
-    margin-top:5px;
-    color:gray;
+    font-size:14px;
+    color:#667085;
+    margin-top:8px;
 }
 
 .news-link{
     display:inline-block;
-    margin-top:10px;
+    margin-top:12px;
     text-decoration:none;
     color:white;
     background:#005195;
-    padding:8px 12px;
-    border-radius:6px;
+    padding:9px 13px;
+    border-radius:7px;
+    font-weight:bold;
+    font-size:14px;
 }
 
 .news-link:hover{
     background:#0B2540;
 }
 
-select{
-    padding:8px;
+.empty{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    color:#667085;
 }
 
-</style>
+@media(max-width:1000px){
+    .news-grid{
+        grid-template-columns:1fr;
+    }
 
+    .filter-bar{
+        display:block;
+    }
+
+    .filter-group{
+        margin-bottom:12px;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-
     <h1>News Dashboard</h1>
-
-    index.html
-        ← Back to Cockpit
-    </a>
-
+    index.html← Back to Cockpit</a>
 </header>
-
 
 <div class="container">
 
     <div class="filter-bar">
 
-        <label><strong>Vehicle Type:</strong></label>
+        <div class="filter-group">
+            <label for="vehicleFilter">Vehicle Type:</label>
+            <select id="vehicleFilter">
+                <option value="Automotive" selected>Automotive</option>
+                <option value="CV">CV</option>
+                <option value="All">All</option>
+            </select>
+        </div>
 
-        <select id="vehicleFilter">
-            <option value="Automotive">Automotive</option>
-            <option value="CV">CV</option>
-            <option value="All">All</option>
-        </select>
+        <div class="filter-group">
+            <label for="sectionFilter">Section:</label>
+            <select id="sectionFilter">
+                <option value="All">All Sections</option>
+            </select>
+        </div>
 
-    </div>
-
-    <div id="newsContainer">
-
-        <div class="news-card">
-
-            <div class="news-title">
-                Dashboard ready
-            </div>
-
-            <div class="news-info">
-                Upload Dashboard_data_news.csv into the data folder
-            </div>
-
+        <div class="filter-group">
+            <label for="searchInput">Search:</label>
+            <input id="searchInput" type="text" placeholder="Search focus, category, company, news...">
         </div>
 
     </div>
 
+    <div id="newsContainer">
+        <div class="empty">Loading news data...</div>
+    </div>
+
 </div>
 
-</body>
+<script>
+let allNews = [];
 
+fetch("data/Dashboard_data_news.csv")
+    .then(response => {
+        if(!response.ok){
+            throw new Error("CSV file not found");
+        }
+        return response.text();
+    })
+    .then(text => {
+        allNews = parseCSV(text);
+        populateSectionFilter(allNews);
+        renderNews();
+    })
+    .catch(error => {
+        document.getElementById("newsContainer").innerHTML =
+            '<div class="empty">Could not load Dashboard_data_news.csv. Please check that the file is saved in the data folder.</div>';
+        console.error(error);
+    });
+
+document.getElementById("vehicleFilter").addEventListener("change", renderNews);
+document.getElementById("sectionFilter").addEventListener("change", renderNews);
+document.getElementById("searchInput").addEventListener("input", renderNews);
+
+function detectDelimiter(firstLine){
+    if(firstLine.includes("\t")) return "\t";
+    if(firstLine.includes(";")) return ";";
+    return ",";
+}
+
+function parseCSV(text){
+    const lines = text.trim().split(/\r?\n/);
+    const delimiter = detectDelimiter(lines[0]);
+    const headers = splitLine(lines[0], delimiter).map(h => cleanCell(h));
+
+    return lines.slice(1).map(line => {
+        const values = splitLine(line, delimiter);
+        const row = {};
+
+        headers.forEach((header, index) => {
+            row[header] = values[index] ? cleanCell(values[index]) : "";
+        });
+
+        return row;
+    }).filter(row => row["SECTION"] || row["FOCUS"] || row["NEWS LINK"]);
+}
+
+function splitLine(line, delimiter){
+    const result = [];
+    let current = "";
+    let insideQuotes = false;
+
+    for(let i = 0; i < line.length; i++){
+        const char = line[i];
+
+        if(char === '"'){
+            insideQuotes = !insideQuotes;
+        } else if(char === delimiter && !insideQuotes){
+            result.push(current);
+            current = "";
+        } else {
+            current += char;
+        }
+    }
+
+    result.push(current);
+    return result;
+}
+
+function cleanCell(value){
+    return value
+        .replace(/^"|"$/g, "")
+        .replace(/""/g, '"')
+        .trim();
+}
+
+function populateSectionFilter(data){
+    const sectionFilter = document.getElementById("sectionFilter");
+    const sections = [...new Set(data.map(row => row["SECTION"]).filter(Boolean))].sort();
+
+    sections.forEach(section => {
+        const option = document.createElement("option");
+        option.value = section;
+        option.textContent = section;
+        sectionFilter.appendChild(option);
+    });
+}
+
+function parseDate(dateText){
+    if(!dateText) return new Date(0);
+
+    const parts = dateText.split(".");
+    if(parts.length === 3){
+        return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+
+    return new Date(dateText);
+}
+
+function extractUrl(text){
+    if(!text) return "";
+    const match = text.match(/https?:\/\/[^"\s<>]+/);
+    return match ? match[0] : "";
+}
+
+function stripHtml(text){
+    if(!text) return "";
+    return text.replace(/<[^>]*>/g, "").trim();
+}
+
+function getNewsDescription(row){
+    const rawNews = row["NEWS LINK"] || "";
+    const url = extractUrl(rawNews);
+    const cleaned = stripHtml(rawNews);
+
+    if(url && cleaned === url){
+        return row["ADDITIONAL INFORMATION"] || "Source link available.";
+    }
+
+    if(url && cleaned.includes(url)){
+        return row["ADDITIONAL INFORMATION"] || "Source link available.";
+    }
+
+    return cleaned || row["ADDITIONAL INFORMATION"] || "No additional description available.";
+}
+
+function renderNews(){
+    const vehicle = document.getElementById("vehicleFilter").value;
+    const section = document.getElementById("sectionFilter").value;
+    const search = document.getElementById("searchInput").value.toLowerCase();
+
+    let filtered = allNews.filter(row => {
+        const vehicleMatch =
+            vehicle === "All" ||
+            row["AUTO/CV"] === vehicle;
+
+        const sectionMatch =
+            section === "All" ||
+            row["SECTION"] === section;
+
+        const searchText = [
+            row["SECTION"],
+            row["AUTO/CV"],
+            row["CATEGORY"],
+            row["FOCUS"],
+            row["NEWS LINK"],
+            row["DATE"],
+            row["ADDITIONAL INFORMATION"]
+        ].join(" ").toLowerCase();
+
+        const searchMatch = searchText.includes(search);
+
+        return vehicleMatch && sectionMatch && searchMatch;
+    });
+
+    filtered.sort((a, b) => parseDate(b["DATE"]) - parseDate(a["DATE"]));
+
+    const grouped = {};
+
+    filtered.forEach(row => {
+        const sectionName = row["SECTION"] || "Other";
+
+        if(!grouped[sectionName]){
+            grouped[sectionName] = [];
+        }
+
+        if(grouped[sectionName].length < 3){
+            grouped[sectionName].push(row);
+        }
+    });
+
+    const container = document.getElementById("newsContainer");
+    container.innerHTML = "";
+
+    const sectionNames = Object.keys(grouped);
+
+    if(sectionNames.length === 0){
+        container.innerHTML = '<div class="empty">No news found for the selected filters.</div>';
+        return;
+    }
+
+    sectionNames.forEach(sectionName => {
+        const sectionBlock = document.createElement("div");
+
+        const title = document.createElement("h2");
+        title.className = "section-title";
+        title.textContent = sectionName;
+
+        const grid = document.createElement("div");
+        grid.className = "news-grid";
+
+        grouped[sectionName].forEach(row => {
+            const card = document.createElement("div");
+            card.className = "news-card";
+
+            const url = extractUrl(row["NEWS LINK"]);
+            const description = getNewsDescription(row);
+
+            card.innerHTML = `
+                <div>
+                    <div class="badge-row">
+                        <span class="badge">${row["AUTO/CV"] || ""}</span>
+                        <span class="badge">${row["CATEGORY"] || ""}</span>
+                    </div>
+
+                    <div class="news-date">${row["DATE"] || ""}</div>
+
+                    <div class="news-title">${row["FOCUS"] || "No focus"}</div>
+
+                    <div class="news-text">${description}</div>
+
+                    <div class="news-info">${row["ADDITIONAL INFORMATION"] || ""}</div>
+                </div>
+
+                ${url ? `<a href="${url}" target="_blank" class="news-link">Open Source</a>` : ""}
+            `;
+
+            grid.appendChild(card);
+        });
+
+        sectionBlock.appendChild(title);
+        sectionBlock.appendChild(grid);
+        container.appendChild(sectionBlock);
+    });
+}
+</script>
+
+</body>
 </html>
