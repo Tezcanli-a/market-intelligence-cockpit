@@ -21,17 +21,34 @@ header{
     padding:25px;
 }
 
+header h1{
+    margin:0;
+}
+
+.back-link{
+    display:inline-block;
+    margin-top:10px;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.back-link:hover{
+    text-decoration:underline;
+}
+
 .container{
     max-width:1400px;
     margin:auto;
-    padding:20px;
+    padding:25px;
 }
 
 .filter-bar{
     background:white;
-    padding:15px;
+    padding:20px;
     border-radius:10px;
     margin-bottom:20px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
 .news-card{
@@ -43,65 +60,82 @@ header{
 }
 
 .news-title{
-    font-size:20px;
+    font-size:22px;
     font-weight:bold;
     color:#005195;
 }
 
-.news-company{
-    color:#666;
+.news-info{
     margin-top:5px;
+    color:gray;
 }
 
-.news-summary{
+.news-link{
+    display:inline-block;
     margin-top:10px;
+    text-decoration:none;
+    color:white;
+    background:#005195;
+    padding:8px 12px;
+    border-radius:6px;
 }
 
-.back{
-    color:white;
-    text-decoration:none;
+.news-link:hover{
+    background:#0B2540;
+}
+
+select{
+    padding:8px;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
+
     <h1>News Dashboard</h1>
-    index.html← Back to Cockpit</a>
+
+    index.html
+        ← Back to Cockpit
+    </a>
+
 </header>
 
 <div class="container">
 
+    <div class="filter-bar">
 
-<div class="filter-bar">
-    <label><strong>Vehicle Type:</strong></label>
+        <label><strong>Vehicle Type:</strong></label>
 
-    <select>
-        <option>Auto</option>
-        <option>CV</option>
-    </select>
-</div>
+        <select id="vehicleFilter">
+            <option value="Automotive">Automotive</option>
+            <option value="CV">CV</option>
+            <option value="All">All</option>
+        </select>
 
-<h2>Latest News</h2>
-
-<div class="news-card">
-    <div class="news-title">
-        News Headline
     </div>
 
-    <div class="news-company">
-        Company Name
-    </div>
+    <div id="newsContainer">
 
-    <div class="news-summary">
+        <div class="news-card">
 
-            Highlights from your CSV file
+            <div class="news-title">
+                Dashboard ready
+            </div>
+
+            <div class="news-info">
+                Upload Dashboard_data_news.csv into the data folder
+            </div>
+
         </div>
+
     </div>
 
 </div>
 
 </body>
+
 </html>
