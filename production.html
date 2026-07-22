@@ -118,6 +118,7 @@ input{
     border-radius:12px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
     margin-bottom:25px;
+    height:320px;
 }
 
 .chart-card h2{
@@ -1149,6 +1150,7 @@ input{
     border-radius:12px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
     margin-bottom:25px;
+    height:380px;
 }
 
 .chart-card h2{
@@ -1329,22 +1331,22 @@ tr:hover{
 
     <div class="chart-card">
         <h2>Production Forecast Trend — NEV vs Fuel-powered</h2>
-        <canvas id="forecastTrendChart" height="120"></canvas>
+        <canvas id="forecastTrendChart" height="70"></canvas>
     </div>
 
     <div class="chart-card">
         <h2>Propulsion Mix by Year</h2>
-        <canvas id="propulsionMixChart" height="120"></canvas>
+        <canvas id="propulsionMixChart" height="70"></canvas>
     </div>
 
     <div class="chart-card">
         <h2>Global Sales Sub-Segment</h2>
-        <canvas id="segmentChart" height="130"></canvas>
+        <canvas id="segmentChart" height="70"></canvas>
     </div>
 
     <div class="chart-card">
         <h2>Regional Sales Price Class</h2>
-        <canvas id="priceClassChart" height="130"></canvas>
+        <canvas id="priceClassChart" height="70"></canvas>
     </div>
 
     <div class="chart-grid">
@@ -1837,8 +1839,10 @@ function renderPropulsionMixChart(data){
             datasets:datasets
         },
         options:{
-            responsive:true,
+            responsive:true,            
+            maintainAspectRatio:false,
             scales:createNoGridScale(true)
+
         }
     });
 }
