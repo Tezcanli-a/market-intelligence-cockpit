@@ -100,20 +100,31 @@ input{
     color:#005195;
 }
 
+.chart-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.chart-card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.chart-card h2{
+    margin-top:0;
+    color:#0B2540;
+}
+
 .table-card{
     background:white;
     padding:20px;
     border-radius:12px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
     overflow-x:auto;
-}
-    
-.chart-card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    margin-bottom:25px;
 }
 
 table{
@@ -155,6 +166,10 @@ tr:hover{
 
     .kpi-grid{
         grid-template-columns:1fr 1fr;
+    }
+
+    .chart-grid{
+        grid-template-columns:1fr;
     }
 }
 
@@ -269,10 +284,24 @@ tr:hover{
 
     </div>
 
+    <div class="chart-grid">
+
+        <div class="chart-card">
+            <h2>Production Trend 2025–2033</h2>
+            <canvas id="productionTrendChart" height="120"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h2>Regional Split</h2>
+            <canvas id="regionalSplitChart" height="220"></canvas>
+        </div>
+
+    </div>
+
     <div class="chart-card">
-    <h2>Production Trend</h2>
-    <canvas id="productionTrendChart" height="120"></canvas>
-</div>
+        <h2>Top 10 Manufacturers</h2>
+        <canvas id="topManufacturersChart" height="120"></canvas>
+    </div>
 
     <div class="table-card">
         <h2>Production Detail</h2>
@@ -283,8 +312,14 @@ tr:hover{
 
 </div>
 
+https://cdn.jsdelivr.net/npm/chart.jsscript>
+
 <script>
 let allProduction = [];
+
+let productionTrendChart = null;
+let topManufacturersChart = null;
+let regionalSplitChart = null;
 
 fetch("Dashboard_data_LV production.csv")
     .then(response => {
@@ -385,6 +420,10 @@ function toNumber(value){
 }
 
 function formatNumber(value){
+    if(value >= 1000000000){
+        return (value / 1000000000).toFixed(1) + "B";
+    }
+
     if(value >= 1000000){
         return (value / 1000000).toFixed(1) + "M";
     }
@@ -394,6 +433,18 @@ function formatNumber(value){
     }
 
     return value.toLocaleString();
+}
+
+function escapeHTML(value){
+    if(!value) return "";
+
+    return value
+        .toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 function populateSelect(id, fieldName){
@@ -483,6 +534,200 @@ function calculateTopManufacturer(data, yearField){
     return topName;
 }
 
+function getTopManufacturers(data, yearField){
+    const totals = {};
+
+    data.forEach(row => {
+        const manufacturer = row["VP: Manufacturer"] || "Unknown";
+        const volume = toNumber(row[yearField]);
+
+        if(!totals[manufacturer]){
+            totals[manufacturer] = 0;
+        }
+
+        totals[manufacturer] += volume;
+    });
+
+    return Object.entries(totals)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,10);
+}
+
+function getRegionalSplit(data, yearField){
+    const totals = {};
+
+    data.forEach(row => {
+        const region = row["VP: Region"] || "Unknown";
+        const volume = toNumber(row[yearField]);
+
+        if(!totals[region]){
+            totals[region] = 0;
+        }
+
+        totals[region] += volume;
+    });
+
+    return Object.entries(totals)
+        .sort((a,b) => b[1] - a[1]);
+}
+
+function renderProductionTrendChart(data){
+    const years = [
+        "CY 2025",
+        "CY 2026",
+        "CY 2027",
+        "CY 2028",
+        "CY 2029",
+        "CY 2030",
+        "CY 2031",
+        "CY 2032",
+        "CY 2033"
+    ];
+
+    const values = years.map(year => {
+        return data.reduce((sum, row) => {
+            return sum + toNumber(row[year]);
+        }, 0);
+    });
+
+    const ctx = document.getElementById("productionTrendChart");
+
+    if(productionTrendChart){
+        productionTrendChart.destroy();
+    }
+
+    productionTrendChart = new Chart(ctx, {
+        type:"line",
+        data:{
+            labels:["2025","2026","2027","2028","2029","2030","2031","2032","2033"],
+            datasets:[{
+                label:"Production Volume",
+                data:values,
+                borderColor:"#005195",
+                backgroundColor:"rgba(0,81,149,0.15)",
+                borderWidth:3,
+                fill:true,
+                tension:0.3,
+                pointRadius:4,
+                pointBackgroundColor:"#005195"
+            }]
+        },
+        options:{
+            responsive:true,
+            plugins:{
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return "Production: " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales:{
+                y:{
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderTopManufacturersChart(data, yearField){
+    const topManufacturers = getTopManufacturers(data, yearField);
+    const labels = topManufacturers.map(item => item[0]);
+    const values = topManufacturers.map(item => item[1]);
+
+    const ctx = document.getElementById("topManufacturersChart");
+
+    if(topManufacturersChart){
+        topManufacturersChart.destroy();
+    }
+
+    topManufacturersChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:[{
+                label:"Production Volume",
+                data:values,
+                backgroundColor:"#005195"
+            }]
+        },
+        options:{
+            responsive:true,
+            indexAxis:"y",
+            plugins:{
+                legend:{
+                    display:false
+                },
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return "Production: " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales:{
+                x:{
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderRegionalSplitChart(data, yearField){
+    const split = getRegionalSplit(data, yearField);
+    const labels = split.map(item => item[0]);
+    const values = split.map(item => item[1]);
+
+    const ctx = document.getElementById("regionalSplitChart");
+
+    if(regionalSplitChart){
+        regionalSplitChart.destroy();
+    }
+
+    regionalSplitChart = new Chart(ctx, {
+        type:"doughnut",
+        data:{
+            labels:labels,
+            datasets:[{
+                data:values,
+                backgroundColor:[
+                    "#005195",
+                    "#0B2540",
+                    "#C4DAEC",
+                    "#5B8DB8",
+                    "#8FAFCB",
+                    "#667085",
+                    "#98A2B3"
+                ]
+            }]
+        },
+        options:{
+            responsive:true,
+            plugins:{
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return context.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 function renderDashboard(){
     const yearField = document.getElementById("yearFilter").value;
     const data = getFilteredData();
@@ -500,6 +745,9 @@ function renderDashboard(){
     document.getElementById("kpiNameplates").textContent = nameplates.size.toLocaleString();
     document.getElementById("kpiTopManufacturer").textContent = calculateTopManufacturer(data, yearField);
 
+    renderProductionTrendChart(data);
+    renderRegionalSplitChart(data, yearField);
+    renderTopManufacturersChart(data, yearField);
     renderTable(data, yearField);
 }
 
@@ -534,13 +782,13 @@ function renderTable(data, yearField){
     topRows.forEach(row => {
         html += `
             <tr>
-                <td>${row["VP: Region"] || ""}</td>
-                <td>${row["VP: Country/Territory"] || ""}</td>
-                <td>${row["VP: Sales Group"] || ""}</td>
-                <td>${row["VP: Manufacturer"] || ""}</td>
-                <td>${row["VP: Production Brand"] || ""}</td>
-                <td>${row["VP: Production Nameplate"] || ""}</td>
-                <td>${row["VP: Production Plant"] || ""}</td>
+                <td>${escapeHTML(row["VP: Region"])}</td>
+                <td>${escapeHTML(row["VP: Country/Territory"])}</td>
+                <td>${escapeHTML(row["VP: Sales Group"])}</td>
+                <td>${escapeHTML(row["VP: Manufacturer"])}</td>
+                <td>${escapeHTML(row["VP: Production Brand"])}</td>
+                <td>${escapeHTML(row["VP: Production Nameplate"])}</td>
+                <td>${escapeHTML(row["VP: Production Plant"])}</td>
                 <td>${formatNumber(toNumber(row[yearField]))}</td>
             </tr>
         `;
