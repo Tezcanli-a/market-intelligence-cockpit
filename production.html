@@ -284,25 +284,36 @@ tr:hover{
 
     </div>
 
-    <div class="chart-grid">
 
-        <div class="chart-card">
-            <h2>Production Trend 2025–2033</h2>
-            <canvas id="productionTrendChart" height="120"></canvas>
-        </div>
+<div class="chart-grid">
 
-        <div class="chart-card">
-            <h2>Regional Split</h2>
-            <canvas id="regionalSplitChart" height="220"></canvas>
-        </div>
+    <div class="chart-card">
+        <h2>Production Trend 2025–2033</h2>
+        <canvas id="productionTrendChart" height="120"></canvas>
+    </div>
 
+    <div class="chart-card">
+        <h2>Regional Split</h2>
+        <canvas id="regionalSplitChart" height="220"></canvas>
+    </div>
+
+</div>
+
+<div class="chart-grid">
+
+    <div class="chart-card">
+        <h2>Top Model Lines</h2>
+        <canvas id="nameplateChart" height="220"></canvas>
     </div>
 
     <div class="chart-card">
         <h2>Top 10 Manufacturers</h2>
-        <canvas id="topManufacturersChart" height="120"></canvas>
+        <canvas id="topManufacturersChart" height="220"></canvas>
     </div>
 
+</div>
+
+  
     <div class="table-card">
         <h2>Production Detail</h2>
         <div id="tableContainer">
@@ -318,9 +329,12 @@ tr:hover{
 <script>
 let allProduction = [];
 
+
 let productionTrendChart = null;
 let topManufacturersChart = null;
 let regionalSplitChart = null;
+let nameplateChart = null;
+
 
 fetch("Dashboard_data_LV production.csv")
     .then(response => {
@@ -572,7 +586,102 @@ function getRegionalSplit(data, yearField){
         .sort((a,b) => b[1] - a[1]);
 }
 
+
 function renderProductionTrendChart(data){
+
+    const years = [
+        "CY 2025","CY 2026","CY 2027",
+        "CY 2028","CY 2029","CY 2030",
+        "CY 2031","CY 2032","CY 2033"
+    ];
+
+    const emea = [];
+    const americas = [];
+    const china = [];
+    const rest = [];
+
+    years.forEach(year => {
+
+        let emeaTotal = 0;
+        let americasTotal = 0;
+        let chinaTotal = 0;
+        let restTotal = 0;
+
+        data.forEach(row => {
+
+            const region = row["VP: Region"] || "";
+            const volume = toNumber(row[year]);
+
+            if(region.includes("Europe") || region.includes("Middle East") || region.includes("Africa")){
+                emeaTotal += volume;
+            }
+            else if(region.includes("North America") || region.includes("South America") || region.includes("Americas")){
+                americasTotal += volume;
+            }
+            else if(region.includes("China")){
+                chinaTotal += volume;
+            }
+            else{
+                restTotal += volume;
+            }
+
+        });
+
+        emea.push(emeaTotal);
+        americas.push(americasTotal);
+        china.push(chinaTotal);
+        rest.push(restTotal);
+
+    });
+
+    const ctx = document.getElementById("productionTrendChart");
+
+    if(productionTrendChart){
+        productionTrendChart.destroy();
+    }
+
+    productionTrendChart = new Chart(ctx,{
+        type:"bar",
+        data:{
+            labels:["2025","2026","2027","2028","2029","2030","2031","2032","2033"],
+            datasets:[
+                {
+                    label:"EMEA",
+                    data:emea,
+                    backgroundColor:"#005195"
+                },
+                {
+                    label:"Americas",
+                    data:americas,
+                    backgroundColor:"#69A032"
+                },
+                {
+                    label:"Greater China",
+                    data:china,
+                    backgroundColor:"#B4AA9B"
+                },
+                {
+                    label:"Rest of World",
+                    data:rest,
+                    backgroundColor:"#BFC4C9"
+                }
+            ]
+        },
+        options:{
+            responsive:true,
+            scales:{
+                x:{
+                    stacked:true
+                },
+                y:{
+                    beginAtZero:true,
+                    stacked:true
+                }
+            }
+        }
+    });
+}
+
     const years = [
         "CY 2025",
         "CY 2026",
@@ -687,6 +796,69 @@ function renderTopManufacturersChart(data, yearField){
 }
 
 function renderRegionalSplitChart(data, yearField){
+    
+function renderNameplateChart(data, yearField){
+
+    const totals = {};
+
+    data.forEach(row => {
+
+        const nameplate =
+            row["VP: Production Nameplate"] || "Unknown";
+
+        const volume =
+            toNumber(row[yearField]);
+
+        if(!totals[nameplate]){
+            totals[nameplate] = 0;
+        }
+
+        totals[nameplate] += volume;
+
+    });
+
+    const top =
+        Object.entries(totals)
+        .sort((a,b) => b[1]-a[1])
+        .slice(0,10);
+
+    const labels = top.map(x => x[0]);
+    const values = top.map(x => x[1]);
+
+    const ctx =
+        document.getElementById("nameplateChart");
+
+    if(nameplateChart){
+        nameplateChart.destroy();
+    }
+
+    nameplateChart = new Chart(ctx,{
+        type:"doughnut",
+        data:{
+            labels:labels,
+            datasets:[{
+                data:values,
+                backgroundColor:[
+                    "#005195",
+                    "#69A032",
+                    "#B4AA9B",
+                    "#4D4D4D",
+                    "#8FAFCB",
+                    "#C4DAEC",
+                    "#98A2B3",
+                    "#0B2540",
+                    "#5B8DB8",
+                    "#667085"
+                ]
+            }]
+        },
+        options:{
+            responsive:true
+        }
+    });
+
+}
+
     const split = getRegionalSplit(data, yearField);
     const labels = split.map(item => item[0]);
     const values = split.map(item => item[1]);
@@ -746,10 +918,13 @@ function renderDashboard(){
     document.getElementById("kpiNameplates").textContent = nameplates.size.toLocaleString();
     document.getElementById("kpiTopManufacturer").textContent = calculateTopManufacturer(data, yearField);
 
-    renderProductionTrendChart(data);
-    renderRegionalSplitChart(data, yearField);
-    renderTopManufacturersChart(data, yearField);
-    renderTable(data, yearField);
+
+renderProductionTrendChart(data);
+renderRegionalSplitChart(data, yearField);
+renderNameplateChart(data, yearField);
+renderTopManufacturersChart(data, yearField);
+renderTable(data, yearField);
+
 }
 
 function renderTable(data, yearField){
