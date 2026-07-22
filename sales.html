@@ -356,20 +356,42 @@ let topBrandsChart = null;
 let regionalSalesChart = null;
 let topModelsChart = null;
 
+
 const months = [
-    "Jan 24","Feb 24","Mrz 24","Apr 24","Mai 24","Jun 24",
-    "Jul 24","Aug 24","Sep 24","Okt 24","Nov 24","Dez 24",
-    "Jan 25","Feb 25","Mrz 25","Apr 25","Mai 25","Jun 25",
-    "Jul 25","Aug 25","Sep 25","Okt 25","Nov 25","Dez 25",
-    "Jan 26","Feb 26","Mrz 26","Apr 26","Mai 26","Jun 26",
-    "Jul 26","Aug 26","Sep 26","Okt 26","Nov 26","Dez 26"
+    "Jan. 24","Feb. 24","Mrz. 24","Apr. 24","Mai. 24","Jun. 24",
+    "Jul. 24","Aug. 24","Sep. 24","Okt. 24","Nov. 24","Dez. 24",
+
+    "Jan. 25","Feb. 25","Mrz. 25","Apr. 25","Mai. 25","Jun. 25",
+    "Jul. 25","Aug. 25","Sep. 25","Okt. 25","Nov. 25","Dez. 25",
+
+    "Jan. 26","Feb. 26","Mrz. 26","Apr. 26","Mai. 26","Jun. 26",
+    "Jul. 26","Aug. 26","Sep. 26","Okt. 26","Nov. 26","Dez. 26"
+
 ];
 
+
 const monthsByYear = {
-    "2024":["Jan 24","Feb 24","Mrz 24","Apr 24","Mai 24","Jun 24","Jul 24","Aug 24","Sep 24","Okt 24","Nov 24","Dez 24"],
-    "2025":["Jan 25","Feb 25","Mrz 25","Apr 25","Mai 25","Jun 25","Jul 25","Aug 25","Sep 25","Okt 25","Nov 25","Dez 25"],
-    "2026":["Jan 26","Feb 26","Mrz 26","Apr 26","Mai 26","Jun 26","Jul 26","Aug 26","Sep 26","Okt 26","Nov 26","Dez 26"]
+
+    "2024":[
+        "Jan. 24","Feb. 24","Mrz. 24","Apr. 24",
+        "Mai. 24","Jun. 24","Jul. 24","Aug. 24",
+        "Sep. 24","Okt. 24","Nov. 24","Dez. 24"
+    ],
+
+    "2025":[
+        "Jan. 25","Feb. 25","Mrz. 25","Apr. 25",
+        "Mai. 25","Jun. 25","Jul. 25","Aug. 25",
+        "Sep. 25","Okt. 25","Nov. 25","Dez. 25"
+    ],
+
+    "2026":[
+        "Jan. 26","Feb. 26","Mrz. 26","Apr. 26",
+        "Mai. 26","Jun. 26","Jul. 26","Aug. 26",
+        "Sep. 26","Okt. 26","Nov. 26","Dez. 26"
+    ]
+
 };
+
 
 const powertrainColors = {
     "ICE":"#B4AA9B",
