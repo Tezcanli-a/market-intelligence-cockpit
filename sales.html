@@ -99,6 +99,18 @@ input{
     margin-top:8px;
 }
 
+.kpi-positive{
+    color:#69A032 !important;
+}
+
+.kpi-negative{
+    color:#C00000 !important;
+}
+
+.kpi-neutral{
+    color:#005195 !important;
+}
+
 .chart-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -236,31 +248,34 @@ tr:hover{
         </div>
 
         <div class="filter-group">
-            <label for="segmentFilter">Segment</label>
-            <select id="segmentFilter">
-                <option value="All">All Segments</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="powertrainFilter">PowerTrain</label>
-            <select id="powertrainFilter">
-                <option value="All">All PowerTrains</option>
+            <label for="modelFilter">Model</label>
+            <select id="modelFilter">
+                <option value="All">All Models</option>
             </select>
         </div>
 
         <div class="filter-group">
             <label for="yearFilter">Year</label>
             <select id="yearFilter">
-                <option value="2024">2024</option>
-                <option value="2025" selected>2025</option>
-                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
             </select>
         </div>
 
         <div class="filter-group">
-            <label for="searchInput">Search Model</label>
-            <input id="searchInput" type="text" placeholder="Search model, brand or group...">
+            <label for="powertrainFilter">Powertrain</label>
+            <select id="powertrainFilter">
+                <option value="All">All Powertrains</option>
+                <option value="ICE">ICE</option>
+                <option value="NEV">NEV</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="autoOnroadFilter">Auto / Onroad</label>
+            <select id="autoOnroadFilter">
+                <option value="All">All</option>
+            </select>
         </div>
 
     </div>
@@ -268,23 +283,71 @@ tr:hover{
     <div class="kpi-grid">
 
         <div class="kpi-card">
-            <div class="kpi-title">Total Sales</div>
-            <div class="kpi-value" id="kpiTotalSales">-</div>
+            <div class="kpi-title">Total Sales 2025</div>
+            <div class="kpi-value" id="kpiSales2025">-</div>
         </div>
 
         <div class="kpi-card">
-            <div class="kpi-title">Market Growth %</div>
-            <div class="kpi-value" id="kpiGrowth">-</div>
+            <div class="kpi-title">Total Sales 2026</div>
+            <div class="kpi-value" id="kpiSales2026">-</div>
         </div>
 
         <div class="kpi-card">
-            <div class="kpi-title">Top Brand</div>
+            <div class="kpi-title">New Energy Share 2025</div>
+            <div class="kpi-value" id="kpiNevShare2025">-</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">New Energy Share 2026</div>
+            <div class="kpi-value" id="kpiNevShare2026">-</div>
+        </div>
+
+    </div>
+
+    <div class="kpi-grid">
+
+        <div class="kpi-card">
+            <div class="kpi-title">MoM Change 2025</div>
+            <div class="kpi-value" id="kpiMom2025">-</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">MoM Change 2026</div>
+            <div class="kpi-value" id="kpiMom2026">-</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">YoY Change 2025 vs 2024</div>
+            <div class="kpi-value" id="kpiYoy2025">-</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">YoY Change 2026 vs 2025</div>
+            <div class="kpi-value" id="kpiYoy2026">-</div>
+        </div>
+
+    </div>
+
+    <div class="kpi-grid">
+
+        <div class="kpi-card">
+            <div class="kpi-title">CAGR 2026-2031</div>
+            <div class="kpi-value" id="kpiCagr">-</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">Top Brand 2026</div>
             <div class="kpi-value" id="kpiTopBrand">-</div>
         </div>
 
         <div class="kpi-card">
-            <div class="kpi-title">BEV Share %</div>
-            <div class="kpi-value" id="kpiBevShare">-</div>
+            <div class="kpi-title">Top Group 2026</div>
+            <div class="kpi-value" id="kpiTopGroup">-</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-title">Top Model 2026</div>
+            <div class="kpi-value" id="kpiTopModel">-</div>
         </div>
 
     </div>
@@ -292,30 +355,16 @@ tr:hover{
     <div class="chart-grid">
 
         <div class="chart-card">
-            <h2>Sales Trend 2024-2026</h2>
+            <h2>Sales Forecast Trend</h2>
             <div class="chart-wrap">
-                <canvas id="salesTrendChart"></canvas>
+                <canvas id="salesForecastTrendChart"></canvas>
             </div>
         </div>
 
         <div class="chart-card">
-            <h2>Powertrain Mix</h2>
+            <h2>Propulsion Mix by Year</h2>
             <div class="chart-wrap">
-                <canvas id="powertrainMixChart"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-card">
-            <h2>Sales by Segment</h2>
-            <div class="chart-wrap">
-                <canvas id="segmentChart"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-card">
-            <h2>Top Brands</h2>
-            <div class="chart-wrap">
-                <canvas id="topBrandsChart"></canvas>
+                <canvas id="propulsionMixChart"></canvas>
             </div>
         </div>
 
@@ -327,16 +376,30 @@ tr:hover{
         </div>
 
         <div class="chart-card">
-            <h2>Top Models</h2>
+            <h2>Body Type Trend</h2>
             <div class="chart-wrap">
-                <canvas id="topModelsChart"></canvas>
+                <canvas id="bodyTypeTrendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Model Line Share</h2>
+            <div class="chart-wrap">
+                <canvas id="modelLineShareChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Top Brands / Groups</h2>
+            <div class="chart-wrap">
+                <canvas id="topBrandsGroupsChart"></canvas>
             </div>
         </div>
 
     </div>
 
     <div class="table-card">
-        <h2>Sales Details</h2>
+        <h2>Model Line Details</h2>
         <div id="tableContainer">
             <div class="empty">Loading sales data...</div>
         </div>
@@ -349,13 +412,12 @@ tr:hover{
 <script>
 let allData = [];
 
-let salesTrendChart = null;
-let powertrainMixChart = null;
-let segmentChart = null;
-let topBrandsChart = null;
+let salesForecastTrendChart = null;
+let propulsionMixChart = null;
 let regionalSalesChart = null;
-let topModelsChart = null;
-
+let bodyTypeTrendChart = null;
+let modelLineShareChart = null;
+let topBrandsGroupsChart = null;
 
 const months = [
     "Jan. 24","Feb. 24","Mrz. 24","Apr. 24","Mai. 24","Jun. 24",
@@ -366,45 +428,43 @@ const months = [
 
     "Jan. 26","Feb. 26","Mrz. 26","Apr. 26","Mai. 26","Jun. 26",
     "Jul. 26","Aug. 26","Sep. 26","Okt. 26","Nov. 26","Dez. 26"
-
 ];
 
-
 const monthsByYear = {
-
     "2024":[
-        "Jan. 24","Feb. 24","Mrz. 24","Apr. 24",
-        "Mai. 24","Jun. 24","Jul. 24","Aug. 24",
-        "Sep. 24","Okt. 24","Nov. 24","Dez. 24"
+        "Jan. 24","Feb. 24","Mrz. 24","Apr. 24","Mai. 24","Jun. 24",
+        "Jul. 24","Aug. 24","Sep. 24","Okt. 24","Nov. 24","Dez. 24"
     ],
-
     "2025":[
-        "Jan. 25","Feb. 25","Mrz. 25","Apr. 25",
-        "Mai. 25","Jun. 25","Jul. 25","Aug. 25",
-        "Sep. 25","Okt. 25","Nov. 25","Dez. 25"
+        "Jan. 25","Feb. 25","Mrz. 25","Apr. 25","Mai. 25","Jun. 25",
+        "Jul. 25","Aug. 25","Sep. 25","Okt. 25","Nov. 25","Dez. 25"
     ],
-
     "2026":[
-        "Jan. 26","Feb. 26","Mrz. 26","Apr. 26",
-        "Mai. 26","Jun. 26","Jul. 26","Aug. 26",
-        "Sep. 26","Okt. 26","Nov. 26","Dez. 26"
+        "Jan. 26","Feb. 26","Mrz. 26","Apr. 26","Mai. 26","Jun. 26",
+        "Jul. 26","Aug. 26","Sep. 26","Okt. 26","Nov. 26","Dez. 26"
     ]
-
 };
 
+const propulsionOrder = ["ICE","MHEV","HEV","FHEV","BEV","PHEV","REEV","FCEV","Other"];
 
-const powertrainColors = {
+const propulsionColors = {
     "ICE":"#B4AA9B",
     "MHEV":"#C2BAAE",
     "HEV":"#D1CAC0",
     "FHEV":"#D1CAC0",
     "BEV":"#69A032",
     "PHEV":"#85B64E",
+    "REEV":"#A1CB6C",
     "FCEV":"#BEDF8A",
     "Other":"#D8D8D8"
 };
 
-fetch("./Dashboard_data_LV_sales.csv")
+const groupColors = {
+    "ICE":"#B4AA9B",
+    "NEV":"#69A032"
+};
+
+fetch("./Dashboard_data_LV%20sales.csv")
     .then(response => {
         if(!response.ok){
             throw new Error("CSV file not found");
@@ -427,17 +487,16 @@ const filterIds = [
     "countryFilter",
     "manufacturerFilter",
     "brandFilter",
-    "segmentFilter",
-    "powertrainFilter",
+    "modelFilter",
     "yearFilter",
-    "searchInput"
+    "powertrainFilter",
+    "autoOnroadFilter"
 ];
 
 filterIds.forEach(id => {
     document.getElementById(id).addEventListener("change", renderDashboard);
     document.getElementById(id).addEventListener("input", renderDashboard);
 });
-
 
 function normalizeKey(value){
     return (value || "")
@@ -514,12 +573,8 @@ function parseCSV(text){
     const lines = text.trim().split(/\r?\n/);
     const delimiter = detectDelimiter(lines[0]);
 
-    console.log("Detected delimiter:", delimiter);
-
     const headers = splitLine(lines[0], delimiter)
         .map(h => normalizeKey(cleanCell(h)));
-
-    console.log("CSV headers:", headers);
 
     return lines.slice(1).map(line => {
         const values = splitLine(line, delimiter);
@@ -603,18 +658,29 @@ function escapeHTML(value){
         .replace(/'/g, "&#039;");
 }
 
-function normalizePowertrain(value){
+function normalizePropulsion(value){
     const text = (value || "").toUpperCase();
 
     if(text.includes("MHEV")) return "MHEV";
     if(text.includes("FHEV")) return "FHEV";
-    if(text.includes("HEV")) return "HEV";
     if(text.includes("PHEV")) return "PHEV";
+    if(text.includes("REEV")) return "REEV";
     if(text.includes("FCEV")) return "FCEV";
     if(text.includes("BEV")) return "BEV";
+    if(text.includes("HEV")) return "HEV";
     if(text.includes("ICE")) return "ICE";
 
     return "Other";
+}
+
+function getPowertrainGroup(value){
+    const type = normalizePropulsion(value);
+
+    if(type === "BEV" || type === "PHEV" || type === "REEV" || type === "FCEV"){
+        return "NEV";
+    }
+
+    return "ICE";
 }
 
 function populateSelect(id, fieldName){
@@ -637,8 +703,8 @@ function populateFilters(){
     populateSelect("countryFilter", "Country");
     populateSelect("manufacturerFilter", "Manufacturer");
     populateSelect("brandFilter", "Maker/Brand");
-    populateSelect("segmentFilter", "Segment");
-    populateSelect("powertrainFilter", "PowerTrain");
+    populateSelect("modelFilter", "Model");
+    populateSelect("autoOnroadFilter", "Auto/Onroad");
 }
 
 function getFilteredData(){
@@ -646,34 +712,26 @@ function getFilteredData(){
     const country = document.getElementById("countryFilter").value;
     const manufacturer = document.getElementById("manufacturerFilter").value;
     const brand = document.getElementById("brandFilter").value;
-    const segment = document.getElementById("segmentFilter").value;
+    const model = document.getElementById("modelFilter").value;
     const powertrain = document.getElementById("powertrainFilter").value;
-    const search = document.getElementById("searchInput").value.toLowerCase();
+    const autoOnroad = document.getElementById("autoOnroadFilter").value;
 
     return allData.filter(row => {
         const regionMatch = region === "All" || row["Region"] === region;
         const countryMatch = country === "All" || row["Country"] === country;
         const manufacturerMatch = manufacturer === "All" || row["Manufacturer"] === manufacturer;
         const brandMatch = brand === "All" || row["Maker/Brand"] === brand;
-        const segmentMatch = segment === "All" || row["Segment"] === segment;
-        const powertrainMatch = powertrain === "All" || row["PowerTrain"] === powertrain;
-
-        const searchText = [
-            row["Model"],
-            row["Maker/Brand"],
-            row["Manufacturer"],
-            row["Group"]
-        ].join(" ").toLowerCase();
-
-        const searchMatch = searchText.includes(search);
+        const modelMatch = model === "All" || row["Model"] === model;
+        const powertrainMatch = powertrain === "All" || getPowertrainGroup(row["PowerTrain"]) === powertrain;
+        const autoOnroadMatch = autoOnroad === "All" || row["Auto/Onroad"] === autoOnroad;
 
         return regionMatch &&
                countryMatch &&
                manufacturerMatch &&
                brandMatch &&
-               segmentMatch &&
+               modelMatch &&
                powertrainMatch &&
-               searchMatch;
+               autoOnroadMatch;
     });
 }
 
@@ -685,23 +743,95 @@ function sumMonths(data, monthList){
     return monthList.reduce((sum, month) => sum + sumField(data, month), 0);
 }
 
-function getTopCategory(data, fieldName, monthList){
-    const totals = {};
+function sumMonthsForRow(row, monthList){
+    return monthList.reduce((sum, month) => sum + toNumber(row[month]), 0);
+}
 
-    data.forEach(row => {
-        const key = row[fieldName] || "Unknown";
-        const volume = monthList.reduce((sum, month) => sum + toNumber(row[month]), 0);
+function getLatestAvailableMonth(data, year){
+    const yearMonths = monthsByYear[year];
 
-        if(!totals[key]){
-            totals[key] = 0;
+    for(let i = yearMonths.length - 1; i >= 0; i--){
+        const month = yearMonths[i];
+        const total = sumField(data, month);
+
+        if(total > 0){
+            return {
+                month:month,
+                index:i
+            };
         }
+    }
 
-        totals[key] += volume;
-    });
+    return null;
+}
 
-    const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]);
+function calculateMoM(data, year){
+    const latest = getLatestAvailableMonth(data, year);
 
-    return sorted.length ? sorted[0][0] : "-";
+    if(!latest || latest.index === 0){
+        return null;
+    }
+
+    const currentMonth = latest.month;
+    const previousMonth = monthsByYear[year][latest.index - 1];
+
+    const currentValue = sumField(data, currentMonth);
+    const previousValue = sumField(data, previousMonth);
+
+    if(previousValue <= 0){
+        return null;
+    }
+
+    return ((currentValue - previousValue) / previousValue) * 100;
+}
+
+function calculateYoY(data, year){
+    const latest = getLatestAvailableMonth(data, year);
+
+    if(!latest){
+        return null;
+    }
+
+    const previousYear = String(Number(year) - 1);
+
+    if(!monthsByYear[previousYear]){
+        return null;
+    }
+
+    const currentMonth = latest.month;
+    const previousYearMonth = monthsByYear[previousYear][latest.index];
+
+    const currentValue = sumField(data, currentMonth);
+    const previousValue = sumField(data, previousYearMonth);
+
+    if(previousValue <= 0){
+        return null;
+    }
+
+    return ((currentValue - previousValue) / previousValue) * 100;
+}
+
+function setChangeKpi(id, value){
+    const element = document.getElementById(id);
+
+    element.classList.remove("kpi-positive", "kpi-negative", "kpi-neutral");
+
+    if(value === null || value === undefined || !isFinite(value)){
+        element.textContent = "-";
+        element.classList.add("kpi-neutral");
+        return;
+    }
+
+    if(value > 0){
+        element.textContent = "▲ " + formatPercent(value);
+        element.classList.add("kpi-positive");
+    } else if(value < 0){
+        element.textContent = "▼ " + formatPercent(value);
+        element.classList.add("kpi-negative");
+    } else {
+        element.textContent = formatPercent(value);
+        element.classList.add("kpi-neutral");
+    }
 }
 
 function getCategoryTotals(data, fieldName, monthList, limit){
@@ -709,7 +839,7 @@ function getCategoryTotals(data, fieldName, monthList, limit){
 
     data.forEach(row => {
         const key = row[fieldName] || "Unknown";
-        const volume = monthList.reduce((sum, month) => sum + toNumber(row[month]), 0);
+        const volume = sumMonthsForRow(row, monthList);
 
         if(!totals[key]){
             totals[key] = 0;
@@ -721,6 +851,11 @@ function getCategoryTotals(data, fieldName, monthList, limit){
     return Object.entries(totals)
         .sort((a,b) => b[1] - a[1])
         .slice(0, limit);
+}
+
+function getTopCategory(data, fieldName, monthList){
+    const top = getCategoryTotals(data, fieldName, monthList, 1);
+    return top.length ? top[0][0] : "-";
 }
 
 function getCategoryColor(category){
@@ -746,34 +881,48 @@ function getCategoryColor(category){
     return palette[Math.abs(hash) % palette.length];
 }
 
-function renderKpis(data, selectedYear){
-    const selectedMonths = monthsByYear[selectedYear];
-    const totalSales = sumMonths(data, selectedMonths);
+function renderKpis(data){
+    const sales2025 = sumMonths(data, monthsByYear["2025"]);
+    const sales2026 = sumMonths(data, monthsByYear["2026"]);
 
-    let growthText = "-";
-
-    if(selectedYear !== "2024"){
-        const previousYear = String(Number(selectedYear) - 1);
-        const previousSales = sumMonths(data, monthsByYear[previousYear]);
-
-        if(previousSales > 0){
-            growthText = formatPercent(((totalSales - previousSales) / previousSales) * 100);
-        }
-    }
-
-    const topBrand = getTopCategory(data, "Maker/Brand", selectedMonths);
-
-    const bevSales = data.reduce((sum, row) => {
-        if(normalizePowertrain(row["PowerTrain"]) === "BEV"){
-            return sum + selectedMonths.reduce((monthSum, month) => monthSum + toNumber(row[month]), 0);
+    const nev2025 = data.reduce((sum, row) => {
+        if(getPowertrainGroup(row["PowerTrain"]) === "NEV"){
+            return sum + sumMonthsForRow(row, monthsByYear["2025"]);
         }
         return sum;
     }, 0);
 
-    document.getElementById("kpiTotalSales").textContent = formatNumber(totalSales);
-    document.getElementById("kpiGrowth").textContent = growthText;
-    document.getElementById("kpiTopBrand").textContent = topBrand;
-    document.getElementById("kpiBevShare").textContent = totalSales === 0 ? "-" : formatPercent((bevSales / totalSales) * 100);
+    const nev2026 = data.reduce((sum, row) => {
+        if(getPowertrainGroup(row["PowerTrain"]) === "NEV"){
+            return sum + sumMonthsForRow(row, monthsByYear["2026"]);
+        }
+        return sum;
+    }, 0);
+
+    document.getElementById("kpiSales2025").textContent = formatNumber(sales2025);
+    document.getElementById("kpiSales2026").textContent = formatNumber(sales2026);
+
+    document.getElementById("kpiNevShare2025").textContent =
+        sales2025 === 0 ? "-" : formatPercent((nev2025 / sales2025) * 100);
+
+    document.getElementById("kpiNevShare2026").textContent =
+        sales2026 === 0 ? "-" : formatPercent((nev2026 / sales2026) * 100);
+
+    setChangeKpi("kpiMom2025", calculateMoM(data, "2025"));
+    setChangeKpi("kpiMom2026", calculateMoM(data, "2026"));
+    setChangeKpi("kpiYoy2025", calculateYoY(data, "2025"));
+    setChangeKpi("kpiYoy2026", calculateYoY(data, "2026"));
+
+    document.getElementById("kpiCagr").textContent = "-";
+
+    document.getElementById("kpiTopBrand").textContent =
+        getTopCategory(data, "Maker/Brand", monthsByYear["2026"]);
+
+    document.getElementById("kpiTopGroup").textContent =
+        getTopCategory(data, "Group", monthsByYear["2026"]);
+
+    document.getElementById("kpiTopModel").textContent =
+        getTopCategory(data, "Model", monthsByYear["2026"]);
 }
 
 function createNoGridScale(stacked){
@@ -799,80 +948,194 @@ function createNoGridScale(stacked){
     };
 }
 
-function renderSalesTrendChart(data){
-    const values = months.map(month => sumField(data, month));
+function renderSalesForecastTrendChart(data){
+    const labels = ["2024","2025","2026"];
 
-    const ctx = document.getElementById("salesTrendChart");
+    const iceData = labels.map(year => {
+        return data.reduce((sum, row) => {
+            if(getPowertrainGroup(row["PowerTrain"]) === "ICE"){
+                return sum + sumMonthsForRow(row, monthsByYear[year]);
+            }
+            return sum;
+        }, 0);
+    });
 
-    if(salesTrendChart){
-        salesTrendChart.destroy();
+    const nevData = labels.map(year => {
+        return data.reduce((sum, row) => {
+            if(getPowertrainGroup(row["PowerTrain"]) === "NEV"){
+                return sum + sumMonthsForRow(row, monthsByYear[year]);
+            }
+            return sum;
+        }, 0);
+    });
+
+    const ctx = document.getElementById("salesForecastTrendChart");
+
+    if(salesForecastTrendChart){
+        salesForecastTrendChart.destroy();
     }
 
-    salesTrendChart = new Chart(ctx, {
-        type:"line",
+    salesForecastTrendChart = new Chart(ctx, {
+        type:"bar",
         data:{
-            labels:months,
-            datasets:[{
-                label:"Sales",
-                data:values,
-                borderColor:"#005195",
-                backgroundColor:"rgba(0,81,149,0.15)",
-                fill:true,
-                tension:0.3,
-                pointRadius:2
-            }]
+            labels:labels,
+            datasets:[
+                {
+                    label:"ICE",
+                    data:iceData,
+                    backgroundColor:groupColors["ICE"]
+                },
+                {
+                    label:"NEV",
+                    data:nevData,
+                    backgroundColor:groupColors["NEV"]
+                }
+            ]
         },
         options:{
             responsive:true,
             maintainAspectRatio:false,
-            plugins:{
-                legend:{
-                    display:false
-                },
-                tooltip:{
-                    callbacks:{
-                        label:function(context){
-                            return "Sales: " + formatNumber(context.raw);
-                        }
-                    }
-                }
-            },
-            scales:createNoGridScale(false)
+            scales:createNoGridScale(true)
         }
     });
 }
 
-function renderPowertrainMixChart(data, selectedYear){
-    const selectedMonths = monthsByYear[selectedYear];
-    const totals = {};
+function renderPropulsionMixChart(data){
+    const labels = ["2024","2025","2026"];
 
-    data.forEach(row => {
-        const key = normalizePowertrain(row["PowerTrain"]);
-        const volume = selectedMonths.reduce((sum, month) => sum + toNumber(row[month]), 0);
-
-        if(!totals[key]){
-            totals[key] = 0;
-        }
-
-        totals[key] += volume;
+    const datasets = propulsionOrder.map(type => {
+        return {
+            label:type,
+            data:labels.map(year => {
+                return data.reduce((sum, row) => {
+                    if(normalizePropulsion(row["PowerTrain"]) === type){
+                        return sum + sumMonthsForRow(row, monthsByYear[year]);
+                    }
+                    return sum;
+                }, 0);
+            }),
+            backgroundColor:propulsionColors[type] || "#D8D8D8"
+        };
     });
 
-    const labels = Object.keys(totals);
-    const values = Object.values(totals);
+    const ctx = document.getElementById("propulsionMixChart");
 
-    const ctx = document.getElementById("powertrainMixChart");
-
-    if(powertrainMixChart){
-        powertrainMixChart.destroy();
+    if(propulsionMixChart){
+        propulsionMixChart.destroy();
     }
 
-    powertrainMixChart = new Chart(ctx, {
+    propulsionMixChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:datasets
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            scales:createNoGridScale(true)
+        }
+    });
+}
+
+function renderRegionalSalesChart(data){
+    const selectedYear = document.getElementById("yearFilter").value;
+    const regions = getCategoryTotals(data, "Region", monthsByYear[selectedYear], 8).map(item => item[0]);
+
+    const datasets = regions.map(region => {
+        return {
+            label:region,
+            data:["2024","2025","2026"].map(year => {
+                return data.reduce((sum, row) => {
+                    if((row["Region"] || "Unknown") === region){
+                        return sum + sumMonthsForRow(row, monthsByYear[year]);
+                    }
+                    return sum;
+                }, 0);
+            }),
+            backgroundColor:getCategoryColor(region)
+        };
+    });
+
+    const ctx = document.getElementById("regionalSalesChart");
+
+    if(regionalSalesChart){
+        regionalSalesChart.destroy();
+    }
+
+    regionalSalesChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:["2024","2025","2026"],
+            datasets:datasets
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            scales:createNoGridScale(true)
+        }
+    });
+}
+
+function renderBodyTypeTrendChart(data){
+    const selectedYear = document.getElementById("yearFilter").value;
+    const types = getCategoryTotals(data, "Type", monthsByYear[selectedYear], 8).map(item => item[0]);
+
+    const datasets = types.map(type => {
+        return {
+            label:type,
+            data:["2024","2025","2026"].map(year => {
+                return data.reduce((sum, row) => {
+                    if((row["Type"] || "Unknown") === type){
+                        return sum + sumMonthsForRow(row, monthsByYear[year]);
+                    }
+                    return sum;
+                }, 0);
+            }),
+            backgroundColor:getCategoryColor(type)
+        };
+    });
+
+    const ctx = document.getElementById("bodyTypeTrendChart");
+
+    if(bodyTypeTrendChart){
+        bodyTypeTrendChart.destroy();
+    }
+
+    bodyTypeTrendChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:["2024","2025","2026"],
+            datasets:datasets
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            scales:createNoGridScale(true)
+        }
+    });
+}
+
+function renderModelLineShareChart(data){
+    const selectedYear = document.getElementById("yearFilter").value;
+    const top = getCategoryTotals(data, "Model", monthsByYear[selectedYear], 10);
+
+    const labels = top.map(item => item[0]);
+    const values = top.map(item => item[1]);
+
+    const ctx = document.getElementById("modelLineShareChart");
+
+    if(modelLineShareChart){
+        modelLineShareChart.destroy();
+    }
+
+    modelLineShareChart = new Chart(ctx, {
         type:"doughnut",
         data:{
             labels:labels,
             datasets:[{
                 data:values,
-                backgroundColor:labels.map(label => powertrainColors[label] || "#D8D8D8")
+                backgroundColor:labels.map(label => getCategoryColor(label))
             }]
         },
         options:{
@@ -891,56 +1154,20 @@ function renderPowertrainMixChart(data, selectedYear){
     });
 }
 
-function renderSegmentChart(data, selectedYear){
-    const selectedMonths = monthsByYear[selectedYear];
-    const top = getCategoryTotals(data, "Segment", selectedMonths, 10);
+function renderTopBrandsGroupsChart(data){
+    const selectedYear = document.getElementById("yearFilter").value;
+    const topBrands = getCategoryTotals(data, "Maker/Brand", monthsByYear[selectedYear], 10);
 
-    const labels = top.map(item => item[0]);
-    const values = top.map(item => item[1]);
+    const labels = topBrands.map(item => item[0]);
+    const values = topBrands.map(item => item[1]);
 
-    const ctx = document.getElementById("segmentChart");
+    const ctx = document.getElementById("topBrandsGroupsChart");
 
-    if(segmentChart){
-        segmentChart.destroy();
+    if(topBrandsGroupsChart){
+        topBrandsGroupsChart.destroy();
     }
 
-    segmentChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:labels,
-            datasets:[{
-                label:"Sales",
-                data:values,
-                backgroundColor:labels.map(label => getCategoryColor(label))
-            }]
-        },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false,
-            plugins:{
-                legend:{
-                    display:false
-                }
-            },
-            scales:createNoGridScale(false)
-        }
-    });
-}
-
-function renderTopBrandsChart(data, selectedYear){
-    const selectedMonths = monthsByYear[selectedYear];
-    const top = getCategoryTotals(data, "Maker/Brand", selectedMonths, 10);
-
-    const labels = top.map(item => item[0]);
-    const values = top.map(item => item[1]);
-
-    const ctx = document.getElementById("topBrandsChart");
-
-    if(topBrandsChart){
-        topBrandsChart.destroy();
-    }
-
-    topBrandsChart = new Chart(ctx, {
+    topBrandsGroupsChart = new Chart(ctx, {
         type:"bar",
         data:{
             labels:labels,
@@ -981,144 +1208,79 @@ function renderTopBrandsChart(data, selectedYear){
     });
 }
 
-function renderRegionalSalesChart(data, selectedYear){
-    const selectedMonths = monthsByYear[selectedYear];
-    const top = getCategoryTotals(data, "Region", selectedMonths, 10);
-
-    const labels = top.map(item => item[0]);
-    const values = top.map(item => item[1]);
-
-    const ctx = document.getElementById("regionalSalesChart");
-
-    if(regionalSalesChart){
-        regionalSalesChart.destroy();
-    }
-
-    regionalSalesChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:labels,
-            datasets:[{
-                label:"Sales",
-                data:values,
-                backgroundColor:labels.map(label => getCategoryColor(label))
-            }]
-        },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false,
-            plugins:{
-                legend:{
-                    display:false
-                }
-            },
-            scales:createNoGridScale(false)
-        }
-    });
-}
-
-function renderTopModelsChart(data, selectedYear){
-    const selectedMonths = monthsByYear[selectedYear];
-    const top = getCategoryTotals(data, "Model", selectedMonths, 10);
-
-    const labels = top.map(item => item[0]);
-    const values = top.map(item => item[1]);
-
-    const ctx = document.getElementById("topModelsChart");
-
-    if(topModelsChart){
-        topModelsChart.destroy();
-    }
-
-    topModelsChart = new Chart(ctx, {
-        type:"bar",
-        data:{
-            labels:labels,
-            datasets:[{
-                label:"Sales",
-                data:values,
-                backgroundColor:"#69A032"
-            }]
-        },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false,
-            indexAxis:"y",
-            plugins:{
-                legend:{
-                    display:false
-                }
-            },
-            scales:{
-                x:{
-                    beginAtZero:true,
-                    grid:{
-                        display:false
-                    },
-                    ticks:{
-                        callback:function(value){
-                            return formatNumber(value);
-                        }
-                    }
-                },
-                y:{
-                    grid:{
-                        display:false
-                    }
-                }
-            }
-        }
-    });
-}
-
-function renderTable(data, selectedYear){
-    const selectedMonths = monthsByYear[selectedYear];
+function renderTable(data){
     const container = document.getElementById("tableContainer");
 
     if(data.length === 0){
-        container.innerHTML = '<div class="empty">No sales details found for the selected filters.</div>';
+        container.innerHTML = '<div class="empty">No model line details found for the selected filters.</div>';
         return;
     }
 
     const rows = data.map(row => {
-        const total = selectedMonths.reduce((sum, month) => sum + toNumber(row[month]), 0);
+        const sales2025 = sumMonthsForRow(row, monthsByYear["2025"]);
+        const sales2026 = sumMonthsForRow(row, monthsByYear["2026"]);
+
+        let growth = null;
+
+        if(sales2025 > 0){
+            growth = ((sales2026 - sales2025) / sales2025) * 100;
+        }
 
         return {
             row:row,
-            total:total
+            sales2025:sales2025,
+            sales2026:sales2026,
+            growth:growth
         };
-    }).sort((a,b) => b.total - a.total).slice(0,300);
+    }).sort((a,b) => b.sales2026 - a.sales2026).slice(0,300);
 
     let html = `
         <table>
             <thead>
                 <tr>
                     <th>Model</th>
-                    <th>Brand</th>
-                    <th>Manufacturer</th>
+                    <th>Maker / Brand</th>
                     <th>Group</th>
-                    <th>Region</th>
                     <th>Country</th>
-                    <th>Segment</th>
+                    <th>Region</th>
                     <th>PowerTrain</th>
-                    <th>${selectedYear} Sales</th>
+                    <th>Auto / Onroad</th>
+                    <th>2025 Sales</th>
+                    <th>2026 Sales</th>
+                    <th>Growth %</th>
                 </tr>
             </thead>
             <tbody>
     `;
 
     rows.forEach(item => {
+        let growthText = "-";
+        let growthClass = "";
+
+        if(item.growth !== null && isFinite(item.growth)){
+            if(item.growth > 0){
+                growthText = "▲ " + formatPercent(item.growth);
+                growthClass = "kpi-positive";
+            } else if(item.growth < 0){
+                growthText = "▼ " + formatPercent(item.growth);
+                growthClass = "kpi-negative";
+            } else {
+                growthText = formatPercent(item.growth);
+            }
+        }
+
         html += `
             <tr>
                 <td>${escapeHTML(item.row["Model"])}</td>
                 <td>${escapeHTML(item.row["Maker/Brand"])}</td>
-                <td>${escapeHTML(item.row["Manufacturer"])}</td>
                 <td>${escapeHTML(item.row["Group"])}</td>
-                <td>${escapeHTML(item.row["Region"])}</td>
                 <td>${escapeHTML(item.row["Country"])}</td>
-                <td>${escapeHTML(item.row["Segment"])}</td>
+                <td>${escapeHTML(item.row["Region"])}</td>
                 <td>${escapeHTML(item.row["PowerTrain"])}</td>
-                <td>${formatNumber(item.total)}</td>
+                <td>${escapeHTML(item.row["Auto/Onroad"])}</td>
+                <td>${formatNumber(item.sales2025)}</td>
+                <td>${formatNumber(item.sales2026)}</td>
+                <td class="${growthClass}">${growthText}</td>
             </tr>
         `;
     });
@@ -1132,17 +1294,16 @@ function renderTable(data, selectedYear){
 }
 
 function renderDashboard(){
-    const selectedYear = document.getElementById("yearFilter").value;
     const data = getFilteredData();
 
-    renderKpis(data, selectedYear);
-    renderSalesTrendChart(data);
-    renderPowertrainMixChart(data, selectedYear);
-    renderSegmentChart(data, selectedYear);
-    renderTopBrandsChart(data, selectedYear);
-    renderRegionalSalesChart(data, selectedYear);
-    renderTopModelsChart(data, selectedYear);
-    renderTable(data, selectedYear);
+    renderKpis(data);
+    renderSalesForecastTrendChart(data);
+    renderPropulsionMixChart(data);
+    renderRegionalSalesChart(data);
+    renderBodyTypeTrendChart(data);
+    renderModelLineShareChart(data);
+    renderTopBrandsGroupsChart(data);
+    renderTable(data);
 }
 </script>
 
