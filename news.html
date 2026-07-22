@@ -417,7 +417,7 @@ function renderNews(){
             const card = document.createElement("div");
             card.className = "news-card";
 
-            const url = extractUrl(row["NEWS LINK"]);
+            const url = row["URL"] ? row["URL"].trim() : "";
             const description = getNewsDescription(row);
 
             card.innerHTML = `
