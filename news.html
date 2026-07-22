@@ -224,7 +224,7 @@ input{
 <script>
 let allNews = [];
 
-fetch("data/Dashboard_data_news.csv")
+fetch("Dashboard_data_news.csv")
     .then(response => {
         if(!response.ok){
             throw new Error("CSV file not found");
