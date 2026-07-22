@@ -107,6 +107,13 @@ input{
     margin-bottom:25px;
 }
 
+.chart-grid-balanced{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:25px;
+}
+
 .chart-card{
     background:white;
     padding:20px;
@@ -168,7 +175,8 @@ tr:hover{
         grid-template-columns:1fr 1fr;
     }
 
-    .chart-grid{
+    .chart-grid,
+    .chart-grid-balanced{
         grid-template-columns:1fr;
     }
 }
@@ -284,43 +292,40 @@ tr:hover{
 
     </div>
 
+    <div class="chart-grid">
 
-<div class="chart-grid">
+        <div class="chart-card">
+            <h2>Production Trend 2025–2033</h2>
+            <canvas id="productionTrendChart" height="120"></canvas>
+        </div>
 
-    <div class="chart-card">
-        <h2>Production Trend 2025–2033</h2>
-        <canvas id="productionTrendChart" height="120"></canvas>
+        <div class="chart-card">
+            <h2>Regional Split</h2>
+            <canvas id="regionalSplitChart" height="220"></canvas>
+        </div>
+
     </div>
 
-    <div class="chart-card">
-        <h2>Regional Split</h2>
-        <canvas id="regionalSplitChart" height="220"></canvas>
+    <div class="chart-grid-balanced">
+
+        <div class="chart-card">
+            <h2>Top Model Lines</h2>
+            <canvas id="nameplateChart" height="220"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h2>Top 10 Manufacturers</h2>
+            <canvas id="topManufacturersChart" height="220"></canvas>
+        </div>
+
     </div>
 
-</div>
-
-<div class="chart-grid">
-
-    <div class="chart-card">
-        <h2>Top Model Lines</h2>
-        <canvas id="nameplateChart" height="220"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h2>Top 10 Manufacturers</h2>
-        <canvas id="topManufacturersChart" height="220"></canvas>
-    </div>
-
-</div>
-
-  
     <div class="table-card">
         <h2>Production Detail</h2>
         <div id="tableContainer">
             <div class="empty">Loading production data...</div>
         </div>
     </div>
-
 
 </div>
 
@@ -329,14 +334,12 @@ tr:hover{
 <script>
 let allProduction = [];
 
-
 let productionTrendChart = null;
 let topManufacturersChart = null;
 let regionalSplitChart = null;
 let nameplateChart = null;
 
-
-fetch("Dashboard_data_LV production.csv")
+fetch("./Dashboard_data_LV%20production.csv")
     .then(response => {
         if(!response.ok){
             throw new Error("Production CSV file not found");
@@ -586,102 +589,25 @@ function getRegionalSplit(data, yearField){
         .sort((a,b) => b[1] - a[1]);
 }
 
+function getRegionBucket(region){
+    const value = (region || "").toLowerCase();
 
-function renderProductionTrendChart(data){
-
-    const years = [
-        "CY 2025","CY 2026","CY 2027",
-        "CY 2028","CY 2029","CY 2030",
-        "CY 2031","CY 2032","CY 2033"
-    ];
-
-    const emea = [];
-    const americas = [];
-    const china = [];
-    const rest = [];
-
-    years.forEach(year => {
-
-        let emeaTotal = 0;
-        let americasTotal = 0;
-        let chinaTotal = 0;
-        let restTotal = 0;
-
-        data.forEach(row => {
-
-            const region = row["VP: Region"] || "";
-            const volume = toNumber(row[year]);
-
-            if(region.includes("Europe") || region.includes("Middle East") || region.includes("Africa")){
-                emeaTotal += volume;
-            }
-            else if(region.includes("North America") || region.includes("South America") || region.includes("Americas")){
-                americasTotal += volume;
-            }
-            else if(region.includes("China")){
-                chinaTotal += volume;
-            }
-            else{
-                restTotal += volume;
-            }
-
-        });
-
-        emea.push(emeaTotal);
-        americas.push(americasTotal);
-        china.push(chinaTotal);
-        rest.push(restTotal);
-
-    });
-
-    const ctx = document.getElementById("productionTrendChart");
-
-    if(productionTrendChart){
-        productionTrendChart.destroy();
+    if(value.includes("europe") || value.includes("middle east") || value.includes("africa")){
+        return "EMEA";
     }
 
-    productionTrendChart = new Chart(ctx,{
-        type:"bar",
-        data:{
-            labels:["2025","2026","2027","2028","2029","2030","2031","2032","2033"],
-            datasets:[
-                {
-                    label:"EMEA",
-                    data:emea,
-                    backgroundColor:"#005195"
-                },
-                {
-                    label:"Americas",
-                    data:americas,
-                    backgroundColor:"#69A032"
-                },
-                {
-                    label:"Greater China",
-                    data:china,
-                    backgroundColor:"#B4AA9B"
-                },
-                {
-                    label:"Rest of World",
-                    data:rest,
-                    backgroundColor:"#BFC4C9"
-                }
-            ]
-        },
-        options:{
-            responsive:true,
-            scales:{
-                x:{
-                    stacked:true
-                },
-                y:{
-                    beginAtZero:true,
-                    stacked:true
-                }
-            }
-        }
-    });
+    if(value.includes("north america") || value.includes("south america") || value.includes("americas")){
+        return "Americas";
+    }
+
+    if(value.includes("china")){
+        return "Greater China";
+    }
+
+    return "Rest of World";
 }
 
+function renderProductionTrendChart(data){
     const years = [
         "CY 2025",
         "CY 2026",
@@ -694,10 +620,38 @@ function renderProductionTrendChart(data){
         "CY 2033"
     ];
 
-    const values = years.map(year => {
-        return data.reduce((sum, row) => {
-            return sum + toNumber(row[year]);
-        }, 0);
+    const buckets = {
+        "EMEA": [],
+        "Americas": [],
+        "Greater China": [],
+        "Rest of World": []
+    };
+
+    years.forEach(year => {
+        let emeaTotal = 0;
+        let americasTotal = 0;
+        let chinaTotal = 0;
+        let restTotal = 0;
+
+        data.forEach(row => {
+            const bucket = getRegionBucket(row["VP: Region"]);
+            const volume = toNumber(row[year]);
+
+            if(bucket === "EMEA"){
+                emeaTotal += volume;
+            } else if(bucket === "Americas"){
+                americasTotal += volume;
+            } else if(bucket === "Greater China"){
+                chinaTotal += volume;
+            } else {
+                restTotal += volume;
+            }
+        });
+
+        buckets["EMEA"].push(emeaTotal);
+        buckets["Americas"].push(americasTotal);
+        buckets["Greater China"].push(chinaTotal);
+        buckets["Rest of World"].push(restTotal);
     });
 
     const ctx = document.getElementById("productionTrendChart");
@@ -707,20 +661,31 @@ function renderProductionTrendChart(data){
     }
 
     productionTrendChart = new Chart(ctx, {
-        type:"line",
+        type:"bar",
         data:{
             labels:["2025","2026","2027","2028","2029","2030","2031","2032","2033"],
-            datasets:[{
-                label:"Production Volume",
-                data:values,
-                borderColor:"#005195",
-                backgroundColor:"rgba(0,81,149,0.15)",
-                borderWidth:3,
-                fill:true,
-                tension:0.3,
-                pointRadius:4,
-                pointBackgroundColor:"#005195"
-            }]
+            datasets:[
+                {
+                    label:"EMEA",
+                    data:buckets["EMEA"],
+                    backgroundColor:"#005195"
+                },
+                {
+                    label:"Americas",
+                    data:buckets["Americas"],
+                    backgroundColor:"#69A032"
+                },
+                {
+                    label:"Greater China",
+                    data:buckets["Greater China"],
+                    backgroundColor:"#B4AA9B"
+                },
+                {
+                    label:"Rest of World",
+                    data:buckets["Rest of World"],
+                    backgroundColor:"#BFC4C9"
+                }
+            ]
         },
         options:{
             responsive:true,
@@ -728,13 +693,18 @@ function renderProductionTrendChart(data){
                 tooltip:{
                     callbacks:{
                         label:function(context){
-                            return "Production: " + formatNumber(context.raw);
+                            return context.dataset.label + ": " + formatNumber(context.raw);
                         }
                     }
                 }
             },
             scales:{
+                x:{
+                    stacked:true
+                },
                 y:{
+                    beginAtZero:true,
+                    stacked:true,
                     ticks:{
                         callback:function(value){
                             return formatNumber(value);
@@ -784,6 +754,7 @@ function renderTopManufacturersChart(data, yearField){
             },
             scales:{
                 x:{
+                    beginAtZero:true,
                     ticks:{
                         callback:function(value){
                             return formatNumber(value);
@@ -796,43 +767,86 @@ function renderTopManufacturersChart(data, yearField){
 }
 
 function renderRegionalSplitChart(data, yearField){
-    
-function renderNameplateChart(data, yearField){
+    const split = getRegionalSplit(data, yearField);
+    const labels = split.map(item => item[0]);
+    const values = split.map(item => item[1]);
 
+    const colors = labels.map(label => {
+        const bucket = getRegionBucket(label);
+
+        if(bucket === "EMEA"){
+            return "#005195";
+        }
+
+        if(bucket === "Americas"){
+            return "#69A032";
+        }
+
+        if(bucket === "Greater China"){
+            return "#B4AA9B";
+        }
+
+        return "#BFC4C9";
+    });
+
+    const ctx = document.getElementById("regionalSplitChart");
+
+    if(regionalSplitChart){
+        regionalSplitChart.destroy();
+    }
+
+    regionalSplitChart = new Chart(ctx, {
+        type:"doughnut",
+        data:{
+            labels:labels,
+            datasets:[{
+                data:values,
+                backgroundColor:colors
+            }]
+        },
+        options:{
+            responsive:true,
+            plugins:{
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return context.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderNameplateChart(data, yearField){
     const totals = {};
 
     data.forEach(row => {
-
-        const nameplate =
-            row["VP: Production Nameplate"] || "Unknown";
-
-        const volume =
-            toNumber(row[yearField]);
+        const nameplate = row["VP: Production Nameplate"] || "Unknown";
+        const volume = toNumber(row[yearField]);
 
         if(!totals[nameplate]){
             totals[nameplate] = 0;
         }
 
         totals[nameplate] += volume;
-
     });
 
-    const top =
-        Object.entries(totals)
-        .sort((a,b) => b[1]-a[1])
+    const top = Object.entries(totals)
+        .sort((a,b) => b[1] - a[1])
         .slice(0,10);
 
-    const labels = top.map(x => x[0]);
-    const values = top.map(x => x[1]);
+    const labels = top.map(item => item[0]);
+    const values = top.map(item => item[1]);
 
-    const ctx =
-        document.getElementById("nameplateChart");
+    const ctx = document.getElementById("nameplateChart");
 
     if(nameplateChart){
         nameplateChart.destroy();
     }
 
-    nameplateChart = new Chart(ctx,{
+    nameplateChart = new Chart(ctx, {
         type:"doughnut",
         data:{
             labels:labels,
@@ -849,40 +863,6 @@ function renderNameplateChart(data, yearField){
                     "#0B2540",
                     "#5B8DB8",
                     "#667085"
-                ]
-            }]
-        },
-        options:{
-            responsive:true
-        }
-    });
-
-}
-
-    const split = getRegionalSplit(data, yearField);
-    const labels = split.map(item => item[0]);
-    const values = split.map(item => item[1]);
-
-    const ctx = document.getElementById("regionalSplitChart");
-
-    if(regionalSplitChart){
-        regionalSplitChart.destroy();
-    }
-
-    regionalSplitChart = new Chart(ctx, {
-        type:"doughnut",
-        data:{
-            labels:labels,
-            datasets:[{
-                data:values,
-                backgroundColor:[
-                    "#005195",
-                    "#0B2540",
-                    "#C4DAEC",
-                    "#5B8DB8",
-                    "#8FAFCB",
-                    "#667085",
-                    "#98A2B3"
                 ]
             }]
         },
@@ -918,13 +898,11 @@ function renderDashboard(){
     document.getElementById("kpiNameplates").textContent = nameplates.size.toLocaleString();
     document.getElementById("kpiTopManufacturer").textContent = calculateTopManufacturer(data, yearField);
 
-
-renderProductionTrendChart(data);
-renderRegionalSplitChart(data, yearField);
-renderNameplateChart(data, yearField);
-renderTopManufacturersChart(data, yearField);
-renderTable(data, yearField);
-
+    renderProductionTrendChart(data);
+    renderRegionalSplitChart(data, yearField);
+    renderNameplateChart(data, yearField);
+    renderTopManufacturersChart(data, yearField);
+    renderTable(data, yearField);
 }
 
 function renderTable(data, yearField){
