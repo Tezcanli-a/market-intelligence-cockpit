@@ -382,7 +382,7 @@ const powertrainColors = {
     "Other":"#D8D8D8"
 };
 
-fetch("./Dashboard_data_LV%20sales.csv")
+fetch("./Dashboard_data_LV_sales.csv")
     .then(response => {
         if(!response.ok){
             throw new Error("CSV file not found");
@@ -416,10 +416,41 @@ filterIds.forEach(id => {
     document.getElementById(id).addEventListener("input", renderDashboard);
 });
 
+
+function normalizeKey(value){
+    return (value || "")
+        .toString()
+        .replace(/\uFEFF/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
 function detectDelimiter(firstLine){
-    if(firstLine.includes(";")) return ";";
-    if(firstLine.includes("\t")) return "\t";
-    return ",";
+    const delimiters = [",", ";", "\t"];
+    let bestDelimiter = ",";
+    let bestCount = -1;
+
+    delimiters.forEach(delimiter => {
+        let count = 0;
+        let insideQuotes = false;
+
+        for(let i = 0; i < firstLine.length; i++){
+            const char = firstLine[i];
+
+            if(char === '"'){
+                insideQuotes = !insideQuotes;
+            } else if(char === delimiter && !insideQuotes){
+                count++;
+            }
+        }
+
+        if(count > bestCount){
+            bestCount = count;
+            bestDelimiter = delimiter;
+        }
+    });
+
+    return bestDelimiter;
 }
 
 function splitLine(line, delimiter){
@@ -429,8 +460,12 @@ function splitLine(line, delimiter){
 
     for(let i = 0; i < line.length; i++){
         const char = line[i];
+        const nextChar = line[i + 1];
 
-        if(char === '"'){
+        if(char === '"' && insideQuotes && nextChar === '"'){
+            current += '"';
+            i++;
+        } else if(char === '"'){
             insideQuotes = !insideQuotes;
         } else if(char === delimiter && !insideQuotes){
             result.push(current);
@@ -445,7 +480,9 @@ function splitLine(line, delimiter){
 }
 
 function cleanCell(value){
-    return value
+    return (value || "")
+        .toString()
+        .replace(/\uFEFF/g, "")
         .replace(/^"|"$/g, "")
         .replace(/""/g, '"')
         .trim();
@@ -454,7 +491,13 @@ function cleanCell(value){
 function parseCSV(text){
     const lines = text.trim().split(/\r?\n/);
     const delimiter = detectDelimiter(lines[0]);
-    const headers = splitLine(lines[0], delimiter).map(h => cleanCell(h));
+
+    console.log("Detected delimiter:", delimiter);
+
+    const headers = splitLine(lines[0], delimiter)
+        .map(h => normalizeKey(cleanCell(h)));
+
+    console.log("CSV headers:", headers);
 
     return lines.slice(1).map(line => {
         const values = splitLine(line, delimiter);
@@ -474,15 +517,35 @@ function parseCSV(text){
 }
 
 function toNumber(value){
-    if(!value) return 0;
+    if(value === null || value === undefined || value === "") return 0;
 
-    return Number(
-        value
-            .toString()
-            .replace(/\./g, "")
-            .replace(/,/g, "")
-            .replace(/\s/g, "")
-    ) || 0;
+    let text = value
+        .toString()
+        .replace(/\s/g, "")
+        .replace(/[^\d,.-]/g, "");
+
+    if(text === "" || text === "-" || text === ",") return 0;
+
+    const hasComma = text.includes(",");
+    const hasDot = text.includes(".");
+
+    if(hasComma && hasDot){
+        if(text.lastIndexOf(",") > text.lastIndexOf(".")){
+            text = text.replace(/\./g, "").replace(",", ".");
+        } else {
+            text = text.replace(/,/g, "");
+        }
+    } else if(hasComma){
+        const parts = text.split(",");
+
+        if(parts.length === 2 && parts[1].length <= 2){
+            text = text.replace(",", ".");
+        } else {
+            text = text.replace(/,/g, "");
+        }
+    }
+
+    return Number(text) || 0;
 }
 
 function formatNumber(value){
