@@ -7,7 +7,6 @@
 <title>LV Sales Dashboard</title>
 
 <style>
-
 body{
     margin:0;
     font-family:Segoe UI, Arial, sans-serif;
@@ -35,6 +34,10 @@ header h1{
     font-weight:bold;
 }
 
+.back-link:hover{
+    text-decoration:underline;
+}
+
 .container{
     max-width:1550px;
     margin:auto;
@@ -46,11 +49,9 @@ header h1{
     padding:20px;
     border-radius:12px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
-
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
-
     margin-bottom:25px;
 }
 
@@ -59,13 +60,16 @@ header h1{
     margin-bottom:6px;
     font-weight:bold;
     color:#0B2540;
+    font-size:14px;
 }
 
-select,input{
+select,
+input{
     width:100%;
     padding:10px;
     border:1px solid #ccc;
     border-radius:6px;
+    font-size:14px;
 }
 
 .kpi-grid{
@@ -85,6 +89,7 @@ select,input{
 .kpi-title{
     font-size:14px;
     color:#667085;
+    font-weight:bold;
 }
 
 .kpi-value{
@@ -107,24 +112,25 @@ select,input{
     padding:18px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
     height:340px;
+    box-sizing:border-box;
 }
 
 .chart-card h2{
     margin-top:0;
+    margin-bottom:10px;
     color:#0B2540;
+    font-size:20px;
 }
 
-.chart-placeholder{
+.chart-wrap{
+    position:relative;
     height:260px;
-    background:#F4F6F8;
-    border:2px dashed #D0D5DD;
-    border-radius:10px;
+    width:100%;
+}
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#667085;
+.chart-wrap canvas{
+    width:100% !important;
+    height:100% !important;
 }
 
 .table-card{
@@ -132,10 +138,41 @@ select,input{
     border-radius:12px;
     padding:20px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+}
+
+th{
+    background:#0B2540;
+    color:white;
+    padding:10px;
+    text-align:left;
+    white-space:nowrap;
+}
+
+td{
+    padding:9px;
+    border-bottom:1px solid #e5e7eb;
+    white-space:nowrap;
+}
+
+tr:hover{
+    background:#F4F6F8;
+}
+
+.empty{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    color:#667085;
 }
 
 @media(max-width:1100px){
-
     .filter-bar{
         grid-template-columns:1fr 1fr;
     }
@@ -149,149 +186,880 @@ select,input{
     }
 }
 
+@media(max-width:750px){
+    .filter-bar,
+    .kpi-grid,
+    .chart-grid{
+        grid-template-columns:1fr;
+    }
+}
 </style>
-
 </head>
 
 <body>
 
 <header>
-
     <h1>LV Sales Dashboard</h1>
-
-    <a href="index.html" class="back-link">
-        ← Back to Cockpit
-    </a>
-
+    <a href="index.html" class="back-link">← Back to Cockpit</a>
 </header>
 
 <div class="container">
 
-    <!-- FILTERS -->
-
     <div class="filter-bar">
 
         <div class="filter-group">
-            <label>Region</label>
-            <select id="regionFilter"></select>
-        </div>
-
-        <div class="filter-group">
-            <label>Country</label>
-            <select id="countryFilter"></select>
-        </div>
-
-        <div class="filter-group">
-            <label>Manufacturer</label>
-            <select id="manufacturerFilter"></select>
-        </div>
-
-        <div class="filter-group">
-            <label>Maker / Brand</label>
-            <select id="brandFilter"></select>
-        </div>
-
-        <div class="filter-group">
-            <label>Segment</label>
-            <select id="segmentFilter"></select>
-        </div>
-
-        <div class="filter-group">
-            <label>Powertrain</label>
-            <select id="powertrainFilter"></select>
-        </div>
-
-        <div class="filter-group">
-            <label>Year</label>
-            <select id="yearFilter">
-                <option>2024</option>
-                <option selected>2025</option>
-                <option>2026</option>
+            <label for="regionFilter">Region</label>
+            <select id="regionFilter">
+                <option value="All">All Regions</option>
             </select>
         </div>
 
         <div class="filter-group">
-            <label>Search Model</label>
-            <input type="text" id="searchInput">
+            <label for="countryFilter">Country</label>
+            <select id="countryFilter">
+                <option value="All">All Countries</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="manufacturerFilter">Manufacturer</label>
+            <select id="manufacturerFilter">
+                <option value="All">All Manufacturers</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="brandFilter">Maker / Brand</label>
+            <select id="brandFilter">
+                <option value="All">All Brands</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="segmentFilter">Segment</label>
+            <select id="segmentFilter">
+                <option value="All">All Segments</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="powertrainFilter">PowerTrain</label>
+            <select id="powertrainFilter">
+                <option value="All">All PowerTrains</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="yearFilter">Year</label>
+            <select id="yearFilter">
+                <option value="2024">2024</option>
+                <option value="2025" selected>2025</option>
+                <option value="2026">2026</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="searchInput">Search Model</label>
+            <input id="searchInput" type="text" placeholder="Search model, brand or group...">
         </div>
 
     </div>
-
-    <!-- KPIs -->
 
     <div class="kpi-grid">
 
         <div class="kpi-card">
             <div class="kpi-title">Total Sales</div>
-            <div class="kpi-value">-</div>
+            <div class="kpi-value" id="kpiTotalSales">-</div>
         </div>
 
         <div class="kpi-card">
             <div class="kpi-title">Market Growth %</div>
-            <div class="kpi-value">-</div>
+            <div class="kpi-value" id="kpiGrowth">-</div>
         </div>
 
         <div class="kpi-card">
             <div class="kpi-title">Top Brand</div>
-            <div class="kpi-value">-</div>
+            <div class="kpi-value" id="kpiTopBrand">-</div>
         </div>
 
         <div class="kpi-card">
             <div class="kpi-title">BEV Share %</div>
-            <div class="kpi-value">-</div>
+            <div class="kpi-value" id="kpiBevShare">-</div>
         </div>
 
     </div>
-
-    <!-- CHARTS -->
 
     <div class="chart-grid">
 
         <div class="chart-card">
             <h2>Sales Trend 2024-2026</h2>
-            <div class="chart-placeholder">Line Chart</div>
+            <div class="chart-wrap">
+                <canvas id="salesTrendChart"></canvas>
+            </div>
         </div>
 
         <div class="chart-card">
             <h2>Powertrain Mix</h2>
-            <div class="chart-placeholder">Donut Chart</div>
+            <div class="chart-wrap">
+                <canvas id="powertrainMixChart"></canvas>
+            </div>
         </div>
 
         <div class="chart-card">
             <h2>Sales by Segment</h2>
-            <div class="chart-placeholder">Bar Chart</div>
+            <div class="chart-wrap">
+                <canvas id="segmentChart"></canvas>
+            </div>
         </div>
 
         <div class="chart-card">
             <h2>Top Brands</h2>
-            <div class="chart-placeholder">Horizontal Bar Chart</div>
+            <div class="chart-wrap">
+                <canvas id="topBrandsChart"></canvas>
+            </div>
         </div>
 
         <div class="chart-card">
             <h2>Regional Sales</h2>
-            <div class="chart-placeholder">Bar Chart</div>
+            <div class="chart-wrap">
+                <canvas id="regionalSalesChart"></canvas>
+            </div>
         </div>
 
         <div class="chart-card">
             <h2>Top Models</h2>
-            <div class="chart-placeholder">Bar Chart</div>
+            <div class="chart-wrap">
+                <canvas id="topModelsChart"></canvas>
+            </div>
         </div>
 
     </div>
 
-    <!-- TABLE -->
-
     <div class="table-card">
-
         <h2>Sales Details</h2>
-
-        <p>
-            Table will be loaded from Dashboard_data_LV sales.csv
-        </p>
-
+        <div id="tableContainer">
+            <div class="empty">Loading sales data...</div>
+        </div>
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let allData = [];
+
+let salesTrendChart = null;
+let powertrainMixChart = null;
+let segmentChart = null;
+let topBrandsChart = null;
+let regionalSalesChart = null;
+let topModelsChart = null;
+
+const months = [
+    "Jan 24","Feb 24","Mrz 24","Apr 24","Mai 24","Jun 24",
+    "Jul 24","Aug 24","Sep 24","Okt 24","Nov 24","Dez 24",
+    "Jan 25","Feb 25","Mrz 25","Apr 25","Mai 25","Jun 25",
+    "Jul 25","Aug 25","Sep 25","Okt 25","Nov 25","Dez 25",
+    "Jan 26","Feb 26","Mrz 26","Apr 26","Mai 26","Jun 26",
+    "Jul 26","Aug 26","Sep 26","Okt 26","Nov 26","Dez 26"
+];
+
+const monthsByYear = {
+    "2024":["Jan 24","Feb 24","Mrz 24","Apr 24","Mai 24","Jun 24","Jul 24","Aug 24","Sep 24","Okt 24","Nov 24","Dez 24"],
+    "2025":["Jan 25","Feb 25","Mrz 25","Apr 25","Mai 25","Jun 25","Jul 25","Aug 25","Sep 25","Okt 25","Nov 25","Dez 25"],
+    "2026":["Jan 26","Feb 26","Mrz 26","Apr 26","Mai 26","Jun 26","Jul 26","Aug 26","Sep 26","Okt 26","Nov 26","Dez 26"]
+};
+
+const powertrainColors = {
+    "ICE":"#B4AA9B",
+    "MHEV":"#C2BAAE",
+    "HEV":"#D1CAC0",
+    "FHEV":"#D1CAC0",
+    "BEV":"#69A032",
+    "PHEV":"#85B64E",
+    "FCEV":"#BEDF8A",
+    "Other":"#D8D8D8"
+};
+
+fetch("./Dashboard_data_LV%20sales.csv")
+    .then(response => {
+        if(!response.ok){
+            throw new Error("CSV file not found");
+        }
+        return response.text();
+    })
+    .then(text => {
+        allData = parseCSV(text);
+        populateFilters();
+        renderDashboard();
+    })
+    .catch(error => {
+        document.getElementById("tableContainer").innerHTML =
+            '<div class="empty">Could not load Dashboard_data_LV sales.csv. Please check filename and location.</div>';
+        console.error(error);
+    });
+
+const filterIds = [
+    "regionFilter",
+    "countryFilter",
+    "manufacturerFilter",
+    "brandFilter",
+    "segmentFilter",
+    "powertrainFilter",
+    "yearFilter",
+    "searchInput"
+];
+
+filterIds.forEach(id => {
+    document.getElementById(id).addEventListener("change", renderDashboard);
+    document.getElementById(id).addEventListener("input", renderDashboard);
+});
+
+function detectDelimiter(firstLine){
+    if(firstLine.includes(";")) return ";";
+    if(firstLine.includes("\t")) return "\t";
+    return ",";
+}
+
+function splitLine(line, delimiter){
+    const result = [];
+    let current = "";
+    let insideQuotes = false;
+
+    for(let i = 0; i < line.length; i++){
+        const char = line[i];
+
+        if(char === '"'){
+            insideQuotes = !insideQuotes;
+        } else if(char === delimiter && !insideQuotes){
+            result.push(current);
+            current = "";
+        } else {
+            current += char;
+        }
+    }
+
+    result.push(current);
+    return result;
+}
+
+function cleanCell(value){
+    return value
+        .replace(/^"|"$/g, "")
+        .replace(/""/g, '"')
+        .trim();
+}
+
+function parseCSV(text){
+    const lines = text.trim().split(/\r?\n/);
+    const delimiter = detectDelimiter(lines[0]);
+    const headers = splitLine(lines[0], delimiter).map(h => cleanCell(h));
+
+    return lines.slice(1).map(line => {
+        const values = splitLine(line, delimiter);
+        const row = {};
+
+        headers.forEach((header, index) => {
+            row[header] = values[index] ? cleanCell(values[index]) : "";
+        });
+
+        return row;
+    }).filter(row =>
+        row["Region"] ||
+        row["Country"] ||
+        row["Maker/Brand"] ||
+        row["Model"]
+    );
+}
+
+function toNumber(value){
+    if(!value) return 0;
+
+    return Number(
+        value
+            .toString()
+            .replace(/\./g, "")
+            .replace(/,/g, "")
+            .replace(/\s/g, "")
+    ) || 0;
+}
+
+function formatNumber(value){
+    if(value >= 1000000000){
+        return (value / 1000000000).toFixed(1) + "B";
+    }
+
+    if(value >= 1000000){
+        return (value / 1000000).toFixed(1) + "M";
+    }
+
+    if(value >= 1000){
+        return (value / 1000).toFixed(0) + "k";
+    }
+
+    return value.toLocaleString();
+}
+
+function formatPercent(value){
+    if(!isFinite(value)) return "-";
+    return value.toFixed(1) + "%";
+}
+
+function escapeHTML(value){
+    if(!value) return "";
+
+    return value
+        .toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function normalizePowertrain(value){
+    const text = (value || "").toUpperCase();
+
+    if(text.includes("MHEV")) return "MHEV";
+    if(text.includes("FHEV")) return "FHEV";
+    if(text.includes("HEV")) return "HEV";
+    if(text.includes("PHEV")) return "PHEV";
+    if(text.includes("FCEV")) return "FCEV";
+    if(text.includes("BEV")) return "BEV";
+    if(text.includes("ICE")) return "ICE";
+
+    return "Other";
+}
+
+function populateSelect(id, fieldName){
+    const select = document.getElementById(id);
+    const existing = new Set(Array.from(select.options).map(o => o.value));
+    const values = [...new Set(allData.map(row => row[fieldName]).filter(Boolean))].sort();
+
+    values.forEach(value => {
+        if(!existing.has(value)){
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            select.appendChild(option);
+        }
+    });
+}
+
+function populateFilters(){
+    populateSelect("regionFilter", "Region");
+    populateSelect("countryFilter", "Country");
+    populateSelect("manufacturerFilter", "Manufacturer");
+    populateSelect("brandFilter", "Maker/Brand");
+    populateSelect("segmentFilter", "Segment");
+    populateSelect("powertrainFilter", "PowerTrain");
+}
+
+function getFilteredData(){
+    const region = document.getElementById("regionFilter").value;
+    const country = document.getElementById("countryFilter").value;
+    const manufacturer = document.getElementById("manufacturerFilter").value;
+    const brand = document.getElementById("brandFilter").value;
+    const segment = document.getElementById("segmentFilter").value;
+    const powertrain = document.getElementById("powertrainFilter").value;
+    const search = document.getElementById("searchInput").value.toLowerCase();
+
+    return allData.filter(row => {
+        const regionMatch = region === "All" || row["Region"] === region;
+        const countryMatch = country === "All" || row["Country"] === country;
+        const manufacturerMatch = manufacturer === "All" || row["Manufacturer"] === manufacturer;
+        const brandMatch = brand === "All" || row["Maker/Brand"] === brand;
+        const segmentMatch = segment === "All" || row["Segment"] === segment;
+        const powertrainMatch = powertrain === "All" || row["PowerTrain"] === powertrain;
+
+        const searchText = [
+            row["Model"],
+            row["Maker/Brand"],
+            row["Manufacturer"],
+            row["Group"]
+        ].join(" ").toLowerCase();
+
+        const searchMatch = searchText.includes(search);
+
+        return regionMatch &&
+               countryMatch &&
+               manufacturerMatch &&
+               brandMatch &&
+               segmentMatch &&
+               powertrainMatch &&
+               searchMatch;
+    });
+}
+
+function sumField(data, fieldName){
+    return data.reduce((sum, row) => sum + toNumber(row[fieldName]), 0);
+}
+
+function sumMonths(data, monthList){
+    return monthList.reduce((sum, month) => sum + sumField(data, month), 0);
+}
+
+function getTopCategory(data, fieldName, monthList){
+    const totals = {};
+
+    data.forEach(row => {
+        const key = row[fieldName] || "Unknown";
+        const volume = monthList.reduce((sum, month) => sum + toNumber(row[month]), 0);
+
+        if(!totals[key]){
+            totals[key] = 0;
+        }
+
+        totals[key] += volume;
+    });
+
+    const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]);
+
+    return sorted.length ? sorted[0][0] : "-";
+}
+
+function getCategoryTotals(data, fieldName, monthList, limit){
+    const totals = {};
+
+    data.forEach(row => {
+        const key = row[fieldName] || "Unknown";
+        const volume = monthList.reduce((sum, month) => sum + toNumber(row[month]), 0);
+
+        if(!totals[key]){
+            totals[key] = 0;
+        }
+
+        totals[key] += volume;
+    });
+
+    return Object.entries(totals)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0, limit);
+}
+
+function getCategoryColor(category){
+    const palette = [
+        "#005195",
+        "#69A032",
+        "#B4AA9B",
+        "#0B2540",
+        "#8FAFCB",
+        "#C4DAEC",
+        "#667085",
+        "#98A2B3",
+        "#4D4D4D",
+        "#BFC4C9"
+    ];
+
+    let hash = 0;
+
+    for(let i = 0; i < category.length; i++){
+        hash = category.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return palette[Math.abs(hash) % palette.length];
+}
+
+function renderKpis(data, selectedYear){
+    const selectedMonths = monthsByYear[selectedYear];
+    const totalSales = sumMonths(data, selectedMonths);
+
+    let growthText = "-";
+
+    if(selectedYear !== "2024"){
+        const previousYear = String(Number(selectedYear) - 1);
+        const previousSales = sumMonths(data, monthsByYear[previousYear]);
+
+        if(previousSales > 0){
+            growthText = formatPercent(((totalSales - previousSales) / previousSales) * 100);
+        }
+    }
+
+    const topBrand = getTopCategory(data, "Maker/Brand", selectedMonths);
+
+    const bevSales = data.reduce((sum, row) => {
+        if(normalizePowertrain(row["PowerTrain"]) === "BEV"){
+            return sum + selectedMonths.reduce((monthSum, month) => monthSum + toNumber(row[month]), 0);
+        }
+        return sum;
+    }, 0);
+
+    document.getElementById("kpiTotalSales").textContent = formatNumber(totalSales);
+    document.getElementById("kpiGrowth").textContent = growthText;
+    document.getElementById("kpiTopBrand").textContent = topBrand;
+    document.getElementById("kpiBevShare").textContent = totalSales === 0 ? "-" : formatPercent((bevSales / totalSales) * 100);
+}
+
+function createNoGridScale(stacked){
+    return {
+        x:{
+            stacked:stacked,
+            grid:{
+                display:false
+            }
+        },
+        y:{
+            stacked:stacked,
+            beginAtZero:true,
+            grid:{
+                display:false
+            },
+            ticks:{
+                callback:function(value){
+                    return formatNumber(value);
+                }
+            }
+        }
+    };
+}
+
+function renderSalesTrendChart(data){
+    const values = months.map(month => sumField(data, month));
+
+    const ctx = document.getElementById("salesTrendChart");
+
+    if(salesTrendChart){
+        salesTrendChart.destroy();
+    }
+
+    salesTrendChart = new Chart(ctx, {
+        type:"line",
+        data:{
+            labels:months,
+            datasets:[{
+                label:"Sales",
+                data:values,
+                borderColor:"#005195",
+                backgroundColor:"rgba(0,81,149,0.15)",
+                fill:true,
+                tension:0.3,
+                pointRadius:2
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{
+                    display:false
+                },
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return "Sales: " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales:createNoGridScale(false)
+        }
+    });
+}
+
+function renderPowertrainMixChart(data, selectedYear){
+    const selectedMonths = monthsByYear[selectedYear];
+    const totals = {};
+
+    data.forEach(row => {
+        const key = normalizePowertrain(row["PowerTrain"]);
+        const volume = selectedMonths.reduce((sum, month) => sum + toNumber(row[month]), 0);
+
+        if(!totals[key]){
+            totals[key] = 0;
+        }
+
+        totals[key] += volume;
+    });
+
+    const labels = Object.keys(totals);
+    const values = Object.values(totals);
+
+    const ctx = document.getElementById("powertrainMixChart");
+
+    if(powertrainMixChart){
+        powertrainMixChart.destroy();
+    }
+
+    powertrainMixChart = new Chart(ctx, {
+        type:"doughnut",
+        data:{
+            labels:labels,
+            datasets:[{
+                data:values,
+                backgroundColor:labels.map(label => powertrainColors[label] || "#D8D8D8")
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return context.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderSegmentChart(data, selectedYear){
+    const selectedMonths = monthsByYear[selectedYear];
+    const top = getCategoryTotals(data, "Segment", selectedMonths, 10);
+
+    const labels = top.map(item => item[0]);
+    const values = top.map(item => item[1]);
+
+    const ctx = document.getElementById("segmentChart");
+
+    if(segmentChart){
+        segmentChart.destroy();
+    }
+
+    segmentChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:[{
+                label:"Sales",
+                data:values,
+                backgroundColor:labels.map(label => getCategoryColor(label))
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+            scales:createNoGridScale(false)
+        }
+    });
+}
+
+function renderTopBrandsChart(data, selectedYear){
+    const selectedMonths = monthsByYear[selectedYear];
+    const top = getCategoryTotals(data, "Maker/Brand", selectedMonths, 10);
+
+    const labels = top.map(item => item[0]);
+    const values = top.map(item => item[1]);
+
+    const ctx = document.getElementById("topBrandsChart");
+
+    if(topBrandsChart){
+        topBrandsChart.destroy();
+    }
+
+    topBrandsChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:[{
+                label:"Sales",
+                data:values,
+                backgroundColor:"#005195"
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            indexAxis:"y",
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+            scales:{
+                x:{
+                    beginAtZero:true,
+                    grid:{
+                        display:false
+                    },
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                },
+                y:{
+                    grid:{
+                        display:false
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderRegionalSalesChart(data, selectedYear){
+    const selectedMonths = monthsByYear[selectedYear];
+    const top = getCategoryTotals(data, "Region", selectedMonths, 10);
+
+    const labels = top.map(item => item[0]);
+    const values = top.map(item => item[1]);
+
+    const ctx = document.getElementById("regionalSalesChart");
+
+    if(regionalSalesChart){
+        regionalSalesChart.destroy();
+    }
+
+    regionalSalesChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:[{
+                label:"Sales",
+                data:values,
+                backgroundColor:labels.map(label => getCategoryColor(label))
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+            scales:createNoGridScale(false)
+        }
+    });
+}
+
+function renderTopModelsChart(data, selectedYear){
+    const selectedMonths = monthsByYear[selectedYear];
+    const top = getCategoryTotals(data, "Model", selectedMonths, 10);
+
+    const labels = top.map(item => item[0]);
+    const values = top.map(item => item[1]);
+
+    const ctx = document.getElementById("topModelsChart");
+
+    if(topModelsChart){
+        topModelsChart.destroy();
+    }
+
+    topModelsChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:[{
+                label:"Sales",
+                data:values,
+                backgroundColor:"#69A032"
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            indexAxis:"y",
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+            scales:{
+                x:{
+                    beginAtZero:true,
+                    grid:{
+                        display:false
+                    },
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                },
+                y:{
+                    grid:{
+                        display:false
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderTable(data, selectedYear){
+    const selectedMonths = monthsByYear[selectedYear];
+    const container = document.getElementById("tableContainer");
+
+    if(data.length === 0){
+        container.innerHTML = '<div class="empty">No sales details found for the selected filters.</div>';
+        return;
+    }
+
+    const rows = data.map(row => {
+        const total = selectedMonths.reduce((sum, month) => sum + toNumber(row[month]), 0);
+
+        return {
+            row:row,
+            total:total
+        };
+    }).sort((a,b) => b.total - a.total).slice(0,300);
+
+    let html = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Brand</th>
+                    <th>Manufacturer</th>
+                    <th>Group</th>
+                    <th>Region</th>
+                    <th>Country</th>
+                    <th>Segment</th>
+                    <th>PowerTrain</th>
+                    <th>${selectedYear} Sales</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    rows.forEach(item => {
+        html += `
+            <tr>
+                <td>${escapeHTML(item.row["Model"])}</td>
+                <td>${escapeHTML(item.row["Maker/Brand"])}</td>
+                <td>${escapeHTML(item.row["Manufacturer"])}</td>
+                <td>${escapeHTML(item.row["Group"])}</td>
+                <td>${escapeHTML(item.row["Region"])}</td>
+                <td>${escapeHTML(item.row["Country"])}</td>
+                <td>${escapeHTML(item.row["Segment"])}</td>
+                <td>${escapeHTML(item.row["PowerTrain"])}</td>
+                <td>${formatNumber(item.total)}</td>
+            </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+    container.innerHTML = html;
+}
+
+function renderDashboard(){
+    const selectedYear = document.getElementById("yearFilter").value;
+    const data = getFilteredData();
+
+    renderKpis(data, selectedYear);
+    renderSalesTrendChart(data);
+    renderPowertrainMixChart(data, selectedYear);
+    renderSegmentChart(data, selectedYear);
+    renderTopBrandsChart(data, selectedYear);
+    renderRegionalSalesChart(data, selectedYear);
+    renderTopModelsChart(data, selectedYear);
+    renderTable(data, selectedYear);
+}
+</script>
 
 </body>
 </html>
