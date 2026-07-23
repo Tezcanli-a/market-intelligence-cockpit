@@ -412,13 +412,7 @@
             </select>
         </div>
 
-        <div class="filter-group">
-            <label for="regionFilter">Region</label>
-            <select id="regionFilter">
-                <option value="All">All Regions</option>
-            </select>
-        </div>
-
+      
         <div class="filter-group">
             <label for="dateFrom">Date From</label>
             <input type="date" id="dateFrom">
@@ -718,7 +712,6 @@
 
             filteredNews = [...rawNews];
 
-            populateFilters();
             applyFilters();
 
         }catch(error){
@@ -753,16 +746,11 @@
         });
     }
 
-    function populateFilters(){
+    function const regions = uniqueValues("region");s(){
         populateSelect("sectionFilter", uniqueValues("section"), "All Sections");
         populateSelect("autoCvFilter", uniqueValues("auto_cv"), "All");
         populateSelect("companyFilter", uniqueValues("company"), "All Companies");
 
-        const regions = uniqueValues("region");
-        populateSelect("regionFilter", regions, "All Regions");
-
-        if(regions.length === 0){
-            document.getElementById("regionFilter").disabled = true;
         }
 
         const validDates = rawNews
@@ -785,7 +773,6 @@
         const section = document.getElementById("sectionFilter").value;
         const autoCv = document.getElementById("autoCvFilter").value;
         const company = document.getElementById("companyFilter").value;
-        const region = document.getElementById("regionFilter").value;
         const dateFrom = document.getElementById("dateFrom").value;
         const dateTo = document.getElementById("dateTo").value;
         const keyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
