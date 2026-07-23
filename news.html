@@ -399,8 +399,8 @@
         </div>
 
         <div class="filter-group">
-            <label for="autoCvFilter">Auto / CV</label>
-            <select id="autoCvFilter">
+            <label for="auto_CvFilter">Auto / CV</label>
+            <select id="auto_CvFilter">
                 <option value="All">All</option>
             </select>
         </div>
@@ -554,7 +554,7 @@
         return "neutral";
     }
 
-    function normalizeAutoCv(value){
+    function normalizeAuto_Cv(value){
         const v = cleanHTML(value);
 
         if(v.toLowerCase() === "automotive") return "Automotive";
@@ -622,7 +622,7 @@
         const urlRaw = extractHref(item.url || item.URL || item.headline || item["NEWS LINK"] || "");
 
         const section = normalizeSection(item.section || item.SECTION || "");
-        const autoCv = normalizeAutoCv(item.auto_cv || item["AUTO/CV"] || item.autoCv || "");
+        const auto_Cv = normalizeAuto_Cv(item.auto_cv || item["AUTO/CV"] || item.auto_Cv || "");
         const company = cleanHTML(item.company || item.FOCUS || "");
         const category = cleanHTML(item.category || item.CATEGORY || "");
         const region = cleanHTML(item.region || item.REGION || "");
@@ -640,7 +640,7 @@
 
         return {
             section,
-            autoCv,
+            auto_Cv,
             category,
             company,
             region,
@@ -748,7 +748,7 @@
 
     function const regions = uniqueValues("region");s(){
         populateSelect("sectionFilter", uniqueValues("section"), "All Sections");
-        populateSelect("autoCvFilter", uniqueValues("auto_cv"), "All");
+        populateSelect("auto_CvFilter", uniqueValues("auto_cv"), "All");
         populateSelect("companyFilter", uniqueValues("company"), "All Companies");
 
         }
@@ -763,7 +763,7 @@
             document.getElementById("dateTo").value = toInputDate(validDates[validDates.length - 1]);
         }
 
-        ["sectionFilter","autoCvFilter","companyFilter","regionFilter","dateFrom","dateTo","keywordSearch"].forEach(id => {
+        ["sectionFilter","auto_CvFilter","companyFilter","regionFilter","dateFrom","dateTo","keywordSearch"].forEach(id => {
             document.getElementById(id).addEventListener("input", applyFilters);
             document.getElementById(id).addEventListener("change", applyFilters);
         });
@@ -771,7 +771,7 @@
 
     function applyFilters(){
         const section = document.getElementById("sectionFilter").value;
-        const autoCv = document.getElementById("autoCvFilter").value;
+        const auto_Cv = document.getElementById("auto_CvFilter").value;
         const company = document.getElementById("companyFilter").value;
         const dateFrom = document.getElementById("dateFrom").value;
         const dateTo = document.getElementById("dateTo").value;
@@ -781,7 +781,7 @@
             const itemDate = item.dateObj;
 
             const matchesSection = section === "All" || item.section === section;
-            const matchesAutoCv = autoCv === "All" || item.autoCv === autoCv;
+            const matchesAuto_Cv = auto_Cv === "All" || item.auto_Cv === auto_Cv;
             const matchesCompany = company === "All" || item.company === company;
             const matchesRegion = region === "All" || item.region === region;
 
@@ -797,7 +797,7 @@
 
             const combinedText = [
                 item.section,
-                item.autoCv,
+                item.auto_Cv,
                 item.category,
                 item.company,
                 item.region,
@@ -808,7 +808,7 @@
 
             const matchesKeyword = !keyword || combinedText.includes(keyword);
 
-            return matchesSection && matchesAutoCv && matchesCompany && matchesRegion && matchesDate && matchesKeyword;
+            return matchesSection && matchesAuto_Cv && matchesCompany && matchesRegion && matchesDate && matchesKeyword;
         });
 
         filteredNews.sort((a,b) => {
@@ -844,7 +844,7 @@
                     <div>
                         <div class="badge-row">
                             <span class="badge ${badgeClass}">${escapeHTML(item.section)}</span>
-                            <span class="badge neutral">${escapeHTML(item.autoCv || "N/A")}</span>
+                            <span class="badge neutral">${escapeHTML(item.auto_Cv || "N/A")}</span>
                         </div>
 
                         <h3>${escapeHTML(item.headline)}</h3>
@@ -952,7 +952,7 @@
                     <div>
                         <div class="badge-row">
                             <span class="badge ${badgeClass}">${escapeHTML(item.section)}</span>
-                            <span class="badge neutral">${escapeHTML(item.autoCv || "N/A")}</span>
+                            <span class="badge neutral">${escapeHTML(item.auto_Cv || "N/A")}</span>
                         </div>
 
                         <h3>${escapeHTML(item.headline)}</h3>
