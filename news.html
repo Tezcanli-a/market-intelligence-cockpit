@@ -757,15 +757,22 @@ select.appendChild(option);
 
 function populateFilters(){
 populateSelect("sectionFilter", uniqueValues("section"), "All Sections");
-populateSelect("autoCvFilter", uniqueValues("autoCv"), "All");
-populateSelect("companyFilter", uniqueValues("company"), "All Companies");
+populateSelect("auto_CvFilter", uniqueValues("auto_Cv"), "All");
 
-const regions = uniqueValues("region");
-populateSelect("regionFilter", regions, "All Regions");
+const companyTopics = [
+    ...new Set(
+        rawNews.flatMap(item => [
+            item.company,
+            item.category
+        ]).filter(Boolean)
+    )
+].sort();
 
-if(regions.length === 0){
-document.getElementById("regionFilter").disabled = true;
-}
+populateSelect(
+    "companyFilter",
+    companyTopics,
+    "All Companies / Topics"
+);
 
 const validDates = rawNews
 .map(item => item.dateObj)
@@ -777,7 +784,7 @@ document.getElementById("dateFrom").value = toInputDate(validDates[0]);
 document.getElementById("dateTo").value = toInputDate(validDates[validDates.length - 1]);
 }
 
-["sectionFilter","autoCvFilter","companyFilter","regionFilter","dateFrom","dateTo","keywordSearch"].forEach(id => {
+["sectionFilter","autoCvFilter","companyFilter","dateFrom","dateTo","keywordSearch"].forEach(id => {
 document.getElementById(id).addEventListener("input", applyFilters);
 document.getElementById(id).addEventListener("change", applyFilters);
 });
@@ -787,7 +794,6 @@ function applyFilters(){
 const section = document.getElementById("sectionFilter").value;
 const autoCv = document.getElementById("autoCvFilter").value;
 const company = document.getElementById("companyFilter").value;
-const region = document.getElementById("regionFilter").value;
 const dateFrom = document.getElementById("dateFrom").value;
 const dateTo = document.getElementById("dateTo").value;
 const keyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
@@ -798,7 +804,6 @@ const itemDate = item.dateObj;
 const matchesSection = section === "All" || item.section === section;
 const matchesAutoCv = autoCv === "All" || item.autoCv === autoCv;
 const matchesCompany = company === "All" || item.company === company;
-const matchesRegion = region === "All" || item.region === region;
 
 let matchesDate = true;
 
@@ -823,7 +828,7 @@ item.url
 
 const matchesKeyword = !keyword || combinedText.includes(keyword);
 
-return matchesSection && matchesAutoCv && matchesCompany && matchesRegion && matchesDate && matchesKeyword;
+return matchesSection && matchesAutoCv && matchesCompany && matchesDate && matchesKeyword;
 });
 
 filteredNews.sort((a,b) => {
