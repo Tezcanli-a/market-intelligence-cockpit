@@ -940,38 +940,8 @@
 
         return entries;
     }
-
-            },
-            options:{
-                responsive:true,
-                plugins:{
-                    legend:{
-                        position:"bottom"
-                    }
-                }
-            }
-        });
-    }
-
-                 },
-            options:{
-                indexAxis:"y",
-                responsive:true,
-                plugins:{
-                    legend:{
-                        display:false
-                    }
-                },
-                scales:{
-                    x:{
-                        beginAtZero:true
-                    }
-                }
-            }
-        });
-    }
-
-    function renderNewsFeed(){
+            
+       function renderNewsFeed(){
         const container = document.getElementById("newsList");
         const count = document.getElementById("feedCount");
 
