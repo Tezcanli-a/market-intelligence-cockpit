@@ -832,7 +832,6 @@
 
         renderHighlights();
         renderTopicCloud();
-        renderCharts();
         renderNewsFeed();
     }
 
@@ -954,25 +953,7 @@
         });
     }
 
-    function renderCompanyChart(){
-        const ctx = document.getElementById("companyChart");
-
-        const data = countBy("company", 10).filter(item => item[0] !== "N/A");
-
-        if(companyChartInstance){
-            companyChartInstance.destroy();
-        }
-
-        companyChartInstance = new Chart(ctx, {
-            type:"bar",
-            data:{
-                labels:data.map(item => item[0]),
-                datasets:[{
-                    label:"News count",
-                    data:data.map(item => item[1]),
-                    backgroundColor:"#005195"
-                }]
-            },
+                 },
             options:{
                 indexAxis:"y",
                 responsive:true,
