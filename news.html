@@ -1,1019 +1,1034 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Market Intelligence Cockpit | News</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Market Intelligence Cockpit | News</title>
 
-    <script 
-    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js">
-    </script>
+<script 
+src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js">
+</script>
 
-    <style>
-        :root{
-            --blue:#005195;
-            --light-blue:#e8f1f8;
-            --dark:#1f2933;
-            --grey:#6b7280;
-            --light-grey:#f3f4f6;
-            --border:#d9e2ec;
-            --orange:#f58220;
-            --green:#76b82a;
-            --red:#b00020;
-            --white:#ffffff;
-        }
+<style>
+:root{
+--blue:#005195;
+--light-blue:#e8f1f8;
+--dark:#1f2933;
+--grey:#6b7280;
+--light-grey:#f3f4f6;
+--border:#d9e2ec;
+--orange:#f58220;
+--green:#76b82a;
+--red:#b00020;
+--white:#ffffff;
+}
 
-        *{
-            box-sizing:border-box;
-        }
+*{
+box-sizing:border-box;
+}
 
-        body{
-            margin:0;
-            font-family:Arial, Helvetica, sans-serif;
-            background:#f4f7fa;
-            color:var(--dark);
-        }
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f7fa;
+color:var(--dark);
+}
 
-        header{
-            background:linear-gradient(135deg, #005195, #003b70);
-            color:white;
-            padding:26px 42px;
-            box-shadow:0 4px 16px rgba(0,0,0,0.16);
-        }
+header{
+background:linear-gradient(135deg, #005195, #003b70);
+color:white;
+padding:26px 42px;
+box-shadow:0 4px 16px rgba(0,0,0,0.16);
+}
 
-        header h1{
-            margin:0;
-            font-size:30px;
-            letter-spacing:0.3px;
-        }
+header h1{
+margin:0;
+font-size:30px;
+letter-spacing:0.3px;
+}
 
-        header p{
-            margin:8px 0 0;
-            color:#dbeafe;
-            font-size:15px;
-        }
+header p{
+margin:8px 0 0;
+color:#dbeafe;
+font-size:15px;
+}
 
-        nav{
-            background:white;
-            border-bottom:1px solid var(--border);
-            padding:12px 42px;
-            display:flex;
-            gap:12px;
-            align-items:center;
-            flex-wrap:wrap;
-        }
+nav{
+background:white;
+border-bottom:1px solid var(--border);
+padding:12px 42px;
+display:flex;
+gap:12px;
+align-items:center;
+flex-wrap:wrap;
+}
 
-        nav a{
-            text-decoration:none;
-            color:var(--blue);
-            font-weight:600;
-            padding:9px 14px;
-            border-radius:999px;
-            border:1px solid transparent;
-        }
+nav a{
+text-decoration:none;
+color:var(--blue);
+font-weight:600;
+padding:9px 14px;
+border-radius:999px;
+border:1px solid transparent;
+}
 
-        nav a:hover,
-        nav a.active{
-            background:var(--blue);
-            color:white;
-        }
+nav a:hover,
+nav a.active{
+background:var(--blue);
+color:white;
+}
 
-        main{
-            max-width:1400px;
-            margin:0 auto;
-            padding:26px;
-        }
+main{
+max-width:1400px;
+margin:0 auto;
+padding:26px;
+}
 
-        .section-title{
-            margin:0 0 16px;
-            font-size:22px;
-            color:var(--blue);
-        }
+.section-title{
+margin:0 0 16px;
+font-size:22px;
+color:var(--blue);
+}
 
-        .filters{
-            background:white;
-            padding:20px;
-            border-radius:16px;
-            border:1px solid var(--border);
-            box-shadow:0 4px 14px rgba(0,0,0,0.05);
-            display:grid;
-            grid-template-columns:repeat(6, 1fr);
-            gap:14px;
-            margin-bottom:24px;
-        }
+.filters{
+background:white;
+padding:20px;
+border-radius:16px;
+border:1px solid var(--border);
+box-shadow:0 4px 14px rgba(0,0,0,0.05);
+display:grid;
+grid-template-columns:repeat(6, 1fr);
+gap:14px;
+margin-bottom:24px;
+}
 
-        .filter-group{
-            display:flex;
-            flex-direction:column;
-            gap:6px;
-        }
+.filter-group{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
 
-        .filter-group label{
-            font-size:12px;
-            font-weight:700;
-            color:var(--grey);
-            text-transform:uppercase;
-            letter-spacing:0.4px;
-        }
+.filter-group label{
+font-size:12px;
+font-weight:700;
+color:var(--grey);
+text-transform:uppercase;
+letter-spacing:0.4px;
+}
 
-        select,
-        input{
-            width:100%;
-            padding:10px 11px;
-            border:1px solid var(--border);
-            border-radius:10px;
-            font-size:14px;
-            background:white;
-        }
+select,
+input{
+width:100%;
+padding:10px 11px;
+border:1px solid var(--border);
+border-radius:10px;
+font-size:14px;
+background:white;
+}
 
-        .highlights{
-            background:white;
-            border-radius:20px;
-            border:1px solid var(--border);
-            padding:24px;
-            margin-bottom:24px;
-            box-shadow:0 4px 14px rgba(0,0,0,0.05);
-        }
+.highlights{
+background:white;
+border-radius:20px;
+border:1px solid var(--border);
+padding:24px;
+margin-bottom:24px;
+box-shadow:0 4px 14px rgba(0,0,0,0.05);
+}
 
-        .highlight-grid{
-            display:grid;
-            grid-template-columns:repeat(3, 1fr);
-            gap:18px;
-        }
+.highlight-grid{
+display:grid;
+grid-template-columns:repeat(3, 1fr);
+gap:18px;
+}
 
-        .highlight-card{
-            border:1px solid var(--border);
-            border-radius:18px;
-            padding:18px;
-            background:linear-gradient(180deg, #ffffff, #f8fafc);
-            min-height:260px;
-            display:flex;
-            flex-direction:column;
-            justify-content:space-between;
-        }
+.highlight-card{
+border:1px solid var(--border);
+border-radius:18px;
+padding:18px;
+background:linear-gradient(180deg, #ffffff, #f8fafc);
+min-height:260px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
 
-        .badge-row{
-            display:flex;
-            flex-wrap:wrap;
-            gap:8px;
-            margin-bottom:12px;
-        }
+.badge-row{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-bottom:12px;
+}
 
-        .badge{
-            display:inline-block;
-            padding:5px 9px;
-            border-radius:999px;
-            font-size:11px;
-            font-weight:700;
-            color:white;
-        }
+.badge{
+display:inline-block;
+padding:5px 9px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+color:white;
+}
 
-        .badge.customer{
-            background:var(--blue);
-        }
+.badge.customer{
+background:var(--blue);
+}
 
-        .badge.competitor{
-            background:var(--orange);
-        }
+.badge.competitor{
+background:var(--orange);
+}
 
-        .badge.trend{
-            background:var(--green);
-        }
+.badge.trend{
+background:var(--green);
+}
 
-        .badge.neutral{
-            background:#64748b;
-        }
+.badge.neutral{
+background:#64748b;
+}
 
-        .highlight-card h3{
-            margin:0 0 12px;
-            font-size:18px;
-            line-height:1.32;
-            color:#111827;
-        }
+.highlight-card h3{
+margin:0 0 12px;
+font-size:18px;
+line-height:1.32;
+color:#111827;
+}
 
-        .summary{
-            color:#4b5563;
-            font-size:14px;
-            line-height:1.48;
-            margin-bottom:16px;
-        }
+.summary{
+color:#4b5563;
+font-size:14px;
+line-height:1.48;
+margin-bottom:16px;
+}
 
-        .meta{
-            font-size:13px;
-            color:#64748b;
-            line-height:1.6;
-            margin-bottom:14px;
-        }
+.meta{
+font-size:13px;
+color:#64748b;
+line-height:1.6;
+margin-bottom:14px;
+}
 
-        .read-link{
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            text-decoration:none;
-            background:var(--blue);
-            color:white;
-            padding:9px 13px;
-            border-radius:10px;
-            font-weight:700;
-            font-size:13px;
-            width:max-content;
-        }
+.read-link{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+background:var(--blue);
+color:white;
+padding:9px 13px;
+border-radius:10px;
+font-weight:700;
+font-size:13px;
+width:max-content;
+}
 
-        .read-link:hover{
-            background:#003b70;
-        }
+.read-link:hover{
+background:#003b70;
+}
 
-        .topic-cloud-section{
-            background:white;
-            border-radius:20px;
-            border:1px solid var(--border);
-            padding:24px;
-            margin-bottom:24px;
-            box-shadow:0 4px 14px rgba(0,0,0,0.05);
-        }
+.topic-cloud-section{
+background:white;
+border-radius:20px;
+border:1px solid var(--border);
+padding:24px;
+margin-bottom:24px;
+box-shadow:0 4px 14px rgba(0,0,0,0.05);
+}
 
-        .topic-cloud{
-            display:flex;
-            flex-wrap:wrap;
-            gap:12px;
-            align-items:center;
-        }
+.topic-cloud{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+align-items:center;
+}
 
-        .topic{
-            border-radius:999px;
-            padding:8px 14px;
-            font-weight:700;
-            background:var(--light-blue);
-            color:var(--blue);
-            border:1px solid #cfe0ef;
-            cursor:pointer;
-            transition:0.2s;
-        }
+.topic{
+border-radius:999px;
+padding:8px 14px;
+font-weight:700;
+background:var(--light-blue);
+color:var(--blue);
+border:1px solid #cfe0ef;
+cursor:pointer;
+transition:0.2s;
+}
 
-        .topic:hover{
-            background:var(--blue);
-            color:white;
-            transform:translateY(-1px);
-        }
+.topic:hover{
+background:var(--blue);
+color:white;
+transform:translateY(-1px);
+}
 
-        .charts-grid{
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:22px;
-            margin-bottom:24px;
-        }
+.charts-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:22px;
+margin-bottom:24px;
+}
 
-        .chart-card{
-            background:white;
-            border-radius:20px;
-            border:1px solid var(--border);
-            padding:22px;
-            box-shadow:0 4px 14px rgba(0,0,0,0.05);
-            min-height:360px;
-        }
+.chart-card{
+background:white;
+border-radius:20px;
+border:1px solid var(--border);
+padding:22px;
+box-shadow:0 4px 14px rgba(0,0,0,0.05);
+min-height:360px;
+}
 
-        .chart-card canvas{
-            max-height:285px;
-        }
+.chart-card canvas{
+max-height:285px;
+}
 
-        .news-feed{
-            background:white;
-            border-radius:20px;
-            border:1px solid var(--border);
-            padding:24px;
-            box-shadow:0 4px 14px rgba(0,0,0,0.05);
-        }
+.news-feed{
+background:white;
+border-radius:20px;
+border:1px solid var(--border);
+padding:24px;
+box-shadow:0 4px 14px rgba(0,0,0,0.05);
+}
 
-        .feed-header{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:16px;
-            gap:14px;
-        }
+.feed-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:16px;
+gap:14px;
+}
 
-        .feed-count{
-            color:var(--grey);
-            font-size:14px;
-        }
+.feed-count{
+color:var(--grey);
+font-size:14px;
+}
 
-        .news-list{
-            display:grid;
-            grid-template-columns:repeat(3, 1fr);
-            gap:16px;
-        }
+.news-list{
+display:grid;
+grid-template-columns:repeat(3, 1fr);
+gap:16px;
+}
 
-        .news-card{
-            border:1px solid var(--border);
-            border-radius:16px;
-            padding:16px;
-            background:#ffffff;
-            display:flex;
-            flex-direction:column;
-            justify-content:space-between;
-            min-height:235px;
-            transition:0.2s;
-        }
+.news-card{
+border:1px solid var(--border);
+border-radius:16px;
+padding:16px;
+background:#ffffff;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:235px;
+transition:0.2s;
+}
 
-        .news-card:hover{
-            transform:translateY(-2px);
-            box-shadow:0 8px 18px rgba(0,0,0,0.08);
-        }
+.news-card:hover{
+transform:translateY(-2px);
+box-shadow:0 8px 18px rgba(0,0,0,0.08);
+}
 
-        .news-card h3{
-            margin:0 0 12px;
-            font-size:16px;
-            line-height:1.35;
-            color:#111827;
-        }
+.news-card h3{
+margin:0 0 12px;
+font-size:16px;
+line-height:1.35;
+color:#111827;
+}
 
-        .empty-state{
-            padding:30px;
-            text-align:center;
-            color:var(--grey);
-            border:1px dashed var(--border);
-            border-radius:14px;
-            background:#f9fafb;
-        }
+.empty-state{
+padding:30px;
+text-align:center;
+color:var(--grey);
+border:1px dashed var(--border);
+border-radius:14px;
+background:#f9fafb;
+}
 
-        .small-note{
-            color:#64748b;
-            font-size:13px;
-            margin-top:8px;
-        }
+.small-note{
+color:#64748b;
+font-size:13px;
+margin-top:8px;
+}
 
-        @media(max-width:1100px){
-            .filters{
-                grid-template-columns:repeat(3, 1fr);
-            }
+@media(max-width:1100px){
+.filters{
+grid-template-columns:repeat(3, 1fr);
+}
 
-            .highlight-grid,
-            .news-list{
-                grid-template-columns:1fr 1fr;
-            }
-        }
+.highlight-grid,
+.news-list{
+grid-template-columns:1fr 1fr;
+}
+}
 
-        @media(max-width:760px){
-            header,
-            nav{
-                padding-left:20px;
-                padding-right:20px;
-            }
+@media(max-width:760px){
+header,
+nav{
+padding-left:20px;
+padding-right:20px;
+}
 
-            main{
-                padding:18px;
-            }
+main{
+padding:18px;
+}
 
-            .filters,
-            .highlight-grid,
-            .charts-grid,
-            .news-list{
-                grid-template-columns:1fr;
-            }
-        }
-    </style>
+.filters,
+.highlight-grid,
+.charts-grid,
+.news-list{
+grid-template-columns:1fr;
+}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>Market Intelligence News Dashboard</h1>
-    <p>Executive view of competitor, customer and market trend signals</p>
+<h1>Market Intelligence News Dashboard</h1>
+<p>Executive view of competitor, customer and market trend signals</p>
 </header>
 
 <nav>
-    <a href="index.html">Home</a>
-    <a href="production.html">Production</a>
-    <a href="sales.html">Sales</a>
-    <a href="news.html" class="active">News</a>
+<a href="index.html">Home</a>
+<a href="production.html">Production</a>
+<a href="sales.html">Sales</a>
+<a href="news.html" class="active">News</a>
 </nav>
 
 <main>
 
-    <section class="filters">
-        <div class="filter-group">
-            <label for="sectionFilter">Section</label>
-            <select id="sectionFilter">
-                <option value="All">All Sections</option>
-            </select>
-        </div>
+<section class="filters">
+<div class="filter-group">
+<label for="sectionFilter">Section</label>
+<select id="sectionFilter">
+<option value="All">All Sections</option>
+</select>
+</div>
 
-        <div class="filter-group">
-            <label for="auto_CvFilter">Auto / CV</label>
-            <select id="auto_CvFilter">
-                <option value="All">All</option>
-            </select>
-        </div>
+<div class="filter-group">
+<label for="autoCvFilter">Auto / CV</label>
+<select id="autoCvFilter">
+<option value="All">All</option>
+</select>
+</div>
 
-        <div class="filter-group">
+<div class="filter-group">
+            <label for="companyFilter">Company</label>
             <label for="companyFilter">Company / Topic</label>
-            <select id="companyFilter">
+<select id="companyFilter">
+                <option value="All">All Companies</option>
                 <option value="">All Companies / Topics</option>
-            </select>
-        </div>
+</select>
+</div>
 
-      
-        <div class="filter-group">
-            <label for="dateFrom">Date From</label>
-            <input type="date" id="dateFrom">
-        </div>
+<div class="filter-group">
+<label for="regionFilter">Region</label>
+<select id="regionFilter">
+<option value="All">All Regions</option>
+</select>
+</div>
 
-        <div class="filter-group">
-            <label for="dateTo">Date To</label>
-            <input type="date" id="dateTo">
-        </div>
+<div class="filter-group">
+<label for="dateFrom">Date From</label>
+<input type="date" id="dateFrom">
+</div>
 
-        <div class="filter-group" style="grid-column:1 / -1;">
-            <label for="keywordSearch">Keyword Search</label>
-            <input type="text" id="keywordSearch" placeholder="Search e.g. electrification, ADAS, BYD, tariffs, production...">
-        </div>
-    </section>
+<div class="filter-group">
+<label for="dateTo">Date To</label>
+<input type="date" id="dateTo">
+</div>
 
-    <section class="highlights">
-        <h2 class="section-title">Latest Highlights</h2>
-        <div id="latestHighlights" class="highlight-grid"></div>
-        <p class="small-note">Executive summaries are generated from the headline, company, section and topic context available in the JSON.</p>
-    </section>
+<div class="filter-group" style="grid-column:1 / -1;">
+<label for="keywordSearch">Keyword Search</label>
+<input type="text" id="keywordSearch" placeholder="Search e.g. electrification, ADAS, BYD, tariffs, production...">
+</div>
+</section>
 
-    <section class="topic-cloud-section">
-        <h2 class="section-title">Topic Cloud</h2>
-        <div id="topicCloud" class="topic-cloud"></div>
-    </section>
+<section class="highlights">
+<h2 class="section-title">Latest Highlights</h2>
+<div id="latestHighlights" class="highlight-grid"></div>
+<p class="small-note">Executive summaries are generated from the headline, company, section and topic context available in the JSON.</p>
+</section>
 
-    <section class="news-feed">
-        <div class="feed-header">
-            <h2 class="section-title" style="margin:0;">News Feed</h2>
-            <div id="feedCount" class="feed-count"></div>
-        </div>
+<section class="topic-cloud-section">
+<h2 class="section-title">Topic Cloud</h2>
+<div id="topicCloud" class="topic-cloud"></div>
+</section>
 
-        <div id="newsList" class="news-list"></div>
-    </section>
+<section class="news-feed">
+<div class="feed-header">
+<h2 class="section-title" style="margin:0;">News Feed</h2>
+<div id="feedCount" class="feed-count"></div>
+</div>
+
+<div id="newsList" class="news-list"></div>
+</section>
 
 </main>
 
 <script>
-    let rawNews = [];
-    let filteredNews = [];
-
-    const topicKeywords = [
-        "Electrification",
-        "ADAS",
-        "Battery",
-        "Tariffs",
-        "Production",
-        "Megacasting",
-        "Autonomous",
-        "Software",
-        "China",
-        "EV",
-        "BEV",
-        "Sustainability",
-        "Interior",
-        "Seating",
-        "Truck",
-        "Bus",
-        "Railway",
-        "Agriculture",
-        "Construction",
-        "Material Handling",
-        "Strategy",
-        "Q1",
-        "Q2",
-        "Investment",
-        "Job cuts",
-        "Sales",
-        "Hydrogen",
-        "Circular",
-        "AI",
-        "Robotics"
-    ];
-
-    function cleanHTML(value){
-        if(value === null || value === undefined) return "";
-        let text = String(value).trim();
-
-        if(text.includes("<a")){
-            const div = document.createElement("div");
-            div.innerHTML = text;
-            const anchor = div.querySelector("a");
-            if(anchor){
-                return anchor.textContent.trim();
-            }
-            return div.textContent.trim();
-        }
-
-        return text;
-    }
-
-    function extractHref(value){
-        if(value === null || value === undefined) return "";
-        let text = String(value).trim();
-
-        if(text.includes("<a")){
-            const div = document.createElement("div");
-            div.innerHTML = text;
-            const anchor = div.querySelector("a");
-            if(anchor && anchor.href){
-                return anchor.href.trim();
-            }
-        }
-
-        return text;
-    }
-
-    function isUrl(value){
-        if(!value) return false;
-        return /^https?:\/\//i.test(String(value).trim());
-    }
-
-    function normalizeSection(section){
-        const s = cleanHTML(section);
-
-        if(s.toLowerCase().includes("competitor")){
-            return "Competitor&Partnership";
-        }
-
-        if(s.toLowerCase().includes("trend")){
-            return "News&Trends";
-        }
-
-        if(s.toLowerCase().includes("customer")){
-            return "Customer";
-        }
-
-        return s || "Other";
-    }
-
-    function getBadgeClass(section){
-        const s = String(section).toLowerCase();
-
-        if(s.includes("customer")) return "customer";
-        if(s.includes("competitor")) return "competitor";
-        if(s.includes("trend")) return "trend";
-
-        return "neutral";
-    }
-
-    function normalizeAuto_Cv(value){
-        const v = cleanHTML(value);
-
-        if(v.toLowerCase() === "automotive") return "Automotive";
-        if(v.toLowerCase() === "auto") return "Automotive";
-        if(v.toLowerCase() === "cv") return "CV";
-
-        return v || "N/A";
-    }
-
-    function parseDate(value){
-        if(value === null || value === undefined || value === "") return null;
-
-        const raw = String(value).trim();
-
-        if(/^\d+$/.test(raw)){
-            const excelSerial = Number(raw);
-            const date = new Date((excelSerial - 25569) * 86400 * 1000);
-            return isNaN(date.getTime()) ? null : date;
-        }
-
-        if(raw.includes(".")){
-            const parts = raw.split(".");
-            if(parts.length === 3){
-                const day = Number(parts[0]);
-                const month = Number(parts[1]) - 1;
-                const year = Number(parts[2]);
-                const date = new Date(year, month, day);
-                return isNaN(date.getTime()) ? null : date;
-            }
-        }
-
-        if(raw.includes("/")){
-            const date = new Date(raw);
-            return isNaN(date.getTime()) ? null : date;
-        }
-
-        const date = new Date(raw);
-        return isNaN(date.getTime()) ? null : date;
-    }
-
-    function formatDate(value){
-        const date = parseDate(value);
-        if(!date) return "";
-
-        const day = String(date.getDate()).padStart(2,"0");
-        const month = String(date.getMonth() + 1).padStart(2,"0");
-        const year = date.getFullYear();
-
-        return `${day}.${month}.${year}`;
-    }
-
-    function toInputDate(value){
-        const date = parseDate(value);
-        if(!date) return "";
-
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2,"0");
-        const day = String(date.getDate()).padStart(2,"0");
-
-        return `${year}-${month}-${day}`;
-    }
-
-    function normalizeRecord(item){
-        const headlineRaw = cleanHTML(item.headline || item["NEWS LINK"] || "");
-        const urlRaw = extractHref(item.url || item.URL || item.headline || item["NEWS LINK"] || "");
-
-        const section = normalizeSection(item.section || item.SECTION || "");
-        const auto_Cv = normalizeAuto_Cv(item.auto_cv || item["AUTO/CV"] || item.auto_Cv || "");
-        const company = cleanHTML(item.company || item.FOCUS || "");
-        const category = cleanHTML(item.category || item.CATEGORY || "");
-        const region = cleanHTML(item.region || item.REGION || "");
-        const date = item.date || item.DATE || "";
-
-        let displayHeadline = headlineRaw;
-
-        if(isUrl(displayHeadline)){
-            displayHeadline = "LinkedIn Post";
-        }
-
-        if(!displayHeadline){
-            displayHeadline = "News Update";
-        }
-
-        return {
-            section,
-            auto_Cv,
-            category,
-            company,
-            region,
-            headline: displayHeadline,
-            originalHeadline: headlineRaw,
-            url: urlRaw,
-            dateRaw: date,
-            dateLabel: formatDate(date),
-            dateObj: parseDate(date)
-        };
-    }
-
-    function executiveSummary(item){
-        const h = item.headline;
-        const company = item.company || "The company";
-        const section = item.section;
-        const category = item.category;
-
-        if(h === "LinkedIn Post"){
-            return `${company} was mentioned in a recent LinkedIn update related to ${category || "market activity"}. The item may indicate relevant external communication, partnership activity or market positioning.`;
-        }
-
-        const lower = h.toLowerCase();
-
-        if(lower.includes("investment") || lower.includes("expand") || lower.includes("plant")){
-            return `${company} is linked to capacity expansion or investment activity. This may indicate strategic footprint development, market confidence or future production positioning.`;
-        }
-
-        if(lower.includes("sales") || lower.includes("deliveries") || lower.includes("profit") || lower.includes("loss")){
-            return `${company} is connected to commercial performance developments. This may signal changing demand, profitability pressure or market momentum.`;
-        }
-
-        if(lower.includes("ev") || lower.includes("electric") || lower.includes("battery") || lower.includes("electrification")){
-            return `${company} is connected to electrification activity. This supports monitoring of technology transition, powertrain shifts and competitive positioning.`;
-        }
-
-        if(lower.includes("truck") || lower.includes("bus") || lower.includes("commercial")){
-            return `${company} is mentioned in the commercial vehicle space. This may be relevant for CV market dynamics, fleet transition or segment-specific demand.`;
-        }
-
-        if(lower.includes("china") || lower.includes("chinese")){
-            return `${company} is linked to China-related market activity. This may indicate competitive pressure, expansion dynamics or regional supply chain relevance.`;
-        }
-
-        return `${company} is mentioned in a ${section} news item related to ${category || "market development"}. The update may be relevant for monitoring competitive moves, customer activity or broader industry trends.`;
-    }
-
-    async function loadData(){
-        try{
-            const response = await fetch("news-data.json", { cache:"no-store" });
-
-            if(!response.ok){
-                throw new Error("Could not load news-data.json");
-            }
-
-            const data = await response.json();
-
-            const newsArray = Array.isArray(data) ? data : data.news;
-
-            rawNews = newsArray
-                .map(normalizeRecord)
-                .filter(item => item.section || item.company || item.headline || item.url);
-
-            rawNews.sort((a,b) => {
-                const da = a.dateObj ? a.dateObj.getTime() : 0;
-                const db = b.dateObj ? b.dateObj.getTime() : 0;
-                return db - da;
-            });
-
-            filteredNews = [...rawNews];
-
-            applyFilters();
-
-        }catch(error){
-            document.getElementById("latestHighlights").innerHTML = `
-                <div class="empty-state" style="grid-column:1 / -1;">
-                    Could not load news-data.json. Please check that the file exists in the same GitHub folder as news.html.
-                </div>
-            `;
-
-            document.getElementById("newsList").innerHTML = `
-                <div class="empty-state" style="grid-column:1 / -1;">
-                    ${error.message}
-                </div>
-            `;
-        }
-    }
-
-    function uniqueValues(key){
-        return [...new Set(rawNews.map(item => item[key]).filter(Boolean))]
-            .sort((a,b) => String(a).localeCompare(String(b)));
-    }
-
-    function populateSelect(id, values, allLabel){
-        const select = document.getElementById(id);
-        select.innerHTML = `<option value="All">${allLabel}</option>`;
-
-        values.forEach(value => {
-            const option = document.createElement("option");
-            option.value = value;
-            option.textContent = value;
-            select.appendChild(option);
-        });
-    }
-
-    function const regions = uniqueValues("region");s(){
-        populateSelect("sectionFilter", uniqueValues("section"), "All Sections");
-        populateSelect("auto_CvFilter", uniqueValues("auto_cv"), "All");
-        populateSelect("companyFilter", uniqueValues("company"), "All Companies");
-
-        }
-
-        const validDates = rawNews
-            .map(item => item.dateObj)
-            .filter(Boolean)
-            .sort((a,b) => a - b);
-
-        if(validDates.length){
-            document.getElementById("dateFrom").value = toInputDate(validDates[0]);
-            document.getElementById("dateTo").value = toInputDate(validDates[validDates.length - 1]);
-        }
-
-        ["sectionFilter","auto_CvFilter","companyFilter","regionFilter","dateFrom","dateTo","keywordSearch"].forEach(id => {
-            document.getElementById(id).addEventListener("input", applyFilters);
-            document.getElementById(id).addEventListener("change", applyFilters);
-        });
-    }
-
-    function applyFilters(){
-        const section = document.getElementById("sectionFilter").value;
-        const auto_Cv = document.getElementById("auto_CvFilter").value;
-        const company = document.getElementById("companyFilter").value;
-        const dateFrom = document.getElementById("dateFrom").value;
-        const dateTo = document.getElementById("dateTo").value;
-        const keyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
-
-        filteredNews = rawNews.filter(item => {
-            const itemDate = item.dateObj;
-
-            const matchesSection = section === "All" || item.section === section;
-            const matchesAuto_Cv = auto_Cv === "All" || item.auto_Cv === auto_Cv;
-            const matchesCompany = company === "All" || item.company === company;
-            const matchesRegion = region === "All" || item.region === region;
-
-            let matchesDate = true;
-
-            if(dateFrom && itemDate){
-                matchesDate = matchesDate && itemDate >= new Date(dateFrom + "T00:00:00");
-            }
-
-            if(dateTo && itemDate){
-                matchesDate = matchesDate && itemDate <= new Date(dateTo + "T23:59:59");
-            }
-
-            const combinedText = [
-                item.section,
-                item.auto_Cv,
-                item.category,
-                item.company,
-                item.region,
-                item.headline,
-                item.originalHeadline,
-                item.url
-            ].join(" ").toLowerCase();
-
-            const matchesKeyword = !keyword || combinedText.includes(keyword);
-
-            return matchesSection && matchesAuto_Cv && matchesCompany && matchesRegion && matchesDate && matchesKeyword;
-        });
-
-        filteredNews.sort((a,b) => {
-            const da = a.dateObj ? a.dateObj.getTime() : 0;
-            const db = b.dateObj ? b.dateObj.getTime() : 0;
-            return db - da;
-        });
-
-        renderHighlights();
-        renderTopicCloud();
-        renderNewsFeed();
-    }
-
-    function renderHighlights(){
-        const container = document.getElementById("latestHighlights");
-        const latest = filteredNews.slice(0,3);
-
-        if(latest.length === 0){
-            container.innerHTML = `
-                <div class="empty-state" style="grid-column:1 / -1;">
-                    No highlights found for the selected filters.
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = latest.map(item => {
-            const badgeClass = getBadgeClass(item.section);
-            const source = getSourceName(item.url);
-
-            return `
-                <article class="highlight-card">
-                    <div>
-                        <div class="badge-row">
-                            <span class="badge ${badgeClass}">${escapeHTML(item.section)}</span>
-                            <span class="badge neutral">${escapeHTML(item.auto_Cv || "N/A")}</span>
-                        </div>
-
-                        <h3>${escapeHTML(item.headline)}</h3>
-
-                        <div class="summary">
-                            ${escapeHTML(executiveSummary(item))}
-                        </div>
-
-                        <div class="meta">
-                            <strong>Company:</strong> ${escapeHTML(item.company || "N/A")}<br>
-                            <strong>Source:</strong> ${escapeHTML(source)}<br>
-                            <strong>Date:</strong> ${escapeHTML(item.dateLabel || "N/A")}
-                        </div>
-                    </div>
-
-                    ${item.url ? `<a class="read-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener noreferrer">Read Article ↗</a>` : ""}
-                </article>
-            `;
-        }).join("");
-    }
-
-    function renderTopicCloud(){
-        const container = document.getElementById("topicCloud");
-
-        const counts = {};
-
-        topicKeywords.forEach(topic => {
-            const reg = new RegExp(topic.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
-
-            const count = filteredNews.filter(item => {
-                const text = `${item.headline} ${item.originalHeadline} ${item.category} ${item.company} ${item.section}`;
-                return reg.test(text);
-            }).length;
-
-            if(count > 0){
-                counts[topic] = count;
-            }
-        });
-
-        const sortedTopics = Object.entries(counts)
-            .sort((a,b) => b[1] - a[1])
-            .slice(0,28);
-
-        if(sortedTopics.length === 0){
-            container.innerHTML = `<div class="empty-state">No topics found for selected filters.</div>`;
-            return;
-        }
-
-        const max = Math.max(...sortedTopics.map(entry => entry[1]));
-
-        container.innerHTML = sortedTopics.map(([topic,count]) => {
-            const size = 13 + Math.round((count / max) * 15);
-
-            return `
-                <span class="topic" style="font-size:${size}px" onclick="setKeyword('${escapeJS(topic)}')">
-                    ${escapeHTML(topic)} (${count})
-                </span>
-            `;
-        }).join("");
-    }
-
-    function setKeyword(topic){
-        document.getElementById("keywordSearch").value = topic;
-        applyFilters();
-    }
-
-     function countBy(key, limit = null){
-        const counts = {};
-
-        filteredNews.forEach(item => {
-            const value = item[key] || "N/A";
-            counts[value] = (counts[value] || 0) + 1;
-        });
-
-        let entries = Object.entries(counts).sort((a,b) => b[1] - a[1]);
-
-        if(limit){
-            entries = entries.slice(0, limit);
-        }
-
-        return entries;
-    }
-            
-       function renderNewsFeed(){
-        const container = document.getElementById("newsList");
-        const count = document.getElementById("feedCount");
-
-        count.textContent = `${filteredNews.length} news items`;
-
-        if(filteredNews.length === 0){
-            container.innerHTML = `
-                <div class="empty-state" style="grid-column:1 / -1;">
-                    No news found for selected filters.
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = filteredNews.map(item => {
-            const badgeClass = getBadgeClass(item.section);
-            const source = getSourceName(item.url);
-
-            return `
-                <article class="news-card">
-                    <div>
-                        <div class="badge-row">
-                            <span class="badge ${badgeClass}">${escapeHTML(item.section)}</span>
-                            <span class="badge neutral">${escapeHTML(item.auto_Cv || "N/A")}</span>
-                        </div>
-
-                        <h3>${escapeHTML(item.headline)}</h3>
-
-                        <div class="meta">
-                            <strong>Company:</strong> ${escapeHTML(item.company || "N/A")}<br>
-                            <strong>Category:</strong> ${escapeHTML(item.category || "N/A")}<br>
-                            <strong>Source:</strong> ${escapeHTML(source)}<br>
-                            <strong>Date:</strong> ${escapeHTML(item.dateLabel || "N/A")}
-                        </div>
-                    </div>
-
-                    ${item.url ? `<a class="read-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener noreferrer">${item.headline === "LinkedIn Post" ? "Open Post ↗" : "Read Article ↗"}</a>` : ""}
-                </article>
-            `;
-        }).join("");
-    }
-
-    function getSourceName(url){
-        if(!url) return "N/A";
-
-        try{
-            const host = new URL(url).hostname.replace("www.","");
-
-            if(host.includes("linkedin")) return "LinkedIn";
-            if(host.includes("just-auto")) return "Just Auto";
-            if(host.includes("reuters")) return "Reuters";
-            if(host.includes("marklines")) return "MarkLines";
-            if(host.includes("acea")) return "ACEA";
-            if(host.includes("spglobal")) return "S&P Global";
-            if(host.includes("electrive")) return "Electrive";
-            if(host.includes("constructionbriefing")) return "Construction Briefing";
-            if(host.includes("ivtinternational")) return "IVT International";
-
-            return host;
-        }catch(error){
-            return "Source";
-        }
-    }
-
-    function escapeHTML(value){
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    function escapeAttribute(value){
-        return String(value ?? "")
-            .replace(/"/g, "&quot;");
-    }
-
-    function escapeJS(value){
-        return String(value ?? "")
-            .replace(/\\/g, "\\\\")
-            .replace(/'/g, "\\'");
-    }
-
-    loadData();
+let rawNews = [];
+let filteredNews = [];
+
+const topicKeywords = [
+"Electrification",
+"ADAS",
+"Battery",
+"Tariffs",
+"Production",
+"Megacasting",
+"Autonomous",
+"Software",
+"China",
+"EV",
+"BEV",
+"Sustainability",
+"Interior",
+"Seating",
+"Truck",
+"Bus",
+"Railway",
+"Agriculture",
+"Construction",
+"Material Handling",
+"Strategy",
+"Q1",
+"Q2",
+"Investment",
+"Job cuts",
+"Sales",
+"Hydrogen",
+"Circular",
+"AI",
+"Robotics"
+];
+
+function cleanHTML(value){
+if(value === null || value === undefined) return "";
+let text = String(value).trim();
+
+if(text.includes("<a")){
+const div = document.createElement("div");
+div.innerHTML = text;
+const anchor = div.querySelector("a");
+if(anchor){
+return anchor.textContent.trim();
+}
+return div.textContent.trim();
+}
+
+return text;
+}
+
+function extractHref(value){
+if(value === null || value === undefined) return "";
+let text = String(value).trim();
+
+if(text.includes("<a")){
+const div = document.createElement("div");
+div.innerHTML = text;
+const anchor = div.querySelector("a");
+if(anchor && anchor.href){
+return anchor.href.trim();
+}
+}
+
+return text;
+}
+
+function isUrl(value){
+if(!value) return false;
+return /^https?:\/\//i.test(String(value).trim());
+}
+
+function normalizeSection(section){
+const s = cleanHTML(section);
+
+if(s.toLowerCase().includes("competitor")){
+return "Competitor&Partnership";
+}
+
+if(s.toLowerCase().includes("trend")){
+return "News&Trends";
+}
+
+if(s.toLowerCase().includes("customer")){
+return "Customer";
+}
+
+return s || "Other";
+}
+
+function getBadgeClass(section){
+const s = String(section).toLowerCase();
+
+if(s.includes("customer")) return "customer";
+if(s.includes("competitor")) return "competitor";
+if(s.includes("trend")) return "trend";
+
+return "neutral";
+}
+
+function normalizeAutoCv(value){
+const v = cleanHTML(value);
+
+if(v.toLowerCase() === "automotive") return "Automotive";
+if(v.toLowerCase() === "auto") return "Automotive";
+if(v.toLowerCase() === "cv") return "CV";
+
+return v || "N/A";
+}
+
+function parseDate(value){
+if(value === null || value === undefined || value === "") return null;
+
+const raw = String(value).trim();
+
+if(/^\d+$/.test(raw)){
+const excelSerial = Number(raw);
+const date = new Date((excelSerial - 25569) * 86400 * 1000);
+return isNaN(date.getTime()) ? null : date;
+}
+
+if(raw.includes(".")){
+const parts = raw.split(".");
+if(parts.length === 3){
+const day = Number(parts[0]);
+const month = Number(parts[1]) - 1;
+const year = Number(parts[2]);
+const date = new Date(year, month, day);
+return isNaN(date.getTime()) ? null : date;
+}
+}
+
+if(raw.includes("/")){
+const date = new Date(raw);
+return isNaN(date.getTime()) ? null : date;
+}
+
+const date = new Date(raw);
+return isNaN(date.getTime()) ? null : date;
+}
+
+function formatDate(value){
+const date = parseDate(value);
+if(!date) return "";
+
+const day = String(date.getDate()).padStart(2,"0");
+const month = String(date.getMonth() + 1).padStart(2,"0");
+const year = date.getFullYear();
+
+return `${day}.${month}.${year}`;
+}
+
+function toInputDate(value){
+const date = parseDate(value);
+if(!date) return "";
+
+const year = date.getFullYear();
+const month = String(date.getMonth() + 1).padStart(2,"0");
+const day = String(date.getDate()).padStart(2,"0");
+
+return `${year}-${month}-${day}`;
+}
+
+function normalizeRecord(item){
+const headlineRaw = cleanHTML(item.headline || item["NEWS LINK"] || "");
+const urlRaw = extractHref(item.url || item.URL || item.headline || item["NEWS LINK"] || "");
+
+const section = normalizeSection(item.section || item.SECTION || "");
+const autoCv = normalizeAutoCv(item.auto_cv || item["AUTO/CV"] || item.autoCv || "");
+const company = cleanHTML(item.company || item.FOCUS || "");
+const category = cleanHTML(item.category || item.CATEGORY || "");
+const region = cleanHTML(item.region || item.REGION || "");
+const date = item.date || item.DATE || "";
+
+let displayHeadline = headlineRaw;
+
+if(isUrl(displayHeadline)){
+displayHeadline = "LinkedIn Post";
+}
+
+if(!displayHeadline){
+displayHeadline = "News Update";
+}
+
+return {
+section,
+autoCv,
+category,
+company,
+region,
+headline: displayHeadline,
+originalHeadline: headlineRaw,
+url: urlRaw,
+dateRaw: date,
+dateLabel: formatDate(date),
+dateObj: parseDate(date)
+};
+}
+
+function executiveSummary(item){
+const h = item.headline;
+const company = item.company || "The company";
+const section = item.section;
+const category = item.category;
+
+if(h === "LinkedIn Post"){
+return `${company} was mentioned in a recent LinkedIn update related to ${category || "market activity"}. The item may indicate relevant external communication, partnership activity or market positioning.`;
+}
+
+const lower = h.toLowerCase();
+
+if(lower.includes("investment") || lower.includes("expand") || lower.includes("plant")){
+return `${company} is linked to capacity expansion or investment activity. This may indicate strategic footprint development, market confidence or future production positioning.`;
+}
+
+if(lower.includes("sales") || lower.includes("deliveries") || lower.includes("profit") || lower.includes("loss")){
+return `${company} is connected to commercial performance developments. This may signal changing demand, profitability pressure or market momentum.`;
+}
+
+if(lower.includes("ev") || lower.includes("electric") || lower.includes("battery") || lower.includes("electrification")){
+return `${company} is connected to electrification activity. This supports monitoring of technology transition, powertrain shifts and competitive positioning.`;
+}
+
+if(lower.includes("truck") || lower.includes("bus") || lower.includes("commercial")){
+return `${company} is mentioned in the commercial vehicle space. This may be relevant for CV market dynamics, fleet transition or segment-specific demand.`;
+}
+
+if(lower.includes("china") || lower.includes("chinese")){
+return `${company} is linked to China-related market activity. This may indicate competitive pressure, expansion dynamics or regional supply chain relevance.`;
+}
+
+return `${company} is mentioned in a ${section} news item related to ${category || "market development"}. The update may be relevant for monitoring competitive moves, customer activity or broader industry trends.`;
+}
+
+async function loadData(){
+try{
+const response = await fetch("news-data.json", { cache:"no-store" });
+
+if(!response.ok){
+throw new Error("Could not load news-data.json");
+}
+
+const data = await response.json();
+
+const newsArray = Array.isArray(data) ? data : data.news;
+
+rawNews = newsArray
+.map(normalizeRecord)
+.filter(item => item.section || item.company || item.headline || item.url);
+
+rawNews.sort((a,b) => {
+const da = a.dateObj ? a.dateObj.getTime() : 0;
+const db = b.dateObj ? b.dateObj.getTime() : 0;
+return db - da;
+});
+
+filteredNews = [...rawNews];
+
+populateFilters();
+applyFilters();
+
+}catch(error){
+document.getElementById("latestHighlights").innerHTML = `
+               <div class="empty-state" style="grid-column:1 / -1;">
+                   Could not load news-data.json. Please check that the file exists in the same GitHub folder as news.html.
+               </div>
+           `;
+
+document.getElementById("newsList").innerHTML = `
+               <div class="empty-state" style="grid-column:1 / -1;">
+                   ${error.message}
+               </div>
+           `;
+}
+}
+
+function uniqueValues(key){
+return [...new Set(rawNews.map(item => item[key]).filter(Boolean))]
+.sort((a,b) => String(a).localeCompare(String(b)));
+}
+
+function populateSelect(id, values, allLabel){
+const select = document.getElementById(id);
+select.innerHTML = `<option value="All">${allLabel}</option>`;
+
+values.forEach(value => {
+const option = document.createElement("option");
+option.value = value;
+option.textContent = value;
+select.appendChild(option);
+});
+}
+
+function populateFilters(){
+populateSelect("sectionFilter", uniqueValues("section"), "All Sections");
+populateSelect("autoCvFilter", uniqueValues("autoCv"), "All");
+populateSelect("companyFilter", uniqueValues("company"), "All Companies");
+
+const regions = uniqueValues("region");
+populateSelect("regionFilter", regions, "All Regions");
+
+if(regions.length === 0){
+document.getElementById("regionFilter").disabled = true;
+}
+
+const validDates = rawNews
+.map(item => item.dateObj)
+.filter(Boolean)
+.sort((a,b) => a - b);
+
+if(validDates.length){
+document.getElementById("dateFrom").value = toInputDate(validDates[0]);
+document.getElementById("dateTo").value = toInputDate(validDates[validDates.length - 1]);
+}
+
+["sectionFilter","autoCvFilter","companyFilter","regionFilter","dateFrom","dateTo","keywordSearch"].forEach(id => {
+document.getElementById(id).addEventListener("input", applyFilters);
+document.getElementById(id).addEventListener("change", applyFilters);
+});
+}
+
+function applyFilters(){
+const section = document.getElementById("sectionFilter").value;
+const autoCv = document.getElementById("autoCvFilter").value;
+const company = document.getElementById("companyFilter").value;
+const region = document.getElementById("regionFilter").value;
+const dateFrom = document.getElementById("dateFrom").value;
+const dateTo = document.getElementById("dateTo").value;
+const keyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
+
+filteredNews = rawNews.filter(item => {
+const itemDate = item.dateObj;
+
+const matchesSection = section === "All" || item.section === section;
+const matchesAutoCv = autoCv === "All" || item.autoCv === autoCv;
+const matchesCompany = company === "All" || item.company === company;
+const matchesRegion = region === "All" || item.region === region;
+
+let matchesDate = true;
+
+if(dateFrom && itemDate){
+matchesDate = matchesDate && itemDate >= new Date(dateFrom + "T00:00:00");
+}
+
+if(dateTo && itemDate){
+matchesDate = matchesDate && itemDate <= new Date(dateTo + "T23:59:59");
+}
+
+const combinedText = [
+item.section,
+item.autoCv,
+item.category,
+item.company,
+item.region,
+item.headline,
+item.originalHeadline,
+item.url
+].join(" ").toLowerCase();
+
+const matchesKeyword = !keyword || combinedText.includes(keyword);
+
+return matchesSection && matchesAutoCv && matchesCompany && matchesRegion && matchesDate && matchesKeyword;
+});
+
+filteredNews.sort((a,b) => {
+const da = a.dateObj ? a.dateObj.getTime() : 0;
+const db = b.dateObj ? b.dateObj.getTime() : 0;
+return db - da;
+});
+
+renderHighlights();
+renderTopicCloud();
+renderNewsFeed();
+}
+
+function renderHighlights(){
+const container = document.getElementById("latestHighlights");
+const latest = filteredNews.slice(0,3);
+
+if(latest.length === 0){
+container.innerHTML = `
+               <div class="empty-state" style="grid-column:1 / -1;">
+                   No highlights found for the selected filters.
+               </div>
+           `;
+return;
+}
+
+container.innerHTML = latest.map(item => {
+const badgeClass = getBadgeClass(item.section);
+const source = getSourceName(item.url);
+
+return `
+               <article class="highlight-card">
+                   <div>
+                       <div class="badge-row">
+                           <span class="badge ${badgeClass}">${escapeHTML(item.section)}</span>
+                           <span class="badge neutral">${escapeHTML(item.autoCv || "N/A")}</span>
+                       </div>
+
+                       <h3>${escapeHTML(item.headline)}</h3>
+
+                       <div class="summary">
+                           ${escapeHTML(executiveSummary(item))}
+                       </div>
+
+                       <div class="meta">
+                           <strong>Company:</strong> ${escapeHTML(item.company || "N/A")}<br>
+                           <strong>Source:</strong> ${escapeHTML(source)}<br>
+                           <strong>Date:</strong> ${escapeHTML(item.dateLabel || "N/A")}
+                       </div>
+                   </div>
+
+                   ${item.url ? `<a class="read-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener noreferrer">Read Article ↗</a>` : ""}
+               </article>
+           `;
+}).join("");
+}
+
+function renderTopicCloud(){
+const container = document.getElementById("topicCloud");
+
+const counts = {};
+
+topicKeywords.forEach(topic => {
+const reg = new RegExp(topic.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+
+const count = filteredNews.filter(item => {
+const text = `${item.headline} ${item.originalHeadline} ${item.category} ${item.company} ${item.section}`;
+return reg.test(text);
+}).length;
+
+if(count > 0){
+counts[topic] = count;
+}
+});
+
+const sortedTopics = Object.entries(counts)
+.sort((a,b) => b[1] - a[1])
+.slice(0,28);
+
+if(sortedTopics.length === 0){
+container.innerHTML = `<div class="empty-state">No topics found for selected filters.</div>`;
+return;
+}
+
+const max = Math.max(...sortedTopics.map(entry => entry[1]));
+
+container.innerHTML = sortedTopics.map(([topic,count]) => {
+const size = 13 + Math.round((count / max) * 15);
+
+return `
+               <span class="topic" style="font-size:${size}px" onclick="setKeyword('${escapeJS(topic)}')">
+                   ${escapeHTML(topic)} (${count})
+               </span>
+           `;
+}).join("");
+}
+
+function setKeyword(topic){
+document.getElementById("keywordSearch").value = topic;
+applyFilters();
+}
+
+function countBy(key, limit = null){
+const counts = {};
+
+filteredNews.forEach(item => {
+const value = item[key] || "N/A";
+counts[value] = (counts[value] || 0) + 1;
+});
+
+let entries = Object.entries(counts).sort((a,b) => b[1] - a[1]);
+
+if(limit){
+entries = entries.slice(0, limit);
+}
+
+return entries;
+}
+
+function renderNewsFeed(){
+const container = document.getElementById("newsList");
+const count = document.getElementById("feedCount");
+
+count.textContent = `${filteredNews.length} news items`;
+
+if(filteredNews.length === 0){
+container.innerHTML = `
+               <div class="empty-state" style="grid-column:1 / -1;">
+                   No news found for selected filters.
+               </div>
+           `;
+return;
+}
+
+container.innerHTML = filteredNews.map(item => {
+const badgeClass = getBadgeClass(item.section);
+const source = getSourceName(item.url);
+
+return `
+               <article class="news-card">
+                   <div>
+                       <div class="badge-row">
+                           <span class="badge ${badgeClass}">${escapeHTML(item.section)}</span>
+                           <span class="badge neutral">${escapeHTML(item.autoCv || "N/A")}</span>
+                       </div>
+
+                       <h3>${escapeHTML(item.headline)}</h3>
+
+                       <div class="meta">
+                           <strong>Company:</strong> ${escapeHTML(item.company || "N/A")}<br>
+                           <strong>Category:</strong> ${escapeHTML(item.category || "N/A")}<br>
+                           <strong>Source:</strong> ${escapeHTML(source)}<br>
+                           <strong>Date:</strong> ${escapeHTML(item.dateLabel || "N/A")}
+                       </div>
+                   </div>
+
+                   ${item.url ? `<a class="read-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener noreferrer">${item.headline === "LinkedIn Post" ? "Open Post ↗" : "Read Article ↗"}</a>` : ""}
+               </article>
+           `;
+}).join("");
+}
+
+function getSourceName(url){
+if(!url) return "N/A";
+
+try{
+const host = new URL(url).hostname.replace("www.","");
+
+if(host.includes("linkedin")) return "LinkedIn";
+if(host.includes("just-auto")) return "Just Auto";
+if(host.includes("reuters")) return "Reuters";
+if(host.includes("marklines")) return "MarkLines";
+if(host.includes("acea")) return "ACEA";
+if(host.includes("spglobal")) return "S&P Global";
+if(host.includes("electrive")) return "Electrive";
+if(host.includes("constructionbriefing")) return "Construction Briefing";
+if(host.includes("ivtinternational")) return "IVT International";
+
+return host;
+}catch(error){
+return "Source";
+}
+}
+
+function escapeHTML(value){
+return String(value ?? "")
+.replace(/&/g, "&amp;")
+.replace(/</g, "&lt;")
+.replace(/>/g, "&gt;")
+.replace(/"/g, "&quot;")
+.replace(/'/g, "&#039;");
+}
+
+function escapeAttribute(value){
+return String(value ?? "")
+.replace(/"/g, "&quot;");
+}
+
+function escapeJS(value){
+return String(value ?? "")
+.replace(/\\/g, "\\\\")
+.replace(/'/g, "\\'");
+}
+
+loadData();
 </script>
 
 </body>
