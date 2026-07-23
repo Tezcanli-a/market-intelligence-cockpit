@@ -446,18 +446,6 @@
         <div id="topicCloud" class="topic-cloud"></div>
     </section>
 
-    <section class="charts-grid">
-        <div class="chart-card">
-            <h2 class="section-title">News by Section</h2>
-            <canvas id="sectionChart"></canvas>
-        </div>
-
-        <div class="chart-card">
-            <h2 class="section-title">Top Companies</h2>
-            <canvas id="companyChart"></canvas>
-        </div>
-    </section>
-
     <section class="news-feed">
         <div class="feed-header">
             <h2 class="section-title" style="margin:0;">News Feed</h2>
@@ -472,9 +460,6 @@
 <script>
     let rawNews = [];
     let filteredNews = [];
-
-    let sectionChartInstance = null;
-    let companyChartInstance = null;
 
     const topicKeywords = [
         "Electrification",
@@ -940,12 +925,7 @@
         applyFilters();
     }
 
-    function renderCharts(){
-        renderSectionChart();
-        renderCompanyChart();
-    }
-
-    function countBy(key, limit = null){
+     function countBy(key, limit = null){
         const counts = {};
 
         filteredNews.forEach(item => {
@@ -962,25 +942,6 @@
         return entries;
     }
 
-    function renderSectionChart(){
-        const ctx = document.getElementById("sectionChart");
-
-        const data = countBy("section");
-
-        if(sectionChartInstance){
-            sectionChartInstance.destroy();
-        }
-
-        sectionChartInstance = new Chart(ctx, {
-            type:"doughnut",
-            data:{
-                labels:data.map(item => item[0]),
-                datasets:[{
-                    data:data.map(item => item[1]),
-                    backgroundColor:["#005195","#f58220","#76b82a","#64748b"],
-                    borderWidth:2,
-                    borderColor:"#ffffff"
-                }]
             },
             options:{
                 responsive:true,
