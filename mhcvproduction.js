@@ -52,7 +52,7 @@ function parseCSV(text) {
             i++;
         } else if (char === '"') {
             insideQuotes = !insideQuotes;
-        } else if (char === "," && !insideQuotes) {
+        } else if (char === ";" && !insideQuotes) {
             row.push(value);
             value = "";
         } else if ((char === "\n" || char === "\r") && !insideQuotes) {
