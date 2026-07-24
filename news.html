@@ -779,31 +779,6 @@
         return item.headline || "";
 }
 
-        const lower = h.toLowerCase();
-
-        if(lower.includes("investment") || lower.includes("expand") || lower.includes("plant")){
-            return `${company} is linked to capacity expansion or investment activity. This may indicate strategic footprint development, market confidence or future production positioning.`;
-        }
-
-        if(lower.includes("sales") || lower.includes("deliveries") || lower.includes("profit") || lower.includes("loss")){
-            return `${company} is connected to commercial performance developments. This may signal changing demand, profitability pressure or market momentum.`;
-        }
-
-        if(lower.includes("ev") || lower.includes("electric") || lower.includes("battery") || lower.includes("electrification")){
-            return `${company} is connected to electrification activity. This supports monitoring of technology transition, powertrain shifts and competitive positioning.`;
-        }
-
-        if(lower.includes("truck") || lower.includes("bus") || lower.includes("commercial")){
-            return `${company} is mentioned in the commercial vehicle space. This may be relevant for CV market dynamics, fleet transition or segment-specific demand.`;
-        }
-
-        if(lower.includes("china") || lower.includes("chinese")){
-            return `${company} is linked to China-related market activity. This may indicate competitive pressure, expansion dynamics or regional supply chain relevance.`;
-        }
-
-        return `${company} is mentioned in a ${section} news item related to ${category || "market development"}. The update may be relevant for monitoring competitive moves, customer activity or broader industry trends.`;
-    }
-
     function renderHighlights(){
         const container = document.getElementById("latestHighlights");
         const latest = filteredNews.slice(0,3);
