@@ -1,1 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>MHCV Production Forecast</title>
+
+<script src="https://cdn/npm/chart.jsscript>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papapript>
+
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#f4f6f9;
+}
+
+header{
+    background:#003366;
+    color:white;
+    padding:20px;
+}
+
+header h1{
+    margin:0;
+}
+
+.filters{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    padding:20px;
+    background:white;
+}
+
+select{
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+.kpis{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    padding:20px;
+}
+
+.kpi{
+    background:white;
+    border-radius:8px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 1px 4px rgba(0,0,0,0.1);
+}
+
+.kpi-label{
+    font-size:14px;
+    color:#666;
+}
+
+.kpi-value{
+    font-size:28px;
+    font-weight:bold;
+    color:#003366;
+    margin-top:8px;
+}
+
+.chart-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    padding:20px;
+}
+
+.chart-box{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+}
+
+.table-box{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:8px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#003366;
+    color:white;
+    padding:10px;
+    text-align:left;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+@media(max-width:900px){
+    .chart-grid{
+        grid-template-columns:1fr;
+    }
+
+    .kpis{
+        grid-template-columns:1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>MHCV Production Forecast</h1>
+</header>
+
+<div class="filters">
+
+    <select id="regionFilter">
+        <option>All Regions</option>
+    </select>
+
+    <select id="countryFilter">
+        <option>All Countries</option>
+    </select>
+
+    <select id="salesParentFilter">
+        <option>All Sales Parents</option>
+    </select>
+
+    <select id="brandFilter">
+        <option>All Brands</option>
+    </select>
+
+    <select id="busTruckFilter">
+        <option>All Vehicle Types</option>
+    </select>
+
+    <select id="globalSegmentFilter">
+        <option>All Global Segments</option>
+    </select>
+
+    <select id="regionalSegmentFilter">
+        <option>All Regional Segments</option>
+    </select>
+
+    <select id="yearFilter">
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+        <option value="2031">2031</option>
+    </select>
+
+</div>
+
+<div class="kpis">
+
+    <div class="kpi">
+        <div class="kpi-label">Global Production Volume</div>
+        <div class="kpi-value" id="kpiVolume">0</div>
+    </div>
+
+    <div class="kpi">
+        <div class="kpi-label">CAGR 2026-2031</div>
+        <div class="kpi-value" id="kpiCAGR">0%</div>
+    </div>
+
+    <div class="kpi">
+        <div class="kpi-label">Truck %</div>
+        <div class="kpi-value" id="kpiTruck">0%</div>
+    </div>
+
+    <div class="kpi">
+        <div class="kpi-label">Bus %</div>
+        <div class="kpi-value" id="kpiBus">0%</div>
+    </div>
+
+</div>
+
+<div class="chart-grid">
+
+    <div class="chart-box">
+        <h3>Production Forecast Trend</h3>
+        <canvas id="trendChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Model Line Share</h3>
+        <canvas id="shareChart"></canvas>
+    </div>
+
+</div>
+
+<div class="chart-grid">
+
+    <div class="chart-box">
+        <h3>Top Brands</h3>
+        <canvas id="brandChart"></canvas>
+    </div>
+
+</div>
+
+<div class="table-box">
+
+    <h3>Model Line Details</h3>
+
+    <table id="detailTable">
+
+        <thead>
+            <tr>
+                <th>Region</th>
+                <th>Country</th>
+                <th>Production Brand</th>
+                <th>Sales Parent</th>
+                <th>Bus/Truck</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+
+    </table>
+
+</div>
+
+mhcvproduction.jsscript>
+
+</body>
+</html>
