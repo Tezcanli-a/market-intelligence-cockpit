@@ -49,35 +49,6 @@ async function loadCSV() {
             "<p style='color:red;font-weight:bold;'>CSV could not be loaded. Please check the file name and GitHub location.</p>";
     }
 }
-    try {
-        const response = await fetch(CSV_FILE);
-        const text = await response.text();
-
-        const lines = text.split("\n");
-
-        const headerIndex = lines.findIndex(line =>
-            line.startsWith("Region;Country/Territory")
-);
-
-        const cleanedText =
-            lines.slice(headerIndex).join("\n");
-
-        rawData = parseCSV(cleanedText);
-            console.log("Rows Loaded:", rawData.length);
-            console.log(rawData[0]);
-
-        cleanData();
-        buildFilters();
-        attachEvents();
-        updateDashboard();
-
-        console.log("MHCV CSV loaded:", rawData.length, "rows");
-    } catch (error) {
-        console.error("CSV could not be loaded:", error);
-        document.querySelector(".main").innerHTML =
-            "<p style='color:red;font-weight:bold;'>CSV could not be loaded. Please check the file name and GitHub location.</p>";
-    }
-}
 
 function parseCSV(text) {
     const rows = [];
@@ -124,9 +95,11 @@ function parseCSV(text) {
 
     return rows.slice(1).map(r => {
         const obj = {};
+
         headers.forEach((h, index) => {
             obj[h] = r[index] ? r[index].trim() : "";
         });
+
         return obj;
     });
 }
@@ -441,6 +414,10 @@ function updateDetailsTable() {
     const selectedYear = getSelectedValue("yearFilter");
     const col = "CY " + selectedYear;
     const tbody = document.getElementById("detailsBody");
+
+    if (!tbody) {
+        return;
+    }
 
     tbody.innerHTML = "";
 
