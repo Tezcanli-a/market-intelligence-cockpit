@@ -18,6 +18,41 @@ async function loadCSV() {
         const response = await fetch(CSV_FILE);
         const text = await response.text();
 
+        const lines = text.split(/\r?\n/);
+
+        const headerIndex = lines.findIndex(line =>
+            line.trim().startsWith("Region;Country/Territory")
+        );
+
+        if (headerIndex === -1) {
+            console.error("Header row not found. First lines:", lines.slice(0, 10));
+            return;
+        }
+
+        const cleanedText = lines.slice(headerIndex).join("\n");
+
+        rawData = parseCSV(cleanedText);
+
+        console.log("Header Index:", headerIndex);
+        console.log("Rows Loaded After Header Fix:", rawData.length);
+        console.log("First Real Row:", rawData[0]);
+
+        cleanData();
+        buildFilters();
+        attachEvents();
+        updateDashboard();
+
+        console.log("MHCV CSV loaded after cleanData:", rawData.length, "rows");
+    } catch (error) {
+        console.error("CSV could not be loaded:", error);
+        document.querySelector(".main").innerHTML =
+            "<p style='color:red;font-weight:bold;'>CSV could not be loaded. Please check the file name and GitHub location.</p>";
+    }
+}
+    try {
+        const response = await fetch(CSV_FILE);
+        const text = await response.text();
+
         const lines = text.split("\n");
 
         const headerIndex = lines.findIndex(line =>
