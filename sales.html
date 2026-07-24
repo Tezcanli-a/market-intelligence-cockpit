@@ -15,10 +15,22 @@ body{
 }
 
 header{
-    background:#0B2540;
+    background:linear-gradient(135deg,#005195,#003b70);
     color:white;
-    text-align:center;
-    padding:25px;
+    padding:26px 42px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.16);
+}
+
+header h1{
+    margin:0;
+    font-size:30px;
+    letter-spacing:0.3px;
+}
+    
+header p{
+    margin:8px 0 0;
+    color:#dbeafe;
+    font-size:15px;
 }
 
 header h1{
@@ -38,23 +50,27 @@ header h1{
     text-decoration:underline;
 }
 .top-nav{
-    background:#ffffff;
-    padding:10px 20px;
-    border-bottom:1px solid #d9d9d9;
+    background:white;
+    border-bottom:1px solid #d9e2ec;
+    padding:12px 42px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
 }
 
 .top-nav a{
-    display:inline-block;
-    padding:8px 16px;
-    margin-right:10px;
     text-decoration:none;
     color:#005195;
     font-weight:600;
-    border-radius:20px;
+    padding:9px 14px;
+    border-radius:999px;
 }
     
+.top-nav a.active,
 .top-nav a:hover{
-    background:#EAF3FA;
+    background:#005195;
+    color:white;
 }
 
 .top-nav a.active{
@@ -62,7 +78,7 @@ header h1{
     color:white;
 }
 .container{
-    max-width:1550px;
+    max-width:1400px;
     margin:auto;
     padding:25px;
 }
@@ -70,8 +86,9 @@ header h1{
 .filter-bar{
     background:white;
     padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    border-radius:16px;
+    border:1px solid #d9e2ec;
+    box-shadow:0 4px 14px rgba(0,0,0,0.5);
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
@@ -105,8 +122,8 @@ input{
 .kpi-card{
     background:white;
     padding:22px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    border-radius:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.05);
 }
 
 .kpi-title{
@@ -143,9 +160,10 @@ input{
 
 .chart-card{
     background:white;
-    border-radius:12px;
-    padding:18px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    border-radius:20px;
+    border:1px solid #d9e2ec;
+    padding:24px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.5);
     height:340px;
     box-sizing:border-box;
 }
@@ -153,7 +171,7 @@ input{
 .chart-card h2{
     margin-top:0;
     margin-bottom:10px;
-    color:#0B2540;
+    color:#005195;
     font-size:20px;
 }
 
@@ -170,9 +188,10 @@ input{
 
 .table-card{
     background:white;
-    border-radius:12px;
+    border-radius:20px;
+    border:1px solid #d9e2ec;
     padding:20px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    box-shadow:0 4px 14px rgba(0,0,0,0.5);
     overflow-x:auto;
 }
 
@@ -183,7 +202,7 @@ table{
 }
 
 th{
-    background:#0B2540;
+    background:#005195;
     color:white;
     padding:10px;
     text-align:left;
@@ -234,15 +253,15 @@ tr:hover{
 <body>
 
 <header>
-    <h1>LV Sales Dashboard</h1>
-<header>
+    <h1>Market Intelligence Sales Dashboard</h1>
+    <p>Global light vehicle sales forecasts, powertrain mix and market trends</p>
+</header>
     
- <nav class="top-nav">
+<nav class="top-nav">
     <a href="index.html">Home</a>
+    <a href="production.html">Production</a>
     <a href="sales.html" class="active">Sales</a>
-    <a href="sales.html">Production</a>
     <a href="news.html">News</a>
-
 </nav>
 
 <div class="container">
