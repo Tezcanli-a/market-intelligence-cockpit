@@ -1,11 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>MHCV Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHCV Production Forecast</title>
+
+https://cdn.jsdelivr.net/npm/chart.jsscript>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papapript>
+
+<style>
+body{
+    font-family:Segoe UI,Arial,sans-serif;
+    margin:0;
+    background:#f4f6f9;
+}
+
+header{
+    background:#003366;
+    color:white;
+    padding:20px;
+}
+
+.filters{
+    padding:20px;
+    background:white;
+}
+
+.kpis{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}
+
+.kpi{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    min-width:180px;
+}
+
+.chart{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:8px;
+}
+</style>
+
 </head>
 <body>
 
-<h1>MHCV Dashboard Test</h1>
+<header>
+    <h1>MHCV Production Forecast</h1>
+</header>
+
+<div class="filters">
+    Region Filter Placeholder
+</div>
+
+<div class="kpis">
+    <div class="kpi">Volume</div>
+    <div class="kpi">CAGR</div>
+    <div class="kpi">Truck %</div>
+    <div class="kpi">Bus %</div>
+</div>
+
+<div class="chart">
+    <canvas id="trendChart"></canvas>
+</div>
+
+<script src="mhcvproduction.js"></script>
 
 </body>
 </html>
