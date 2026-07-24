@@ -26,16 +26,29 @@ header h1{
     font-size:36px;
 }
 
-.back-link{
+.top-nav{
+    background:#ffffff;
+    padding:10px 20px;
+    border-bottom:1px solid #d9d9d9;
+}
+    
+.top-nav a{
     display:inline-block;
-    margin-top:10px;
-    color:white;
+    padding:8px 16px;
+    margin-right:10px;
+    color:#005195;
     text-decoration:none;
-    font-weight:bold;
+    font-weight:600;
+    border-radius:20px;
 }
 
-.back-link:hover{
-    text-decoration:underline;
+.top-nav a:hover{
+    background:#EAF3FA;
+}
+
+.top-nav a.active{
+    background:#005195;
+    color:#ffffff;
 }
 
 .container{
@@ -204,9 +217,14 @@ tr:hover{
 <body>
 
 <header>
-    <h1>Production & Propulsion Dashboard</h1>
-    <a href="index.html" class="back-link">← Back to Cockpit</a>
+<h1>Production & Propulsion Dashboard</h1>
 </header>
+<nav class="top-nav">
+<adex.htmlHome</a>
+<a href="production.html" class="active">Production</a>
+<a href="sales.html">Sales</a>
+news.htmlNews</a>
+</nav>
 
 <div class="container">
 
