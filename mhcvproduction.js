@@ -19,6 +19,8 @@ async function loadCSV() {
         const text = await response.text();
 
         rawData = parseCSV(text);
+            console.log("Rows Loaded:", rawData.length);
+            console.log(rawData[0]);
 
         cleanData();
         buildFilters();
