@@ -771,15 +771,13 @@
         renderNewsFeed();
     }
 
-    function executiveSummary(item){
-        const h = item.headline;
-        const company = item.company || "The company";
-        const section = item.section;
-        const category = item.category;
-
-        if(h === "LinkedIn Post"){
-            return `${company} was mentioned in a recent LinkedIn update related to ${category || "market activity"}. The item may indicate relevant external communication, partnership activity or market positioning.`;
-        }
+        function executiveSummary(item){
+            if(item.summary && item.summary.trim() !== ""){
+                return item.summary;
+            }
+ 
+        return item.headline || "";
+}
 
         const lower = h.toLowerCase();
 
