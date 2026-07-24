@@ -18,7 +18,16 @@ async function loadCSV() {
         const response = await fetch(CSV_FILE);
         const text = await response.text();
 
-        rawData = parseCSV(text);
+        const lines = text.split("\n");
+
+        const headerIndex = lines.findIndex(line =>
+            line.startsWith("Region;Country/Territory")
+);
+
+        const cleanedText =
+            lines.slice(headerIndex).join("\n");
+
+        rawData = parseCSV(cleanedText);
             console.log("Rows Loaded:", rawData.length);
             console.log(rawData[0]);
 
