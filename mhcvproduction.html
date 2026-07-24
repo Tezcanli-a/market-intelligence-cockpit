@@ -12,62 +12,273 @@ body{
     font-family:Segoe UI, Arial, sans-serif;
     margin:0;
     background:#f4f6f9;
+    color:#222;
 }
 
 header{
     background:#003366;
     color:white;
-    padding:20px;
+    padding:22px;
 }
 
 header h1{
     margin:0;
+    font-size:28px;
 }
 
-.content{
+.main{
     padding:20px;
 }
 
+.filters{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.filter-box{
+    background:white;
+    padding:12px;
+    border-radius:8px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+
+.filter-box label{
+    display:block;
+    font-size:12px;
+    color:#666;
+    margin-bottom:6px;
+}
+
+select{
+    width:100%;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    background:white;
+}
+
 .kpis{
-    display:flex;
-    gap:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:15px;
     margin-bottom:20px;
 }
 
 .kpi{
     background:white;
-    padding:20px;
+    padding:18px;
     border-radius:8px;
-    min-width:180px;
-    box-shadow:0 1px 4px rgba(0,0,0,0.1);
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
 }
 
-.chart-container{
+.kpi-label{
+    font-size:13px;
+    color:#666;
+    margin-bottom:8px;
+}
+
+.kpi-value{
+    font-size:24px;
+    font-weight:700;
+    color:#003366;
+}
+
+.chart-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.chart-box{
     background:white;
-    padding:20px;
+    padding:18px;
     border-radius:8px;
-    box-shadow:0 1px 4px rgba(0,0,0,0.1);
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+
+.chart-box h3{
+    margin-top:0;
+    color:#003366;
+}
+
+.full-width{
+    grid-column:1 / -1;
+}
+
+.table-box{
+    background:white;
+    padding:18px;
+    border-radius:8px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+
+.table-box h3{
+    margin-top:0;
+    color:#003366;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+th{
+    background:#003366;
+    color:white;
+    text-align:left;
+    padding:10px;
+}
+
+td{
+    padding:9px 10px;
+    border-bottom:1px solid #e5e5e5;
+}
+
+tbody tr:hover{
+    background:#f2f6fb;
+}
+
+.note{
+    font-size:12px;
+    color:#666;
+    margin-top:8px;
+}
+
+@media(max-width:900px){
+    .chart-grid{
+        grid-template-columns:1fr;
+    }
 }
 </style>
-
 </head>
+
 <body>
 
 <header>
     <h1>MHCV Production Forecast</h1>
 </header>
 
-<div class="content">
+<div class="main">
 
-    <div class="kpis">
-        <div class="kpi">Global Production Volume</div>
-        <div class="kpi">CAGR 2026-2031</div>
-        <div class="kpi">Truck %</div>
-        <div class="kpi">Bus %</div>
+    <div class="filters">
+
+        <div class="filter-box">
+            <label>Region</label>
+            <select id="regionFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Country</label>
+            <select id="countryFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Sales Parent</label>
+            <select id="salesParentFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Production Brand</label>
+            <select id="brandFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Bus / Truck</label>
+            <select id="busTruckFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Global Production Segment</label>
+            <select id="globalSegmentFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Regional Segment</label>
+            <select id="regionalSegmentFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Year</label>
+            <select id="yearFilter">
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+                <option value="2031">2031</option>
+            </select>
+        </div>
+
     </div>
 
-    <div class="chart-container">
-        <canvas id="trendChart"></canvas>
+    <div class="kpis">
+
+        <div class="kpi">
+            <div class="kpi-label">Global Production Volume</div>
+            <div class="kpi-value" id="kpiVolume">0</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">CAGR 2026-2031</div>
+            <div class="kpi-value" id="kpiCagr">0%</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Truck %</div>
+            <div class="kpi-value" id="kpiTruck">0%</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Bus %</div>
+            <div class="kpi-value" id="kpiBus">0%</div>
+        </div>
+
+    </div>
+
+    <div class="chart-grid">
+
+        <div class="chart-box">
+            <h3>Production Forecast Trend</h3>
+            <canvas id="trendChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Model Line Share</h3>
+            <canvas id="shareChart"></canvas>
+        </div>
+
+        <div class="chart-box full-width">
+            <h3>Top Production Brands</h3>
+            <canvas id="brandChart"></canvas>
+        </div>
+
+    </div>
+
+    <div class="table-box">
+        <h3>Model Line Details</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Region</th>
+                    <th>Country</th>
+                    <th>Production Brand</th>
+                    <th>Sales Parent</th>
+                    <th>Bus/Truck</th>
+                    <th>Global Segment</th>
+                    <th>Regional Segment</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+            <tbody id="detailsBody"></tbody>
+        </table>
+
+        <div class="note">Showing top 100 rows by selected year volume.</div>
     </div>
 
 </div>
