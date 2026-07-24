@@ -930,6 +930,13 @@
                             <strong>Source:</strong> ${escapeHTML(source)}<br>
                             <strong>Date:</strong> ${escapeHTML(item.dateLabel || "N/A")}
                         </div>
+                        <p class="news-summary">
+                            ${escapeHTML(
+                                (item.news || item.summary || "")
+                                    .split(". ")[0]
+                                    .trim() + "."
+        )}
+</p>
                     </div>
 
                     ${item.url ? `<a class="read-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener noreferrer">${item.headline === "LinkedIn Post" ? "Open Post ↗" : "Read Article ↗"}</a>` : ""}
