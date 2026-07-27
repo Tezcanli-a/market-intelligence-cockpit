@@ -782,7 +782,27 @@
 
     function renderHighlights(){
         const container = document.getElementById("latestHighlights");
-        const latest = filteredNews.slice(0,3);
+        const customerHighlights = filteredNews
+            .filter(item => item.section === "Customer")
+            .slice(0, 2);
+
+const competitorHighlights = filteredNews
+            .filter(item => item.section === "Competitor&Partnership")
+            .slice(0, 2);
+
+const trendHighlights = filteredNews
+            .filter(item => item.section === "News&Trends")
+            .slice(0, 2);
+
+const latest = [
+        customerHighlights[0],
+        competitorHighlights[0],
+        trendHighlights[0],
+
+        customerHighlights[1],
+        competitorHighlights[1],
+        trendHighlights[1]
+].filter(Boolean);
 
         if(latest.length === 0){
             container.innerHTML = `
