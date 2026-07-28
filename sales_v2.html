@@ -705,7 +705,7 @@ function getMonthValue(row, year, index) {
     function setupFilters() {
       populateSelect(filterIds.region, uniqueValues(rawData, "Region"), "All Regions");
       populateSelect(filterIds.country, uniqueValues(rawData, "Country"), "All Countries");
-      populateSelect(filterIds.Group, uniqueValues(rawData, "Group"), "All OEMs");
+      populateSelect(filterIds.salesGroup, uniqueValues(rawData, "Group"), "All OEMs");
       populateSelect(filterIds.brand, uniqueValues(rawData, "Maker/Brand"), "All Brands");
       populateSelect(filterIds.bodyType, uniqueValues(rawData, "Type"), "All Body Types");
 
@@ -734,14 +734,14 @@ function getMonthValue(row, year, index) {
     function getFilteredData() {
       const region = document.getElementById(filterIds.region).value;
       const country = document.getElementById(filterIds.country).value;
-      const Group = document.getElementById(filterIds.Group).value;
+      const salesGroup = document.getElementById(filterIds.salesGroup).value;
       const brand = document.getElementById(filterIds.brand).value;
       const bodyType = document.getElementById(filterIds.bodyType).value;
       const segment = document.getElementById(filterIds.segment).value;
       const propulsion = document.getElementById(filterIds.propulsion).value;
 
       return rawData.filter(row => {
-        const rowSegment = row.Segment || row.RegionalSize || "";
+        const rowSegment = row.Segment || row["Segment"] || "";
         const cleanPropulsion = classifyPropulsion(row.PowerTrain);
 
         return (!region || row.Region === region)
