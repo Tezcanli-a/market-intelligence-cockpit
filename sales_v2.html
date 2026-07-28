@@ -758,19 +758,25 @@ function getMonthValue(row, year, index) {
      * 8) MONTHLY AGGREGATIONS
      ********************************************************************/
 
-    function getLatestAvailableMonth(data) {
-      let latest = 0;
+function getLatestAvailableMonth(data){
 
-      MONTHS.forEach(month => {
-        const total2026 = data.reduce((sum, row) => {
-          return sum + getMonthlyValue(row, YEAR_CURRENT, month);
-        }, 0);
+    let latest = 0;
 
-        if (total2026 > 0) latest = month.index;
-      });
+    monthColumns2026.forEach((month,index)=>{
 
-      return latest;
-    }
+        const total = data.reduce(
+            (sum,row)=>sum + Number(row[month] || 0),
+            0
+        );
+
+        if(total > 0){
+            latest = index + 1;
+        }
+
+    });
+
+    return latest;
+}
 
     function getMonthlyTotals(data, year, latestMonthIndex = 12) {
       return MONTHS
