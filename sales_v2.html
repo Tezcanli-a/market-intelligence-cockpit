@@ -372,7 +372,7 @@
 
       <div class="filter-box">
         <label>OEM / Sales Group</label>
-        <select id="salesGroupFilter"></select>
+        <select id="GroupFilter"></select>
       </div>
 
       <div class="filter-box">
@@ -524,7 +524,7 @@
      * Paste / keep your existing rawData from your current sales.html.
      * Example:
      * const rawData = [
-     *   { Region: "...", Country: "...", SalesGroup: "...", Brand: "...", PowerTrain: "...", Jan_2025: 123, Jan_2026: 456 }
+     *   { Region: "...", Country: "...", Group: "...", Brand: "...", PowerTrain: "...", Jan_2025: 123, Jan_2026: 456 }
      * ];
      ********************************************************************/
 
@@ -665,7 +665,7 @@ function getMonthValue(row, year, index) {
     const filterIds = {
       region: "regionFilter",
       country: "countryFilter",
-      salesGroup: "salesGroupFilter",
+      Group: "GroupFilter",
       brand: "brandFilter",
       bodyType: "bodyTypeFilter",
       segment: "segmentFilter",
@@ -705,9 +705,9 @@ function getMonthValue(row, year, index) {
     function setupFilters() {
       populateSelect(filterIds.region, uniqueValues(rawData, "Region"), "All Regions");
       populateSelect(filterIds.country, uniqueValues(rawData, "Country"), "All Countries");
-      populateSelect(filterIds.salesGroup, uniqueValues(rawData, "Group"), "All OEMs");
+      populateSelect(filterIds.Group, uniqueValues(rawData, "Group"), "All OEMs");
       populateSelect(filterIds.brand, uniqueValues(rawData, "Maker/Brand"), "All Brands");
-      populateSelect(filterIds.bodyType, uniqueValues(rawData, "BodyType"), "All Body Types");
+      populateSelect(filterIds.bodyType, uniqueValues(rawData, "Type"), "All Body Types");
 
       const segmentValues = uniqueValues(rawData, "Segment").length
         ? uniqueValues(rawData, "Segment")
@@ -734,7 +734,7 @@ function getMonthValue(row, year, index) {
     function getFilteredData() {
       const region = document.getElementById(filterIds.region).value;
       const country = document.getElementById(filterIds.country).value;
-      const salesGroup = document.getElementById(filterIds.salesGroup).value;
+      const Group = document.getElementById(filterIds.Group).value;
       const brand = document.getElementById(filterIds.brand).value;
       const bodyType = document.getElementById(filterIds.bodyType).value;
       const segment = document.getElementById(filterIds.segment).value;
@@ -746,9 +746,9 @@ function getMonthValue(row, year, index) {
 
         return (!region || row.Region === region)
           && (!country || row.Country === country)
-          && (!salesGroup || row["Group"] === salesGroup)
+          && (!Group || row["Group"] === Group)
           && (!brand || row["Maker/Brand"] === brand)
-          && (!bodyType || row.BodyType === bodyType)
+          && (!bodyType || row["Type"] === bodyType)
           && (!segment || rowSegment === segment)
           && (!propulsion || cleanPropulsion === propulsion);
       });
@@ -1232,7 +1232,7 @@ function getLatestAvailableMonth(data){
       const oemMap = new Map();
 
       data.forEach(row => {
-        const oem = row.SalesGroup || "Unknown";
+        const oem = row.Group || "Unknown";
         const cleanPropulsion = classifyPropulsion(row.PowerTrain);
 
         if (!oemMap.has(oem)) {
