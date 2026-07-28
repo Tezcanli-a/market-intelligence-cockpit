@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --blue: #005195;
+      --blue-dark: #003b70;
+      --blue-light: #C4DAEC;
+      --bg: #f3f6fa;
+      --card: #ffffff;
+      --border: #d6e0ea;
+      --text: #0f172a;
+      --muted: #64748b;
+      --green: #8ec6b0;
+      --green-dark: #21835f;
+      --red: #d0342c;
+      --red-soft: #e99595;
+      --grey-line: #8a99aa;
+      --non-nev: #c8deef;
+      --nev: #005195;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 18px 22px 28px;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      background: linear-gradient(90deg, #003b70, #005195);
+      color: white;
+      padding: 13px 18px;
+      border-radius: 0 0 16px 16px;
+      margin-bottom: 18px;
+    }
+
+    .top-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .top-nav a.active {
+      opacity: 1;
+      border-bottom: 2px solid white;
+      padding-bottom: 3px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 14px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--blue-dark);
+    }
+
+    .header .subtitle {
+      margin-top: 5px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(140px, 1fr)) auto;
+      gap: 10px;
+      margin-bottom: 16px;
+      align-items: end;
+    }
+
+    .filter-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 9px 10px;
+    }
+
+    .filter-box label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    .filter-box select {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .reset-btn {
+      height: 42px;
+      border: 1px solid var(--blue);
+      background: white;
+      color: var(--blue);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0 16px;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 16px;
+      min-height: 88px;
+    }
+
+    .kpi-value {
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1.05;
+    }
+
+    .kpi-title {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 7px;
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 17px;
+      color: #000;
+    }
+
+    .chart-note-top {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      max-width: 280px;
+    }
+
+    .chart-box {
+      height: 300px;
+      position: relative;
+    }
+
+    .chart-box.large {
+      height: 330px;
+    }
+
+    .note-strip {
+      margin-top: 10px;
+      background: #f7fafc;
+      border: 1px solid #edf2f7;
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .rank-list {
+      margin-top: 8px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .rank-row {
+      display: grid;
+      grid-template-columns: 28px 150px 1fr 70px;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .rank-bar-bg {
+      height: 7px;
+      background: #edf2f7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .rank-bar-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+
+    .table-card {
+      margin-bottom: 14px;
+    }
+
+    .table-scroll {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-height: 520px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      background: white;
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #edf2f7;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: #f8fbff;
+      color: var(--blue-dark);
+      z-index: 1;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    th:first-child,
+    td:first-child,
+    th:nth-child(2),
+    td:nth-child(2) {
+      text-align: left;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .notes-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .methodology {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .positive { color: var(--green-dark); }
+    .negative { color: var(--red); }
+
+    @media (max-width: 1200px) {
+      .filters { grid-template-columns: repeat(3, 1fr); }
+      .grid-2, .notes-grid { grid-template-columns: 1fr; }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 700px) {
+      .kpi-row { grid-template-columns: 1fr; }
+      .filters { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-nav">
+    index.htmlHome</a>
+    production.htmlProduction</a>
+    <a href="sales.html" class="active">Sales</a>
+    news.htmlNews</a>
+    mhcvproduction.htmlMHCV</a>
+  </div>
+
+  <main class="page">
+
+    <section class="header">
+      <div>
+        <h1>Passenger Vehicle Monthly Sales Update | 2025–2026</h1>
+        <div class="subtitle" id="recordInfo">All market · loading records...</div>
+      </div>
+      <div class="header-right">
+        <div id="lastUpdated">Last updated: -</div>
+        <div>Source: S&P Global Mobility / internal Market Intelligence data</div>
+      </div>
+    </section>
+
+    <section class="filters">
+      <div class="filter-box">
+        <label>Region</label>
+        <select id="regionFilter"></select>
+      </div>
+
+      <div class="filter-box">
+        <label>Country</label>
+        <select id="countryFilter"></select>
+      </div>
+
+      <div class="filter-box">
+        <label>OEM / Sales Group</label>
+        <select id="salesGroupFilter"></select>
+      </div>
+
+      <div class="filter-box">
+        <label>Brand</label>
+        <select id="brandFilter"></select>
+      </div>
+
+      <div class="filter-box">
+        <label>Body Type</label>
+        <select id="bodyTypeFilter"></select>
+      </div>
+
+      <div class="filter-box">
+        <label>Segment</label>
+        <select id="segmentFilter"></select>
+      </div>
+
+      <div class="filter-box">
+        <label>Propulsion</label>
+        <select id="propulsionFilter"></select>
+      </div>
+
+      <button class="reset-btn" id="resetFilters">Reset filters</button>
+    </section>
+
+    <section class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-value" id="kpiYtd2026">-</div>
+        <div class="kpi-title">2026 YTD Actual Volume</div>
+        <div class="kpi-sub" id="kpiYtd2026Sub">Available months only</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-value" id="kpiYoy">-</div>
+        <div class="kpi-title">2026 YTD YoY Growth</div>
+        <div class="kpi-sub" id="kpiYoySub">vs. same period 2025</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-value" id="kpiNevShare">-</div>
+        <div class="kpi-title">2026 YTD NEV Share</div>
+        <div class="kpi-sub">EV + PHV + FCV based classification</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-value" id="kpiLatestMonth">-</div>
+        <div class="kpi-title">Data Available Through</div>
+        <div class="kpi-sub">Calculated from 2026 monthly actual data</div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <h2>Monthly Sales Trend</h2>
+          <div class="chart-note-top">2026 versus the same months in 2025</div>
+        </div>
+        <div class="chart-box large">
+          <canvas id="monthlyTrendChart"></canvas>
+        </div>
+        <div class="note-strip" id="monthlyTrendNote"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Monthly YoY Growth</h2>
+          <div class="chart-note-top">2026 versus the same month in 2025</div>
+        </div>
+        <div class="chart-box large">
+          <canvas id="monthlyYoyChart"></canvas>
+        </div>
+        <div class="note-strip" id="monthlyYoyNote"></div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <h2>Propulsion Mix by Month</h2>
+          <div class="chart-note-top">Fuel-powered / traditional hybrids vs. NEV</div>
+        </div>
+        <div class="chart-box large">
+          <canvas id="propulsionMixChart"></canvas>
+        </div>
+        <div class="note-strip" id="propulsionNote"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Top Brands</h2>
+          <div class="chart-note-top">2026 YTD actual volume</div>
+        </div>
+        <div class="rank-list" id="topBrandsList"></div>
+        <div class="note-strip" id="topBrandsNote"></div>
+      </div>
+    </section>
+
+    <section class="card table-card">
+      <div class="card-header">
+        <h2 id="oemRankingTitle">Top 30 OEM Ranking</h2>
+        <div class="chart-note-top">Sorted by 2026 YTD actual volume</div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>OEM / Sales Group</th>
+              <th>2026 YTD Volume</th>
+              <th>2025 Same Period</th>
+              <th>YoY</th>
+              <th>NEV Share 2026</th>
+            </tr>
+          </thead>
+          <tbody id="oemRankingBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="notes-grid">
+      <div class="card">
+        <div class="card-header">
+          <h2>Management Notes</h2>
+        </div>
+        <ul class="notes-list" id="managementNotes"></ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Methodology</h2>
+        </div>
+        <div class="methodology">
+          <strong>YoY calculation:</strong> 2026 actual month compared with the same month in 2025.<br>
+          <strong>YTD calculation:</strong> Sum of available 2026 months and same-period 2025 months.<br>
+          <strong>NEV definition:</strong> EV, PHV, FCV and selected plug-in combinations are classified as NEV.
+          HV and MHV are classified as Fuel-powered / Traditional Hybrids (Non-NEV).<br>
+          <strong>Ranking:</strong> Top brands and OEMs are sorted by 2026 YTD actual volume under the selected filters.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /********************************************************************
+     * 1) KEEP YOUR EXISTING DATA BLOCK HERE
+     *
+     * Paste / keep your existing rawData from your current sales.html.
+     * Example:
+     * const rawData = [
+     *   { Region: "...", Country: "...", SalesGroup: "...", Brand: "...", PowerTrain: "...", Jan_2025: 123, Jan_2026: 456 }
+     * ];
+     ********************************************************************/
+
+    // const rawData = [...];
+
+    /********************************************************************
+     * 2) MONTH CONFIGURATION
+     ********************************************************************/
+
+    const MONTHS = [
+      { index: 1, short: "Jan", label: "1" },
+      { index: 2, short: "Feb", label: "2" },
+      { index: 3, short: "Mar", label: "3" },
+      { index: 4, short: "Apr", label: "4" },
+      { index: 5, short: "May", label: "5" },
+      { index: 6, short: "Jun", label: "6" },
+      { index: 7, short: "Jul", label: "7" },
+      { index: 8, short: "Aug", label: "8" },
+      { index: 9, short: "Sep", label: "9" },
+      { index: 10, short: "Oct", label: "10" },
+      { index: 11, short: "Nov", label: "11" },
+      { index: 12, short: "Dec", label: "12" }
+    ];
+
+    const YEAR_BASE = 2025;
+    const YEAR_CURRENT = 2026;
+
+    /********************************************************************
+     * 3) FORMAT HELPERS
+     ********************************************************************/
+
+    function toNumber(value) {
+      if (value === null || value === undefined || value === "") return 0;
+      if (typeof value === "number") return value;
+      return Number(String(value).replace(/,/g, "").trim()) || 0;
+    }
+
+    function formatVolume(value) {
+      const v = Number(value) || 0;
+      if (Math.abs(v) >= 1_000_000) return (v / 1_000_000).toFixed(2) + "m";
+      if (Math.abs(v) >= 1_000) return Math.round(v / 1_000) + "k";
+      return Math.round(v).toLocaleString();
+    }
+
+    function formatVolumeFull(value) {
+      return Math.round(Number(value) || 0).toLocaleString();
+    }
+
+    function formatPct(value, decimals = 1) {
+      if (!isFinite(value)) return "-";
+      return value.toFixed(decimals) + "%";
+    }
+
+    function yoy(current, previous) {
+      if (!previous || previous === 0) return null;
+      return ((current - previous) / previous) * 100;
+    }
+
+    /********************************************************************
+     * 4) FLEXIBLE MONTHLY COLUMN DETECTION
+     *
+     * This handles common layouts:
+     * Jan_2026
+     * 2026_Jan
+     * Sales_Jan_2026
+     * Sales_2026_Jan
+     * Sales_2026_01
+     * 2026_01
+     * M01_2026
+     *
+     * If your column names are different, only adjust this function.
+     ********************************************************************/
+
+    function getMonthlyValue(row, year, monthObj) {
+      const mm = String(monthObj.index).padStart(2, "0");
+      const m = monthObj.index;
+      const mon = monthObj.short;
+
+      const possibleKeys = [
+        `${mon}_${year}`,
+        `${year}_${mon}`,
+        `Sales_${mon}_${year}`,
+        `Sales_${year}_${mon}`,
+        `Sales_${year}_${mm}`,
+        `Sales_${year}_${m}`,
+        `${year}_${mm}`,
+        `${year}_${m}`,
+        `M${mm}_${year}`,
+        `${year}_M${mm}`,
+        `${mon}${year}`,
+        `${year}${mon}`
+      ];
+
+      for (const key of possibleKeys) {
+        if (Object.prototype.hasOwnProperty.call(row, key)) {
+          return toNumber(row[key]);
+        }
+      }
+
+      return 0;
+    }
+
+    /********************************************************************
+     * 5) NEV CLASSIFICATION
+     ********************************************************************/
+
+    function classifyPropulsion(powertrain) {
+      const pt = String(powertrain || "").trim().toUpperCase();
+
+      const mapping = {
+        "EV": "NEV",
+        "BEV": "NEV",
+        "PHEV": "NEV",
+        "PHV": "NEV",
+        "FCV": "NEV",
+
+        "EV/FCV/PHV": "NEV",
+        "EV/HV": "NEV",
+        "EV/PHV": "NEV",
+        "HV/EV/PHV": "NEV",
+        "HV/PHV": "NEV",
+
+        "ICE": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "HV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "MHV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "EV/MHV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "EV/MHV/PHV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "HV/EV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "HV/MHV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "HV/MHV/PHV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "MHV/PHV": "Fuel-powered / Traditional Hybrids (Non-NEV)",
+
+        "N/A": "N/A",
+        "": "N/A"
+      };
+
+      return mapping[pt] || "N/A";
+    }
+
+    /********************************************************************
+     * 6) DOM ELEMENTS
+     ********************************************************************/
+
+    const filterIds = {
+      region: "regionFilter",
+      country: "countryFilter",
+      salesGroup: "salesGroupFilter",
+      brand: "brandFilter",
+      bodyType: "bodyTypeFilter",
+      segment: "segmentFilter",
+      propulsion: "propulsionFilter"
+    };
+
+    let monthlyTrendChart;
+    let monthlyYoyChart;
+    let propulsionMixChart;
+
+    /********************************************************************
+     * 7) FILTER SETUP
+     ********************************************************************/
+
+    function uniqueValues(data, field) {
+      return [...new Set(data.map(row => row[field]).filter(v => v !== undefined && v !== null && String(v).trim() !== ""))]
+        .sort((a, b) => String(a).localeCompare(String(b)));
+    }
+
+    function populateSelect(selectId, values, allLabel = "All") {
+      const select = document.getElementById(selectId);
+      select.innerHTML = "";
+
+      const allOption = document.createElement("option");
+      allOption.value = "";
+      allOption.textContent = allLabel;
+      select.appendChild(allOption);
+
+      values.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+    }
+
+    function setupFilters() {
+      populateSelect(filterIds.region, uniqueValues(rawData, "Region"), "All Regions");
+      populateSelect(filterIds.country, uniqueValues(rawData, "Country"), "All Countries");
+      populateSelect(filterIds.salesGroup, uniqueValues(rawData, "SalesGroup"), "All OEMs");
+      populateSelect(filterIds.brand, uniqueValues(rawData, "Brand"), "All Brands");
+      populateSelect(filterIds.bodyType, uniqueValues(rawData, "BodyType"), "All Body Types");
+
+      const segmentValues = uniqueValues(rawData, "Segment").length
+        ? uniqueValues(rawData, "Segment")
+        : uniqueValues(rawData, "RegionalSize");
+
+      populateSelect(filterIds.segment, segmentValues, "All Segments");
+
+      populateSelect(filterIds.propulsion, [
+        "NEV",
+        "Fuel-powered / Traditional Hybrids (Non-NEV)",
+        "N/A"
+      ], "All Propulsion");
+
+      Object.values(filterIds).forEach(id => {
+        document.getElementById(id).addEventListener("change", updateDashboard);
+      });
+
+      document.getElementById("resetFilters").addEventListener("click", () => {
+        Object.values(filterIds).forEach(id => document.getElementById(id).value = "");
+        updateDashboard();
+      });
+    }
+
+    function getFilteredData() {
+      const region = document.getElementById(filterIds.region).value;
+      const country = document.getElementById(filterIds.country).value;
+      const salesGroup = document.getElementById(filterIds.salesGroup).value;
+      const brand = document.getElementById(filterIds.brand).value;
+      const bodyType = document.getElementById(filterIds.bodyType).value;
+      const segment = document.getElementById(filterIds.segment).value;
+      const propulsion = document.getElementById(filterIds.propulsion).value;
+
+      return rawData.filter(row => {
+        const rowSegment = row.Segment || row.RegionalSize || "";
+        const cleanPropulsion = classifyPropulsion(row.PowerTrain);
+
+        return (!region || row.Region === region)
+          && (!country || row.Country === country)
+          && (!salesGroup || row.SalesGroup === salesGroup)
+          && (!brand || row.Brand === brand)
+          && (!bodyType || row.BodyType === bodyType)
+          && (!segment || rowSegment === segment)
+          && (!propulsion || cleanPropulsion === propulsion);
+      });
+    }
+
+    /********************************************************************
+     * 8) MONTHLY AGGREGATIONS
+     ********************************************************************/
+
+    function getLatestAvailableMonth(data) {
+      let latest = 0;
+
+      MONTHS.forEach(month => {
+        const total2026 = data.reduce((sum, row) => {
+          return sum + getMonthlyValue(row, YEAR_CURRENT, month);
+        }, 0);
+
+        if (total2026 > 0) latest = month.index;
+      });
+
+      return latest;
+    }
+
+    function getMonthlyTotals(data, year, latestMonthIndex = 12) {
+      return MONTHS
+        .filter(month => month.index <= latestMonthIndex)
+        .map(month => {
+          const total = data.reduce((sum, row) => {
+            return sum + getMonthlyValue(row, year, month);
+          }, 0);
+
+          return {
+            month,
+            value: total
+          };
+        });
+    }
+
+    function sumYtd(data, year, latestMonthIndex) {
+      return MONTHS
+        .filter(month => month.index <= latestMonthIndex)
+        .reduce((sum, month) => {
+          return sum + data.reduce((rowSum, row) => {
+            return rowSum + getMonthlyValue(row, year, month);
+          }, 0);
+        }, 0);
+    }
+
+    function sumYtdForGroup(data, year, latestMonthIndex, groupField) {
+      const map = new Map();
+
+      data.forEach(row => {
+        const key = row[groupField] || "Unknown";
+        const currentValue = map.get(key) || 0;
+
+        const rowTotal = MONTHS
+          .filter(month => month.index <= latestMonthIndex)
+          .reduce((sum, month) => sum + getMonthlyValue(row, year, month), 0);
+
+        map.set(key, currentValue + rowTotal);
+      });
+
+      return [...map.entries()]
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value);
+    }
+
+    function getNevShare(data, year, latestMonthIndex) {
+      let total = 0;
+      let nev = 0;
+
+      data.forEach(row => {
+        const group = classifyPropulsion(row.PowerTrain);
+
+        MONTHS
+          .filter(month => month.index <= latestMonthIndex)
+          .forEach(month => {
+            const value = getMonthlyValue(row, year, month);
+            total += value;
+            if (group === "NEV") nev += value;
+          });
+      });
+
+      return total > 0 ? (nev / total) * 100 : null;
+    }
+
+    function getPropulsionMonthlyData(data, latestMonthIndex) {
+      const months = MONTHS.filter(month => month.index <= latestMonthIndex);
+
+      return months.map(month => {
+        let nev = 0;
+        let nonNev = 0;
+        let unknown = 0;
+
+        data.forEach(row => {
+          const value = getMonthlyValue(row, YEAR_CURRENT, month);
+          const group = classifyPropulsion(row.PowerTrain);
+
+          if (group === "NEV") {
+            nev += value;
+          } else if (group === "Fuel-powered / Traditional Hybrids (Non-NEV)") {
+            nonNev += value;
+          } else {
+            unknown += value;
+          }
+        });
+
+        return {
+          month,
+          nev,
+          nonNev,
+          unknown,
+          total: nev + nonNev + unknown
+        };
+      });
+    }
+
+    /********************************************************************
+     * 9) KPI UPDATE
+     ********************************************************************/
+
+    function updateKpis(data, latestMonthIndex) {
+      const ytd2026 = sumYtd(data, YEAR_CURRENT, latestMonthIndex);
+      const ytd2025 = sumYtd(data, YEAR_BASE, latestMonthIndex);
+      const ytdYoy = yoy(ytd2026, ytd2025);
+      const nevShare = getNevShare(data, YEAR_CURRENT, latestMonthIndex);
+      const latestMonth = MONTHS.find(m => m.index === latestMonthIndex);
+
+      document.getElementById("kpiYtd2026").textContent = formatVolume(ytd2026);
+      document.getElementById("kpiYtd2026Sub").textContent =
+        `${YEAR_CURRENT} actual volume until ${latestMonth ? latestMonth.short : "-"}`;
+
+      const yoyEl = document.getElementById("kpiYoy");
+      yoyEl.textContent = ytdYoy === null ? "-" : formatPct(ytdYoy);
+      yoyEl.className = "kpi-value " + (ytdYoy >= 0 ? "positive" : "negative");
+
+      document.getElementById("kpiYoySub").textContent =
+        `vs. ${YEAR_BASE} same period: ${formatVolume(ytd2025)}`;
+
+      document.getElementById("kpiNevShare").textContent =
+        nevShare === null ? "-" : formatPct(nevShare);
+
+      document.getElementById("kpiLatestMonth").textContent =
+        latestMonth ? `${latestMonth.short} ${YEAR_CURRENT}` : "-";
+    }
+
+    /********************************************************************
+     * 10) CHART PLUGINS
+     ********************************************************************/
+
+    const valueLabelPlugin = {
+      id: "valueLabelPlugin",
+      afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        ctx.save();
+        ctx.font = "10px Segoe UI";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#005195";
+
+        chart.data.datasets.forEach((dataset, datasetIndex) => {
+          const meta = chart.getDatasetMeta(datasetIndex);
+          if (meta.hidden) return;
+
+          meta.data.forEach((point, index) => {
+            const value = dataset.data[index];
+            if (!value && value !== 0) return;
+
+            if (chart.canvas.id === "monthlyTrendChart") {
+              ctx.fillStyle = dataset.borderColor || "#005195";
+              ctx.fillText(formatVolume(value), point.x, point.y - 9);
+            }
+          });
+        });
+
+        ctx.restore();
+      }
+    };
+
+    const zeroLinePlugin = {
+      id: "zeroLinePlugin",
+      beforeDatasetsDraw(chart) {
+        if (chart.canvas.id !== "monthlyYoyChart") return;
+
+        const { ctx, chartArea, scales } = chart;
+        const yZero = scales.y.getPixelForValue(0);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left, yZero);
+        ctx.lineTo(chartArea.right, yZero);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#dbe3ea";
+        ctx.stroke();
+        ctx.restore();
+      }
+    };
+
+    Chart.register(valueLabelPlugin, zeroLinePlugin);
+
+    /********************************************************************
+     * 11) MONTHLY SALES TREND CHART
+     ********************************************************************/
+
+    function updateMonthlyTrendChart(data, latestMonthIndex) {
+      const months = MONTHS.filter(month => month.index <= latestMonthIndex);
+      const totals2025 = getMonthlyTotals(data, YEAR_BASE, latestMonthIndex);
+      const totals2026 = getMonthlyTotals(data, YEAR_CURRENT, latestMonthIndex);
+
+      const labels = months.map(m => m.label);
+
+      const chartData = {
+        labels,
+        datasets: [
+          {
+            label: "2025 actual",
+            data: totals2025.map(x => x.value),
+            borderColor: "#8a99aa",
+            backgroundColor: "#8a99aa",
+            borderWidth: 3,
+            pointRadius: 4,
+            pointHoverRadius: 5,
+            tension: 0.25
+          },
+          {
+            label: "2026 actual",
+            data: totals2026.map(x => x.value),
+            borderColor: "#005195",
+            backgroundColor: "#005195",
+            borderWidth: 3,
+            pointRadius: 4,
+            pointHoverRadius: 5,
+            tension: 0.25
+          }
+        ]
+      };
+
+      const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: "index",
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            position: "bottom",
+            align: "start",
+            labels: {
+              boxWidth: 24,
+              usePointStyle: false,
+              font: { size: 11 }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${formatVolumeFull(ctx.raw)}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 11 } }
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: "#e6eef5" },
+            ticks: {
+              callback: value => formatVolume(value),
+              font: { size: 11 }
+            }
+          }
+        }
+      };
+
+      if (monthlyTrendChart) monthlyTrendChart.destroy();
+      monthlyTrendChart = new Chart(document.getElementById("monthlyTrendChart"), {
+        type: "line",
+        data: chartData,
+        options
+      });
+    }
+
+    /********************************************************************
+     * 12) MONTHLY YOY GROWTH CHART
+     ********************************************************************/
+
+    function updateMonthlyYoyChart(data, latestMonthIndex) {
+      const months = MONTHS.filter(month => month.index <= latestMonthIndex);
+
+      const monthlyYoy = months.map(month => {
+        const value2026 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_CURRENT, month), 0);
+        const value2025 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_BASE, month), 0);
+        return yoy(value2026, value2025);
+      });
+
+      const colors = monthlyYoy.map(value => {
+        if (value === null) return "#cbd5e1";
+        return value >= 0 ? "#8ec6b0" : "#d0342c";
+      });
+
+      if (monthlyYoyChart) monthlyYoyChart.destroy();
+      monthlyYoyChart = new Chart(document.getElementById("monthlyYoyChart"), {
+        type: "bar",
+        data: {
+          labels: months.map(m => m.label),
+          datasets: [
+            {
+              label: "Monthly YoY growth",
+              data: monthlyYoy.map(v => v === null ? 0 : v),
+              backgroundColor: colors,
+              borderRadius: 3,
+              barPercentage: 0.62,
+              categoryPercentage: 0.7
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => `YoY: ${formatPct(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 11 } }
+            },
+            y: {
+              grid: { display: false },
+              ticks: {
+                callback: value => value + "%",
+                font: { size: 11 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    /********************************************************************
+     * 13) PROPULSION MIX CHART
+     ********************************************************************/
+
+    function updatePropulsionMixChart(data, latestMonthIndex) {
+      const monthly = getPropulsionMonthlyData(data, latestMonthIndex);
+
+      if (propulsionMixChart) propulsionMixChart.destroy();
+      propulsionMixChart = new Chart(document.getElementById("propulsionMixChart"), {
+        type: "bar",
+        data: {
+          labels: monthly.map(x => x.month.label),
+          datasets: [
+            {
+              label: "Fuel-powered / Traditional Hybrids (Non-NEV)",
+              data: monthly.map(x => x.nonNev),
+              backgroundColor: "#c8deef",
+              stack: "stack1",
+              borderRadius: 2
+            },
+            {
+              label: "NEV",
+              data: monthly.map(x => x.nev),
+              backgroundColor: "#005195",
+              stack: "stack1",
+              borderRadius: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+              align: "start",
+              labels: {
+                boxWidth: 13,
+                font: { size: 11 }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.dataset.label}: ${formatVolumeFull(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              grid: { display: false },
+              ticks: { font: { size: 11 } }
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              grid: { color: "#e6eef5" },
+              ticks: {
+                callback: value => formatVolume(value),
+                font: { size: 11 }
+              }
+            }
+          }
+        },
+        plugins: [{
+          id: "nevPercentLabels",
+          afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            const metaNev = chart.getDatasetMeta(1);
+            ctx.save();
+            ctx.font = "bold 10px Segoe UI";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "white";
+
+            metaNev.data.forEach((bar, index) => {
+              const item = monthly[index];
+              if (!item || !item.total || item.nev <= 0) return;
+
+              const pct = (item.nev / item.total) * 100;
+              ctx.fillText(formatPct(pct, 0), bar.x, bar.y + 15);
+            });
+
+            ctx.restore();
+          }
+        }]
+      });
+    }
+
+    /********************************************************************
+     * 14) TOP BRANDS
+     ********************************************************************/
+
+    function updateTopBrands(data, latestMonthIndex) {
+      const brands = sumYtdForGroup(data, YEAR_CURRENT, latestMonthIndex, "Brand").slice(0, 10);
+      const container = document.getElementById("topBrandsList");
+      container.innerHTML = "";
+
+      const maxValue = brands.length ? brands[0].value : 0;
+
+      brands.forEach((item, index) => {
+        const width = maxValue ? (item.value / maxValue) * 100 : 0;
+
+        const row = document.createElement("div");
+        row.className = "rank-row";
+        row.innerHTML = `
+          <div>${index + 1}.</div>
+          <div title="${item.name}">${item.name}</div>
+          <div class="rank-bar-bg">
+            <div class="rank-bar-fill" style="width:${width}%"></div>
+          </div>
+          <div>${formatVolume(item.value)}</div>
+        `;
+
+        container.appendChild(row);
+      });
+    }
+
+    /********************************************************************
+     * 15) TOP 30 OEM RANKING
+     ********************************************************************/
+
+    function updateOemRanking(data, latestMonthIndex) {
+      const latestMonth = MONTHS.find(m => m.index === latestMonthIndex);
+
+      document.getElementById("oemRankingTitle").textContent =
+        latestMonthIndex === 6
+          ? "Top 30 OEM Ranking — 2026 H1 Actual Volume"
+          : `Top 30 OEM Ranking — 2026 YTD Actual Volume`;
+
+      const oemMap = new Map();
+
+      data.forEach(row => {
+        const oem = row.SalesGroup || "Unknown";
+        const cleanPropulsion = classifyPropulsion(row.PowerTrain);
+
+        if (!oemMap.has(oem)) {
+          oemMap.set(oem, {
+            oem,
+            ytd2026: 0,
+            ytd2025: 0,
+            nev2026: 0
+          });
+        }
+
+        const entry = oemMap.get(oem);
+
+        MONTHS
+          .filter(month => month.index <= latestMonthIndex)
+          .forEach(month => {
+            const v2026 = getMonthlyValue(row, YEAR_CURRENT, month);
+            const v2025 = getMonthlyValue(row, YEAR_BASE, month);
+
+            entry.ytd2026 += v2026;
+            entry.ytd2025 += v2025;
+
+            if (cleanPropulsion === "NEV") {
+              entry.nev2026 += v2026;
+            }
+          });
+      });
+
+      const ranking = [...oemMap.values()]
+        .map(item => ({
+          ...item,
+          yoy: yoy(item.ytd2026, item.ytd2025),
+          nevShare: item.ytd2026 > 0 ? (item.nev2026 / item.ytd2026) * 100 : null
+        }))
+        .sort((a, b) => b.ytd2026 - a.ytd2026)
+        .slice(0, 30);
+
+      const tbody = document.getElementById("oemRankingBody");
+      tbody.innerHTML = "";
+
+      ranking.forEach((item, index) => {
+        const tr = document.createElement("tr");
+
+        const yoyClass = item.yoy >= 0 ? "positive" : "negative";
+
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.oem}</td>
+          <td>${formatVolumeFull(item.ytd2026)}</td>
+          <td>${formatVolumeFull(item.ytd2025)}</td>
+          <td class="${yoyClass}">${item.yoy === null ? "-" : formatPct(item.yoy)}</td>
+          <td>${item.nevShare === null ? "-" : formatPct(item.nevShare)}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    /********************************************************************
+     * 16) DYNAMIC NOTES
+     ********************************************************************/
+
+    function updateNotes(data, latestMonthIndex) {
+      const latestMonth = MONTHS.find(m => m.index === latestMonthIndex);
+
+      const ytd2026 = sumYtd(data, YEAR_CURRENT, latestMonthIndex);
+      const ytd2025 = sumYtd(data, YEAR_BASE, latestMonthIndex);
+      const ytdYoy = yoy(ytd2026, ytd2025);
+      const nevShare = getNevShare(data, YEAR_CURRENT, latestMonthIndex);
+
+      const monthlyYoys = MONTHS
+        .filter(month => month.index <= latestMonthIndex)
+        .map(month => {
+          const v2026 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_CURRENT, month), 0);
+          const v2025 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_BASE, month), 0);
+
+          return {
+            month,
+            value: yoy(v2026, v2025),
+            v2026,
+            v2025
+          };
+        })
+        .filter(x => x.value !== null);
+
+      const bestMonth = monthlyYoys.length
+        ? monthlyYoys.reduce((best, item) => item.value > best.value ? item : best, monthlyYoys[0])
+        : null;
+
+      const weakestMonth = monthlyYoys.length
+        ? monthlyYoys.reduce((weak, item) => item.value < weak.value ? item : weak, monthlyYoys[0])
+        : null;
+
+      document.getElementById("monthlyTrendNote").innerHTML =
+        `Data available through <strong>${latestMonth ? latestMonth.short : "-"} ${YEAR_CURRENT}</strong>. ` +
+        `${YEAR_CURRENT} YTD volume is <strong>${formatVolume(ytd2026)}</strong> versus ` +
+        `<strong>${formatVolume(ytd2025)}</strong> in the same ${YEAR_BASE} period.`;
+
+      document.getElementById("monthlyYoyNote").innerHTML =
+        bestMonth && weakestMonth
+          ? `YTD YoY growth is <strong>${formatPct(ytdYoy)}</strong>. ` +
+            `Best month: <strong>${bestMonth.month.short} ${formatPct(bestMonth.value)}</strong>. ` +
+            `Weakest month: <strong>${weakestMonth.month.short} ${formatPct(weakestMonth.value)}</strong>.`
+          : "Monthly YoY growth is calculated against the same month in 2025.";
+
+      document.getElementById("propulsionNote").innerHTML =
+        `NEV share is <strong>${nevShare === null ? "-" : formatPct(nevShare)}</strong> for ${YEAR_CURRENT} YTD. ` +
+        `HV and MHV are included in Fuel-powered / Traditional Hybrids (Non-NEV).`;
+
+      document.getElementById("topBrandsNote").innerHTML =
+        `Ranking is based on ${YEAR_CURRENT} YTD actual volume through ` +
+        `<strong>${latestMonth ? latestMonth.short : "-"} ${YEAR_CURRENT}</strong>.`;
+
+      const notes = [
+        `Data available through ${latestMonth ? latestMonth.short : "-"} ${YEAR_CURRENT}.`,
+        `${YEAR_CURRENT} YTD actual volume is ${formatVolume(ytd2026)}.`,
+        `YTD YoY growth versus the same ${YEAR_BASE} period is ${ytdYoy === null ? "-" : formatPct(ytdYoy)}.`,
+        `${YEAR_CURRENT} YTD NEV share is ${nevShare === null ? "-" : formatPct(nevShare)}.`,
+        `Top brand and OEM rankings are based on available ${YEAR_CURRENT} actual months only.`
+      ];
+
+      const notesList = document.getElementById("managementNotes");
+      notesList.innerHTML = notes.map(note => `<li>${note}</li>`).join("");
+    }
+
+    /********************************************************************
+     * 17) MAIN UPDATE FUNCTION
+     ********************************************************************/
+
+    function updateDashboard() {
+      const data = getFilteredData();
+      const latestMonthIndex = getLatestAvailableMonth(data);
+
+      document.getElementById("recordInfo").textContent =
+        `All market · ${data.length.toLocaleString()} model-program records`;
+
+      document.getElementById("lastUpdated").textContent =
+        `Last updated: ${new Date().toLocaleDateString("en-GB")}`;
+
+      if (!latestMonthIndex) {
+        document.getElementById("recordInfo").textContent =
+          `No 2026 monthly actual data found for current filter selection`;
+        return;
+      }
+
+      updateKpis(data, latestMonthIndex);
+      updateMonthlyTrendChart(data, latestMonthIndex);
+      updateMonthlyYoyChart(data, latestMonthIndex);
+      updatePropulsionMixChart(data, latestMonthIndex);
+      updateTopBrands(data, latestMonthIndex);
+      updateOemRanking(data, latestMonthIndex);
+      updateNotes(data, latestMonthIndex);
+    }
+
+    /********************************************************************
+     * 18) INIT
+     ********************************************************************/
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setupFilters();
+      updateDashboard();
+    });
+
+  </script>
+</body>
+</html>
