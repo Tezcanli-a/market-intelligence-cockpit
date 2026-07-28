@@ -761,24 +761,24 @@ function getMonthValue(row, year, index) {
 
 function getLatestAvailableMonth(data){
 
-    let latest = 0;
+  let latest = 0;
 
-    monthColumns2026.forEach((month,index)=>{
+  monthColumns2026.forEach((monthName, index) => {
 
-        const total = data.reduce(
-            (sum,row)=>sum + Number(row[month] || 0),
-            0
-        );
+    const total = data.reduce((sum, row) => {
+      return sum + toNumber(row[monthName]);
+    }, 0);
 
-        if(total > 0){
-            latest = index + 1;
-        }
+    console.log(monthName, total);
 
-    });
+    if (total > 0) {
+      latest = index + 1;
+    }
 
-    return latest;
+  });
+
+  return latest;
 }
-
     function getMonthlyTotals(data, year, latestMonthIndex = 12) {
       return MONTHS
         .filter(month => month.index <= latestMonthIndex)
