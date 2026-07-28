@@ -774,7 +774,7 @@ function getLatestAvailableMonth(data){
       return sum + toNumber(row[monthName]);
     }, 0);
 
-    console.log(monthName, total);
+   console.log("TOTAL", monthName, total);
 
     if (total > 0) {
       latest = index + 1;
@@ -1041,18 +1041,15 @@ const yMax = maxVal + padding;
             grid: { display: false },
             ticks: { font: { size: 11 } }
           },
-          y: {
-            beginAtZero: true,
-            grid: {
-           color: "#edf2f7",
-           drawBorder: false
+y: {
+    beginAtZero: true,
+    grid: { color: "#e6eef5" },
+    ticks: {
+        callback: value => formatVolume(value),
+        font: { size: 11 }
+    }
 }
-ticks: {
-   maxTicksLimit: 5
-}
-          }
-        }
-      };
+};
 
       if (monthlyTrendChart) monthlyTrendChart.destroy();
       monthlyTrendChart = new Chart(document.getElementById("monthlyTrendChart"), {
