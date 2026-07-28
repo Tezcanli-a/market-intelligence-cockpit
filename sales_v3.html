@@ -1338,7 +1338,46 @@ ctx.fillText(
         }]
       });
     }
+function updateRegionalSalesChart(data, latestMonthIndex) {
 
+  if(regionalSalesChart){
+      regionalSalesChart.destroy();
+  }
+
+  regionalSalesChart = new Chart(
+    document.getElementById("regionalSalesChart"),
+    {
+      type:"bar",
+      data:{
+        labels:["2026 YTD"],
+        datasets:[]
+      }
+    }
+  );
+
+}
+
+function updateModelShareChart(data, latestMonthIndex) {
+
+  if(modelShareChart){
+      modelShareChart.destroy();
+  }
+
+  modelShareChart = new Chart(
+    document.getElementById("modelShareChart"),
+    {
+      type:"doughnut",
+      data:{
+        labels:["Placeholder"],
+        datasets:[{
+          data:[1]
+        }]
+      }
+    }
+  );
+
+}
+    
     function updateTopBrands(data, latestMonthIndex) {
       const brands = sumYtdForGroup(data, YEAR_CURRENT, latestMonthIndex, "Maker/Brand").slice(0, 15);
       const container = document.getElementById("topBrandsList");
