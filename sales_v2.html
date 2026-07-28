@@ -711,8 +711,8 @@
     function setupFilters() {
       populateSelect(filterIds.region, uniqueValues(rawData, "Region"), "All Regions");
       populateSelect(filterIds.country, uniqueValues(rawData, "Country"), "All Countries");
-      populateSelect(filterIds.salesGroup, uniqueValues(rawData, "SalesGroup"), "All OEMs");
-      populateSelect(filterIds.brand, uniqueValues(rawData, "Brand"), "All Brands");
+      populateSelect(filterIds.salesGroup, uniqueValues(rawData, "Group"), "All OEMs");
+      populateSelect(filterIds.brand, uniqueValues(rawData, "Maker/Brand"), "All Brands");
       populateSelect(filterIds.bodyType, uniqueValues(rawData, "BodyType"), "All Body Types");
 
       const segmentValues = uniqueValues(rawData, "Segment").length
@@ -752,8 +752,8 @@
 
         return (!region || row.Region === region)
           && (!country || row.Country === country)
-          && (!salesGroup || row.SalesGroup === salesGroup)
-          && (!brand || row.Brand === brand)
+          && (!salesGroup || row.["Group"] === salesGroup)
+          && (!brand || row.["Maker/Brand"] === brand)
           && (!bodyType || row.BodyType === bodyType)
           && (!segment || rowSegment === segment)
           && (!propulsion || cleanPropulsion === propulsion);
