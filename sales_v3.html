@@ -1770,7 +1770,7 @@ function updateModelShareChart(data, latestMonthIndex) {
     }
 
     function updateDashboard() {
-      const data = getFilteredDataWithoutRegion();
+      const data = getFilteredData();
 
       document.getElementById("recordInfo").textContent =
         `All market · ${data.length.toLocaleString()} model-program records`;
