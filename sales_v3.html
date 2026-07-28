@@ -879,7 +879,29 @@ function getFilteredData() {
       && (!propulsion || cleanPropulsion === propulsion);
   });
 }
+function getFilteredData() {
+  const region = document.getElementById(filterIds.region).value;
+  const country = document.getElementById(filterIds.country).value;
+  const salesGroup = document.getElementById(filterIds.salesGroup).value;
+  const brand = document.getElementById(filterIds.brand).value;
+  const bodyType = document.getElementById(filterIds.bodyType).value;
+  const segment = document.getElementById(filterIds.segment).value;
+  const autoOnroad = document.getElementById(filterIds.autoOnroad).value;
+  const propulsion = document.getElementById(filterIds.propulsion).value;
 
+  return rawData.filter(row => {
+    const cleanPropulsion = classifyPropulsion(row["PowerTrain"]);
+
+    return (!region || row["Region"] === region)
+      && (!country || row["Country"] === country)
+      && (!salesGroup || row["Group"] === salesGroup)
+      && (!brand || row["Maker/Brand"] === brand)
+      && (!bodyType || row["Type"] === bodyType)
+      && (!segment || row["Segment"] === segment)
+      && (!autoOnroad || row["Auto/Onroad"] === autoOnroad)
+      && (!propulsion || cleanPropulsion === propulsion);
+  });
+}
 function getFilteredDataWithoutRegion() {
   const country = document.getElementById(filterIds.country).value;
   const salesGroup = document.getElementById(filterIds.salesGroup).value;
