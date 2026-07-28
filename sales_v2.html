@@ -1405,7 +1405,76 @@ fetch("./Dashboard_data_LV_sales.csv")
   .catch(error => {
       console.error(error);
   });
+function normalizeKey(value){
+    return (value || "")
+        .toString()
+        .replace(/\uFEFF/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+    
+    function detectDelimiter(firstLine){
+        const delimiters = [",", ";", "\t"];
+        let bestDelimiter = ",";
+        let bestCount = -1;
+    
+        delimiters.forEach(delimiter => {
+            let count = 0;
+        let insideQuotes = false;
 
+        for(let i = 0; i < firstLine.length; i++){
+            const char = firstLine[i];
+
+            if(char === '"'){
+                insideQuotes = !insideQuotes;
+            } else if(char === delimiter && !insideQuotes){
+                count++;
+            }
+        }
+
+        if(count > bestCount){
+            bestCount = count;
+            bestDelimiter = delimiter;
+        }
+    });
+
+    return bestDelimiter;
+}
+
+function splitLine(line, delimiter){
+    const result = [];
+    let current = "";
+    let insideQuotes = false;
+
+    for(let i = 0; i < line.length; i++){
+        const char = line[i];
+        const nextChar = line[i + 1];
+
+        if(char === '"' && insideQuotes && nextChar === '"'){
+            current += '"';
+            i++;
+        } else if(char === '"'){
+            insideQuotes = !insideQuotes;
+        } else if(char === delimiter && !insideQuotes){
+            result.push(current);
+            current = "";
+        } else {
+            current += char;
+        }
+    }
+
+    result.push(current);
+    return result;
+}
+
+function cleanCell(value){
+    return (value || "")
+        .toString()
+        .replace(/\uFEFF/g, "")
+        .replace(/^"|"$/g, "")
+        .replace(/""/g, '"')
+        .trim();
+}
     function parseCSV(text){
     const lines = text.trim().split(/\r?\n/);
     const delimiter = detectDelimiter(lines[0]);
