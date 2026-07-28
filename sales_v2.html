@@ -747,7 +747,7 @@ function getMonthValue(row, year, index) {
 
         return (!region || row.Region === region)
           && (!country || row.Country === country)
-          && (!Group || row["Group"] === Group)
+          && (!salesGroup || row["Group"] === salesGroup)
           && (!brand || row["Maker/Brand"] === brand)
           && (!bodyType || row["Type"] === bodyType)
           && (!segment || rowSegment === segment)
