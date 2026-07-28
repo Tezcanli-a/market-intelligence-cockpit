@@ -40,31 +40,44 @@
       padding: 18px 22px 28px;
     }
 
-    .top-nav {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      background: linear-gradient(90deg, #003b70, #005195);
-      color: white;
-      padding: 13px 18px;
-      border-radius: 0 0 16px 16px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
+.hero-banner{
+    background:#005195;
+    color:white;
+    padding:22px 28px;
+}
 
-    .top-nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      opacity: 0.9;
-    }
+.hero-banner h1{
+    margin:0;
+    font-size:28px;
+    font-weight:700;
+}
 
-    .top-nav a.active {
-      opacity: 1;
-      border-bottom: 2px solid white;
-      padding-bottom: 3px;
-    }
+.hero-banner p{
+    margin-top:8px;
+    margin-bottom:0;
+    font-size:14px;
+}
+
+.dashboard-nav{
+    background:white;
+    padding:12px 28px;
+    border-bottom:1px solid #d6e0ea;
+}
+
+.dashboard-nav a{
+    color:#005195;
+    text-decoration:none;
+    margin-right:30px;
+    font-weight:500;
+}
+
+.dashboard-nav a.active{
+    background:#005195;
+    color:white;
+    padding:8px 18px;
+    border-radius:20px;
+    font-weight:600;
+}
 
     .header {
       display: flex;
@@ -343,12 +356,21 @@
 
 <body>
 
-<div class="top-nav">
-  <a href="index.html">Home</a>
-  <a href="production.html">Production</a>
-  <a href="sales_v3.html" class="actives.html">News</a>
-  <a href="mhcvproduction.html">MHCV</a>
-</div>
+<header class="hero-banner">
+    <h1>Market Intelligence Sales Dashboard</h1>
+    <p>
+        Global light vehicle sales statistics, market trends,
+        brands, segments and propulsion mix
+    </p>
+</header>
+
+<nav class="dashboard-nav">
+    <a href="index.html">Home</a>
+    <a href="production.html">Production</a>
+    sales_v3.htmlSales</a>
+    <a href="news.html">News</a>
+    <a href="mhcvproduction.html">MHCV</a>
+</nav>
 
   <main class="page">
 
