@@ -1249,7 +1249,7 @@ function getLatestAvailableMonth(data){
         MONTHS
           .filter(month => month.index <= latestMonthIndex)
           .forEach(month => {
-            const v2026 = getMonthValue(row, YEAR_CURRENT, month.index - 1), 0);
+            const v2026 = getMonthValue(row, YEAR_CURRENT, month.index - 1);
             const v2025 = getMonthValue(row, YEAR_BASE, month.index - 1);
 
             entry.ytd2026 += v2026;
