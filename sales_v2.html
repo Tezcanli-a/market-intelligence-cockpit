@@ -1390,7 +1390,46 @@ function getLatestAvailableMonth(data){
     /********************************************************************
      * 18) INIT
      ********************************************************************/
+let rawData = [];
 
+fetch("./Dashboard_data_LV_sales.csv")
+  .then(response => response.text())
+  .then(text => {
+
+      rawData = parseCSV(text);
+
+      setupFilters();
+      updateDashboard();
+
+  })
+  .catch(error => {
+      console.error(error);
+  });
+
+    function parseCSV(text){
+    const lines = text.trim().split(/\r?\n/);
+    const delimiter = detectDelimiter(lines[0]);
+
+    const headers = splitLine(lines[0], delimiter)
+        .map(h => normalizeKey(cleanCell(h)));
+
+    return lines.slice(1).map(line => {
+        const values = splitLine(line, delimiter);
+        const row = {};
+
+        headers.forEach((header, index) => {
+            row[header] = values[index] ? cleanCell(values[index]) : "";
+        });
+
+        return row;
+    }).filter(row =>
+        row["Region"] ||
+        row["Country"] ||
+        row["Maker/Brand"] ||
+        row["Model"]
+    );
+}
+    
     document.addEventListener("DOMContentLoaded", () => {
       setupFilters();
       updateDashboard();
