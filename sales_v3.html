@@ -1338,44 +1338,46 @@ ctx.fillText(
         }]
       });
     }
-function updateRegionalSalesChart(data, latestMonthIndex) {
+function updateRegionalSalesChart(data, latestMonthIndex){
 
-  if(regionalSalesChart){
-      regionalSalesChart.destroy();
-  }
-
-  regionalSalesChart = new Chart(
-    document.getElementById("regionalSalesChart"),
-    {
-      type:"bar",
-      data:{
-        labels:["2026 YTD"],
-        datasets:[]
-      }
+    if(regionalSalesChart){
+        regionalSalesChart.destroy();
     }
-  );
 
+    regionalSalesChart = new Chart(
+        document.getElementById("regionalSalesChart"),
+        {
+            type:"bar",
+            data:{
+                labels:["2026 YTD"],
+                datasets:[{
+                    label:"Test",
+                    data:[100],
+                    backgroundColor:"#005195"
+                }]
+            }
+        }
+    );
 }
 
-function updateModelShareChart(data, latestMonthIndex) {
+function updateModelShareChart(data, latestMonthIndex){
 
-  if(modelShareChart){
-      modelShareChart.destroy();
-  }
-
-  modelShareChart = new Chart(
-    document.getElementById("modelShareChart"),
-    {
-      type:"doughnut",
-      data:{
-        labels:["Placeholder"],
-        datasets:[{
-          data:[1]
-        }]
-      }
+    if(modelShareChart){
+        modelShareChart.destroy();
     }
-  );
 
+    modelShareChart = new Chart(
+        document.getElementById("modelShareChart"),
+        {
+            type:"doughnut",
+            data:{
+                labels:["Test A","Test B"],
+                datasets:[{
+                    data:[60,40]
+                }]
+            }
+        }
+    );
 }
     
     function updateTopBrands(data, latestMonthIndex) {
