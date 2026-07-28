@@ -978,9 +978,15 @@
               const value = dataset.data[index];
               if (!value && value !== 0) return;
 
-              ctx.fillStyle = dataset.borderColor || "#005195";
-              ctx.fillText(formatVolume(value), point.x, point.y - 18);
-            });
+ctx.fillStyle = dataset.borderColor || "#005195";
+
+const offset = datasetIndex === 0 ? -22 : 22;
+
+ctx.fillText(
+  formatVolume(value),
+  point.x,
+  point.y + offset
+);
           });
         }
 
