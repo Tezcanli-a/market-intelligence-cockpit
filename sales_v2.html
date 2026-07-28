@@ -534,20 +534,20 @@
      * 2) MONTH CONFIGURATION
      ********************************************************************/
 
-    const MONTHS = [
-      { index: 1, short: "Jan", label: "1" },
-      { index: 2, short: "Feb", label: "2" },
-      { index: 3, short: "Mar", label: "3" },
-      { index: 4, short: "Apr", label: "4" },
-      { index: 5, short: "May", label: "5" },
-      { index: 6, short: "Jun", label: "6" },
-      { index: 7, short: "Jul", label: "7" },
-      { index: 8, short: "Aug", label: "8" },
-      { index: 9, short: "Sep", label: "9" },
-      { index: 10, short: "Oct", label: "10" },
-      { index: 11, short: "Nov", label: "11" },
-      { index: 12, short: "Dec", label: "12" }
-    ];
+const MONTHS = [
+ { index:1, short:"Jan", label:"Jan" },
+ { index:2, short:"Feb", label:"Feb" },
+ { index:3, short:"Mar", label:"Mar" },
+ { index:4, short:"Apr", label:"Apr" },
+ { index:5, short:"May", label:"May" },
+ { index:6, short:"Jun", label:"Jun" },
+ { index:7, short:"Jul", label:"Jul" },
+ { index:8, short:"Aug", label:"Aug" },
+ { index:9, short:"Sep", label:"Sep" },
+ { index:10, short:"Oct", label:"Oct" },
+ { index:11, short:"Nov", label:"Nov" },
+ { index:12, short:"Dec", label:"Dec" }
+];
 
     const YEAR_BASE = 2025;
     const YEAR_CURRENT = 2026;
@@ -1194,7 +1194,7 @@ function getLatestAvailableMonth(data){
      ********************************************************************/
 
     function updateTopBrands(data, latestMonthIndex) {
-      const brands = sumYtdForGroup(data, YEAR_CURRENT, latestMonthIndex, "Brand").slice(0, 10);
+      const brands = sumYtdForGroup(data, YEAR_CURRENT, latestMonthIndex, "Maker/Brand").slice(0, 10);
       const container = document.getElementById("topBrandsList");
       container.innerHTML = "";
 
@@ -1233,7 +1233,7 @@ function getLatestAvailableMonth(data){
       const oemMap = new Map();
 
       data.forEach(row => {
-        const oem = row.Group || "Unknown";
+        const oem = row["Group"] || "Unknown";
         const cleanPropulsion = classifyPropulsion(row.PowerTrain);
 
         if (!oemMap.has(oem)) {
