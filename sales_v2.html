@@ -783,7 +783,7 @@ function getLatestAvailableMonth(data){
         .filter(month => month.index <= latestMonthIndex)
         .map(month => {
           const total = data.reduce((sum, row) => {
-            return sum + getMonthlyValue(row, year, month);
+            return sum + getMonthValue(row, year, month.index - 1);
           }, 0);
 
           return {
@@ -798,7 +798,7 @@ function getLatestAvailableMonth(data){
         .filter(month => month.index <= latestMonthIndex)
         .reduce((sum, month) => {
           return sum + data.reduce((rowSum, row) => {
-            return rowSum + getMonthlyValue(row, year, month);
+            return rowSum + getMonthValue(row, year, month.index - 1);
           }, 0);
         }, 0);
     }
@@ -812,7 +812,7 @@ function getLatestAvailableMonth(data){
 
         const rowTotal = MONTHS
           .filter(month => month.index <= latestMonthIndex)
-          .reduce((sum, month) => sum + getMonthlyValue(row, year, month), 0);
+          .reduce((sum, month) => sum + getMonthValue(row, year, month.index - 1), 0);
 
         map.set(key, currentValue + rowTotal);
       });
@@ -832,7 +832,7 @@ function getLatestAvailableMonth(data){
         MONTHS
           .filter(month => month.index <= latestMonthIndex)
           .forEach(month => {
-            const value = getMonthlyValue(row, year, month);
+            const value = getMonthValue(row, year, month.index - 1);
             total += value;
             if (group === "NEV") nev += value;
           });
@@ -850,7 +850,7 @@ function getLatestAvailableMonth(data){
         let unknown = 0;
 
         data.forEach(row => {
-          const value = getMonthlyValue(row, YEAR_CURRENT, month);
+          const value = getMonthValue(row, YEAR_CURRENT, month.index - 1);
           const group = classifyPropulsion(row.PowerTrain);
 
           if (group === "NEV") {
@@ -1046,8 +1046,8 @@ function getLatestAvailableMonth(data){
       const months = MONTHS.filter(month => month.index <= latestMonthIndex);
 
       const monthlyYoy = months.map(month => {
-        const value2026 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_CURRENT, month), 0);
-        const value2025 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_BASE, month), 0);
+        const value2026 = data.reduce((sum, row) => sum + getMonthValue(row, YEAR_CURRENT, month.index - 1), 0);
+        const value2025 = data.reduce((sum, row) => sum + getMonthValue(row, YEAR_BASE, month.index - 1), 0);
         return yoy(value2026, value2025);
       });
 
@@ -1249,8 +1249,8 @@ function getLatestAvailableMonth(data){
         MONTHS
           .filter(month => month.index <= latestMonthIndex)
           .forEach(month => {
-            const v2026 = getMonthlyValue(row, YEAR_CURRENT, month);
-            const v2025 = getMonthlyValue(row, YEAR_BASE, month);
+            const v2026 = getMonthValue(row, YEAR_CURRENT, month.index - 1), 0);
+            const v2025 = getMonthValue(row, YEAR_BASE, month.index - 1);
 
             entry.ytd2026 += v2026;
             entry.ytd2025 += v2025;
@@ -1306,8 +1306,8 @@ function getLatestAvailableMonth(data){
       const monthlyYoys = MONTHS
         .filter(month => month.index <= latestMonthIndex)
         .map(month => {
-          const v2026 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_CURRENT, month), 0);
-          const v2025 = data.reduce((sum, row) => sum + getMonthlyValue(row, YEAR_BASE, month), 0);
+          const v2026 = data.reduce((sum, row) => sum + getMonthValue(row, YEAR_CURRENT, month.index - 1), 0);
+          const v2025 = data.reduce((sum, row) => sum + getMonthValue(row, YEAR_BASE, month.index - 1), 0);
 
           return {
             month,
