@@ -1368,7 +1368,10 @@ function getLatestAvailableMonth(data){
       const latestMonthIndex = getLatestAvailableMonth(data);
           console.log("Records:", data.length);
           console.log("LatestMonth:", latestMonthIndex);
-          console.log("First row:", data[0]);
+          console.log("First row keys:", Object.keys(data[0]));
+          console.log("Jan26:", data[0]["Jan 26"]);
+          console.log("Feb26:", data[0]["Feb 26"]);
+          console.log("Mrz26:", data[0]["Mrz 26"]);
 
       document.getElementById("recordInfo").textContent =
         `All market · ${data.length.toLocaleString()} model-program records`;
