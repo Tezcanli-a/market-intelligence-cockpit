@@ -559,9 +559,14 @@ const MONTHS = [
     function toNumber(value) {
       if (value === null || value === undefined || value === "") return 0;
       if (typeof value === "number") return value;
-      return Number(String(value).replace(/,/g, "").trim()) || 0;
-    }
 
+      const cleaned = String(value)
+      .replace(/\./g, "")
+      .replace(/,/g, "")
+      .trim();
+
+return Number(cleaned) || 0;
+}
     function formatVolume(value) {
       const v = Number(value) || 0;
       if (Math.abs(v) >= 1_000_000) return (v / 1_000_000).toFixed(2) + "m";
@@ -764,7 +769,7 @@ function getLatestAvailableMonth(data){
   let latest = 0;
 
   monthColumns2026.forEach((monthName, index) => {
-
+    console.log(monthName, data[0][monthName]);
     const total = data.reduce((sum, row) => {
       return sum + toNumber(row[monthName]);
     }, 0);
@@ -925,7 +930,11 @@ function getLatestAvailableMonth(data){
 
             if (chart.canvas.id === "monthlyTrendChart") {
               ctx.fillStyle = dataset.borderColor || "#005195";
-              ctx.fillText(formatVolume(value), point.x, point.y - 9);
+            ctx.fillText(
+             formatVolume(value),
+             point.x,
+             point.y - 18
+);
             }
           });
         });
@@ -991,7 +1000,19 @@ function getLatestAvailableMonth(data){
           }
         ]
       };
+      
+const allValues = [
+  ...totals2025.map(x => x.value),
+  ...totals2026.map(x => x.value)
+];
 
+const minVal = Math.min(...allValues);
+const maxVal = Math.max(...allValues);
+
+const padding = (maxVal - minVal) * 0.4;
+
+const yMin = minVal - padding;
+const yMax = maxVal + padding;
       const options = {
         responsive: true,
         maintainAspectRatio: false,
@@ -1022,11 +1043,13 @@ function getLatestAvailableMonth(data){
           },
           y: {
             beginAtZero: true,
-            grid: { color: "#e6eef5" },
-            ticks: {
-              callback: value => formatVolume(value),
-              font: { size: 11 }
-            }
+            grid: {
+           color: "#edf2f7",
+           drawBorder: false
+}
+ticks: {
+   maxTicksLimit: 5
+}
           }
         }
       };
