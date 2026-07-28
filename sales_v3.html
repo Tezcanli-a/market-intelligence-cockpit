@@ -1498,9 +1498,17 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+          padding: {
+            top: 8,
+            right: 8,
+            bottom: 0,
+            left: 2
+          }
+        },
         plugins: {
           legend: {
-            position: "top",
+            position: "right",
             labels: {
               boxWidth: 14,
               font: { size: 10 }
@@ -1508,7 +1516,8 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
           },
           tooltip: {
             callbacks: {
-              label: ctx => `${ctx.dataset.label}: ${formatVolumeFull(ctx.raw)}`
+              label: ctx =>
+                `${ctx.dataset.label}: ${formatVolumeFull(ctx.raw)}`
             }
           }
         },
@@ -1516,7 +1525,9 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
           x: {
             stacked: true,
             grid: { display: false },
-            ticks: { font: { size: 11 } }
+            ticks: {
+              font: { size: 11 }
+            }
           },
           y: {
             stacked: true,
@@ -1529,7 +1540,42 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
             }
           }
         }
-      }
+      },
+      plugins: [{
+        id: "regionalMonthlyLabels",
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+
+          ctx.save();
+          ctx.font = "bold 9px Segoe UI";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#0f172a";
+
+          chart.data.datasets.forEach((dataset, datasetIndex) => {
+            const meta = chart.getDatasetMeta(datasetIndex);
+
+            meta.data.forEach((bar, index) => {
+              const value = dataset.data[index];
+
+              if (!value || value <= 0) return;
+
+              const props = bar.getProps(["x", "y", "base"], true);
+              const height = Math.abs(props.base - props.y);
+
+              // Only show labels when the stacked segment is high enough
+              if (height > 22) {
+                ctx.fillText(
+                  formatVolume(value),
+                  props.x,
+                  props.y + height / 2 + 4
+                );
+              }
+            });
+          });
+
+          ctx.restore();
+        }
+      }]
     }
   );
 
