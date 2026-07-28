@@ -1430,30 +1430,57 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
     "Unknown"
   ];
 
-  const grouped = sumYtdByField(
-    regionalData,
-    "Region",
-    YEAR_CURRENT,
-    latestMonthIndex
-  );
+  const months = MONTHS.filter(month => month.index <= latestMonthIndex);
 
-  const groupedMap = new Map(grouped.map(item => [item.name, item.value]));
+  const regionalMonthlyMap = new Map();
+
+  regionalData.forEach(row => {
+    const region = row["Region"] || "Unknown";
+
+    if (!regionalMonthlyMap.has(region)) {
+      regionalMonthlyMap.set(region, Array(months.length).fill(0));
+    }
+
+    const values = regionalMonthlyMap.get(region);
+
+    months.forEach((month, index) => {
+      values[index] += getMonthValue(row, YEAR_CURRENT, index);
+    });
+  });
+
+  const usedRegions = [...regionalMonthlyMap.entries()]
+    .map(([region, values]) => ({
+      region,
+      values,
+      total: values.reduce((sum, value) => sum + value, 0)
+    }))
+    .filter(item => item.total > 0);
 
   const orderedRegions = [
-    ...regionOrder.filter(region => groupedMap.has(region)),
-    ...grouped
-      .map(item => item.name)
+    ...regionOrder.filter(region =>
+      usedRegions.some(item => item.region === region)
+    ),
+    ...usedRegions
+      .map(item => item.region)
       .filter(region => !regionOrder.includes(region))
   ];
 
-  const datasets = orderedRegions.map(region => ({
-    label: region,
-    data: [groupedMap.get(region) || 0],
-    backgroundColor: regionColors[region] || "#9aa8b5",
-    stack: "regionalSales"
-  }));
+  const datasets = orderedRegions.map(region => {
+    const entry = usedRegions.find(item => item.region === region);
 
-  const totalRegionalSales = grouped.reduce((sum, item) => sum + item.value, 0);
+    return {
+      label: region,
+      data: entry ? entry.values : Array(months.length).fill(0),
+      backgroundColor: regionColors[region] || "#9aa8b5",
+      stack: "regionalSales"
+    };
+  });
+
+  const totalRegionalSales = usedRegions.reduce(
+    (sum, item) => sum + item.total,
+    0
+  );
+
   const latestMonth = MONTHS.find(m => m.index === latestMonthIndex);
 
   if (regionalSalesChart) {
@@ -1465,7 +1492,7 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
     {
       type: "bar",
       data: {
-        labels: ["2026 YTD"],
+        labels: months.map(month => month.label),
         datasets
       },
       options: {
@@ -1502,44 +1529,12 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
             }
           }
         }
-      },
-      plugins: [{
-        id: "regionalValueLabels",
-        afterDatasetsDraw(chart) {
-          const { ctx } = chart;
-
-          ctx.save();
-          ctx.font = "bold 10px Segoe UI";
-          ctx.textAlign = "center";
-          ctx.fillStyle = "#0f172a";
-
-          chart.data.datasets.forEach((dataset, datasetIndex) => {
-            const meta = chart.getDatasetMeta(datasetIndex);
-            const value = dataset.data[0];
-
-            if (!value || value <= 0) return;
-
-            const bar = meta.data[0];
-            const props = bar.getProps(["x", "y", "base"], true);
-            const height = Math.abs(props.base - props.y);
-
-            if (height > 24) {
-              ctx.fillText(
-                formatVolume(value),
-                props.x,
-                props.y + height / 2 + 4
-              );
-            }
-          });
-
-          ctx.restore();
-        }
-      }]
+      }
     }
   );
 
   document.getElementById("regionalSalesNote").innerHTML =
-    `Regional distribution is based on <strong>${YEAR_CURRENT} YTD actual volume</strong> through ` +
+    `Regional sales distribution is shown by <strong>2026 monthly actual volume</strong> through ` +
     `<strong>${latestMonth ? latestMonth.short : "-"} ${YEAR_CURRENT}</strong>. ` +
     `Total shown: <strong>${formatVolume(totalRegionalSales)}</strong>.`;
 }
@@ -1791,43 +1786,45 @@ function updateModelShareChart(data, latestMonthIndex) {
       notesList.innerHTML = notes.map(note => `<li>${note}</li>`).join("");
     }
 
-    function updateDashboard() {
-      const data = getFilteredData();
+function updateDashboard() {
+  const data = getFilteredData();
 
-      document.getElementById("recordInfo").textContent =
-        `All market · ${data.length.toLocaleString()} model-program records`;
+  document.getElementById("recordInfo").textContent =
+    `All market · ${data.length.toLocaleString()} model-program records`;
 
-      document.getElementById("lastUpdated").textContent =
-        `Last updated: ${new Date().toLocaleDateString("en-GB")}`;
+  document.getElementById("lastUpdated").textContent =
+    `Last updated: ${new Date().toLocaleDateString("en-GB")}`;
 
-      if (!data.length) {
-        document.getElementById("recordInfo").textContent =
-          "No records found for current filter selection";
-        return;
-      }
+  if (!data.length) {
+    document.getElementById("recordInfo").textContent =
+      "No records found for current filter selection";
+    return;
+  }
 
-      const latestMonthIndex = getLatestAvailableMonth(data);
+  const latestMonthIndex = getLatestAvailableMonth(data);
 
-      if (!latestMonthIndex) {
-        document.getElementById("recordInfo").textContent =
-          "No 2026 monthly actual data found for current filter selection";
-        return;
-      }
+  if (!latestMonthIndex) {
+    document.getElementById("recordInfo").textContent =
+      "No 2026 monthly actual data found for current filter selection";
+    return;
+  }
 
-const regionalData = getFilteredDataWithoutRegion();
+  const regionalData = getFilteredDataWithoutRegion();
 
-updateMonthlyTrendChart(data, latestMonthIndex);
-updateMonthlyYoyChart(data, latestMonthIndex);
+  updateKpis(data, latestMonthIndex);
 
-updatePropulsionMixChart(data, latestMonthIndex);
+  updateMonthlyTrendChart(data, latestMonthIndex);
+  updateMonthlyYoyChart(data, latestMonthIndex);
 
-updateRegionalSalesChart(regionalData, latestMonthIndex);
-updateModelShareChart(data, latestMonthIndex);
+  updatePropulsionMixChart(data, latestMonthIndex);
+  updateRegionalSalesChart(regionalData, latestMonthIndex);
 
-updateTopBrands(data, latestMonthIndex);
-updateOemRanking(data, latestMonthIndex);
-updateNotes(data, latestMonthIndex);
-    }
+  updateTopBrands(data, latestMonthIndex);
+  updateModelShareChart(data, latestMonthIndex);
+
+  updateOemRanking(data, latestMonthIndex);
+  updateNotes(data, latestMonthIndex);
+}
 
     fetch("./Dashboard_data_LV_sales.csv")
       .then(response => {
