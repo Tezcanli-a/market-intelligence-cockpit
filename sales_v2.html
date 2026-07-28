@@ -598,14 +598,14 @@
      * If your column names are different, only adjust this function.
      ********************************************************************/
 
-  const monthColumns2025 = [
- "Jan 25","Feb 25","Mrz 25","Apr 25","Mai 25","Jun 25",
- "Jul 25","Aug 25","Sep 25","Okt 25","Nov 25","Dez 25"
+const monthColumns2025 = [
+ "Jan. 25","Feb. 25","Mrz. 25","Apr. 25","Mai. 25","Jun. 25",
+ "Jul. 25","Aug. 25","Sep. 25","Okt. 25","Nov. 25","Dez. 25"
 ];
 
 const monthColumns2026 = [
- "Jan 26","Feb 26","Mrz 26","Apr 26","Mai 26","Jun 26",
- "Jul 26","Aug 26","Sep 26","Okt 26","Nov 26","Dez 26"
+ "Jan. 26","Feb. 26","Mrz. 26","Apr. 26","Mai. 26","Jun. 26",
+ "Jul. 26","Aug. 26","Sep. 26","Okt. 26","Nov. 26","Dez. 26"
 ];
 
 function getMonthValue(row, year, index) {
@@ -1366,9 +1366,6 @@ function getLatestAvailableMonth(data){
     function updateDashboard() {
       const data = getFilteredData();
       const latestMonthIndex = getLatestAvailableMonth(data);
-      console.log("Jan26 =", data[0]["Jan 26"]);
-      console.log("Feb26 =", data[0]["Feb 26"]);
-      console.log("Keys =", Object.keys(data[0]));
           console.log("Records:", data.length);
           console.log("LatestMonth:", latestMonthIndex);
           console.log("First row keys:", Object.keys(data[0]));
