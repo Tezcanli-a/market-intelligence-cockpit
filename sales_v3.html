@@ -479,28 +479,86 @@
       </div>
     </section>
 
+<section class="grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h2>Propulsion Mix by Month</h2>
+      <div class="chart-note-top">Non-NEV vs. NEV</div>
+    </div>
+    <div class="chart-box large">
+      <canvas id="propulsionMixChart"></canvas>
+    </div>
+    <div class="note-strip" id="propulsionNote"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Regional Sales Distribution</h2>
+      <div class="chart-note-top">2026 YTD actual volume by region</div>
+    </div>
+    <div class="chart-box large">
+      <canvas id="regionalSalesChart"></canvas>
+    </div>
+    <div class="note-strip" id="regionalSalesNote"></div>
+  </div>
+</section>
+
+<section class="grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h2>Top Brands</h2>
+      <div class="chart-note-top">Top 15 by 2026 YTD actual volume</div>
+    </div>
+    <div class="rank-list" id="topBrandsList"></div>
+    <div class="note-strip" id="topBrandsNote"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Model Line Share</h2>
+      <div class="chart-note-top">Top global model lines | 2026 YTD</div>
+    </div>
+    <div class="chart-box large">
+      <canvas id="modelShareChart"></canvas>
+    </div>
+    <div class="note-strip" id="modelShareNote"></div>
+  </div>
+</section>
+
     <section class="grid-2">
-      <div class="card">
-        <div class="card-header">
-          <h2>Propulsion Mix by Month</h2>
-          <div class="chart-note-top">Non-NEV vs. NEV</div>
-        </div>
-        <div class="chart-box large">
-          <canvas id="propulsionMixChart"></canvas>
-        </div>
-        <div class="note-strip" id="propulsionNote"></div>
+
+  <div class="card">
+      <div class="card-header">
+          <h2>Regional Sales Distribution</h2>
+          <div class="chart-note-top">
+              2026 YTD actual volume by region
+          </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <h2>Top Brands</h2>
-          <div class="chart-note-top">Top 15 by 2026 YTD actual volume</div>
-        </div>
-        <div class="rank-list" id="topBrandsList"></div>
-        <div class="note-strip" id="topBrandsNote"></div>
+      <div class="chart-box large">
+          <canvas id="regionalSalesChart"></canvas>
       </div>
-    </section>
 
+      <div class="note-strip" id="regionalSalesNote"></div>
+  </div>
+
+  <div class="card">
+      <div class="card-header">
+          <h2>Model Line Share</h2>
+          <div class="chart-note-top">
+              Top model lines | 2026 YTD
+          </div>
+      </div>
+
+      <div class="chart-box large">
+          <canvas id="modelShareChart"></canvas>
+      </div>
+
+      <div class="note-strip" id="modelShareNote"></div>
+  </div>
+
+</section>
+    
     <section class="card table-card">
       <div class="card-header">
         <h2 id="oemRankingTitle">Top 30 OEM Ranking</h2>
@@ -571,6 +629,8 @@
     let monthlyTrendChart;
     let monthlyYoyChart;
     let propulsionMixChart;
+    let regionalSalesChart;
+    let modelShareChart;
 
     const filterIds = {
       region: "regionFilter",
@@ -829,30 +889,27 @@
       });
     }
 
-    function getFilteredData() {
-      const region = document.getElementById(filterIds.region).value;
-      const country = document.getElementById(filterIds.country).value;
-      const salesGroup = document.getElementById(filterIds.salesGroup).value;
-      const brand = document.getElementById(filterIds.brand).value;
-      const bodyType = document.getElementById(filterIds.bodyType).value;
-      const segment = document.getElementById(filterIds.segment).value;
-      const autoOnroad = document.getElementById(filterIds.autoOnroad).value;
-      const propulsion = document.getElementById(filterIds.propulsion).value;
+function getFilteredDataWithoutRegion() {
+  const country = document.getElementById(filterIds.country).value;
+  const salesGroup = document.getElementById(filterIds.salesGroup).value;
+  const brand = document.getElementById(filterIds.brand).value;
+  const bodyType = document.getElementById(filterIds.bodyType).value;
+  const segment = document.getElementById(filterIds.segment).value;
+  const autoOnroad = document.getElementById(filterIds.autoOnroad).value;
+  const propulsion = document.getElementById(filterIds.propulsion).value;
 
-      return rawData.filter(row => {
-        const cleanPropulsion = classifyPropulsion(row["PowerTrain"]);
+  return rawData.filter(row => {
+    const cleanPropulsion = classifyPropulsion(row["PowerTrain"]);
 
-        return (!region || row["Region"] === region)
-          && (!country || row["Country"] === country)
-          && (!salesGroup || row["Group"] === salesGroup)
-          && (!brand || row["Maker/Brand"] === brand)
-          && (!bodyType || row["Type"] === bodyType)
-          && (!segment || row["Segment"] === segment)
-          && (!autoOnroad || row["Auto/Onroad"] === autoOnroad)
-          && (!propulsion || cleanPropulsion === propulsion);
-      });
-    }
-
+    return (!country || row["Country"] === country)
+      && (!salesGroup || row["Group"] === salesGroup)
+      && (!brand || row["Maker/Brand"] === brand)
+      && (!bodyType || row["Type"] === bodyType)
+      && (!segment || row["Segment"] === segment)
+      && (!autoOnroad || row["Auto/Onroad"] === autoOnroad)
+      && (!propulsion || cleanPropulsion === propulsion);
+  });
+}
     function getLatestAvailableMonth(data) {
       let latest = 0;
 
@@ -1493,13 +1550,19 @@ ctx.fillText(
         return;
       }
 
-      updateKpis(data, latestMonthIndex);
-      updateMonthlyTrendChart(data, latestMonthIndex);
-      updateMonthlyYoyChart(data, latestMonthIndex);
-      updatePropulsionMixChart(data, latestMonthIndex);
-      updateTopBrands(data, latestMonthIndex);
-      updateOemRanking(data, latestMonthIndex);
-      updateNotes(data, latestMonthIndex);
+const regionalData = getFilteredDataWithoutRegion();
+
+updateMonthlyTrendChart(data, latestMonthIndex);
+updateMonthlyYoyChart(data, latestMonthIndex);
+
+updatePropulsionMixChart(data, latestMonthIndex);
+updateRegionalSalesChart(regionalData, latestMonthIndex);
+
+updateTopBrands(data, latestMonthIndex);
+updateModelShareChart(data, latestMonthIndex);
+
+updateOemRanking(data, latestMonthIndex);
+updateNotes(data, latestMonthIndex);
     }
 
     fetch("./Dashboard_data_LV_sales.csv")
