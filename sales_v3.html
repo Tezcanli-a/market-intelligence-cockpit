@@ -856,6 +856,30 @@
       });
     }
 
+function getFilteredData() {
+  const region = document.getElementById(filterIds.region).value;
+  const country = document.getElementById(filterIds.country).value;
+  const salesGroup = document.getElementById(filterIds.salesGroup).value;
+  const brand = document.getElementById(filterIds.brand).value;
+  const bodyType = document.getElementById(filterIds.bodyType).value;
+  const segment = document.getElementById(filterIds.segment).value;
+  const autoOnroad = document.getElementById(filterIds.autoOnroad).value;
+  const propulsion = document.getElementById(filterIds.propulsion).value;
+
+  return rawData.filter(row => {
+    const cleanPropulsion = classifyPropulsion(row["PowerTrain"]);
+
+    return (!region || row["Region"] === region)
+      && (!country || row["Country"] === country)
+      && (!salesGroup || row["Group"] === salesGroup)
+      && (!brand || row["Maker/Brand"] === brand)
+      && (!bodyType || row["Type"] === bodyType)
+      && (!segment || row["Segment"] === segment)
+      && (!autoOnroad || row["Auto/Onroad"] === autoOnroad)
+      && (!propulsion || cleanPropulsion === propulsion);
+  });
+}
+
 function getFilteredDataWithoutRegion() {
   const country = document.getElementById(filterIds.country).value;
   const salesGroup = document.getElementById(filterIds.salesGroup).value;
@@ -1338,48 +1362,258 @@ ctx.fillText(
         }]
       });
     }
-function updateRegionalSalesChart(data, latestMonthIndex){
+function sumYtdByField(data, field, year, latestMonthIndex) {
+  const map = new Map();
 
-    if(regionalSalesChart){
-        regionalSalesChart.destroy();
-    }
+  data.forEach(row => {
+    const key = row[field] || "Unknown";
 
-    regionalSalesChart = new Chart(
-        document.getElementById("regionalSalesChart"),
-        {
-            type:"bar",
-            data:{
-                labels:["2026 YTD"],
-                datasets:[{
-                    label:"Test",
-                    data:[100],
-                    backgroundColor:"#005195"
-                }]
-            }
-        }
-    );
+    const value = MONTHS
+      .filter(month => month.index <= latestMonthIndex)
+      .reduce((sum, month, index) => {
+        return sum + getMonthValue(row, year, index);
+      }, 0);
+
+    map.set(key, (map.get(key) || 0) + value);
+  });
+
+  return [...map.entries()]
+    .map(([name, value]) => ({ name, value }))
+    .filter(item => item.value > 0)
+    .sort((a, b) => b.value - a.value);
 }
 
-function updateModelShareChart(data, latestMonthIndex){
+function updateRegionalSalesChart(regionalData, latestMonthIndex) {
+  const regionColors = {
+    "Greater China": "#005195",
+    "Europe": "#8a99aa",
+    "North America": "#c8deef",
+    "Japan/Korea": "#6fa43f",
+    "South Asia": "#b9ad9d",
+    "South America": "#98a5b8",
+    "Middle East/Africa": "#2f4858",
+    "RoW": "#d7dce2",
+    "Unknown": "#adb7c2"
+  };
 
-    if(modelShareChart){
-        modelShareChart.destroy();
-    }
+  const regionOrder = [
+    "Greater China",
+    "Europe",
+    "North America",
+    "Japan/Korea",
+    "South Asia",
+    "South America",
+    "Middle East/Africa",
+    "RoW",
+    "Unknown"
+  ];
 
-    modelShareChart = new Chart(
-        document.getElementById("modelShareChart"),
-        {
-            type:"doughnut",
-            data:{
-                labels:["Test A","Test B"],
-                datasets:[{
-                    data:[60,40]
-                }]
+  const grouped = sumYtdByField(
+    regionalData,
+    "Region",
+    YEAR_CURRENT,
+    latestMonthIndex
+  );
+
+  const groupedMap = new Map(grouped.map(item => [item.name, item.value]));
+
+  const orderedRegions = [
+    ...regionOrder.filter(region => groupedMap.has(region)),
+    ...grouped
+      .map(item => item.name)
+      .filter(region => !regionOrder.includes(region))
+  ];
+
+  const datasets = orderedRegions.map(region => ({
+    label: region,
+    data: [groupedMap.get(region) || 0],
+    backgroundColor: regionColors[region] || "#9aa8b5",
+    stack: "regionalSales"
+  }));
+
+  const totalRegionalSales = grouped.reduce((sum, item) => sum + item.value, 0);
+  const latestMonth = MONTHS.find(m => m.index === latestMonthIndex);
+
+  if (regionalSalesChart) {
+    regionalSalesChart.destroy();
+  }
+
+  regionalSalesChart = new Chart(
+    document.getElementById("regionalSalesChart"),
+    {
+      type: "bar",
+      data: {
+        labels: ["2026 YTD"],
+        datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+            labels: {
+              boxWidth: 14,
+              font: { size: 10 }
             }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${formatVolumeFull(ctx.raw)}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            grid: { display: false },
+            ticks: { font: { size: 11 } }
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            grid: { color: "#edf2f7" },
+            ticks: {
+              callback: value => formatVolume(value),
+              maxTicksLimit: 6,
+              font: { size: 11 }
+            }
+          }
         }
-    );
+      },
+      plugins: [{
+        id: "regionalValueLabels",
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+
+          ctx.save();
+          ctx.font = "bold 10px Segoe UI";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#0f172a";
+
+          chart.data.datasets.forEach((dataset, datasetIndex) => {
+            const meta = chart.getDatasetMeta(datasetIndex);
+            const value = dataset.data[0];
+
+            if (!value || value <= 0) return;
+
+            const bar = meta.data[0];
+            const props = bar.getProps(["x", "y", "base"], true);
+            const height = Math.abs(props.base - props.y);
+
+            if (height > 24) {
+              ctx.fillText(
+                formatVolume(value),
+                props.x,
+                props.y + height / 2 + 4
+              );
+            }
+          });
+
+          ctx.restore();
+        }
+      }]
+    }
+  );
+
+  document.getElementById("regionalSalesNote").innerHTML =
+    `Regional distribution is based on <strong>${YEAR_CURRENT} YTD actual volume</strong> through ` +
+    `<strong>${latestMonth ? latestMonth.short : "-"} ${YEAR_CURRENT}</strong>. ` +
+    `Total shown: <strong>${formatVolume(totalRegionalSales)}</strong>.`;
 }
-    
+
+function updateModelShareChart(data, latestMonthIndex) {
+  const modelData = sumYtdByField(
+    data,
+    "Model",
+    YEAR_CURRENT,
+    latestMonthIndex
+  );
+
+  const topModels = modelData.slice(0, 10);
+  const othersValue = modelData
+    .slice(10)
+    .reduce((sum, item) => sum + item.value, 0);
+
+  const finalData = othersValue > 0
+    ? [...topModels, { name: "Others", value: othersValue }]
+    : topModels;
+
+  const labels = finalData.map(item => item.name);
+  const values = finalData.map(item => item.value);
+
+  const colors = [
+    "#005195",
+    "#8a99aa",
+    "#c8deef",
+    "#6fa43f",
+    "#b9ad9d",
+    "#2f4858",
+    "#98a5b8",
+    "#d7dce2",
+    "#adb7c2",
+    "#3b6f9e",
+    "#e5e7eb"
+  ];
+
+  const totalModelSales = values.reduce((sum, value) => sum + value, 0);
+  const latestMonth = MONTHS.find(m => m.index === latestMonthIndex);
+
+  if (modelShareChart) {
+    modelShareChart.destroy();
+  }
+
+  modelShareChart = new Chart(
+    document.getElementById("modelShareChart"),
+    {
+      type: "doughnut",
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors,
+          borderColor: "#ffffff",
+          borderWidth: 2,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "58%",
+        plugins: {
+          legend: {
+            position: "top",
+            labels: {
+              boxWidth: 14,
+              font: { size: 10 }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const value = ctx.raw || 0;
+                const share = totalModelSales > 0
+                  ? (value / totalModelSales) * 100
+                  : 0;
+
+                return `${ctx.label}: ${formatVolumeFull(value)} (${formatPct(share)})`;
+              }
+            }
+          }
+        }
+      }
+    }
+  );
+
+  const leadingModel = finalData.length ? finalData[0] : null;
+
+  document.getElementById("modelShareNote").innerHTML =
+    leadingModel
+      ? `Top model line is <strong>${leadingModel.name}</strong> with <strong>${formatVolume(leadingModel.value)}</strong> ` +
+        `in ${YEAR_CURRENT} YTD actual volume through <strong>${latestMonth ? latestMonth.short : "-"} ${YEAR_CURRENT}</strong>.`
+      : "No model line data available for current filter selection.";
+}   
     function updateTopBrands(data, latestMonthIndex) {
       const brands = sumYtdForGroup(data, YEAR_CURRENT, latestMonthIndex, "Maker/Brand").slice(0, 15);
       const container = document.getElementById("topBrandsList");
