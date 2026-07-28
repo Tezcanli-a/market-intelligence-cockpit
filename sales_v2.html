@@ -687,6 +687,7 @@ function getMonthValue(row, year, index) {
 
     function populateSelect(selectId, values, allLabel = "All") {
       const select = document.getElementById(selectId);
+      console.log("SelectId:", selectId);
       select.innerHTML = "";
 
       const allOption = document.createElement("option");
