@@ -1528,7 +1528,7 @@ ctx.fillText(
     }
 
     function updateDashboard() {
-      const data = getFilteredData();
+      const data = getFilteredDataWithoutRegion();
 
       document.getElementById("recordInfo").textContent =
         `All market · ${data.length.toLocaleString()} model-program records`;
