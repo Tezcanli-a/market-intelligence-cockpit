@@ -598,34 +598,28 @@
      * If your column names are different, only adjust this function.
      ********************************************************************/
 
-    function getMonthlyValue(row, year, monthObj) {
-      const mm = String(monthObj.index).padStart(2, "0");
-      const m = monthObj.index;
-      const mon = monthObj.short;
+  const monthColumns2025 = [
+ "Jan 25","Feb 25","Mrz 25","Apr 25","Mai 25","Jun 25",
+ "Jul 25","Aug 25","Sep 25","Okt 25","Nov 25","Dez 25"
+];
 
-      const possibleKeys = [
-        `${mon}_${year}`,
-        `${year}_${mon}`,
-        `Sales_${mon}_${year}`,
-        `Sales_${year}_${mon}`,
-        `Sales_${year}_${mm}`,
-        `Sales_${year}_${m}`,
-        `${year}_${mm}`,
-        `${year}_${m}`,
-        `M${mm}_${year}`,
-        `${year}_M${mm}`,
-        `${mon}${year}`,
-        `${year}${mon}`
-      ];
+const monthColumns2026 = [
+ "Jan 26","Feb 26","Mrz 26","Apr 26","Mai 26","Jun 26",
+ "Jul 26","Aug 26","Sep 26","Okt 26","Nov 26","Dez 26"
+];
 
-      for (const key of possibleKeys) {
-        if (Object.prototype.hasOwnProperty.call(row, key)) {
-          return toNumber(row[key]);
-        }
-      }
+function getMonthValue(row, year, index) {
 
-      return 0;
-    }
+  if(year === 2025){
+    return Number(row[monthColumns2025[index]] || 0);
+  }
+
+  if(year === 2026){
+    return Number(row[monthColumns2026[index]] || 0);
+  }
+
+  return 0;
+}
 
     /********************************************************************
      * 5) NEV CLASSIFICATION
@@ -752,8 +746,8 @@
 
         return (!region || row.Region === region)
           && (!country || row.Country === country)
-          && (!salesGroup || row.["Group"] === salesGroup)
-          && (!brand || row.["Maker/Brand"] === brand)
+          && (!salesGroup || row["Group"] === salesGroup)
+          && (!brand || row["Maker/Brand"] === brand)
           && (!bodyType || row.BodyType === bodyType)
           && (!segment || rowSegment === segment)
           && (!propulsion || cleanPropulsion === propulsion);
