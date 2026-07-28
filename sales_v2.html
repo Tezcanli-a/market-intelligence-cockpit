@@ -1390,21 +1390,7 @@ function getLatestAvailableMonth(data){
     /********************************************************************
      * 18) INIT
      ********************************************************************/
-let rawData = [];
 
-fetch("./Dashboard_data_LV_sales.csv")
-  .then(response => response.text())
-  .then(text => {
-
-      rawData = parseCSV(text);
-
-      setupFilters();
-      updateDashboard();
-
-  })
-  .catch(error => {
-      console.error(error);
-  });
 function normalizeKey(value){
     return (value || "")
         .toString()
@@ -1413,10 +1399,10 @@ function normalizeKey(value){
         .trim();
 }
     
-    function detectDelimiter(firstLine){
-        const delimiters = [",", ";", "\t"];
-        let bestDelimiter = ",";
-        let bestCount = -1;
+function detectDelimiter(firstLine){
+      const delimiters = [",", ";", "\t"];
+      let bestDelimiter = ",";
+      let bestCount = -1;
     
         delimiters.forEach(delimiter => {
             let count = 0;
@@ -1502,6 +1488,22 @@ function cleanCell(value){
 document.addEventListener("DOMContentLoaded", () => {
 });
 
+let rawData = [];
+
+fetch("./Dashboard_data_LV_sales.csv")
+  .then(response => response.text())
+  .then(text => {
+
+      rawData = parseCSV(text);
+
+      setupFilters();
+      updateDashboard();
+
+  })
+  .catch(error => {
+      console.error(error);
+  });
+    
   </script>
 </body>
 </html>
