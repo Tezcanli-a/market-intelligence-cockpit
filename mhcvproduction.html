@@ -131,9 +131,15 @@ select{
 
 .chart-box{
     background:white;
-    padding:18px;
-    border-radius:8px;
-    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    height:360px;
+    box-sizing:border-box;
+}
+.chart-box canvas{
+    width:100% !important;
+    height:280px !important;
 }
 
 .chart-box h3{
@@ -186,9 +192,12 @@ tbody tr:hover{
 }
 
 @media(max-width:900px){
-    .chart-grid{
-        grid-template-columns:1fr;
-    }
+.chart-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    margin:20px;
+}
 }
 
 </style>
@@ -364,7 +373,14 @@ fetch("./Dashboard_data_MHCV_Production.csv")
 
 function parseCSV(text){
     const lines = text.trim().split(/\r?\n/);
-    const delimiter = lines[0].includes(";") ? ";" : ",";
+    
+    let delimiter = ",";
+
+    if (lines[0].includes(";")) {
+        delimiter = ";";
+} else if (lines[0].includes("\t")) {
+    delimiter = "\t";
+}
     const headers = splitCSVLine(lines[0], delimiter).map(h => clean(h));
 
     return lines.slice(1).map(line => {
