@@ -360,6 +360,7 @@ fetch("./Dashboard_data_MHCV_Production.csv")
     })
     .then(text => {
         rawData = parseCSV(text);
+        console.log(rawData[0]);
         buildFilters();
         attachEvents();
         updateDashboard();
