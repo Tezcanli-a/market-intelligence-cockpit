@@ -59,26 +59,32 @@
 }
 
 .dashboard-nav{
-    background:white;
-    padding:12px 28px;
-    border-bottom:1px solid #d6e0ea;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    padding:10px 20px;
+    background:#ffffff;
+    border-bottom:1px solid #d9d9d9;
 }
 
 .dashboard-nav a{
-    color:#005195;
+    color:#004b8d;
     text-decoration:none;
-    margin-right:18px;
     padding:8px 16px;
     border-radius:20px;
-    font-weight:500;
+    font-weight:600;
 }
 
 .dashboard-nav a.active{
-    background:#005195;
+    background:#0056a3;
     color:white;
-    font-weight:700;
-    padding:8px 18px;
-    border-radius:20px;
+}
+
+.dashboard-info{
+    padding:10px 20px;
+    background:#f5f5f5;
+    border-bottom:1px solid #d9d9d9;
+    font-size:14px;
 }
     .header {
       display: flex;
@@ -365,13 +371,19 @@
     </p>
 </header>
 
-<nav class="top-nav">
-    <a href="index.html">Home</a>
-    <a href="sales_v3.html" class="active">sales_v3</a>
-    <a href="production.html">Production</a>
-    <a href="news.html">News</a>
-    <a href="mhvcproduction.html">Mhcvproduction</a>
+<nav class="dashboard-nav">
+    index.htmlHome</a>
+    production.htmlProduction</a>
+    sales_v3.htmlSales</a>
+    news.htmlNews</a>
 </nav>
+
+<div class="dashboard-info">
+    <strong>Source:</strong> S&P Global Mobility LV Sales Forecast
+    &nbsp; | &nbsp;
+    <strong>Forecast Release:</strong>
+    <span id="forecastRelease">June 2026</span>
+</div>
 
   <main class="page">
 
