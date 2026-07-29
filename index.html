@@ -38,10 +38,14 @@ header h1{
 
 .dashboard-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:30px;
-    max-width:900px;
-    margin:50px auto;
+    grid-template-columns:repeat(2, 280px);
+    gap:25px;
+    justify-content:center;
+    margin-top:35px;
+}
+
+.news-card{
+    grid-column:1 / span 2;
 }
 
 .dashboard-card{
@@ -145,29 +149,39 @@ header h1{
 
 <div class="dashboard-grid">
 
-    <a class="dashboard-card" href="production.html">
-        <h2>LV Production &amp; Propulsion</h2>
+    <!-- LV Production -->
+    production.html
+        <h2>LV Production & Propulsion</h2>
         <p>LV Production Forecast</p>
         <p>NEV Transition</p>
         <p>Propulsion Mix</p>
     </a>
 
-    <a class="dashboard-card" href="sales_v3.html">
+    <!-- LV Sales -->
+    sales_v3.html
         <h2>Light Vehicle Sales</h2>
         <p>Global LV Sales Statistics</p>
         <p>Segments</p>
         <p>Price Classes</p>
     </a>
-    
-    <a class="dashboard-card" href="mhcvproduction.html">
+
+    <!-- MHCV Production -->
+    mhcvproduction.html
         <h2>MHCV Production Forecast</h2>
-        <p>Global Truck &amp; Bus Production Outlook</p>
+        <p>Global Truck & Bus Production Outlook</p>
     </a>
 
-    <a class="dashboard-card" href="news.html">
+    <!-- MHCV Sales -->
+    mhcvsales.html
+        <h2>MHCV Sales Forecast</h2>
+        <p>Global Truck & Bus Sales Outlook</p>
+    </a>
+
+    <!-- News -->
+    news.html
         <h2>News</h2>
         <p>Automotive / Commercial Vehicle News</p>
-        <p>Competitors &amp; Customers</p>
+        <p>Competitors & Customers</p>
     </a>
 
 </div>
