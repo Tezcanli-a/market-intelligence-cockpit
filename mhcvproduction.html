@@ -470,15 +470,11 @@ function getField(row, possibleNames){
     return "";
 }
 
-console.log("Year check:", year, row["CY " + year]);
-    const possibleNames = [
-        "CY " + year,
-        year,
-        "Production " + year,
-        "Global Production " + year
-    ];
+function getYearValue(row, year){
+    let cleanYear = String(year || "").replace("CY ", "").trim();
+    let columnName = "CY " + cleanYear;
 
-    return toNumber(getField(row, possibleNames));
+    return toNumber(row[columnName]);
 }
 
 function getRegion(row){
