@@ -124,7 +124,7 @@ select{
 
 .chart-grid{
     display:grid;
-    grid-template-columns:2fr 1fr;
+    grid-template-columns:1fr 1fr;
     gap:20px;
     margin-bottom:20px;
 }
@@ -298,25 +298,38 @@ tbody tr:hover{
 
     </div>
 
-    <div class="chart-grid">
+   <div class="chart-grid">
 
-        <div class="chart-box">
-            <h3>Production Forecast Trend</h3>
+    <div class="chart-card">
+        <h2>Production Forecast Trend</h2>
+        <div class="chart-wrap">
             <canvas id="trendChart"></canvas>
         </div>
-
-        <div class="chart-box">
-            <h3>Model Line Share</h3>
-            <canvas id="shareChart"></canvas>
-        </div>
-
-        <div class="chart-box full-width">
-            <h3>Top Production Brands</h3>
-            <canvas id="brandChart"></canvas>
-        </div>
-
     </div>
 
+   <div class="chart-grid">
+
+    <div class="chart-box">
+        <h3>Production Forecast Trend</h3>
+        <canvas id="trendChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Regional Segment by Year</h3>
+        <canvas id="modelLineChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Top Sales Parents</h3>
+        <canvas id="salesParentChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Top Production Brands</h3>
+        <canvas id="brandChart"></canvas>
+    </div>
+
+</div>
     <div class="table-box">
         <h3>Model Line Details</h3>
 
@@ -347,6 +360,7 @@ let filteredData = [];
 
 let trendChart = null;
 let modelLineChart = null;
+let salesParentChart = null;
 let brandChart = null;
 
 const YEARS = ["2026","2027","2028","2029","2030","2031"];
@@ -613,6 +627,7 @@ function updateDashboard(){
     updateKPIs(selectedYear);
     updateTrendChart();
     updateModelLineChart(selectedYear);
+    updateSalesParentChart(selectedYear);
     updateBrandChart(selectedYear);
     updateTable(selectedYear);
 }
@@ -712,16 +727,43 @@ function updateTrendChart(){
 }
 
 function updateModelLineChart(selectedYear){
-    const totals = {};
+    const segmentTotals = {};
 
     filteredData.forEach(row => {
-        const model = getModelLine(row) || "Unknown";
-        totals[model] = (totals[model] || 0) + getYearValue(row, selectedYear);
+        const segment = getRegionalSegment(row) || "Unknown";
+        segmentTotals[segment] = (segmentTotals[segment] || 0) + getYearValue(row, selectedYear);
     });
 
-    const top = Object.entries(totals)
+    const topSegments = Object.entries(segmentTotals)
         .sort((a,b) => b[1] - a[1])
-        .slice(0,10);
+        .slice(0,8)
+        .map(item => item[0]);
+
+    const colors = [
+        "#005195",
+        "#69A032",
+        "#B4AA9B",
+        "#0B2540",
+        "#8FAFCB",
+        "#C4DAEC",
+        "#667085",
+        "#98A2B3"
+    ];
+
+    const datasets = topSegments.map((segment, index) => {
+        return {
+            label: segment,
+            data: YEARS.map(year => {
+                return filteredData.reduce((sum, row) => {
+                    if((getRegionalSegment(row) || "Unknown") === segment){
+                        return sum + getYearValue(row, year);
+                    }
+                    return sum;
+                }, 0);
+            }),
+            backgroundColor: colors[index % colors.length]
+        };
+    });
 
     const canvas = document.getElementById("modelLineChart");
     if(!canvas) return;
@@ -731,37 +773,117 @@ function updateModelLineChart(selectedYear){
     }
 
     modelLineChart = new Chart(canvas, {
-        type:"doughnut",
-        data:{
-            labels:top.map(item => item[0]),
-            datasets:[{
-                data:top.map(item => item[1]),
-                backgroundColor:[
-                    "#005195",
-                    "#69A032",
-                    "#B4AA9B",
-                    "#0B2540",
-                    "#8FAFCB",
-                    "#C4DAEC",
-                    "#667085",
-                    "#98A2B3",
-                    "#4D4D4D",
-                    "#BFC4C9"
-                ]
-            }]
+        type: "bar",
+        data: {
+            labels: YEARS,
+            datasets: datasets
         },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false,
-            plugins:{
-                legend:{
-                    position:"right"
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom"
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context){
+                            return context.dataset.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        callback: function(value){
+                            return formatNumber(value);
+                        }
+                    }
                 }
             }
         }
     });
 }
 
+function updateSalesParentChart(selectedYear){
+    const totals = {};
+
+    filteredData.forEach(row => {
+        const salesParent = getSalesParent(row) || "Unknown";
+        totals[salesParent] = (totals[salesParent] || 0) + getYearValue(row, selectedYear);
+    });
+
+    const top = Object.entries(totals)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,10);
+
+    const canvas = document.getElementById("salesParentChart");
+    if(!canvas) return;
+
+    if(salesParentChart){
+        salesParentChart.destroy();
+    }
+
+    salesParentChart = new Chart(canvas, {
+        type: "bar",
+        data: {
+            labels: top.map(item => item[0]),
+            datasets: [{
+                label: "Production Volume",
+                data: top.map(item => item[1]),
+                backgroundColor: "#005195"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: "y",
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context){
+                            return formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        callback: function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+}
+    
 function updateBrandChart(selectedYear){
     const totals = {};
 
@@ -782,36 +904,38 @@ function updateBrandChart(selectedYear){
     }
 
     brandChart = new Chart(canvas, {
-        type:"bar",
-        data:{
-            labels:top.map(item => item[0]),
-            datasets:[{
-                label:"Production Volume",
-                data:top.map(item => item[1]),
-                backgroundColor:"#005195"
+        type: "doughnut",
+        data: {
+            labels: top.map(item => item[0]),
+            datasets: [{
+                data: top.map(item => item[1]),
+                backgroundColor: [
+                    "#005195",
+                    "#69A032",
+                    "#B4AA9B",
+                    "#0B2540",
+                    "#8FAFCB",
+                    "#C4DAEC",
+                    "#667085",
+                    "#98A2B3",
+                    "#4D4D4D",
+                    "#BFC4C9"
+                ]
             }]
         },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false,
-            indexAxis:"y",
-            plugins:{
-                legend:{
-                    display:false
-                }
-            },
-            scales:{
-                x:{
-                    beginAtZero:true,
-                    grid:{display:false},
-                    ticks:{
-                        callback:function(value){
-                            return formatNumber(value);
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "right"
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context){
+                            return context.label + ": " + formatNumber(context.raw);
                         }
                     }
-                },
-                y:{
-                    grid:{display:false}
                 }
             }
         }
