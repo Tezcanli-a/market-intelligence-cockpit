@@ -27,6 +27,34 @@ header h1{
     font-size:28px;
 }
 
+header h1{
+    margin:0;
+    font-size:28px;
+}
+
+.top-nav{
+    background:white;
+    border-bottom:1px solid #d9e2ec;
+    padding:12px 42px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.top-nav a{
+    text-decoration:none;
+    color:#005195;
+    font-weight:600;
+    padding:9px 14px;
+    border-radius:999px;
+}
+
+.top-nav a.active,
+.top-nav a:hover{
+    background:#005195;
+    color:white;
+}    
 .main{
     padding:20px;
 }
@@ -155,26 +183,6 @@ tbody tr:hover{
     }
 }
 
-.dashboard-nav{
-    background:#f0f0f0;
-    padding:8px 16px;
-    border-bottom:1px solid #d9d9d9;
-}
-
-.dashboard-nav a{
-    color:#003b70;
-    text-decoration:none;
-    margin-right:15px;
-    font-weight:600;
-    padding:8px 16px;
-    border-radius:20px;
-}
-
-.dashboard-nav a.active{
-    background:#005195;
-    color:white;
-}
-
 </style>
 </head>
 
@@ -185,7 +193,7 @@ tbody tr:hover{
     <p>Global medium & heavy commercial vehicle production forecast and market outlook</p>
 </header>
 
-<nav class="dashboard-nav">
+<nav class="top-nav">
     <a href="index.html">Home</a>
     <a href="production.html">Production</a>
     <a href="mhcvproduction.html" class="active">MHCV</a>
