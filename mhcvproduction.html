@@ -676,18 +676,24 @@ function updateTrendChart(){
         type:"bar",
         data:{
             labels:YEARS,
-            datasets:[
-                {
-                    label:"Truck",
-                    data:truckData,
-                    backgroundColor:"#005195"
-                },
-                {
-                    label:"Bus",
-                    data:busData,
-                    backgroundColor:"#8FAFCB"
-                }
-            ]
+ datasets:[
+    {
+        label:"Truck",
+        data:truckData,
+        backgroundColor:"#005195",
+        categoryPercentage:0.55,
+        barPercentage:0.65,
+        maxBarThickness:55
+    },
+    {
+        label:"Bus",
+        data:busData,
+        backgroundColor:"#8FAFCB",
+        categoryPercentage:0.55,
+        barPercentage:0.65,
+        maxBarThickness:55
+    }
+]      
         },
         options:{
             responsive:true,
@@ -742,18 +748,21 @@ function updateModelLineChart(selectedYear){
     ];
 
     const datasets = topSegments.map((segment, index) => {
-        return {
-            label: segment,
-            data: YEARS.map(year => {
-                return filteredData.reduce((sum, row) => {
-                    if((getRegionalSegment(row) || "Unknown") === segment){
-                        return sum + getYearValue(row, year);
-                    }
-                    return sum;
-                }, 0);
-            }),
-            backgroundColor: colors[index % colors.length]
-        };
+return {
+    label: segment,
+    data: YEARS.map(year => {
+        return filteredData.reduce((sum, row) => {
+            if((getRegionalSegment(row) || "Unknown") === segment){
+                return sum + getYearValue(row, year);
+            }
+            return sum;
+        }, 0);
+    }),
+    backgroundColor: colors[index % colors.length],
+    categoryPercentage:0.55,
+    barPercentage:0.65,
+    maxBarThickness:55
+};
     });
 
     const canvas = document.getElementById("modelLineChart");
@@ -831,11 +840,13 @@ function updateSalesParentChart(selectedYear){
         type: "bar",
         data: {
             labels: top.map(item => item[0]),
-            datasets: [{
-                label: "Production Volume",
-                data: top.map(item => item[1]),
-                backgroundColor: "#005195"
-            }]
+datasets: [{
+    label: "Production Volume",
+    data: top.map(item => item[1]),
+    backgroundColor: "#005195",
+    barThickness:14,
+    maxBarThickness:18
+}]
         },
         options: {
             responsive: true,
