@@ -7,6 +7,31 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+.dashboard-nav {
+    background: #f5f5f5;
+    padding: 12px 30px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.dashboard-nav a {
+    color: #003b70;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.dashboard-nav a:hover {
+    background: #e6eef7;
+}
+
+.dashboard-nav a.active {
+    background: #005195;
+    color: white;
+}    
+    
+    
 <style>
 body{
     font-family:Segoe UI, Arial, sans-serif;
@@ -159,9 +184,20 @@ tbody tr:hover{
 <body>
 
 <header>
-    <h1>MHCV Production Forecast</h1>
+    <h1>Market Intelligence MHCV Dashboard</h1>
+    <p>Global medium & heavy commercial vehicle production forecast and market outlook</p>
 </header>
 
+<nav class="dashboard-nav">
+    <a href="index.html">Home</a>
+    <a href="production.html">Production</a>
+    <a href="mhcvproduction.html" class="active">MHCV</a>
+    <a href="sales_v3.html">Sales</a>
+    <a href="news.html">News</a>
+</nav>
+
+<!-- existing filters start here -->
+<div class="filters">
 <div class="main">
 
     <div class="filters">
