@@ -373,18 +373,34 @@ fetch("./Dashboard_data_MHCV_Production.csv")
     });
 
 function parseCSV(text){
-    const lines = text.trim().split(/\r?\n/);
-    
+    const lines = text.trim().split(/\r?\n/).filter(line => line.trim() !== "");
+
+    // Find the real header row
+    const headerIndex = lines.findIndex(line =>
+        line.includes("Region") &&
+        line.includes("Country/Territory") &&
+        line.includes("Production Brand") &&
+        line.includes("CY 2026")
+    );
+
+    if(headerIndex === -1){
+        console.error("Header row not found. Please check CSV structure.");
+        return [];
+    }
+
     let delimiter = ",";
 
-    if (lines[0].includes(";")) {
+    if(lines[headerIndex].includes(";")){
         delimiter = ";";
-} else if (lines[0].includes("\t")) {
-    delimiter = "\t";
-}
-    const headers = splitCSVLine(lines[0], delimiter).map(h => clean(h));
+    } else if(lines[headerIndex].includes("\t")){
+        delimiter = "\t";
+    }
 
-    return lines.slice(1).map(line => {
+    const headers = splitCSVLine(lines[headerIndex], delimiter).map(h => clean(h));
+
+    console.log("Detected MHCV headers:", headers);
+
+    return lines.slice(headerIndex + 1).map(line => {
         const values = splitCSVLine(line, delimiter);
         const row = {};
 
@@ -393,9 +409,13 @@ function parseCSV(text){
         });
 
         return row;
-    });
+    }).filter(row =>
+        row["Region"] ||
+        row["Country/Territory"] ||
+        row["Production Brand"] ||
+        row["CY 2026"]
+    );
 }
-
 function splitCSVLine(line, delimiter){
     const result = [];
     let current = "";
