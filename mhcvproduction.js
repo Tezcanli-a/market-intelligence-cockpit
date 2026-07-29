@@ -279,4 +279,4 @@ function updateTrendChart() {
         type: "bar",
         data: {
             labels: YEARS,
-        
+    }
