@@ -332,7 +332,496 @@ tbody tr:hover{
 
 </div>
 
-<script src="mhcvproduction.js"></script>
+<script>
+let rawData = [];
+let filteredData = [];
+
+let trendChart = null;
+let modelLineChart = null;
+let brandChart = null;
+
+const YEARS = ["2026","2027","2028","2029","2030","2031"];
+
+fetch("./Dashboard_data_MHCV_Production.csv")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("CSV file not found");
+        }
+        return response.text();
+    })
+    .then(text => {
+        rawData = parseCSV(text);
+        buildFilters();
+        attachEvents();
+        updateDashboard();
+        console.log("MHCV CSV loaded:", rawData.length, "rows");
+    })
+    .catch(error => {
+        console.error("CSV could not be loaded:", error);
+        document.querySelector(".main").innerHTML =
+            '<p style="color:red;font-weight:bold;">CSV could not be loaded. Please check the file name and GitHub location.</p>';
+    });
+
+function parseCSV(text){
+    const lines = text.trim().split(/\r?\n/);
+    const delimiter = lines[0].includes(";") ? ";" : ",";
+    const headers = splitCSVLine(lines[0], delimiter).map(h => clean(h));
+
+    return lines.slice(1).map(line => {
+        const values = splitCSVLine(line, delimiter);
+        const row = {};
+
+        headers.forEach((header, index) => {
+            row[header] = values[index] ? clean(values[index]) : "";
+        });
+
+        return row;
+    });
+}
+
+function splitCSVLine(line, delimiter){
+    const result = [];
+    let current = "";
+    let insideQuotes = false;
+
+    for(let i = 0; i < line.length; i++){
+        const char = line[i];
+
+        if(char === '"'){
+            insideQuotes = !insideQuotes;
+        } else if(char === delimiter && !insideQuotes){
+            result.push(current);
+            current = "";
+        } else {
+            current += char;
+        }
+    }
+
+    result.push(current);
+    return result;
+}
+
+function clean(value){
+    return String(value || "")
+        .replace(/^"|"$/g, "")
+        .replace(/""/g, '"')
+        .trim();
+}
+
+function toNumber(value){
+    if(!value) return 0;
+
+    return Number(
+        String(value)
+            .replace(/\./g, "")
+            .replace(/,/g, "")
+            .replace(/\s/g, "")
+    ) || 0;
+}
+
+function formatNumber(value){
+    if(value >= 1000000){
+        return (value / 1000000).toFixed(1) + "M";
+    }
+
+    if(value >= 1000){
+        return (value / 1000).toFixed(0) + "k";
+    }
+
+    return value.toLocaleString();
+}
+
+function formatPercent(value){
+    if(!isFinite(value)) return "0%";
+    return value.toFixed(1) + "%";
+}
+
+function getField(row, possibleNames){
+    for(const name of possibleNames){
+        if(row[name] !== undefined){
+            return row[name];
+        }
+    }
+
+    const keys = Object.keys(row);
+
+    for(const name of possibleNames){
+        const found = keys.find(k => k.toLowerCase().trim() === name.toLowerCase().trim());
+        if(found) return row[found];
+    }
+
+    return "";
+}
+
+function getYearValue(row, year){
+    const possibleNames = [
+        "CY " + year,
+        year,
+        "Production " + year,
+        "Global Production " + year
+    ];
+
+    return toNumber(getField(row, possibleNames));
+}
+
+function getRegion(row){
+    return getField(row, ["Region", "VP: Region"]);
+}
+
+function getCountry(row){
+    return getField(row, ["Country", "Country/Territory", "VP: Country/Territory"]);
+}
+
+function getSalesParent(row){
+    return getField(row, ["Sales Parent", "VP: Sales Parent"]);
+}
+
+function getBrand(row){
+    return getField(row, ["Production Brand", "VP: Production Brand", "Brand"]);
+}
+
+function getBusTruck(row){
+    return getField(row, ["Bus / Truck", "Bus/Truck", "Bus Truck", "Vehicle Type"]);
+}
+
+function getGlobalSegment(row){
+    return getField(row, ["Global Production Segment", "Global Segment", "VP: Global Production Segment"]);
+}
+
+function getRegionalSegment(row){
+    return getField(row, ["Regional Segment", "VP: Regional Segment"]);
+}
+
+function getModelLine(row){
+    return getField(row, [
+        "Model Line",
+        "Production Nameplate",
+        "VP: Production Nameplate",
+        "Nameplate",
+        "Vehicle"
+    ]);
+}
+
+function populateSelect(id, getter){
+    const select = document.getElementById(id);
+    if(!select) return;
+
+    const oldValue = select.value;
+    select.innerHTML = '<option value="All">All</option>';
+
+    const values = [...new Set(rawData.map(row => getter(row)).filter(Boolean))].sort();
+
+    values.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+    });
+
+    if(oldValue && [...select.options].some(o => o.value === oldValue)){
+        select.value = oldValue;
+    }
+}
+
+function buildFilters(){
+    populateSelect("regionFilter", getRegion);
+    populateSelect("countryFilter", getCountry);
+    populateSelect("salesParentFilter", getSalesParent);
+    populateSelect("brandFilter", getBrand);
+    populateSelect("busTruckFilter", getBusTruck);
+    populateSelect("globalSegmentFilter", getGlobalSegment);
+    populateSelect("regionalSegmentFilter", getRegionalSegment);
+}
+
+function attachEvents(){
+    const filterIds = [
+        "regionFilter",
+        "countryFilter",
+        "salesParentFilter",
+        "brandFilter",
+        "busTruckFilter",
+        "globalSegmentFilter",
+        "regionalSegmentFilter",
+        "yearFilter"
+    ];
+
+    filterIds.forEach(id => {
+        const element = document.getElementById(id);
+        if(element){
+            element.addEventListener("change", updateDashboard);
+        }
+    });
+}
+
+function getFilteredData(){
+    const region = document.getElementById("regionFilter")?.value || "All";
+    const country = document.getElementById("countryFilter")?.value || "All";
+    const salesParent = document.getElementById("salesParentFilter")?.value || "All";
+    const brand = document.getElementById("brandFilter")?.value || "All";
+    const busTruck = document.getElementById("busTruckFilter")?.value || "All";
+    const globalSegment = document.getElementById("globalSegmentFilter")?.value || "All";
+    const regionalSegment = document.getElementById("regionalSegmentFilter")?.value || "All";
+
+    return rawData.filter(row => {
+        return (region === "All" || getRegion(row) === region) &&
+               (country === "All" || getCountry(row) === country) &&
+               (salesParent === "All" || getSalesParent(row) === salesParent) &&
+               (brand === "All" || getBrand(row) === brand) &&
+               (busTruck === "All" || getBusTruck(row) === busTruck) &&
+               (globalSegment === "All" || getGlobalSegment(row) === globalSegment) &&
+               (regionalSegment === "All" || getRegionalSegment(row) === regionalSegment);
+    });
+}
+
+function updateDashboard(){
+    const selectedYear = document.getElementById("yearFilter")?.value || "2026";
+    filteredData = getFilteredData();
+
+    updateKPIs(selectedYear);
+    updateTrendChart();
+    updateModelLineChart(selectedYear);
+    updateBrandChart(selectedYear);
+    updateTable(selectedYear);
+}
+
+function updateKPIs(selectedYear){
+    const totalVolume = filteredData.reduce((sum, row) => sum + getYearValue(row, selectedYear), 0);
+
+    const truckVolume = filteredData
+        .filter(row => String(getBusTruck(row)).toUpperCase().includes("TRUCK"))
+        .reduce((sum, row) => sum + getYearValue(row, selectedYear), 0);
+
+    const busVolume = filteredData
+        .filter(row => String(getBusTruck(row)).toUpperCase().includes("BUS"))
+        .reduce((sum, row) => sum + getYearValue(row, selectedYear), 0);
+
+    const start2026 = filteredData.reduce((sum, row) => sum + getYearValue(row, "2026"), 0);
+    const end2031 = filteredData.reduce((sum, row) => sum + getYearValue(row, "2031"), 0);
+
+    let cagr = 0;
+    if(start2026 > 0 && end2031 > 0){
+        cagr = (Math.pow(end2031 / start2026, 1 / 5) - 1) * 100;
+    }
+
+    document.getElementById("kpiVolume").textContent = formatNumber(totalVolume);
+    document.getElementById("kpiCagr").textContent = formatPercent(cagr);
+    document.getElementById("kpiTruck").textContent = totalVolume > 0 ? formatPercent((truckVolume / totalVolume) * 100) : "0%";
+    document.getElementById("kpiBus").textContent = totalVolume > 0 ? formatPercent((busVolume / totalVolume) * 100) : "0%";
+}
+
+function updateTrendChart(){
+    const truckData = [];
+    const busData = [];
+
+    YEARS.forEach(year => {
+        const truck = filteredData
+            .filter(row => String(getBusTruck(row)).toUpperCase().includes("TRUCK"))
+            .reduce((sum, row) => sum + getYearValue(row, year), 0);
+
+        const bus = filteredData
+            .filter(row => String(getBusTruck(row)).toUpperCase().includes("BUS"))
+            .reduce((sum, row) => sum + getYearValue(row, year), 0);
+
+        truckData.push(truck);
+        busData.push(bus);
+    });
+
+    const canvas = document.getElementById("trendChart");
+    if(!canvas) return;
+
+    if(trendChart){
+        trendChart.destroy();
+    }
+
+    trendChart = new Chart(canvas, {
+        type:"bar",
+        data:{
+            labels:YEARS,
+            datasets:[
+                {
+                    label:"Truck",
+                    data:truckData,
+                    backgroundColor:"#005195"
+                },
+                {
+                    label:"Bus",
+                    data:busData,
+                    backgroundColor:"#8FAFCB"
+                }
+            ]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{
+                    position:"bottom"
+                }
+            },
+            scales:{
+                x:{
+                    stacked:true,
+                    grid:{display:false}
+                },
+                y:{
+                    stacked:true,
+                    beginAtZero:true,
+                    grid:{display:false},
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateModelLineChart(selectedYear){
+    const totals = {};
+
+    filteredData.forEach(row => {
+        const model = getModelLine(row) || "Unknown";
+        totals[model] = (totals[model] || 0) + getYearValue(row, selectedYear);
+    });
+
+    const top = Object.entries(totals)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,10);
+
+    const canvas = document.getElementById("modelLineChart");
+    if(!canvas) return;
+
+    if(modelLineChart){
+        modelLineChart.destroy();
+    }
+
+    modelLineChart = new Chart(canvas, {
+        type:"doughnut",
+        data:{
+            labels:top.map(item => item[0]),
+            datasets:[{
+                data:top.map(item => item[1]),
+                backgroundColor:[
+                    "#005195",
+                    "#69A032",
+                    "#B4AA9B",
+                    "#0B2540",
+                    "#8FAFCB",
+                    "#C4DAEC",
+                    "#667085",
+                    "#98A2B3",
+                    "#4D4D4D",
+                    "#BFC4C9"
+                ]
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{
+                    position:"right"
+                }
+            }
+        }
+    });
+}
+
+function updateBrandChart(selectedYear){
+    const totals = {};
+
+    filteredData.forEach(row => {
+        const brand = getBrand(row) || "Unknown";
+        totals[brand] = (totals[brand] || 0) + getYearValue(row, selectedYear);
+    });
+
+    const top = Object.entries(totals)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,10);
+
+    const canvas = document.getElementById("brandChart");
+    if(!canvas) return;
+
+    if(brandChart){
+        brandChart.destroy();
+    }
+
+    brandChart = new Chart(canvas, {
+        type:"bar",
+        data:{
+            labels:top.map(item => item[0]),
+            datasets:[{
+                label:"Production Volume",
+                data:top.map(item => item[1]),
+                backgroundColor:"#005195"
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            indexAxis:"y",
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+            scales:{
+                x:{
+                    beginAtZero:true,
+                    grid:{display:false},
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                },
+                y:{
+                    grid:{display:false}
+                }
+            }
+        }
+    });
+}
+
+function updateTable(selectedYear){
+    const tbody = document.getElementById("detailsBody");
+    if(!tbody) return;
+
+    const sorted = [...filteredData]
+        .sort((a,b) => getYearValue(b, selectedYear) - getYearValue(a, selectedYear))
+        .slice(0,100);
+
+    tbody.innerHTML = "";
+
+    sorted.forEach(row => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${escapeHTML(getRegion(row))}</td>
+            <td>${escapeHTML(getCountry(row))}</td>
+            <td>${escapeHTML(getBrand(row))}</td>
+            <td>${escapeHTML(getSalesParent(row))}</td>
+            <td>${escapeHTML(getBusTruck(row))}</td>
+            <td>${escapeHTML(getGlobalSegment(row))}</td>
+            <td>${escapeHTML(getRegionalSegment(row))}</td>
+            <td>${formatNumber(getYearValue(row, selectedYear))}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+function escapeHTML(value){
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+</script>
 
 </body>
 </html>
