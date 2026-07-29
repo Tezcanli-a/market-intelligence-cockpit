@@ -7,6 +7,15 @@
 <title>Light Vehicle Production & Propulsion Dashboard</title>
 
 <style>
+    .notes-box{
+    margin:20px;
+    padding:15px 20px;
+    background:#f8f9fb;
+    border-left:4px solid #0056A3;
+    border-radius:8px;
+    font-size:13px;
+    color:#333;
+}
 body{
     margin:0;
     font-family:Segoe UI, Arial, sans-serif;
@@ -1119,6 +1128,14 @@ function renderDashboard(){
     renderTable(data, yearField);
 }
 </script>
-
+<div class="notes-box">
+    <strong>Powertrain Definitions:</strong><br><br>
+    ICE = Internal Combustion Engine |
+    MHEV = Mild Hybrid Electric Vehicle |
+    PHEV = Plug-in Hybrid Electric Vehicle |
+    BEV = Battery Electric Vehicle |
+    REEV = Range-Extended Electric Vehicle |
+    FCEV = Fuel Cell Electric Vehicle
+</div>
 </body>
 </html>
