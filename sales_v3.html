@@ -851,6 +851,9 @@
       populateSelect(filterIds.bodyType, uniqueValues(rawData, "Type"), "All Body Types");
       populateSelect(filterIds.segment, uniqueValues(rawData, "Segment"), "All Segments");
       populateSelect(filterIds.autoOnroad, uniqueValues(rawData, "Auto/Onroad"), "All");
+      // Default selection when page opens
+
+document.getElementById(filterIds.autoOnroad).value = "Auto";
       populateSelect(filterIds.propulsion, [
         "NEV",
         "Fuel-powered / Traditional Hybrids (Non-NEV)",
@@ -862,13 +865,17 @@
         if (element) element.addEventListener("change", updateDashboard);
       });
 
-      document.getElementById("resetFilters").addEventListener("click", () => {
-        Object.values(filterIds).forEach(id => {
-          const element = document.getElementById(id);
-          if (element) element.value = "";
-        });
-        updateDashboard();
-      });
+document.getElementById("resetFilters").addEventListener("click", () => {
+  Object.values(filterIds).forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.value = "";
+  });
+
+  // Return to Auto as default
+  document.getElementById(filterIds.autoOnroad).value = "Auto";
+
+  updateDashboard();
+});
     }
 
 function getFilteredData() {
