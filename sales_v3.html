@@ -145,6 +145,35 @@
       font-size: 13px;
       color: var(--text);
     }
+.commentary-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:14px;  
+}
+
+    .commentary-card h2{
+    margin-top:0;
+    color:var(--blue-dark);
+}
+    
+.executive-takeaway{
+    margin-bottom:16px;
+}
+
+.commentary-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.commentary-item{
+    background:#f8fbff;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px;
+}
 
     .reset-btn {
       height: 42px;
@@ -441,7 +470,10 @@
         <select id="propulsionFilter"></select>
       </div>
 
-<div class="commentary-card">
+
+      <button class="reset-btn" id="resetFilters">Reset filters</button>
+    </section>
+    <div class="commentary-card">
 
     <h2>Market Intelligence Commentary</h2>
 
@@ -481,9 +513,7 @@
 
 </div>
 
-      <button class="reset-btn" id="resetFilters">Reset filters</button>
-    </section>
-
+    
     <section class="kpi-row">
       <div class="kpi-card">
         <div class="kpi-value" id="kpiYtd2026">-</div>
