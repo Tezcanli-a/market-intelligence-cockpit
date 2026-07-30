@@ -1836,28 +1836,75 @@ function updateModelShareChart(data, latestMonthIndex) {
       });
     }
 
-    function updateGrammerTopCustomers() {
+function updateGrammerTopCustomers(data, latestMonthIndex) {
 
-const customers = [
-["Mercedes-Benz",-2.4],
-["BMW",-3.8],
-["VW Group",-9.1],
-["Lixiang Auto",14.5],
-["Tata Group",2.1],
-["Stellantis",4.2],
-["NIO",10.3],
-["FAW",3.8],
-["Ford",-0.5],
-["General Motors",-3.2],
-["Geely",5.9],
-["Tesla",8.7],
-["Xiaomi",28.4],
-["Toyota",-1.0],
-["Chery",12.4],
-["Rivian",6.9],
-["Renault Group",1.8],
-["Great Wall",3.6]
-];
+  const customerNames = [
+    "Mercedes-Benz",
+    "BMW",
+    "VW Group",
+    "Lixiang Auto",
+    "Tata Group",
+    "Stellantis",
+    "NIO",
+    "FAW",
+    "Ford",
+    "General Motors",
+    "Geely",
+    "Tesla",
+    "Xiaomi",
+    "Toyota",
+    "Chery",
+    "Rivian",
+    "Renault Group",
+    "Great Wall"
+  ];
+
+  const customerAliases = {
+    "Mercedes-Benz": ["Mercedes-Benz", "Mercedes-Benz Group", "Daimler"],
+    "BMW": ["BMW", "BMW Group"],
+    "VW Group": ["VW Group", "Volkswagen Group", "Volkswagen"],
+    "Lixiang Auto": ["Lixiang Auto", "Li Auto", "Li"],
+    "Tata Group": ["Tata Group", "Tata"],
+    "Stellantis": ["Stellantis"],
+    "NIO": ["NIO"],
+    "FAW": ["FAW", "FAW Group"],
+    "Ford": ["Ford", "Ford Group"],
+    "General Motors": ["General Motors", "GM", "GM Group"],
+    "Geely": ["Geely", "Geely Group", "Geely Holding Group"],
+    "Tesla": ["Tesla"],
+    "Xiaomi": ["Xiaomi", "Xiaomi Auto"],
+    "Toyota": ["Toyota", "Toyota Group"],
+    "Chery": ["Chery", "Chery Group"],
+    "Rivian": ["Rivian"],
+    "Renault Group": ["Renault Group", "Renault"],
+    "Great Wall": ["Great Wall", "Great Wall Motor"]
+  };
+
+  const customers = customerNames.map(customerName => {
+
+    const aliases = customerAliases[customerName] || [customerName];
+
+    const customerRows = data.filter(row => {
+      const groupName = String(row["Group"] || "").trim();
+      const brandName = String(row["Maker/Brand"] || "").trim();
+
+      return aliases.some(alias =>
+        groupName === alias || brandName === alias
+      );
+    });
+
+    const ytd2026 = sumYtd(customerRows, YEAR_CURRENT, latestMonthIndex);
+    const ytd2025 = sumYtd(customerRows, YEAR_BASE, latestMonthIndex);
+    const yoyValue = yoy(ytd2026, ytd2025);
+
+    return {
+      name: customerName,
+      ytd2026,
+      ytd2025,
+      yoy: yoyValue
+    };
+
+  }).filter(item => item.ytd2026 > 0 || item.ytd2025 > 0);
 
   const container = document.getElementById("grammerCustomersList");
 
@@ -1865,32 +1912,44 @@ const customers = [
 
   container.innerHTML = "";
 
-  const maxAbs = Math.max(
-    ...customers.map(x => Math.abs(x[1]))
-  );
+  const validYoys = customers
+    .map(item => item.yoy)
+    .filter(value => value !== null && isFinite(value));
 
-  customers.forEach((item,index) => {
+  const maxAbs = validYoys.length
+    ? Math.max(...validYoys.map(value => Math.abs(value)))
+    : 0;
 
-    const width = (Math.abs(item[1]) / maxAbs) * 100;
+  customers.forEach((item, index) => {
+
+    const yoyValue = item.yoy;
+    const width = maxAbs && yoyValue !== null
+      ? (Math.abs(yoyValue) / maxAbs) * 100
+      : 0;
+
+    const isPositive = yoyValue !== null && yoyValue >= 0;
 
     const row = document.createElement("div");
     row.className = "rank-row";
 
     row.innerHTML = `
       <div>${index + 1}.</div>
-      <div>${item[0]}</div>
+
+      <div title="${item.name}">
+        ${item.name}
+      </div>
 
       <div class="rank-bar-bg">
         <div class="rank-bar-fill"
           style="
-            width:${width}%;
-            background:${item[1] >= 0 ? '#8ec6b0' : '#d0342c'};
+            width:${Math.max(width, 6)}%;
+            background:${isPositive ? '#8ec6b0' : '#d0342c'};
           ">
         </div>
       </div>
 
-      <div class="${item[1] >= 0 ? 'positive' : 'negative'}">
-        ${item[1] > 0 ? '+' : ''}${item[1]}%
+      <div class="${isPositive ? 'positive' : 'negative'}">
+        ${yoyValue === null ? '-' : formatPct(yoyValue)}
       </div>
     `;
 
@@ -1898,9 +1957,8 @@ const customers = [
   });
 
   document.getElementById("grammerCustomersNote").innerHTML =
-    "YoY growth versus same period in 2025.";
+    `YoY growth is calculated from Dashboard_data_LV_sales.csv: ${YEAR_CURRENT} YTD versus the same period in ${YEAR_BASE}.`;
 }
-
     
     function updateOemRanking(data, latestMonthIndex) {
       document.getElementById("oemRankingTitle").textContent =
@@ -2065,10 +2123,10 @@ function updateDashboard() {
   updatePropulsionMixChart(data, latestMonthIndex);
   updateRegionalSalesChart(regionalData, latestMonthIndex);
 
-  updateTopBrands(data, latestMonthIndex);
-  updateGrammerTopCustomers();
-  
-  updateOemRanking(data, latestMonthIndex);
+updateTopBrands(data, latestMonthIndex);
+updateGrammerTopCustomers(data, latestMonthIndex);
+
+updateOemRanking(data, latestMonthIndex);
   updateNotes(data, latestMonthIndex);
 }
 
