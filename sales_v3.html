@@ -1391,14 +1391,18 @@ ctx.fillText(
               if (!item || !item.total || item.nev <= 0) return;
 
               const pct = (item.nev / item.total) * 100;
-              ctx.fillText(formatPct(pct, 0), bar.x, bar.y + 15);
-            });
 
-            ctx.restore();
-          }
-        }]
-      });
-    }
+// NEV %
+ctx.fillStyle = "white";
+ctx.fillText(formatPct(pct, 0), bar.x, bar.y + 15);
+
+// Non-NEV %
+ctx.fillStyle = "#0b2e59";
+ctx.fillText(
+    formatPct(100 - pct, 0),
+    bar.x,
+    bar.base - ((bar.base - bar.y) / 2)
+);
 function sumYtdByField(data, field, year, latestMonthIndex) {
   const map = new Map();
 
