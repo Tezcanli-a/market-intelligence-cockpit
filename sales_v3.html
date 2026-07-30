@@ -1589,13 +1589,20 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
               const height = Math.abs(props.base - props.y);
 
               // Only show labels when the stacked segment is high enough
-              if (height > 22) {
-                ctx.fillText(
-                  formatVolume(value),
-                  props.x,
-                  props.y + height / 2 + 4
-                );
-              }
+             if (height > 22) {
+
+              ctx.fillStyle =
+                  dataset.backgroundColor === "#005195"
+                  ? "#ffffff"
+                  : "#0f172a";
+
+  ctx.fillText(
+    formatVolume(value),
+    props.x,
+    props.y + height / 2 + 4
+  );
+}
+
             });
           });
 
