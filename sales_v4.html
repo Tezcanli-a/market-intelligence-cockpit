@@ -349,11 +349,9 @@
       text-align: left;
     }
 
-    .notes-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
+.notes-grid {
+  display: block;
+}
 
     .notes-list {
       margin: 0;
@@ -2079,8 +2077,12 @@ function updateGrammerTopCustomers(data, latestMonthIndex) {
         `Top brand and OEM rankings are based on available ${YEAR_CURRENT} actual months only.`
       ];
 
-      const notesList = document.getElementById("managementNotes");
-      notesList.innerHTML = notes.map(note => `<li>${note}</li>`).join("");
+const notesList = document.getElementById("managementNotes");
+
+if (notesList) {
+  notesList.innerHTML =
+    notes.map(note => `<li>${note}</li>`).join("");
+}
     }
 
 function updateDashboard() {
