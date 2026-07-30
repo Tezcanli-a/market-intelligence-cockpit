@@ -1375,34 +1375,61 @@ ctx.fillText(
             }
           }
         },
-        plugins: [{
+         plugins: [{
           id: "nevPercentLabels",
           afterDatasetsDraw(chart) {
             const { ctx } = chart;
+            const metaNonNev = chart.getDatasetMeta(0);
             const metaNev = chart.getDatasetMeta(1);
 
             ctx.save();
             ctx.font = "bold 10px Segoe UI";
             ctx.textAlign = "center";
-            ctx.fillStyle = "white";
 
-            metaNev.data.forEach((bar, index) => {
+            metaNev.data.forEach((barNev, index) => {
               const item = monthly[index];
-              if (!item || !item.total || item.nev <= 0) return;
+              if (!item || !item.total) return;
 
-              const pct = (item.nev / item.total) * 100;
+              const nevPct = (item.nev / item.total) * 100;
+              const nonNevPct = (item.nonNev / item.total) * 100;
 
-// NEV %
-ctx.fillStyle = "white";
-ctx.fillText(formatPct(pct, 0), bar.x, bar.y + 15);
+              const barNonNev = metaNonNev.data[index];
 
-// Non-NEV %
-ctx.fillStyle = "#0b2e59";
-ctx.fillText(
-    formatPct(100 - pct, 0),
-    bar.x,
-    bar.base - ((bar.base - bar.y) / 2)
-);
+              if (barNonNev && item.nonNev > 0) {
+                const propsNonNev = barNonNev.getProps(["x", "y", "base"], true);
+                const heightNonNev = Math.abs(propsNonNev.base - propsNonNev.y);
+
+                if (heightNonNev > 22) {
+                  ctx.fillStyle = "#0b2e59";
+                  ctx.fillText(
+                    formatPct(nonNevPct, 0),
+                    propsNonNev.x,
+                    propsNonNev.y + heightNonNev / 2 + 4
+                  );
+                }
+              }
+
+              if (item.nev > 0) {
+                const propsNev = barNev.getProps(["x", "y", "base"], true);
+                const heightNev = Math.abs(propsNev.base - propsNev.y);
+
+                if (heightNev > 22) {
+                  ctx.fillStyle = "#ffffff";
+                  ctx.fillText(
+                    formatPct(nevPct, 0),
+                    propsNev.x,
+                    propsNev.y + heightNev / 2 + 4
+                  );
+                }
+              }
+            });
+
+            ctx.restore();
+          }
+        }]
+      });
+    }
+    
 function sumYtdByField(data, field, year, latestMonthIndex) {
   const map = new Map();
 
@@ -1571,54 +1598,40 @@ function updateRegionalSalesChart(regionalData, latestMonthIndex) {
           }
         }
       },
-      plugins: [{
-  id: "nevPercentLabels",
+plugins: [{
+  id: "regionalMonthlyLabels",
   afterDatasetsDraw(chart) {
     const { ctx } = chart;
-    const metaNonNev = chart.getDatasetMeta(0);
-    const metaNev = chart.getDatasetMeta(1);
 
     ctx.save();
-    ctx.font = "bold 10px Segoe UI";
+    ctx.font = "bold 9px Segoe UI";
     ctx.textAlign = "center";
 
-    metaNev.data.forEach((barNev, index) => {
-      const item = monthly[index];
-      if (!item || !item.total) return;
+    chart.data.datasets.forEach((dataset, datasetIndex) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
 
-      const nevPct = (item.nev / item.total) * 100;
-      const nonNevPct = (item.nonNev / item.total) * 100;
+      meta.data.forEach((bar, index) => {
+        const value = dataset.data[index];
 
-      // Non-NEV percentage in light blue section
-      const barNonNev = metaNonNev.data[index];
-      if (barNonNev && item.nonNev > 0) {
-        const propsNonNev = barNonNev.getProps(["x", "y", "base"], true);
-        const heightNonNev = Math.abs(propsNonNev.base - propsNonNev.y);
+        if (!value || value <= 0) return;
 
-        if (heightNonNev > 22) {
-          ctx.fillStyle = "#0b2e59";
+        const props = bar.getProps(["x", "y", "base"], true);
+        const height = Math.abs(props.base - props.y);
+
+        if (height > 22) {
+
+          ctx.fillStyle =
+            dataset.backgroundColor === "#005195"
+              ? "#ffffff"
+              : "#0f172a";
+
           ctx.fillText(
-            formatPct(nonNevPct, 0),
-            propsNonNev.x,
-            propsNonNev.y + heightNonNev / 2 + 4
+            formatVolume(value),
+            props.x,
+            props.y + height / 2 + 4
           );
         }
-      }
-
-      // NEV percentage in dark blue section
-      if (item.nev > 0) {
-        const propsNev = barNev.getProps(["x", "y", "base"], true);
-        const heightNev = Math.abs(propsNev.base - propsNev.y);
-
-        if (heightNev > 22) {
-          ctx.fillStyle = "#ffffff";
-          ctx.fillText(
-            formatPct(nevPct, 0),
-            propsNev.x,
-            propsNev.y + heightNev / 2 + 4
-          );
-        }
-      }
+      });
     });
 
     ctx.restore();
