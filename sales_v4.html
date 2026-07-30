@@ -594,18 +594,18 @@
     <div class="note-strip" id="topBrandsNote"></div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <h2>Model Line Share</h2>
-      <div class="chart-note-top">Top global model lines | 2026 YTD</div>
-    </div>
-    <div class="chart-box large">
-      <canvas id="modelShareChart"></canvas>
-    </div>
-    <div class="note-strip" id="modelShareNote"></div>
+ <div class="card">
+  <div class="card-header">
+    <h2>GRAMMER Top Customers</h2>
+    <div class="chart-note-top">YoY change vs. 2025 same period</div>
   </div>
-</section>
 
+  <div id="grammerCustomersList" class="rank-list"></div>
+
+  <div class="note-strip" id="grammerCustomersNote"></div>
+</div>
+
+</section>
  
     <section class="card table-card">
       <div class="card-header">
@@ -1836,6 +1836,69 @@ function updateModelShareChart(data, latestMonthIndex) {
       });
     }
 
+    function updateGrammerTopCustomers() {
+
+  const customers = [
+    ["VW Group",-9.1],
+    ["Stellantis",4.2],
+    ["Renault Group",1.8],
+    ["BMW Group",-3.8],
+    ["Mercedes-Benz",-2.4],
+    ["Geely Group",5.9],
+    ["Ford",-0.5],
+    ["Tesla",8.7],
+    ["Chery Group",12.4],
+    ["Great Wall",3.6],
+    ["BYD",15.8],
+    ["SAIC",-1.6],
+    ["Changan",6.3],
+    ["Tata Group",2.1],
+    ["GM",-3.2]
+  ];
+
+  const container = document.getElementById("grammerCustomersList");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const maxAbs = Math.max(
+    ...customers.map(x => Math.abs(x[1]))
+  );
+
+  customers.forEach((item,index) => {
+
+    const width = (Math.abs(item[1]) / maxAbs) * 100;
+
+    const row = document.createElement("div");
+    row.className = "rank-row";
+
+    row.innerHTML = `
+      <div>${index + 1}.</div>
+      <div>${item[0]}</div>
+
+      <div class="rank-bar-bg">
+        <div class="rank-bar-fill"
+          style="
+            width:${width}%;
+            background:${item[1] >= 0 ? '#8ec6b0' : '#d0342c'};
+          ">
+        </div>
+      </div>
+
+      <div class="${item[1] >= 0 ? 'positive' : 'negative'}">
+        ${item[1] > 0 ? '+' : ''}${item[1]}%
+      </div>
+    `;
+
+    container.appendChild(row);
+  });
+
+  document.getElementById("grammerCustomersNote").innerHTML =
+    "YoY growth versus same period in 2025.";
+}
+
+    
     function updateOemRanking(data, latestMonthIndex) {
       document.getElementById("oemRankingTitle").textContent =
         latestMonthIndex === 6
@@ -2000,8 +2063,7 @@ function updateDashboard() {
   updateRegionalSalesChart(regionalData, latestMonthIndex);
 
   updateTopBrands(data, latestMonthIndex);
-  updateModelShareChart(data, latestMonthIndex);
-
+  
   updateOemRanking(data, latestMonthIndex);
   updateNotes(data, latestMonthIndex);
 }
