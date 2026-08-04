@@ -133,18 +133,18 @@ main{
             box-shadow:0 4px 14px rgba(0,0,0,0.05);
         }
 
-        .highlight-grid{
-            display:grid;
-            grid-template-columns:repeat(3, 1fr);
-            gap:18px;
-        }
+.highlight-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+}
 
         .highlight-card{
             border:1px solid var(--border);
             border-radius:18px;
             padding:18px;
             background:linear-gradient(180deg, #ffffff, #f8fafc);
-            min-height:260px;
+            min-height:320px;
             display:flex;
             flex-direction:column;
             justify-content:space-between;
@@ -193,9 +193,11 @@ main{
             font-size:18px;
         }
 
-        .news-card h3{
-            font-size:16px;
-        }
+.news-card h3{
+    font-size:17px;
+    line-height:1.4;
+    min-height:48px;
+}
 
         .summary{
             color:#4b5563;
@@ -834,12 +836,15 @@ const latest = [
                             ${escapeHTML(executiveSummary(item))}
                         </div>
 
-                        <div class="meta">
-                            <strong>Company:</strong> ${escapeHTML(item.company || "N/A")}<br>
-                            <strong>Topic:</strong> ${escapeHTML(item.category || "N/A")}<br>
-                            <strong>Source:</strong> ${escapeHTML(source)}<br>
-                            <strong>Date:</strong> ${escapeHTML(item.dateLabel || "N/A")}
-                        </div>
+<div class="meta">
+${escapeHTML(item.company || "N/A")}
+ •
+${escapeHTML(item.category || "N/A")}
+ •
+${escapeHTML(source)}
+ •
+${escapeHTML(item.dateLabel || "N/A")}
+</div>
                     </div>
 
                     ${item.url ? `<a class="read-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener noreferrer">Read Article ↗</a>` : ""}
