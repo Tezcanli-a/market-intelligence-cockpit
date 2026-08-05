@@ -138,8 +138,7 @@ select{
     box-sizing:border-box;
 }
 .chart-box canvas{
-    width:100% !important;
-    height:280px !important;
+    max-height:280px;
 }
 
 .chart-box h3{
@@ -786,10 +785,11 @@ return {
             labels: YEARS,
             datasets: datasets
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
+options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 1,
+    plugins: {
                 legend: {
                     position: "bottom"
                 },
