@@ -95,15 +95,16 @@ tbody tr:hover{background:#f2f6fb}
 <div class="main">
   <div id="statusBox" class="status-box"></div>
   <div class="filters">
-    <div class="filter-box"><label>Region</label><select id="regionFilter"></select></div>
-    <div class="filter-box"><label>Country/Territory</label><select id="countryFilter"></select></div>
-    <div class="filter-box"><label>Sales Parent</label><select id="salesParentFilter"></select></div>
-    <div class="filter-box"><label>Sales Brand</label><select id="salesBrandFilter"></select></div>
-    <div class="filter-box"><label>Bus/Truck</label><select id="busTruckFilter"></select></div>
-    <div class="filter-box"><label>GVW Rating</label><select id="gvwFilter"></select></div>
-    <div class="filter-box"><label>Selected Year</label><select id="yearFilter"><option value="2026" selected>2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option></select></div>
-    <div class="filter-box"><label>Trend End Year</label><select id="endYearFilter"><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033" selected>2033</option></select></div>
-  </div>
+ <div class="filter-box">
+    <label>Truck Segment</label>
+    <select id="truckSegmentFilter">
+        <option value="All">All</option>
+        <option value="Heavy Truck">Heavy Truck</option>
+        <option value="Medium Truck">Medium Truck</option>
+        <option value="Bus">Bus</option>
+        <option value="Others">Others</option>
+    </select>
+</div>
   <div class="kpis">
     <div class="kpi"><div class="kpi-label" id="kpiVolumeLabel">Selected Year Volume</div><div class="kpi-value" id="kpiVolume">0</div></div>
     <div class="kpi"><div class="kpi-label">CAGR 2026-2031</div><div class="kpi-value" id="kpiCagr">0%</div></div>
@@ -151,9 +152,29 @@ function getModelLine(row){return getField(row,['Model Line','Model','Nameplate'
 function getGVWClass(row){const busTruck=String(getBusTruck(row)||'').toUpperCase().trim();const gvw=String(getGVW(row)||'').trim();if(busTruck.includes('BUS'))return'Bus';if(gvw==='Class 8')return'Heavy Truck';if(['Class 3','Class 4','Class 5','Class 6','Class 7'].includes(gvw))return'Medium Truck';if(gvw.toUpperCase()==='BUS')return'Bus';return'Others'}
 function populateSelect(id,getter){const select=document.getElementById(id);const oldValue=select.value;select.innerHTML='<option value="All">All</option>';[...new Set(rawData.map(getter).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b))).forEach(value=>{const option=document.createElement('option');option.value=value;option.textContent=value;select.appendChild(option)});if(oldValue&&[...select.options].some(option=>option.value===oldValue))select.value=oldValue}
 function buildFilters(){populateSelect('regionFilter',getRegion);populateSelect('countryFilter',getCountry);populateSelect('salesParentFilter',getSalesParent);populateSelect('salesBrandFilter',getSalesBrand);populateSelect('busTruckFilter',getBusTruck);populateSelect('gvwFilter',getGVW)}
-function attachEvents(){['regionFilter','countryFilter','salesParentFilter','salesBrandFilter','busTruckFilter','gvwFilter','yearFilter','endYearFilter'].forEach(id=>document.getElementById(id).addEventListener('change',updateDashboard))}
-function getSelectedYears(){const endYear=document.getElementById('endYearFilter').value;return BASE_YEARS.filter(year=>Number(year)<=Number(endYear))}
-function getFilteredData(){const region=document.getElementById('regionFilter').value;const country=document.getElementById('countryFilter').value;const parent=document.getElementById('salesParentFilter').value;const brand=document.getElementById('salesBrandFilter').value;const busTruck=document.getElementById('busTruckFilter').value;const gvw=document.getElementById('gvwFilter').value;return rawData.filter(row=>(region==='All'||getRegion(row)===region)&&(country==='All'||getCountry(row)===country)&&(parent==='All'||getSalesParent(row)===parent)&&(brand==='All'||getSalesBrand(row)===brand)&&(busTruck==='All'||getBusTruck(row)===busTruck)&&(gvw==='All'||getGVW(row)===gvw))}
+function attachEvents(){['regionFilter','countryFilter','salesParentFilter','salesBrandFilter','busTruckFilter','gvwFilter','truckSegmentFilter','yearFilter'].forEach(id=>document.getElementById(id).addEventListener('change',updateDashboard))}
+function getSelectedYears(){
+    return BASE_YEARS;
+}
+function getFilteredData(){
+    const region = document.getElementById('regionFilter').value;
+    const country = document.getElementById('countryFilter').value;
+    const parent = document.getElementById('salesParentFilter').value;
+    const brand = document.getElementById('salesBrandFilter').value;
+    const busTruck = document.getElementById('busTruckFilter').value;
+    const gvw = document.getElementById('gvwFilter').value;
+    const truckSegment = document.getElementById('truckSegmentFilter').value;
+
+    return rawData.filter(row =>
+        (region === 'All' || getRegion(row) === region) &&
+        (country === 'All' || getCountry(row) === country) &&
+        (parent === 'All' || getSalesParent(row) === parent) &&
+        (brand === 'All' || getSalesBrand(row) === brand) &&
+        (busTruck === 'All' || getBusTruck(row) === busTruck) &&
+        (gvw === 'All' || getGVW(row) === gvw) &&
+        (truckSegment === 'All' || getGVWClass(row) === truckSegment)
+    );
+}
 function updateDashboard(){hideStatus();const selectedYear=document.getElementById('yearFilter').value;filteredData=getFilteredData();updateKPIs(selectedYear);updateTrendChart();updateGVWChart();updateSalesParentChart(selectedYear);updateSalesBrandChart(selectedYear);updateTable(selectedYear)}
 function sumYear(data,year){return data.reduce((sum,row)=>sum+getYearValue(row,year),0)}
 function updateKPIs(year){const total=sumYear(filteredData,year);const heavy=sumYear(filteredData.filter(row=>getGVWClass(row)==='Heavy Truck'),year);const medium=sumYear(filteredData.filter(row=>getGVWClass(row)==='Medium Truck'),year);const bus=sumYear(filteredData.filter(row=>getGVWClass(row)==='Bus'),year);const start=sumYear(filteredData,'2026');const end=sumYear(filteredData,'2031');let cagr=0;if(start>0&&end>0)cagr=(Math.pow(end/start,1/5)-1)*100;document.getElementById('kpiVolumeLabel').textContent=year+' Sales Volume';document.getElementById('kpiVolume').textContent=formatNumber(total);document.getElementById('kpiCagr').textContent=formatPercent(cagr);document.getElementById('kpiHeavy').textContent=total?formatPercent(heavy/total*100):'0%';document.getElementById('kpiMedium').textContent=total?formatPercent(medium/total*100):'0%';document.getElementById('kpiBus').textContent=total?formatPercent(bus/total*100):'0%'}
