@@ -529,7 +529,7 @@ function updateTrendChart(){
 }
 function updateGVWChart(){
     const years=getSelectedYears();
-    const classes=[['Medium Truck',COLORS.medium],['Heavy Truck',COLORS.dark],['Bus',COLORS.light],['Others',COLORS.grey]];
+    const classes=[['Heavy Truck',COLORS.dark],['Medium Truck',COLORS.medium],['Bus',COLORS.light],['Others',COLORS.grey]];
     if(gvwChart)gvwChart.destroy();
     gvwChart=new Chart(document.getElementById('gvwChart'),{
         type:'bar',
