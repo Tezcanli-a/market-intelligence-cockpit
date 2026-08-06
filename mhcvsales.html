@@ -1,1 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHCV Sales Forecast</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<style>
+body{
+    font-family:Segoe UI, Arial, sans-serif;
+    margin:0;
+    background:#f4f6f9;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#005195,#003b70);
+    color:white;
+    padding:26px 42px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.16);
+}
+
+header h1{
+    margin:0;
+    font-size:28px;
+    letter-spacing:0.3px;
+}
+
+header p{
+    margin:8px 0 0;
+    color:#dbeafe;
+    font-size:15px;
+}
+
+.top-nav{
+    background:white;
+    border-bottom:1px solid #d9e2ec;
+    padding:12px 42px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.top-nav a{
+    text-decoration:none;
+    color:#005195;
+    font-weight:600;
+    padding:9px 14px;
+    border-radius:999px;
+}
+
+.top-nav a.active,
+.top-nav a:hover{
+    background:#005195;
+    color:white;
+}
+
+.data-info{
+    background:white;
+    padding:12px 42px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:13px;
+    color:#334155;
+}
+
+.main{
+    padding:20px;
+}
+
+.filters{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.filter-box{
+    background:white;
+    padding:12px;
+    border-radius:8px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+
+.filter-box label{
+    display:block;
+    font-size:12px;
+    color:#666;
+    margin-bottom:6px;
+}
+
+select{
+    width:100%;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    background:white;
+}
+
+.kpis{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.kpi{
+    background:white;
+    padding:18px;
+    border-radius:8px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+
+.kpi-label{
+    font-size:13px;
+    color:#666;
+    margin-bottom:8px;
+}
+
+.kpi-value{
+    font-size:24px;
+    font-weight:700;
+    color:#003366;
+}
+
+.chart-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.chart-box{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    height:360px;
+    box-sizing:border-box;
+}
+
+.chart-box canvas{
+    max-height:280px;
+}
+
+.chart-box h3{
+    margin-top:0;
+    color:#003366;
+}
+
+.full-width{
+    grid-column:1 / -1;
+}
+
+.table-box{
+    background:white;
+    padding:18px;
+    border-radius:8px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+    overflow-x:auto;
+}
+
+.table-box h3{
+    margin-top:0;
+    color:#003366;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+    min-width:1100px;
+}
+
+th{
+    background:#003366;
+    color:white;
+    text-align:left;
+    padding:10px;
+    white-space:nowrap;
+}
+
+td{
+    padding:9px 10px;
+    border-bottom:1px solid #e5e5e5;
+    white-space:nowrap;
+}
+
+tbody tr:hover{
+    background:#f2f6fb;
+}
+
+.note{
+    font-size:12px;
+    color:#666;
+    margin-top:8px;
+}
+
+@media(max-width:900px){
+    .chart-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Market Intelligence MHCV Sales Dashboard</h1>
+    <p>Global medium & heavy commercial vehicle sales forecast and market demand outlook</p>
+</header>
+
+<nav class="top-nav">
+    <a href="index.html">Home</a>
+    <a href="production.html">LV Production</a>
+    sales_v4.htmlLV Sales</a>
+    <a href="mhcvproduction.html">MHCV Production</a>
+    <a href="mhcvsales.html" class="active">MHCV Sales</a>
+    <a href="news.html">News</a>
+</nav>
+
+<div class="data-info">
+    <strong>Source:</strong> S&P Global Mobility MHCV Sales Forecast
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <strong>Forecast View:</strong> 2026-2033
+</div>
+
+<div class="main">
+
+    <div class="filters">
+        <div class="filter-box">
+            <label>Region</label>
+            <select id="regionFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Country/Territory</label>
+            <select id="countryFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Sales Parent</label>
+            <select id="salesParentFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Sales Brand</label>
+            <select id="salesBrandFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Bus/Truck</label>
+            <select id="busTruckFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>GVW Rating</label>
+            <select id="gvwFilter"></select>
+        </div>
+
+        <div class="filter-box">
+            <label>Year</label>
+            <select id="yearFilter">
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+                <option value="2031">2031</option>
+                <option value="2032">2032</option>
+                <option value="2033">2033</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="kpis">
+        <div class="kpi">
+            <div class="kpi-label" id="kpiVolumeLabel">Selected Year Volume</div>
+            <div class="kpi-value" id="kpiVolume">0</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">CAGR 2026-2031</div>
+            <div class="kpi-value" id="kpiCagr">0%</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Heavy Truck %</div>
+            <div class="kpi-value" id="kpiHeavy">0%</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Medium Truck %</div>
+            <div class="kpi-value" id="kpiMedium">0%</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Bus %</div>
+            <div class="kpi-value" id="kpiBus">0%</div>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-box full-width">
+            <h3>Sales Forecast Trend</h3>
+            <canvas id="trendChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>GVW Mix Forecast</h3>
+            <canvas id="gvwChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Top Sales Parent</h3>
+            <canvas id="salesParentChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Top Sales Brand</h3>
+            <canvas id="salesBrandChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Bus / Truck Split</h3>
+            <canvas id="busTruckChart"></canvas>
+        </div>
+    </div>
+
+    <div class="table-box">
+        <h3>Model Line Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Region</th>
+                    <th>Country/Territory</th>
+                    <th>Sales Parent</th>
+                    <th>Sales Brand</th>
+                    <th>Bus/Truck</th>
+                    <th>GVW Rating</th>
+                    <th>GVW Class</th>
+                    <th>2026</th>
+                    <th>2027</th>
+                    <th>2028</th>
+                    <th>2029</th>
+                    <th>2030</th>
+                    <th>2031</th>
+                    <th>2032</th>
+                    <th>2033</th>
+                </tr>
+            </thead>
+            <tbody id="detailsBody"></tbody>
+        </table>
+        <div class="note">Showing top 100 rows by selected year volume.</div>
+    </div>
+
+</div>
+
+<script>
+let rawData = [];
+let filteredData = [];
+
+let trendChart = null;
+let gvwChart = null;
+let salesParentChart = null;
+let salesBrandChart = null;
+let busTruckChart = null;
+
+Chart.defaults.font.size = 13;
+Chart.defaults.font.family = "Segoe UI";
+
+const YEARS = ["2026","2027","2028","2029","2030","2031","2032","2033"];
+
+const COLORS = {
+    grammerBlue:"#005195",
+    darkBlue:"#003b70",
+    mediumBlue:"#4f8fc9",
+    lightBlue:"#8FAFCB",
+    paleBlue:"#C4DAEC",
+    green:"#69A032",
+    beige:"#B4AA9B",
+    grey:"#98A2B3",
+    darkGrey:"#667085",
+    blackBlue:"#0B2540"
+};
+
+fetch("./Dashboard_data_MHCV_Sales.csv")
+    .then(response => {
+        if(!response.ok){
+            throw new Error("CSV file not found");
+        }
+        return response.text();
+    })
+    .then(text => {
+        rawData = parseCSV(text);
+        console.log("MHCV Sales CSV loaded:", rawData.length, "rows");
+        console.log("First row:", rawData[0]);
+
+        buildFilters();
+        attachEvents();
+        updateDashboard();
+    })
+    .catch(error => {
+        console.error("CSV could not be loaded:", error);
+        document.querySelector(".main").innerHTML =
+            '<p style="color:red;font-weight:bold;">CSV could not be loaded. Please check the file name and GitHub location: Dashboard_data_MHCV_Sales.csv</p>';
+    });
+
+function parseCSV(text){
+    const lines = text.trim().split(/\r?\n/).filter(line => line.trim() !== "");
+
+    const headerIndex = lines.findIndex(line =>
+        line.includes("Region") &&
+        line.includes("Country/Territory") &&
+        line.includes("Sales Parent") &&
+        line.includes("Sales Brand") &&
+        line.includes("CY 2026")
+    );
+
+    if(headerIndex === -1){
+        console.error("Header row not found. Please check CSV structure.");
+        return [];
+    }
+
+    let delimiter = ",";
+    if(lines[headerIndex].includes("\t")){
+        delimiter = "\t";
+    } else if(lines[headerIndex].includes(";")){
+        delimiter = ";";
+    }
+
+    const headers = splitCSVLine(lines[headerIndex], delimiter).map(h => clean(h));
+    console.log("Detected MHCV Sales headers:", headers);
+
+    return lines.slice(headerIndex + 1).map(line => {
+        const values = splitCSVLine(line, delimiter);
+        const row = {};
+
+        headers.forEach((header, index) => {
+            row[header] = values[index] ? clean(values[index]) : "";
+        });
+
+        return row;
+    }).filter(row =>
+        row["Region"] ||
+        row["Country/Territory"] ||
+        row["Sales Parent"] ||
+        row["Sales Brand"] ||
+        row["CY 2026"]
+    );
+}
+
+function splitCSVLine(line, delimiter){
+    const result = [];
+    let current = "";
+    let insideQuotes = false;
+
+    for(let i = 0; i < line.length; i++){
+        const char = line[i];
+
+        if(char === '"'){
+            insideQuotes = !insideQuotes;
+        } else if(char === delimiter && !insideQuotes){
+            result.push(current);
+            current = "";
+        } else {
+            current += char;
+        }
+    }
+
+    result.push(current);
+    return result;
+}
+
+function clean(value){
+    return String(value || "")
+        .replace(/^"|"$/g, "")
+        .replace(/""/g, '"')
+        .trim();
+}
+
+function toNumber(value){
+    if(value === null || value === undefined || value === "") return 0;
+
+    return Number(
+        String(value)
+            .replace(/\./g, "")
+            .replace(/,/g, "")
+            .replace(/\s/g, "")
+    ) || 0;
+}
+
+function formatNumber(value){
+    if(!isFinite(value)) return "0";
+
+    if(value >= 1000000){
+        return (value / 1000000).toFixed(1) + "M";
+    }
+
+    if(value >= 1000){
+        return (value / 1000).toFixed(0) + "k";
+    }
+
+    return Math.round(value).toLocaleString();
+}
+
+function formatPercent(value){
+    if(!isFinite(value)) return "0%";
+    return value.toFixed(1) + "%";
+}
+
+function getField(row, possibleNames){
+    for(const name of possibleNames){
+        if(row[name] !== undefined){
+            return row[name];
+        }
+    }
+
+    const keys = Object.keys(row);
+
+    for(const name of possibleNames){
+        const found = keys.find(k => k.toLowerCase().trim() === name.toLowerCase().trim());
+        if(found) return row[found];
+    }
+
+    return "";
+}
+
+function getYearValue(row, year){
+    const cleanYear = String(year || "").replace("CY", "").trim();
+    const columnName = "CY " + cleanYear;
+    return toNumber(row[columnName]);
+}
+
+function getRegion(row){
+    return getField(row, ["Region"]);
+}
+
+function getCountry(row){
+    return getField(row, ["Country/Territory", "Country"]);
+}
+
+function getSalesParent(row){
+    return getField(row, ["Sales Parent"]);
+}
+
+function getSalesBrand(row){
+    return getField(row, ["Sales Brand", "Brand"]);
+}
+
+function getBusTruck(row){
+    return getField(row, ["Bus/Truck", "Bus / Truck", "Bus Truck", "Vehicle Type"]);
+}
+
+function getGVW(row){
+    return getField(row, ["GVW Rating", "GVW"]);
+}
+
+function getGVWClass(row){
+    const busTruck = String(getBusTruck(row) || "").toUpperCase().trim();
+    const gvw = String(getGVW(row) || "").trim();
+
+    if(busTruck.includes("BUS")){
+        return "Bus";
+    }
+
+    if(gvw === "Class 8"){
+        return "Heavy Truck";
+    }
+
+    if(["Class 3","Class 4","Class 5","Class 6","Class 7"].includes(gvw)){
+        return "Medium Truck";
+    }
+
+    if(gvw === "Bus"){
+        return "Bus";
+    }
+
+    return "Others";
+}
+
+function populateSelect(id, getter){
+    const select = document.getElementById(id);
+    if(!select) return;
+
+    const oldValue = select.value;
+    select.innerHTML = '<option value="All">All</option>';
+
+    const values = [...new Set(rawData.map(row => getter(row)).filter(Boolean))].sort();
+
+    values.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+    });
+
+    if(oldValue && [...select.options].some(o => o.value === oldValue)){
+        select.value = oldValue;
+    }
+}
+
+function buildFilters(){
+    populateSelect("regionFilter", getRegion);
+    populateSelect("countryFilter", getCountry);
+    populateSelect("salesParentFilter", getSalesParent);
+    populateSelect("salesBrandFilter", getSalesBrand);
+    populateSelect("busTruckFilter", getBusTruck);
+    populateSelect("gvwFilter", getGVW);
+}
+
+function attachEvents(){
+    const filterIds = [
+        "regionFilter",
+        "countryFilter",
+        "salesParentFilter",
+        "salesBrandFilter",
+        "busTruckFilter",
+        "gvwFilter",
+        "yearFilter"
+    ];
+
+    filterIds.forEach(id => {
+        const element = document.getElementById(id);
+        if(element){
+            element.addEventListener("change", updateDashboard);
+        }
+    });
+}
+
+function getFilteredData(){
+    const region = document.getElementById("regionFilter")?.value || "All";
+    const country = document.getElementById("countryFilter")?.value || "All";
+    const salesParent = document.getElementById("salesParentFilter")?.value || "All";
+    const salesBrand = document.getElementById("salesBrandFilter")?.value || "All";
+    const busTruck = document.getElementById("busTruckFilter")?.value || "All";
+    const gvw = document.getElementById("gvwFilter")?.value || "All";
+
+    return rawData.filter(row => {
+        return (region === "All" || getRegion(row) === region) &&
+               (country === "All" || getCountry(row) === country) &&
+               (salesParent === "All" || getSalesParent(row) === salesParent) &&
+               (salesBrand === "All" || getSalesBrand(row) === salesBrand) &&
+               (busTruck === "All" || getBusTruck(row) === busTruck) &&
+               (gvw === "All" || getGVW(row) === gvw);
+    });
+}
+
+function updateDashboard(){
+    const selectedYear = document.getElementById("yearFilter")?.value || "2026";
+
+    filteredData = getFilteredData();
+
+    updateKPIs(selectedYear);
+    updateTrendChart();
+    updateGVWChart();
+    updateSalesParentChart(selectedYear);
+    updateSalesBrandChart(selectedYear);
+    updateBusTruckChart(selectedYear);
+    updateTable(selectedYear);
+}
+
+function updateKPIs(selectedYear){
+    const totalVolume = filteredData.reduce((sum, row) => sum + getYearValue(row, selectedYear), 0);
+
+    const heavyVolume = filteredData
+        .filter(row => getGVWClass(row) === "Heavy Truck")
+        .reduce((sum, row) => sum + getYearValue(row, selectedYear), 0);
+
+    const mediumVolume = filteredData
+        .filter(row => getGVWClass(row) === "Medium Truck")
+        .reduce((sum, row) => sum + getYearValue(row, selectedYear), 0);
+
+    const busVolume = filteredData
+        .filter(row => getGVWClass(row) === "Bus")
+        .reduce((sum, row) => sum + getYearValue(row, selectedYear), 0);
+
+    const start2026 = filteredData.reduce((sum, row) => sum + getYearValue(row, "2026"), 0);
+    const end2031 = filteredData.reduce((sum, row) => sum + getYearValue(row, "2031"), 0);
+
+    let cagr = 0;
+    if(start2026 > 0 && end2031 > 0){
+        cagr = (Math.pow(end2031 / start2026, 1 / 5) - 1) * 100;
+    }
+
+    document.getElementById("kpiVolumeLabel").textContent = selectedYear + " Sales Volume";
+    document.getElementById("kpiVolume").textContent = formatNumber(totalVolume);
+    document.getElementById("kpiCagr").textContent = formatPercent(cagr);
+    document.getElementById("kpiHeavy").textContent = totalVolume > 0 ? formatPercent((heavyVolume / totalVolume) * 100) : "0%";
+    document.getElementById("kpiMedium").textContent = totalVolume > 0 ? formatPercent((mediumVolume / totalVolume) * 100) : "0%";
+    document.getElementById("kpiBus").textContent = totalVolume > 0 ? formatPercent((busVolume / totalVolume) * 100) : "0%";
+}
+
+function updateTrendChart(){
+    const truckData = [];
+    const busData = [];
+
+    YEARS.forEach(year => {
+        const truck = filteredData
+            .filter(row => String(getBusTruck(row)).toUpperCase().includes("TRUCK"))
+            .reduce((sum, row) => sum + getYearValue(row, year), 0);
+
+        const bus = filteredData
+            .filter(row => String(getBusTruck(row)).toUpperCase().includes("BUS"))
+            .reduce((sum, row) => sum + getYearValue(row, year), 0);
+
+        truckData.push(truck);
+        busData.push(bus);
+    });
+
+    const canvas = document.getElementById("trendChart");
+    if(!canvas) return;
+
+    if(trendChart){
+        trendChart.destroy();
+    }
+
+    trendChart = new Chart(canvas, {
+        type:"bar",
+        data:{
+            labels:YEARS,
+            datasets:[
+                {
+                    label:"Truck",
+                    data:truckData,
+                    backgroundColor:COLORS.grammerBlue,
+                    categoryPercentage:0.55,
+                    barPercentage:0.65,
+                    maxBarThickness:55
+                },
+                {
+                    label:"Bus",
+                    data:busData,
+                    backgroundColor:COLORS.lightBlue,
+                    categoryPercentage:0.55,
+                    barPercentage:0.65,
+                    maxBarThickness:55
+                }
+            ]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{position:"bottom"},
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return context.dataset.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales:{
+                x:{
+                    stacked:true,
+                    grid:{display:false}
+                },
+                y:{
+                    stacked:true,
+                    beginAtZero:true,
+                    grid:{display:false},
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateGVWChart(){
+    const classes = ["Medium Truck","Heavy Truck","Bus","Others"];
+
+    const datasets = [
+        {
+            label:"Medium Truck",
+            data:YEARS.map(year => getTotalByGVWClass("Medium Truck", year)),
+            backgroundColor:COLORS.mediumBlue,
+            categoryPercentage:0.55,
+            barPercentage:0.65,
+            maxBarThickness:45
+        },
+        {
+            label:"Heavy Truck",
+            data:YEARS.map(year => getTotalByGVWClass("Heavy Truck", year)),
+            backgroundColor:COLORS.darkBlue,
+            categoryPercentage:0.55,
+            barPercentage:0.65,
+            maxBarThickness:45
+        },
+        {
+            label:"Bus",
+            data:YEARS.map(year => getTotalByGVWClass("Bus", year)),
+            backgroundColor:COLORS.lightBlue,
+            categoryPercentage:0.55,
+            barPercentage:0.65,
+            maxBarThickness:45
+        },
+        {
+            label:"Others",
+            data:YEARS.map(year => getTotalByGVWClass("Others", year)),
+            backgroundColor:COLORS.grey,
+            categoryPercentage:0.55,
+            barPercentage:0.65,
+            maxBarThickness:45
+        }
+    ];
+
+    const canvas = document.getElementById("gvwChart");
+    if(!canvas) return;
+
+    if(gvwChart){
+        gvwChart.destroy();
+    }
+
+    gvwChart = new Chart(canvas, {
+        type:"bar",
+        data:{
+            labels:YEARS,
+            datasets:datasets
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{position:"bottom"},
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return context.dataset.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales:{
+                x:{
+                    stacked:true,
+                    grid:{display:false}
+                },
+                y:{
+                    stacked:true,
+                    beginAtZero:true,
+                    grid:{display:false},
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function getTotalByGVWClass(gvwClass, year){
+    return filteredData
+        .filter(row => getGVWClass(row) === gvwClass)
+        .reduce((sum, row) => sum + getYearValue(row, year), 0);
+}
+
+function updateSalesParentChart(selectedYear){
+    const totals = {};
+
+    filteredData.forEach(row => {
+        const salesParent = getSalesParent(row) || "Unknown";
+        totals[salesParent] = (totals[salesParent] || 0) + getYearValue(row, selectedYear);
+    });
+
+    const top = Object.entries(totals)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,10);
+
+    const canvas = document.getElementById("salesParentChart");
+    if(!canvas) return;
+
+    if(salesParentChart){
+        salesParentChart.destroy();
+    }
+
+    salesParentChart = new Chart(canvas, {
+        type:"bar",
+        data:{
+            labels:top.map(item => item[0]),
+            datasets:[{
+                label:"Sales Volume",
+                data:top.map(item => item[1]),
+                backgroundColor:COLORS.grammerBlue,
+                barThickness:14,
+                maxBarThickness:18
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            indexAxis:"y",
+            plugins:{
+                legend:{display:false},
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return formatNumber(context.raw);
+                        }
+                    }
+                }
+            },
+            scales:{
+                x:{
+                    beginAtZero:true,
+                    grid:{display:false},
+                    ticks:{
+                        callback:function(value){
+                            return formatNumber(value);
+                        }
+                    }
+                },
+                y:{
+                    grid:{display:false}
+                }
+            }
+        }
+    });
+}
+
+function updateSalesBrandChart(selectedYear){
+    const totals = {};
+
+    filteredData.forEach(row => {
+        const salesBrand = getSalesBrand(row) || "Unknown";
+        totals[salesBrand] = (totals[salesBrand] || 0) + getYearValue(row, selectedYear);
+    });
+
+    const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]);
+    const top = sorted.slice(0,9);
+    const otherTotal = sorted.slice(9).reduce((sum, item) => sum + item[1], 0);
+
+    if(otherTotal > 0){
+        top.push(["Others", otherTotal]);
+    }
+
+    const canvas = document.getElementById("salesBrandChart");
+    if(!canvas) return;
+
+    if(salesBrandChart){
+        salesBrandChart.destroy();
+    }
+
+    salesBrandChart = new Chart(canvas, {
+        type:"doughnut",
+        data:{
+            labels:top.map(item => item[0]),
+            datasets:[{
+                data:top.map(item => item[1]),
+                backgroundColor:[
+                    COLORS.grammerBlue,
+                    COLORS.green,
+                    COLORS.beige,
+                    COLORS.blackBlue,
+                    COLORS.lightBlue,
+                    COLORS.paleBlue,
+                    COLORS.darkGrey,
+                    COLORS.grey,
+                    "#4D4D4D",
+                    "#BFC4C9"
+                ]
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{position:"right"},
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return context.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateBusTruckChart(selectedYear){
+    const totals = {};
+
+    filteredData.forEach(row => {
+        const type = getBusTruck(row) || "Unknown";
+        totals[type] = (totals[type] || 0) + getYearValue(row, selectedYear);
+    });
+
+    const data = Object.entries(totals).sort((a,b) => b[1] - a[1]);
+
+    const canvas = document.getElementById("busTruckChart");
+    if(!canvas) return;
+
+    if(busTruckChart){
+        busTruckChart.destroy();
+    }
+
+    busTruckChart = new Chart(canvas, {
+        type:"doughnut",
+        data:{
+            labels:data.map(item => item[0]),
+            datasets:[{
+                data:data.map(item => item[1]),
+                backgroundColor:[
+                    COLORS.grammerBlue,
+                    COLORS.lightBlue,
+                    COLORS.grey
+                ]
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{position:"right"},
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            return context.label + ": " + formatNumber(context.raw);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateTable(selectedYear){
+    const tbody = document.getElementById("detailsBody");
+    if(!tbody) return;
+
+    const sorted = [...filteredData]
+        .sort((a,b) => getYearValue(b, selectedYear) - getYearValue(a, selectedYear))
+        .slice(0,100);
+
+    tbody.innerHTML = "";
+
+    sorted.forEach(row => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${escapeHTML(getRegion(row))}</td>
+            <td>${escapeHTML(getCountry(row))}</td>
+            <td>${escapeHTML(getSalesParent(row))}</td>
+            <td>${escapeHTML(getSalesBrand(row))}</td>
+            <td>${escapeHTML(getBusTruck(row))}</td>
+            <td>${escapeHTML(getGVW(row))}</td>
+            <td>${escapeHTML(getGVWClass(row))}</td>
+            <td>${formatNumber(getYearValue(row, "2026"))}</td>
+            <td>${formatNumber(getYearValue(row, "2027"))}</td>
+            <td>${formatNumber(getYearValue(row, "2028"))}</td>
+            <td>${formatNumber(getYearValue(row, "2029"))}</td>
+            <td>${formatNumber(getYearValue(row, "2030"))}</td>
+            <td>${formatNumber(getYearValue(row, "2031"))}</td>
+            <td>${formatNumber(getYearValue(row, "2032"))}</td>
+            <td>${formatNumber(getYearValue(row, "2033"))}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+function escapeHTML(value){
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+</script>
+
+</body>
+</html>
