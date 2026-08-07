@@ -236,6 +236,28 @@ tr:hover{
         height:275px;
     }
 }
+
+.reset-btn{
+    width:100%;
+    height:42px;
+
+    background:#ffffff;
+    color:#00549F;
+
+    border:2px solid #00549F;
+    border-radius:8px;
+
+    font-weight:700;
+    cursor:pointer;
+
+    transition:all .2s ease;
+}
+
+.reset-btn:hover{
+    background:#00549F;
+    color:#ffffff;
+    transform:translateY(-1px);
+}
 </style>
 </head>
 
@@ -330,7 +352,13 @@ tr:hover{
             <label for="searchInput">Search</label>
             <input id="searchInput" type="text" placeholder="Search nameplate or plant...">
         </div>
-
+        
+<div class="filter-box">
+    <label>&nbsp;</label>
+    <button id="resetFiltersBtn" class="reset-btn">
+        Reset Filters
+    </button>
+</div>
     </div>
 
     <div class="kpi-grid">
@@ -481,6 +509,12 @@ filterIds.forEach(id => {
     document.getElementById(id).addEventListener("change", renderDashboard);
     document.getElementById(id).addEventListener("input", renderDashboard);
 });
+
+const resetBtn = document.getElementById("resetFiltersBtn");
+
+if(resetBtn){
+    resetBtn.addEventListener("click", resetFilters);
+}
 
 function detectDelimiter(firstLine){
     if(firstLine.includes(";")) return ";";
@@ -1115,7 +1149,22 @@ function renderTable(data, yearField){
 
     container.innerHTML = html;
 }
+function resetFilters(){
 
+    document.getElementById("regionFilter").value = "All";
+    document.getElementById("countryFilter").value = "All";
+    document.getElementById("salesGroupFilter").value = "All";
+    document.getElementById("brandFilter").value = "All";
+    document.getElementById("manufacturerFilter").value = "All";
+    document.getElementById("productionTypeFilter").value = "All";
+    document.getElementById("priceClassFilter").value = "All";
+
+    document.getElementById("searchInput").value = "";
+
+    document.getElementById("yearFilter").value = "CY 2025";
+
+    renderDashboard();
+}
 function renderDashboard(){
     const yearField = document.getElementById("yearFilter").value;
     const data = getFilteredData();
