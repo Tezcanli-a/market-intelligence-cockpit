@@ -388,10 +388,17 @@ main{
             <input type="date" id="dateTo">
         </div>
 
-        <div class="filter-group" style="grid-column:1 / -1;">
-            <label for="keywordSearch">Keyword Search</label>
-            <input type="text" id="keywordSearch" placeholder="Search e.g. electrification, ADAS, BYD, tariffs, production...">
-        </div>
+<div style="display:flex; gap:10px;">
+    <input id="keywordSearch"
+           type="text"
+           placeholder="Search e.g. electrification, ADAS, BYD, tariffs, production...">
+
+    <button id="resetFiltersBtn"
+            class="reset-btn"
+            style="width:160px;">
+        Reset Filters
+    </button>
+</div>
     </section>
 
     <section class="highlights">
