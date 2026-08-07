@@ -2088,9 +2088,6 @@ function updateDashboard() {
   document.getElementById("recordInfo").textContent =
     `All market · ${data.length.toLocaleString()} model-program records`;
 
-  document.getElementById("lastUpdated").textContent =
-    `Last updated: ${new Date().toLocaleDateString("en-GB")}`;
-
   if (!data.length) {
     document.getElementById("recordInfo").textContent =
       "No records found for current filter selection";
