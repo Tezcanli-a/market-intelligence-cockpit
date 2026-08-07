@@ -746,6 +746,8 @@ main{
             document.getElementById(id).addEventListener("input", applyFilters);
             document.getElementById(id).addEventListener("change", applyFilters);
         });
+        document.getElementById("resetFiltersBtn")
+    .addEventListener("click", resetFilters);
     }
 
     function applyFilters(){
@@ -1018,6 +1020,30 @@ ${escapeHTML(item.dateLabel || "N/A")}
             .replace(/\\/g, "\\\\")
             .replace(/'/g, "\\'");
     }
+
+    function resetFilters(){
+
+    document.getElementById("sectionFilter").value = "All";
+    document.getElementById("autoCvFilter").value = "All";
+    document.getElementById("companyTopicFilter").value = "All";
+
+    document.getElementById("keywordSearch").value = "";
+
+    const validDates = rawNews
+        .map(item => item.dateObj)
+        .filter(Boolean)
+        .sort((a,b) => a - b);
+
+    if(validDates.length){
+        document.getElementById("dateFrom").value =
+            toInputDate(validDates[0]);
+
+        document.getElementById("dateTo").value =
+            toInputDate(validDates[validDates.length - 1]);
+    }
+
+    applyFilters();
+}
 
     loadData();
 </script>
