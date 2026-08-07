@@ -519,11 +519,17 @@ function getFilteredData(){
 }
 function resetFilters() {
 
-    // Put all filters back to All
-    document.getElementById('regionFilter').value = 'All';
-    document.getElementById('countryFilter').value = 'All';
-
-    // Add dashboard specific filters below
+    [
+        'regionFilter',
+        'countryFilter',
+        'salesParentFilter',
+        'salesBrandFilter',
+        'busTruckFilter',
+        'gvwFilter',
+        'truckSegmentFilter'
+    ].forEach(id => {
+        document.getElementById(id).value = 'All';
+    });
 
     document.getElementById('yearFilter').value = '2026';
 
