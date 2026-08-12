@@ -1,34 +1,72 @@
-# GRAMMER Offroad Intelligence Hub V16.2
+# GRAMMER Offroad Intelligence Hub V16.3
 
 ## What changed
-V16.2 integrates Profile Pack V1 directly into the portal.
+V16.3 integrates the existing Daily News pipeline as an additional signal source.
 
-The portal now loads and renders:
-- `data/customer_profiles.json`
-- `data/competitor_profiles.json`
-- `data/benchmarking.json`
+The Daily News process remains separate and independent. The Offroad Intelligence Hub only reads the existing root-level file:
 
-## New/updated pages
-- Customer Profiles now render the 3-level customer profile model.
-- Competitor Profiles now render the 3-level competitor profile model.
-- Benchmarking is now a visible menu item using `benchmarking.json`.
-- Key Figures are generated from the profile pack and shown separately.
+```text
+../news-data.json
+```
 
-## Upload structure
-Upload/replace in `offroad-intelligence/`:
-- `index.html`
-- `styles.css`
-- `app.js`
-- `README.md`
-- `data/`
+If needed, the app also tries:
 
-Inside `offroad-intelligence/data/`, make sure these files exist:
-- `customer_profiles.json`
-- `competitor_profiles.json`
-- `benchmarking.json`
-- plus the existing V16 JSON files.
+```text
+./news-data.json
+data/news-data.json
+```
 
-## Check after upload
-- Customer Profiles should show John Deere, CNH, AGCO, Caterpillar, KION, Jungheinrich and Toyota Material Handling.
-- Competitor Profiles should show Isringhausen, Sears Seating, KAB Seating and Milsco.
-- Benchmarking should show GRAMMER vs Isringhausen, GRAMMER vs Sears Seating, and John Deere Supplier Landscape.
+## New page
+A new menu item has been added:
+
+```text
+Daily News Signals
+```
+
+## Daily News filtering logic
+Daily News items are included when:
+
+```text
+Auto/CV contains CV
+```
+
+and category contains one of:
+
+```text
+Construction
+Agriculture
+Material Handling
+Turf
+Offroad / Off-highway
+```
+
+Automotive-only records are excluded from the Offroad signal layer.
+
+## Intended role
+Daily News is not replacing the taxonomy. It is an additional evidence/source layer:
+
+```text
+Daily News
+  -> Relevant item
+  -> Entity / category match
+  -> Signal source
+  -> Customer, competitor, technology, risk, opportunity views
+```
+
+## Files to upload
+Replace in `offroad-intelligence/`:
+
+```text
+index.html
+styles.css
+app.js
+README.md
+```
+
+Keep the existing `data/` folder and keep the root-level `news-data.json` where it is.
+
+## After upload, check
+- The portal still loads.
+- New menu item `Daily News Signals` appears.
+- The page shows relevant CV + Offroad news from root `news-data.json`.
+- Use the buttons to switch between all relevant news, customers, competitors only and news & trends.
