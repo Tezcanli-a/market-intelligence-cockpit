@@ -1,68 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRAMMER Offroad Intelligence Hub V15.3</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <aside class="sidebar">
-    <div class="brand"><div class="logo">G</div><div><strong>Offroad Hub</strong><span>V15.3</span></div></div>
-    <div class="nav-label">Intelligence</div>
-    <button class="nav active" data-view="overview">Intelligence Overview</button>
-    <button class="nav" data-view="signals">Signals</button>
-    <button class="nav" data-view="relationships">Entity Relationships</button>
-    <div class="nav-label">Insights</div>
-    <button class="nav" data-view="competitors">Competitor Profiles</button>
-    <button class="nav" data-view="customers">Customer Profiles</button>
-    <button class="nav" data-view="technology">Technology Radar</button>
-    <div class="nav-label">Actions</div>
-    <button class="nav" data-view="opportunities">Opportunities</button>
-    <button class="nav" data-view="risks">Risks</button>
-    <div class="nav-label">Publication</div>
-    <button class="nav" data-view="weekly">Weekly Digest</button>
-  </aside>
-
-  <div class="shell">
-    <header class="hero">
-      <div>
-        <div class="crumb">GRAMMER Market Intelligence / Offroad</div>
-        <h1>Offroad Intelligence Hub</h1>
-        <p>Entity-linked working-level intelligence for Sales, Product Management, R&D, Innovation, Procurement and Strategy.</p>
-      </div>
-      <div class="status"><span></span><strong>Near real-time collection + weekly publication</strong><small>Signals are linked to competitors, customers, technologies, opportunities and risks.</small></div>
-    </header>
-
-    <main>
-      <section class="filters">
-        <label>Segment<select id="segmentFilter"><option value="all">All Offroad segments</option></select></label>
-        <label>Perspective<select id="perspectiveFilter"><option value="all">All perspectives</option></select></label>
-        <label>Priority<select id="priorityFilter"><option value="all">All priorities</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></label>
-        <label>Search<input id="searchInput" type="search" placeholder="Search signals, competitors, customers..." /></label>
-        <button id="resetFilters">Reset</button>
-      </section>
-
-      <section id="overview" class="view active">
-        <div class="kpis" id="kpis"></div>
-        <div class="heading"><div><span>Entity-linked priorities</span><h2>Top Offroad intelligence priorities</h2></div><small>Signal → Customer → Competitor → Technology → Action.</small></div>
-        <div class="priority-grid" id="priorityGrid"></div>
-        <div class="two-col">
-          <article class="panel wide"><div class="panel-head"><h3>Latest Offroad intelligence developments</h3><span id="feedCount" class="pill"></span></div><div id="latestList"></div></article>
-          <article class="panel"><div class="panel-head"><h3>Signal structure</h3><span class="pill">Live view</span></div><div id="bars" class="bars"></div></article>
-        </div>
-      </section>
-
-      <section id="signals" class="view"><div class="heading"><div><span>Signal register</span><h2>Signals with linked entities</h2></div></div><div id="signalsTable" class="table-wrap"></div></section>
-      <section id="relationships" class="view"><div class="heading"><div><span>Entity relationship model</span><h2>How signals connect to customers, competitors, technologies and actions</h2></div><small>This is the Valona-style intelligence layer.</small></div><div id="relationshipGrid" class="relationship-grid"></div></section>
-      <section id="competitors" class="view"><div class="heading"><div><span>Competitive enablement</span><h2>Competitor profiles and battlecards</h2></div><small>Open a profile to see related signals and customers.</small></div><div id="competitorGrid" class="profile-grid"></div></section>
-      <section id="customers" class="view"><div class="heading"><div><span>Customer intelligence</span><h2>Customer profiles and competitor overlap</h2></div><small>Open a customer profile to see linked signals, risks and opportunities.</small></div><div id="customerGrid" class="profile-grid"></div></section>
-      <section id="technology" class="view"><div class="heading"><div><span>Technology radar</span><h2>Technology themes connected to signals</h2></div></div><div id="technologyGrid" class="card-grid"></div></section>
-      <section id="opportunities" class="view"><div class="heading"><div><span>Opportunity register</span><h2>Sales and innovation opportunities</h2></div></div><div id="opportunityGrid" class="card-grid"></div></section>
-      <section id="risks" class="view"><div class="heading"><div><span>Risk register</span><h2>Competitive, technology and geopolitical risks</h2></div></div><div id="riskGrid" class="card-grid"></div></section>
-      <section id="weekly" class="view"><div class="heading"><div><span>Weekly publication</span><h2>Working-level digest template</h2></div><small>Management can use the optional radar only if useful.</small></div><div id="weeklyGrid" class="card-grid"></div></section>
-    </main>
-  </div>
-<script src="app.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>GRAMMER Offroad Intelligence Hub V16</title><link rel="stylesheet" href="styles.css"></head><body>
+<aside class="sidebar"><div class="brand"><div class="logo">G</div><div><strong>Offroad Hub</strong><span>V16</span></div></div><div class="nav-label">Intelligence</div><button class="nav active" data-view="overview">Intelligence Overview</button><button class="nav" data-view="research">Research Center</button><button class="nav" data-view="signals">Signals</button><button class="nav" data-view="relationships">Entity Relationships</button><div class="nav-label">Profiles</div><button class="nav" data-view="competitors">Competitor Profiles</button><button class="nav" data-view="customers">Customer Profiles</button><button class="nav" data-view="keyfigures">Key Figures</button><div class="nav-label">Visual Analysis</div><button class="nav" data-view="matrix">Customer-Competitor Matrix</button><button class="nav" data-view="heatmap">Risk-Opportunity Heatmap</button><button class="nav" data-view="technology">Technology Radar</button><div class="nav-label">Actions</div><button class="nav" data-view="opportunities">Opportunities</button><button class="nav" data-view="risks">Risks</button><div class="nav-label">Publication</div><button class="nav" data-view="weekly">Weekly Digest</button></aside>
+<div class="shell"><header class="hero"><div><div class="crumb">GRAMMER Market Intelligence / Offroad</div><h1>Offroad Intelligence Hub</h1><p>Valona-inspired research workspace, visual analysis, entity relationships and quarterly profile key figures.</p></div><div class="status"><span></span><strong>Research + Visual Analysis + Quarterly Profiles</strong><small>Signals connect customers, competitors, technologies, opportunities and risks.</small></div></header><main><section class="filters"><label>Segment<select id="segmentFilter"><option value="all">All Offroad segments</option></select></label><label>Perspective<select id="perspectiveFilter"><option value="all">All perspectives</option></select></label><label>Priority<select id="priorityFilter"><option value="all">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select></label><label>Search<input id="searchInput" type="search" placeholder="Search signals, competitors, customers..."></label><button id="resetFilters">Reset</button></section>
+<section id="overview" class="view active"><div class="kpis" id="kpis"></div><div class="heading"><div><span>Entity-linked priorities</span><h2>Top Offroad intelligence priorities</h2></div><small>Signal → Customer → Competitor → Technology → Action.</small></div><div class="priority-grid" id="priorityGrid"></div><div class="two-col"><article class="panel"><div class="panel-head"><h3>Latest Offroad intelligence developments</h3><span id="feedCount" class="pill"></span></div><div id="latestList"></div></article><article class="panel"><div class="panel-head"><h3>Signal structure</h3><span class="pill">Live view</span></div><div id="bars" class="bars"></div></article></div></section>
+<section id="research" class="view"><div class="heading"><div><span>Research app concept</span><h2>Research Center</h2></div><small>Analyst workspace for deeper investigations.</small></div><div id="researchGrid" class="card-grid"></div></section>
+<section id="signals" class="view"><div class="heading"><div><span>Signal register</span><h2>Signals with linked entities</h2></div></div><div id="signalsTable" class="table-wrap"></div></section>
+<section id="relationships" class="view"><div class="heading"><div><span>Entity relationship model</span><h2>How signals connect to customers, competitors, technologies and actions</h2></div></div><div id="relationshipGrid" class="relationship-grid"></div></section>
+<section id="competitors" class="view"><div class="heading"><div><span>Competitive enablement</span><h2>Competitor profiles and battlecards</h2></div><small>Includes key figures, update cadence, related signals and customers.</small></div><div id="competitorGrid" class="profile-grid"></div></section>
+<section id="customers" class="view"><div class="heading"><div><span>Customer intelligence</span><h2>Customer profiles and competitor overlap</h2></div><small>Includes key figures, strategic themes, risks and opportunities.</small></div><div id="customerGrid" class="profile-grid"></div></section>
+<section id="keyfigures" class="view"><div class="heading"><div><span>Quarterly profile updates</span><h2>Competitor and customer key figures</h2></div><small>Update when public online facts are published.</small></div><div id="keyFigureGrid" class="profile-grid"></div></section>
+<section id="matrix" class="view"><div class="heading"><div><span>Visual analysis</span><h2>Customer-Competitor Matrix</h2></div><small>Shows where offroad customers and competitors overlap.</small></div><div id="matrixTable" class="table-wrap"></div></section>
+<section id="heatmap" class="view"><div class="heading"><div><span>Visual analysis</span><h2>Risk-Opportunity Heatmap</h2></div><small>Visual prioritization view for working-level teams.</small></div><div id="heatmapGrid" class="heatmap-grid"></div></section>
+<section id="technology" class="view"><div class="heading"><div><span>Technology radar</span><h2>Technology themes connected to signals</h2></div></div><div id="technologyGrid" class="card-grid"></div></section>
+<section id="opportunities" class="view"><div class="heading"><div><span>Opportunity register</span><h2>Sales and innovation opportunities</h2></div></div><div id="opportunityGrid" class="card-grid"></div></section>
+<section id="risks" class="view"><div class="heading"><div><span>Risk register</span><h2>Competitive, technology and geopolitical risks</h2></div></div><div id="riskGrid" class="card-grid"></div></section>
+<section id="weekly" class="view"><div class="heading"><div><span>Weekly publication</span><h2>Working-level digest template</h2></div></div><div id="weeklyGrid" class="card-grid"></div></section></main></div><script src="app.js"></script></body></html>
