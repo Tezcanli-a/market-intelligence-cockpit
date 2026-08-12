@@ -1,33 +1,29 @@
-# GRAMMER Offroad Intelligence Hub V15.1
+# GRAMMER Offroad Intelligence Hub V15.2
 
-This version changes the portal from embedded example data to a structured JSON data model.
+## Changes in V15.2
+- Removed Roadmap from the user-facing platform.
+- Renamed Overview to Intelligence Overview.
+- Added Valona-style navigation groups: Intelligence, Insights, Actions, Publication.
+- Added expandable Competitor Profile section.
+- Kept JSON as the system foundation.
 
-## Visual direction
-The layout is intentionally closer to the Valona logic:
-- left-side navigation
-- modular profile cards
-- competitor profile / battlecard sections
-- relationship map logic
-- clean analytical panels
+## Upload structure
+Upload into `offroad-intelligence/`:
+- index.html
+- styles.css
+- app.js
+- README.md
+- data/
 
-It is not a 1:1 copy of the GRAMMER China portal.
-
-## Files to upload into `offroad-intelligence/`
-- `index.html`
-- `styles.css`
-- `app.js`
-- `data/`
-
-## Data files
-- `data/meta.json`
-- `data/signals.json`
-- `data/competitors.json`
-- `data/customers.json`
-- `data/technologies.json`
-- `data/opportunities.json`
-- `data/risks.json`
-- `data/weekly.json`
-- `data/roadmap.json`
+JSON files inside `offroad-intelligence/data/`:
+- meta.json
+- signals.json
+- competitors.json
+- customers.json
+- technologies.json
+- opportunities.json
+- risks.json
+- weekly.json
 
 ## Scope
 Included: Agriculture, Construction, Material Handling, Turf & Grounds Care, Specialty Offroad, Mining.
