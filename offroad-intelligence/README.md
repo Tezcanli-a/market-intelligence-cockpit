@@ -34,3 +34,12 @@ Signals remain the central intelligence object. Customer, competitor and technol
 
 ## Quarterly profile update logic
 Customer and competitor key figures should be refreshed quarterly when public online sources publish updated facts, annual reports, investor presentations, company factsheets or website updates.
+
+## Populated real-object seed data
+This version contains first real-object seed data for:
+- Isringhausen
+- Sears Seating
+- John Deere / Deere & Company
+- KION Group
+
+Only figures found in checked public sources are populated. Unknown values remain marked as not publicly confirmed or not populated.
