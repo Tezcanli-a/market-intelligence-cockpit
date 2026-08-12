@@ -1,7 +1,90 @@
 [
-{"id":"CUST-001","customer":"John Deere","segment":"Agriculture","competitorIds":["COMP-001","COMP-002","COMP-003"],"grammerPosition":"To validate","riskLevel":"High","opportunityLevel":"High","nextAction":"Build account-specific competitor map"},
-{"id":"CUST-002","customer":"CNH Industrial","segment":"Agriculture / Construction","competitorIds":["COMP-001","COMP-002"],"grammerPosition":"To validate","riskLevel":"Medium","opportunityLevel":"High","nextAction":"Collect recent project signals"},
-{"id":"CUST-003","customer":"AGCO","segment":"Agriculture","competitorIds":["COMP-001","COMP-002","COMP-003"],"grammerPosition":"To validate","riskLevel":"Medium","opportunityLevel":"Medium","nextAction":"Prepare customer profile"},
-{"id":"CUST-004","customer":"Caterpillar","segment":"Construction","competitorIds":["COMP-001","COMP-003"],"grammerPosition":"To validate","riskLevel":"High","opportunityLevel":"Medium","nextAction":"Identify competitor nominations"},
-{"id":"CUST-005","customer":"KION","segment":"Material Handling","competitorIds":["COMP-001","COMP-003"],"grammerPosition":"To validate","riskLevel":"Medium","opportunityLevel":"High","nextAction":"Link to automation cockpit opportunity"}
+  {
+    "id": "CUST-001",
+    "customer": "John Deere / Deere & Company",
+    "segment": "Agriculture; Construction",
+    "riskLevel": "Medium",
+    "opportunityLevel": "High",
+    "nextAction": "Build account-specific competitor map",
+    "competitorIds": [
+      "COMP-001",
+      "COMP-002",
+      "COMP-003",
+      "COMP-004"
+    ]
+  },
+  {
+    "id": "CUST-002",
+    "customer": "CNH Industrial",
+    "segment": "Agriculture; Construction",
+    "riskLevel": "Medium",
+    "opportunityLevel": "High",
+    "nextAction": "Track Case IH and New Holland product launches",
+    "competitorIds": [
+      "COMP-001",
+      "COMP-003"
+    ]
+  },
+  {
+    "id": "CUST-003",
+    "customer": "AGCO",
+    "segment": "Agricultural machinery; Precision agriculture technology",
+    "riskLevel": "Medium",
+    "opportunityLevel": "High",
+    "nextAction": "Track Fendt and PTx-related product announcements",
+    "competitorIds": [
+      "COMP-001",
+      "COMP-002",
+      "COMP-003",
+      "COMP-004"
+    ]
+  },
+  {
+    "id": "CUST-004",
+    "customer": "Caterpillar",
+    "segment": "Construction Industries; Resource Industries",
+    "riskLevel": "High",
+    "opportunityLevel": "High",
+    "nextAction": "Track autonomous mining and connected asset signals",
+    "competitorIds": [
+      "COMP-001",
+      "COMP-003"
+    ]
+  },
+  {
+    "id": "CUST-005",
+    "customer": "KION Group",
+    "segment": "Industrial Trucks & Services; Supply Chain Solutions",
+    "riskLevel": "Medium",
+    "opportunityLevel": "High",
+    "nextAction": "Track KION automation and industrial truck signals",
+    "competitorIds": [
+      "COMP-001",
+      "COMP-003"
+    ]
+  },
+  {
+    "id": "CUST-006",
+    "customer": "Jungheinrich",
+    "segment": "Intralogistics; Material handling",
+    "riskLevel": "Medium",
+    "opportunityLevel": "High",
+    "nextAction": "Track Strategy 2030+ and automation-related signals",
+    "competitorIds": [
+      "COMP-001",
+      "COMP-003"
+    ]
+  },
+  {
+    "id": "CUST-007",
+    "customer": "Toyota Material Handling / Toyota Industries",
+    "segment": "Material handling; Industrial equipment",
+    "riskLevel": "Medium",
+    "opportunityLevel": "High",
+    "nextAction": "Separate Toyota Material Handling data from Toyota Industries where public detail allows",
+    "competitorIds": [
+      "COMP-001",
+      "COMP-003"
+    ]
+  }
 ]

@@ -1,5 +1,26 @@
 [
-{"type":"Customer","title":"Customer research dossier","description":"Workspace for a customer query such as John Deere, CNH, AGCO or KION.","output":"Customer profile, signals, competitor overlap, risks, opportunities and technology themes","cadence":"Ad hoc plus quarterly profile refresh","status":"Active"},
-{"type":"Competitor","title":"Competitor research dossier","description":"Workspace for competitor analysis, benchmarking and battlecard updates.","output":"Key figures, strengths, weaknesses, questions to ask and counter-message","cadence":"Quarterly or when major public source is published","status":"Active"},
-{"type":"Technology","title":"Technology theme research","description":"Workspace for automation, electrification, ergonomics, HMI/sensors and sustainable materials.","output":"Technology radar, related signals and product implications","cadence":"Monthly watch, quarterly profile refresh","status":"Active"}
+  {
+    "type": "Customer",
+    "title": "Customer profile dossier",
+    "description": "Use customer_profiles.json as the active customer intelligence source.",
+    "output": "Permanent facts, quarterly facts, dynamic intelligence, opportunities and risks",
+    "cadence": "Quarterly plus signal-driven updates",
+    "status": "Active"
+  },
+  {
+    "type": "Competitor",
+    "title": "Competitor profile dossier",
+    "description": "Use competitor_profiles.json as the active competitive enablement source.",
+    "output": "Facts, strengths, weaknesses, questions and counter-message",
+    "cadence": "Quarterly plus signal-driven updates",
+    "status": "Active"
+  },
+  {
+    "type": "Benchmarking",
+    "title": "Benchmarking workspace",
+    "description": "Use benchmarking.json to compare GRAMMER, competitors and customer supplier landscapes.",
+    "output": "Benchmark dimensions and action comments",
+    "cadence": "Quarterly or account-driven",
+    "status": "Active"
+  }
 ]

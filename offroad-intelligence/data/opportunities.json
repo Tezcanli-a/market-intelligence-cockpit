@@ -1,5 +1,18 @@
 [
-{"id":"OPP-001","opportunity":"Offroad integrated cabin / seating bundle","priority":"High","segment":"Agriculture / Construction","why":"Position GRAMMER as system-capable comfort and seating partner","nextAction":"Prepare bundle map and customer argumentation"},
-{"id":"OPP-002","opportunity":"Material handling automation cockpit","priority":"High","segment":"Material Handling","why":"Translate automation trend into intelligent operator environment concepts","nextAction":"Build customer-specific concept cards"},
-{"id":"OPP-003","opportunity":"Premium comfort and tactile quality kit","priority":"Medium","segment":"Agriculture / Turf & Grounds Care","why":"Use comfort, ergonomics and durability as differentiator","nextAction":"Create sample kit and claim structure"}
+  {
+    "id": "OPP-001",
+    "opportunity": "Offroad integrated cabin / seating bundle",
+    "priority": "High",
+    "segment": "Agriculture / Construction",
+    "why": "Position GRAMMER as system-capable comfort and seating partner",
+    "nextAction": "Prepare bundle map and customer argumentation"
+  },
+  {
+    "id": "OPP-002",
+    "opportunity": "Material handling automation cockpit",
+    "priority": "High",
+    "segment": "Material Handling",
+    "why": "Translate automation trend into intelligent operator environment concepts",
+    "nextAction": "Build customer-specific concept cards"
+  }
 ]

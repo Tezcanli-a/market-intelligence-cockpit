@@ -1,5 +1,82 @@
 [
-{"id":"COMP-001","name":"Isringhausen","relevance":"High","positioning":"Offroad seating / operator seating","segments":"Agriculture; Construction; Material Handling","whyWeWin":["Global engineering and Offroad seating expertise","Long-term OEM partnership capability"],"whyWeLose":["Incumbent position may be strong","Local response speed can matter"],"questions":["Which customer projects are at risk?","Which product gap is exploited?"],"customerOverlaps":"John Deere; CNH; AGCO; CAT; KION"},
-{"id":"COMP-002","name":"Sears Seating","relevance":"High","positioning":"Offroad and industrial seating","segments":"Agriculture; Construction; Turf & Grounds Care","whyWeWin":["GRAMMER global footprint","Premium comfort story"],"whyWeLose":["Regional familiarity","Price-driven decisions"],"questions":["Where does regional familiarity matter most?"],"customerOverlaps":"John Deere; CNH; AGCO"},
-{"id":"COMP-003","name":"KAB Seating","relevance":"Medium","positioning":"Suspension and operator seating","segments":"Construction; Agriculture; Material Handling","whyWeWin":["Broader GRAMMER platform capability","Lifecycle quality"],"whyWeLose":["Focused niche offering","Fast customization"],"questions":["Is the customer buying a component or a system solution?"],"customerOverlaps":"John Deere; AGCO; KION"}
+  {
+    "id": "COMP-001",
+    "name": "Isringhausen",
+    "relevance": "High",
+    "positioning": "Seating systems; Technical springs",
+    "segments": "Commercial vehicles; Off-road vehicles; Trucks; Vans",
+    "whyWeWin": [
+      "GRAMMER global OEM support",
+      "GRAMMER offroad seating expertise"
+    ],
+    "whyWeLose": [
+      "Scale in seating systems",
+      "Global production footprint"
+    ],
+    "questions": [
+      "Where is Isringhausen incumbent against GRAMMER?",
+      "Which offroad customers are most exposed?",
+      "Where does GRAMMER have system or comfort differentiation?"
+    ]
+  },
+  {
+    "id": "COMP-002",
+    "name": "Sears Seating",
+    "relevance": "High",
+    "positioning": "Agricultural seats; Industrial seats",
+    "segments": "Agriculture; Construction; Forestry; Industrial",
+    "whyWeWin": [
+      "GRAMMER global OEM support",
+      "GRAMMER offroad seating expertise"
+    ],
+    "whyWeLose": [
+      "Long company history",
+      "Agriculture and industrial seating focus"
+    ],
+    "questions": [
+      "Where does Sears Seating have strongest customer familiarity?",
+      "Which applications require benchmarking?",
+      "Where can GRAMMER counter with global support and premium comfort?"
+    ]
+  },
+  {
+    "id": "COMP-003",
+    "name": "KAB Seating",
+    "relevance": "Medium",
+    "positioning": "Off-highway seating systems; Air suspension seats",
+    "segments": "Off-highway vehicles; Industrial vehicles; Agriculture; Construction",
+    "whyWeWin": [
+      "GRAMMER global OEM support",
+      "GRAMMER offroad seating expertise"
+    ],
+    "whyWeLose": [
+      "Off-highway suspension seating positioning",
+      "Portfolio covering multiple seating ranges"
+    ],
+    "questions": [
+      "Is the customer buying a component or system solution?",
+      "Where can GRAMMER bundle additional value?",
+      "Which niche applications require closer monitoring?"
+    ]
+  },
+  {
+    "id": "COMP-004",
+    "name": "Milsco",
+    "relevance": "Medium",
+    "positioning": "Seating solutions; OEM seating",
+    "segments": "Recreational; Turf Care; Heavy Industrial; Construction",
+    "whyWeWin": [
+      "GRAMMER global OEM support",
+      "GRAMMER offroad seating expertise"
+    ],
+    "whyWeLose": [
+      "Design and manufacturing positioning",
+      "Comfort and material expertise"
+    ],
+    "questions": [
+      "Where does Milsco compete in turf or compact equipment?",
+      "Which OEM accounts use Milsco as an incumbent?",
+      "Where can GRAMMER counter with offroad seating depth?"
+    ]
+  }
 ]

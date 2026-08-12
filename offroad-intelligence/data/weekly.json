@@ -1,7 +1,17 @@
 [
-{"section":"Top Offroad Signals","content":"Top 10 signals based on priority score and analyst review","audience":"Sales, Product Management, R&D, Innovation"},
-{"section":"Customer Alerts","content":"Signals linked to key customers and OEMs","audience":"Sales / KAM"},
-{"section":"Competitor Alerts","content":"New competitor moves, strategy shifts and footprint changes","audience":"Sales, Product Management"},
-{"section":"Technology Watch","content":"Automation, electrification, HMI, sensors, ergonomics and sustainable materials","audience":"R&D, Innovation, Product Management"},
-{"section":"Quarterly Profile Updates","content":"Refresh customer and competitor key figures when public online facts are published","audience":"Market Intelligence, Sales, Product Management"}
+  {
+    "section": "Top Offroad Signals",
+    "content": "Top signals based on priority score and analyst review",
+    "audience": "Sales, Product Management, R&D, Innovation"
+  },
+  {
+    "section": "Customer Alerts",
+    "content": "Signals linked to customer profiles and competitor exposure",
+    "audience": "Sales / KAM"
+  },
+  {
+    "section": "Quarterly Profile Updates",
+    "content": "Refresh customer and competitor key figures when public facts are published",
+    "audience": "Market Intelligence"
+  }
 ]

@@ -1,5 +1,18 @@
 [
-{"id":"RISK-001","type":"Geopolitical","description":"Critical material restriction or supply uncertainty","priority":"High","potentialImpact":"Cost increase or availability risk","mitigation":"Supplier diversification and alternative material review"},
-{"id":"RISK-002","type":"Competitive","description":"Competitor wins local-for-local projects with faster response","priority":"High","potentialImpact":"Account risk in selected customer programs","mitigation":"Account mapping and competitor monitoring"},
-{"id":"RISK-003","type":"Technology","description":"Integrated operator environment platforms reduce standalone component opportunities","priority":"High","potentialImpact":"GRAMMER may need system/bundle positioning","mitigation":"Bundle concept definition and partner screening"}
+  {
+    "id": "RISK-001",
+    "type": "Geopolitical",
+    "description": "Critical material restriction or supply uncertainty",
+    "priority": "High",
+    "potentialImpact": "Cost increase or availability risk",
+    "mitigation": "Supplier diversification and alternative material review"
+  },
+  {
+    "id": "RISK-003",
+    "type": "Technology",
+    "description": "Integrated operator environment platforms reduce standalone component opportunities",
+    "priority": "High",
+    "potentialImpact": "GRAMMER may need system/bundle positioning",
+    "mitigation": "Bundle concept definition and partner screening"
+  }
 ]
