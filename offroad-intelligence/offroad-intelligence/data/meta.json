@@ -1,5 +1,0 @@
-{
-  "segments": ["Agriculture", "Construction", "Material Handling", "Turf & Grounds Care", "Specialty Offroad", "Mining"],
-  "excludedSegments": ["Truck", "Bus"],
-  "perspectives": ["Sales", "R&D", "Product Management", "Innovation", "Procurement", "Strategy"]
-}

@@ -1,7 +1,0 @@
-[
-  { "customer": "John Deere", "segment": "Agriculture", "competitors": ["Isringhausen", "Sears Seating", "KAB Seating"], "grammerPosition": "To validate", "riskLevel": "High", "opportunityLevel": "High", "nextAction": "Build account-specific competitor map" },
-  { "customer": "CNH Industrial", "segment": "Agriculture / Construction", "competitors": ["Isringhausen", "Sears Seating", "UnitedSeats"], "grammerPosition": "To validate", "riskLevel": "Medium", "opportunityLevel": "High", "nextAction": "Collect recent project signals" },
-  { "customer": "AGCO", "segment": "Agriculture", "competitors": ["Isringhausen", "Sears Seating", "KAB Seating"], "grammerPosition": "To validate", "riskLevel": "Medium", "opportunityLevel": "Medium", "nextAction": "Prepare customer profile" },
-  { "customer": "Caterpillar", "segment": "Construction", "competitors": ["Isringhausen", "KAB Seating", "Milsco Seating"], "grammerPosition": "To validate", "riskLevel": "High", "opportunityLevel": "Medium", "nextAction": "Identify competitor nominations" },
-  { "customer": "KION", "segment": "Material Handling", "competitors": ["Isringhausen", "KAB Seating", "Milsco Seating"], "grammerPosition": "To validate", "riskLevel": "Medium", "opportunityLevel": "High", "nextAction": "Link to automation cockpit opportunity" }
-]
