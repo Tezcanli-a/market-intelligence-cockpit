@@ -1,1 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRAMMER Offroad Intelligence Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="sidebar" aria-label="Hub navigation">
+    <div class="brand-block">
+      <div class="brand-mark">G</div>
+      <div>
+        <strong>Offroad Hub</strong>
+        <span>V15.1</span>
+      </div>
+    </div>
+    <button class="nav-item active" data-view="dashboard">Overview</button>
+    <button class="nav-item" data-view="signals">Signals</button>
+    <button class="nav-item" data-view="competitors">Competitor Profiles</button>
+    <button class="nav-item" data-view="customers">Customer Map</button>
+    <button class="nav-item" data-view="technology">Technology Radar</button>
+    <button class="nav-item" data-view="opportunities">Opportunities</button>
+    <button class="nav-item" data-view="risks">Risks</button>
+    <button class="nav-item" data-view="weekly">Weekly Digest</button>
+    <button class="nav-item" data-view="roadmap">Roadmap</button>
+  </aside>
 
+  <div class="page-shell">
+    <header class="topbar">
+      <div>
+        <div class="breadcrumb">GRAMMER Market Intelligence / Offroad</div>
+        <h1>Offroad Intelligence Hub</h1>
+        <p>Working-level intelligence for Sales, Product Management, R&D, Innovation, Procurement and Strategy.</p>
+      </div>
+      <div class="update-box">
+        <span class="dot"></span>
+        <strong>Near real-time collection + weekly publication</strong>
+        <small>Scope: Agriculture · Construction · Material Handling · Turf & Grounds Care · Specialty Offroad · Mining</small>
+      </div>
+    </header>
+
+    <main>
+      <section class="filter-strip">
+        <label>Segment
+          <select id="segmentFilter"><option value="all">All Offroad segments</option></select>
+        </label>
+        <label>Perspective
+          <select id="perspectiveFilter"><option value="all">All perspectives</option></select>
+        </label>
+        <label>Priority
+          <select id="priorityFilter">
+            <option value="all">All priorities</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
+        <label>Search
+          <input id="searchInput" type="search" placeholder="Search signals, competitors, customers..." />
+        </label>
+        <button id="resetFilters">Reset</button>
+      </section>
+
+      <section id="dashboard" class="view active">
+        <section class="kpi-grid" id="kpiCards"></section>
+        <section class="section-heading">
+          <div>
+            <span>Working-level priorities</span>
+            <h2>Offroad signals to watch this week</h2>
+          </div>
+          <small>Decision-first view. Not a news archive.</small>
+        </section>
+        <section class="priority-layout" id="priorityGrid"></section>
+        <section class="dashboard-grid">
+          <article class="panel wide">
+            <div class="panel-head"><h3>Latest Offroad intelligence developments</h3><span id="feedCount" class="pill"></span></div>
+            <div id="latestList" class="compact-list"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h3>Signal structure</h3><span class="pill">Live view</span></div>
+            <div id="signalBars" class="bars"></div>
+          </article>
+        </section>
+      </section>
+
+      <section id="signals" class="view">
+        <section class="section-heading"><div><span>Signal register</span><h2>Signals, impact logic and recommended actions</h2></div></section>
+        <div id="signalsTable" class="table-panel"></div>
+      </section>
+
+      <section id="competitors" class="view">
+        <section class="section-heading"><div><span>Competitive enablement</span><h2>Competitor profiles and battlecards</h2></div><small>Valona-inspired card structure with GRAMMER data logic.</small></section>
+        <div id="competitorGrid" class="profile-grid"></div>
+      </section>
+
+      <section id="customers" class="view">
+        <section class="section-heading"><div><span>Customer intelligence</span><h2>Customer and competitor relationship map</h2></div></section>
+        <div id="customerMap" class="table-panel"></div>
+      </section>
+
+      <section id="technology" class="view">
+        <section class="section-heading"><div><span>Technology radar</span><h2>Technology themes connected to signals</h2></div></section>
+        <div id="technologyGrid" class="radar-grid"></div>
+      </section>
+
+      <section id="opportunities" class="view">
+        <section class="section-heading"><div><span>Opportunity register</span><h2>Sales and innovation opportunities</h2></div></section>
+        <div id="opportunityGrid" class="register-grid"></div>
+      </section>
+
+      <section id="risks" class="view">
+        <section class="section-heading"><div><span>Risk register</span><h2>Competitive, technology and geopolitical risks</h2></div></section>
+        <div id="riskGrid" class="register-grid"></div>
+      </section>
+
+      <section id="weekly" class="view">
+        <section class="section-heading"><div><span>Weekly publication</span><h2>Working-level digest template</h2></div><small>Management can use the optional radar if useful.</small></section>
+        <div id="weeklyDigest" class="digest-grid"></div>
+      </section>
+
+      <section id="roadmap" class="view">
+        <section class="section-heading"><div><span>Roadmap</span><h2>V15.1 build roadmap</h2></div><small>Visual direction closer to Valona: modular cards, benchmark pages, relationship views.</small></section>
+        <div id="roadmapFlow" class="roadmap-flow"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
