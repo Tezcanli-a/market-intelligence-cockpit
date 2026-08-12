@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRAMMER Offroad Intelligence Hub V15</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <div class="eyebrow">OFFROAD INTELLIGENCE HUB · V15</div>
+      <h1>GRAMMER Offroad Intelligence Hub</h1>
+      <p>Working-level intelligence platform for Sales, Product Management, R&D, Innovation, Procurement and Strategy.</p>
+    </div>
+    <div class="status-card">
+      <span class="status-dot"></span>
+      <strong>Near real-time collection + weekly publication</strong>
+      <small>Scope: Agriculture · Construction · Material Handling · Turf & Grounds Care · Specialty Offroad · Mining</small>
+    </div>
+  </header>
 
+  <nav class="tabs" aria-label="Main navigation">
+    <button class="tab active" data-view="dashboard">Dashboard</button>
+    <button class="tab" data-view="feed">Live Feed</button>
+    <button class="tab" data-view="competitors">Competitors</button>
+    <button class="tab" data-view="technology">Technology Radar</button>
+    <button class="tab" data-view="roadmap">Roadmap</button>
+    <button class="tab" data-view="weekly">Weekly Digest</button>
+  </nav>
+
+  <main>
+    <section id="dashboard" class="view active">
+      <section class="filters">
+        <label>Segment
+          <select id="segmentFilter">
+            <option value="all">All Offroad segments</option>
+          </select>
+        </label>
+        <label>Perspective
+          <select id="perspectiveFilter">
+            <option value="all">All perspectives</option>
+          </select>
+        </label>
+        <label>Priority
+          <select id="priorityFilter">
+            <option value="all">All priorities</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
+        <button id="resetFilters" class="secondary">Reset filters</button>
+      </section>
+
+      <section class="kpis" id="kpiCards"></section>
+
+      <section class="section-title">
+        <div>
+          <span class="eyebrow dark">WORKING-LEVEL PRIORITIES</span>
+          <h2>Offroad signals to watch this week</h2>
+        </div>
+        <small>Sorted by business impact and urgency</small>
+      </section>
+      <section class="priority-grid" id="priorityGrid"></section>
+
+      <section class="content-grid two-col">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Latest Offroad intelligence developments</h3>
+            <span id="feedCount" class="pill blue"></span>
+          </div>
+          <div id="latestList" class="list"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Signal structure</h3>
+            <span class="pill">Live view</span>
+          </div>
+          <div id="signalBars" class="bars"></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="feed" class="view">
+      <section class="section-title">
+        <div>
+          <span class="eyebrow dark">LIVE INTELLIGENCE FEED</span>
+          <h2>New findings and signals</h2>
+        </div>
+        <small>Collection can be daily or near real-time. Publication remains weekly after review.</small>
+      </section>
+      <div id="feedList" class="timeline"></div>
+    </section>
+
+    <section id="competitors" class="view">
+      <section class="section-title">
+        <div>
+          <span class="eyebrow dark">COMPETITIVE ENABLEMENT</span>
+          <h2>Competitor profiles and battlecards</h2>
+        </div>
+        <small>Truck and Bus are intentionally excluded from this phase.</small>
+      </section>
+      <div id="competitorGrid" class="competitor-grid"></div>
+    </section>
+
+    <section id="technology" class="view">
+      <section class="section-title">
+        <div>
+          <span class="eyebrow dark">TECHNOLOGY RADAR</span>
+          <h2>Offroad technology themes</h2>
+        </div>
+        <small>Connect signals to opportunities, risks and product discussions.</small>
+      </section>
+      <div id="technologyGrid" class="technology-grid"></div>
+    </section>
+
+    <section id="roadmap" class="view">
+      <section class="section-title">
+        <div>
+          <span class="eyebrow dark">PRODUCT ROADMAP LOGIC</span>
+          <h2>V15 build roadmap</h2>
+        </div>
+        <small>Adapted from the Valona roadmap themes.</small>
+      </section>
+      <div id="roadmapFlow" class="roadmap"></div>
+    </section>
+
+    <section id="weekly" class="view">
+      <section class="section-title">
+        <div>
+          <span class="eyebrow dark">WEEKLY PUBLICATION</span>
+          <h2>Working-level digest template</h2>
+        </div>
+        <small>Management can use the optional radar if useful.</small>
+      </section>
+      <div id="weeklyDigest" class="digest-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Internal use.</strong> Static GitHub Pages starter built for GRAMMER Offroad Intelligence Hub V15. Data is currently embedded in <code>data.js</code> and can later be replaced by CSV/JSON exports from Excel or an agent workflow.
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
