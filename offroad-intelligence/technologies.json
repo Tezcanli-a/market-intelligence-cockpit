@@ -1,7 +1,0 @@
-[
-  { "theme": "Automation / operator assist", "maturity": "Emerging", "relevance": "High", "segments": "Material Handling; Construction", "watchSignals": "OEM partnerships; sensor integration; autonomous fleet announcements", "owner": "Innovation / R&D" },
-  { "theme": "Electrification", "maturity": "Scaling", "relevance": "High", "segments": "Agriculture; Construction; Material Handling", "watchSignals": "EV platform launches; battery packaging changes", "owner": "Product Management" },
-  { "theme": "Ergonomics and comfort", "maturity": "Established / evolving", "relevance": "High", "segments": "All Offroad segments", "watchSignals": "New premium seat options; customer comfort claims", "owner": "Product Management" },
-  { "theme": "HMI / sensors", "maturity": "Emerging", "relevance": "Medium", "segments": "Material Handling; Construction", "watchSignals": "New HMI cockpit concepts; partner announcements", "owner": "R&D" },
-  { "theme": "Sustainable materials", "maturity": "Evolving", "relevance": "Medium", "segments": "Agriculture; Construction; Turf & Grounds Care", "watchSignals": "Bio-based materials; recycled content; regulation", "owner": "Sustainability / Product Mgmt" }
-]
