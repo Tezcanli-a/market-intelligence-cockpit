@@ -1,5 +1,0 @@
-[
-  { "id": "RISK-001", "type": "Geopolitical", "description": "Critical material restriction or supply uncertainty", "likelihood": "High", "impact": "Medium", "priority": "High", "potentialImpact": "Cost increase or availability risk", "mitigation": "Supplier diversification and alternative material review", "linkedSignal": "INT-004", "status": "Open" },
-  { "id": "RISK-002", "type": "Competitive", "description": "Competitor wins local-for-local projects with faster response", "likelihood": "Medium", "impact": "High", "priority": "High", "potentialImpact": "Account risk in selected customer programs", "mitigation": "Account mapping and competitor monitoring", "linkedSignal": "COMP modules", "status": "Open" },
-  { "id": "RISK-003", "type": "Technology", "description": "Integrated operator environment platforms reduce standalone component opportunities", "likelihood": "Medium", "impact": "High", "priority": "High", "potentialImpact": "GRAMMER may need system/bundle positioning", "mitigation": "Bundle concept definition and partner screening", "linkedSignal": "INT-001 / INT-002", "status": "Open" }
-]
