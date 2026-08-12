@@ -1,0 +1,7 @@
+[
+  { "phase": "AI technology", "deliverables": "AI summary, tagging, Why it matters, Recommended action, score proposal, PDF summarization later" },
+  { "phase": "Data visualizations", "deliverables": "Trend radar, competitor radar, customer-competitor map, risk heatmap, opportunity funnel" },
+  { "phase": "User engagement", "deliverables": "Filters by segment, customer, competitor, region and function; saved views; weekly digest" },
+  { "phase": "Competitive enablement", "deliverables": "Competitor profiles, win/loss, battlecards, benchmarking and questions to ask" },
+  { "phase": "Near real-time + weekly", "deliverables": "Daily source monitoring, weekly digest and immediate high-priority alerts" }
+]
