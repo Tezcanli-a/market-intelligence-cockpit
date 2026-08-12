@@ -1,0 +1,203 @@
+[
+  {
+    "competitorId": "COMP-001",
+    "name": "Isringhausen",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "ownership": "Part of the AUNDE Group according to official Isringhausen website",
+      "headquarters": "Lemgo, Germany",
+      "coreProducts": [
+        "Seating systems",
+        "Technical springs",
+        "Retrofitting seats"
+      ],
+      "coreApplications": [
+        "Commercial vehicles",
+        "Off-road vehicles",
+        "Trucks",
+        "Vans",
+        "Buses"
+      ],
+      "footprint": "40 plants in 21 countries according to official Isringhausen website"
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "Not publicly confirmed in checked source",
+      "employees": "over 7,000 employees according to official Isringhausen website",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after public online update",
+      "source": "Official Isringhausen website"
+    },
+    "level3DynamicIntelligence": {
+      "strengths": [
+        "Scale in seating systems",
+        "Global production footprint",
+        "Commercial vehicle and off-road relevance"
+      ],
+      "weaknesses": [
+        "Revenue not publicly confirmed in checked source",
+        "Customer/project-level exposure to be validated"
+      ],
+      "questionsToAsk": [
+        "Where is Isringhausen incumbent against GRAMMER?",
+        "Which offroad customers are most exposed?",
+        "Where does GRAMMER have system or comfort differentiation?"
+      ],
+      "grammerCounterMessage": "Position GRAMMER around offroad seating expertise, comfort, ergonomics, durability, global engineering and long-term OEM partnership capability."
+    },
+    "sourceRefs": [
+      "turn32search51"
+    ]
+  },
+  {
+    "competitorId": "COMP-002",
+    "name": "Sears Seating",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Davenport, Iowa, USA",
+      "founded": "1855 according to official Sears Seating history page",
+      "coreProducts": [
+        "Agricultural seats",
+        "Industrial seats",
+        "Suspension and non-suspension seating"
+      ],
+      "coreApplications": [
+        "Agriculture",
+        "Construction",
+        "Forestry",
+        "Industrial",
+        "Turf Care"
+      ],
+      "notableHistory": "Sears began producing agricultural and industrial seats in 1947 according to official history page."
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "Not publicly confirmed in checked official source",
+      "employees": "Not publicly confirmed in checked official source",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after public online update",
+      "source": "Official Sears Seating website"
+    },
+    "level3DynamicIntelligence": {
+      "strengths": [
+        "Long company history",
+        "Agriculture and industrial seating focus",
+        "Comfort and durability positioning"
+      ],
+      "weaknesses": [
+        "Revenue and employee figures not publicly confirmed in checked source",
+        "Regional strength needs account-level validation"
+      ],
+      "questionsToAsk": [
+        "Where does Sears Seating have strongest customer familiarity?",
+        "Which applications require benchmarking?",
+        "Where can GRAMMER counter with global support and premium comfort?"
+      ],
+      "grammerCounterMessage": "Position GRAMMER as a global partner with premium operator comfort, cross-segment know-how and scalable OEM support."
+    },
+    "sourceRefs": [
+      "turn32search52",
+      "turn32search55"
+    ]
+  },
+  {
+    "competitorId": "COMP-003",
+    "name": "KAB Seating",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "ownership": "Part of Commercial Vehicle Group according to KAB Seating product page",
+      "coreProducts": [
+        "Off-highway seating systems",
+        "Air suspension seats",
+        "Mechanical suspension seats",
+        "Active suspension development"
+      ],
+      "coreApplications": [
+        "Off-highway vehicles",
+        "Industrial vehicles",
+        "Agriculture",
+        "Construction",
+        "Mining",
+        "Material handling"
+      ],
+      "footprint": "KAB product page states Commercial Vehicle Group owns 29 plants in 20 countries."
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "Not publicly confirmed at KAB level in checked source",
+      "employees": "Not publicly confirmed at KAB level in checked source",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after public online update",
+      "source": "KAB Seating product page"
+    },
+    "level3DynamicIntelligence": {
+      "strengths": [
+        "Off-highway suspension seating positioning",
+        "Portfolio covering multiple seating ranges",
+        "Industrial vehicle durability positioning"
+      ],
+      "weaknesses": [
+        "Financial data not available at KAB standalone level in checked source",
+        "Customer overlap needs validation"
+      ],
+      "questionsToAsk": [
+        "Is the customer buying a component or system solution?",
+        "Where can GRAMMER bundle additional value?",
+        "Which niche applications require closer monitoring?"
+      ],
+      "grammerCounterMessage": "Counter with lifecycle quality, broader engineering scope, comfort expertise and integrated operator environment logic."
+    },
+    "sourceRefs": [
+      "turn37search110",
+      "turn37search120"
+    ]
+  },
+  {
+    "competitorId": "COMP-004",
+    "name": "Milsco",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Milwaukee, Wisconsin, USA according to OEM Off-Highway company listing",
+      "coreProducts": [
+        "Seating solutions",
+        "OEM seating",
+        "Heated seats",
+        "Bucket and suspension seating solutions"
+      ],
+      "coreApplications": [
+        "Recreational",
+        "Turf Care",
+        "Heavy Industrial",
+        "Construction",
+        "Agricultural and industrial vehicles"
+      ],
+      "notableFacts": "Milsco website states it has been applying design expertise and manufacturing excellence for almost 100 years. OEM Off-Highway listing states Milsco manufactures over three million seats each year."
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "Not publicly confirmed in checked source",
+      "employees": "Not publicly confirmed in checked source",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after public online update",
+      "source": "Official Milsco website and OEM Off-Highway company listing"
+    },
+    "level3DynamicIntelligence": {
+      "strengths": [
+        "Design and manufacturing positioning",
+        "Comfort and material expertise",
+        "Turf care and industrial application exposure"
+      ],
+      "weaknesses": [
+        "Financial data not publicly confirmed in checked source",
+        "Direct customer overlap with GRAMMER needs validation"
+      ],
+      "questionsToAsk": [
+        "Where does Milsco compete in turf or compact equipment?",
+        "Which OEM accounts use Milsco as an incumbent?",
+        "Where can GRAMMER counter with offroad seating depth?"
+      ],
+      "grammerCounterMessage": "Position GRAMMER with offroad seating depth, global OEM relationships, ergonomic expertise and system-level support."
+    },
+    "sourceRefs": [
+      "turn37search121",
+      "turn37search122",
+      "turn37search123"
+    ]
+  }
+]

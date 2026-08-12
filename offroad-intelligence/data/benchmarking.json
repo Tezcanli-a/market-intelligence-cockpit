@@ -1,0 +1,63 @@
+[
+  {
+    "benchmarkId": "BM-001",
+    "title": "GRAMMER vs Isringhausen",
+    "type": "Competitor benchmark",
+    "dimensions": [
+      {
+        "dimension": "Offroad seating relevance",
+        "grammerPosition": "Strong",
+        "competitorPosition": "Strong",
+        "comment": "Both are relevant in offroad seating; account-level evidence needed."
+      },
+      {
+        "dimension": "Global footprint",
+        "grammerPosition": "Strong",
+        "competitorPosition": "Strong",
+        "comment": "Isringhausen reports 40 plants in 21 countries; GRAMMER footprint to be added from internal/public source."
+      },
+      {
+        "dimension": "System / cabin integration",
+        "grammerPosition": "To define",
+        "competitorPosition": "To monitor",
+        "comment": "Requires product and customer evidence."
+      }
+    ]
+  },
+  {
+    "benchmarkId": "BM-002",
+    "title": "GRAMMER vs Sears Seating",
+    "type": "Competitor benchmark",
+    "dimensions": [
+      {
+        "dimension": "Agriculture seating relevance",
+        "grammerPosition": "Strong",
+        "competitorPosition": "Strong",
+        "comment": "Sears Seating explicitly serves agriculture; GRAMMER positioning to be added from source."
+      },
+      {
+        "dimension": "Regional familiarity",
+        "grammerPosition": "To validate",
+        "competitorPosition": "Potentially strong in North America",
+        "comment": "Needs account-level validation."
+      }
+    ]
+  },
+  {
+    "benchmarkId": "BM-003",
+    "title": "John Deere Supplier Landscape",
+    "type": "Customer supplier landscape",
+    "dimensions": [
+      {
+        "dimension": "Tracked seating competitors",
+        "value": "Isringhausen; Sears Seating; KAB Seating; Milsco",
+        "comment": "Initial watchlist; needs account evidence."
+      },
+      {
+        "dimension": "Technology themes",
+        "value": "Precision agriculture; automation; connectivity; operator productivity",
+        "comment": "Connect to signals and product launches."
+      }
+    ]
+  }
+]

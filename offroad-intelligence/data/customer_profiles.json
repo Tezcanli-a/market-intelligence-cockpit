@@ -1,0 +1,427 @@
+[
+  {
+    "customerId": "CUST-001",
+    "name": "John Deere / Deere & Company",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Moline, Illinois, USA",
+      "coreSegments": [
+        "Agriculture",
+        "Construction",
+        "Forestry",
+        "Financial Services"
+      ],
+      "strategicRelevanceForGrammer": [
+        "Agriculture seating",
+        "Construction seating",
+        "Operator comfort",
+        "Operator environment",
+        "HMI / controls",
+        "Cabin-related concepts"
+      ]
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "USD 45.684 billion net sales and revenues, FY2025",
+      "netIncome": "USD 5.027 billion, FY2025",
+      "employees": "Not populated from checked source in this pass",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after earnings release / annual report update",
+      "source": "Deere FY2025 earnings release"
+    },
+    "level3DynamicIntelligence": {
+      "technologyThemes": [
+        "Precision agriculture",
+        "Automation",
+        "Autonomous operation",
+        "Connectivity",
+        "Digital services",
+        "Operator productivity"
+      ],
+      "opportunities": [
+        "Premium operator comfort solutions",
+        "Smart operator environment",
+        "Integrated cabin concepts"
+      ],
+      "risks": [
+        "Increased systems integration by OEMs",
+        "Alternative global seating suppliers"
+      ],
+      "competitorExposure": [
+        "Isringhausen",
+        "Sears Seating",
+        "KAB Seating",
+        "Milsco"
+      ],
+      "nextActions": [
+        "Build account-specific competitor map",
+        "Track autonomy and precision agriculture signals",
+        "Add product launch signals when found"
+      ]
+    },
+    "sourceRefs": [
+      "turn32search38"
+    ]
+  },
+  {
+    "customerId": "CUST-002",
+    "name": "CNH Industrial",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Basildon, United Kingdom",
+      "coreSegments": [
+        "Agriculture",
+        "Construction",
+        "Financial Services"
+      ],
+      "brands": [
+        "Case IH",
+        "New Holland",
+        "CASE",
+        "New Holland Construction"
+      ],
+      "strategicRelevanceForGrammer": [
+        "Agriculture seating",
+        "Construction seating",
+        "Operator comfort",
+        "Cabin-related requirements",
+        "Precision technology topics"
+      ]
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "USD 18.10 billion consolidated revenues, FY2025",
+      "netIncome": "USD 505 million, FY2025",
+      "employees": "Not populated from official checked source in this pass",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after earnings release / annual report update",
+      "source": "CNH FY2025 results release"
+    },
+    "level3DynamicIntelligence": {
+      "technologyThemes": [
+        "Precision agriculture",
+        "Automation",
+        "Connectivity",
+        "Autonomy",
+        "Electric compact construction equipment"
+      ],
+      "opportunities": [
+        "Cabin and seating concepts for agriculture and construction applications",
+        "Operator environment support for precision technology adoption"
+      ],
+      "risks": [
+        "Demand cyclicality in agricultural equipment",
+        "Technology integration shifting requirements toward system suppliers"
+      ],
+      "competitorExposure": [
+        "Isringhausen",
+        "Sears Seating",
+        "KAB Seating",
+        "Milsco"
+      ],
+      "nextActions": [
+        "Track Case IH and New Holland product launches",
+        "Add CNH technology signals as they appear"
+      ]
+    },
+    "sourceRefs": [
+      "turn37search71",
+      "turn37search72",
+      "turn37search73"
+    ]
+  },
+  {
+    "customerId": "CUST-003",
+    "name": "AGCO",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Duluth, Georgia, USA",
+      "coreSegments": [
+        "Agricultural machinery",
+        "Precision agriculture technology"
+      ],
+      "brands": [
+        "Fendt",
+        "Massey Ferguson",
+        "Valtra",
+        "PTx"
+      ],
+      "strategicRelevanceForGrammer": [
+        "Agriculture seating",
+        "Premium operator comfort",
+        "Smart farming interfaces",
+        "Cabin comfort",
+        "Technology-enabled equipment"
+      ]
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "USD 10.1 billion annual revenue, 2025",
+      "employees": "approximately 22,000 global employees, 2025",
+      "rAndDSpend": "USD 487.7 million research and development spend, 2025",
+      "dealerNetwork": "approximately 2,800 independent dealers and distributors in 140 countries, 2025",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after earnings release / annual report update",
+      "source": "AGCO Annual Report 2025"
+    },
+    "level3DynamicIntelligence": {
+      "technologyThemes": [
+        "Smart farming",
+        "Precision agriculture",
+        "Autonomous field operation",
+        "FarmerCore",
+        "PTx ecosystem"
+      ],
+      "opportunities": [
+        "Premium seating for high-value agriculture platforms",
+        "Operator comfort and productivity arguments",
+        "Technology-aligned operator environment concepts"
+      ],
+      "risks": [
+        "Customer consolidation of technology and hardware requirements",
+        "Competitive pressure in premium agriculture seating"
+      ],
+      "competitorExposure": [
+        "Isringhausen",
+        "Sears Seating",
+        "KAB Seating",
+        "Milsco"
+      ],
+      "nextActions": [
+        "Track Fendt and PTx-related product announcements",
+        "Add selected technology signals to Technology Radar"
+      ]
+    },
+    "sourceRefs": [
+      "turn37search77",
+      "turn37search78",
+      "turn37search80"
+    ]
+  },
+  {
+    "customerId": "CUST-004",
+    "name": "Caterpillar",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Irving, Texas, USA",
+      "coreSegments": [
+        "Construction Industries",
+        "Resource Industries",
+        "Power & Energy",
+        "Financial Products"
+      ],
+      "strategicRelevanceForGrammer": [
+        "Construction seating",
+        "Mining and heavy equipment operator environment",
+        "Operator productivity",
+        "Remote operation / autonomy related interfaces"
+      ]
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "USD 67.6 billion sales and revenues, FY2025",
+      "employees": "118,000 employees, 2025 annual report",
+      "locations": "approximately 140 primary locations; operations in 24 countries, 2025 annual report",
+      "rAndDSpend": "USD 2.1 billion research and development, 2025 annual report",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after earnings release / annual report update",
+      "source": "Caterpillar 2025 annual report and FY2025 results release"
+    },
+    "level3DynamicIntelligence": {
+      "technologyThemes": [
+        "Advanced technology",
+        "Connected equipment",
+        "Services",
+        "Autonomous mining",
+        "Operator productivity"
+      ],
+      "opportunities": [
+        "Heavy equipment seating and operator environment concepts",
+        "Comfort and durability arguments for construction and mining applications"
+      ],
+      "risks": [
+        "Large OEM system integration",
+        "Highly demanding durability and service requirements"
+      ],
+      "competitorExposure": [
+        "Isringhausen",
+        "KAB Seating",
+        "Milsco"
+      ],
+      "nextActions": [
+        "Track autonomous mining and connected asset signals",
+        "Add construction-specific competitor map"
+      ]
+    },
+    "sourceRefs": [
+      "turn37search83",
+      "turn37search87"
+    ]
+  },
+  {
+    "customerId": "CUST-005",
+    "name": "KION Group",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Frankfurt am Main, Germany",
+      "coreSegments": [
+        "Industrial Trucks & Services",
+        "Supply Chain Solutions",
+        "Material Handling"
+      ],
+      "strategicRelevanceForGrammer": [
+        "Material handling seating",
+        "Forklift operator environment",
+        "Warehouse automation",
+        "Cockpit evolution"
+      ]
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "EUR 11,297.2 million, FY2025",
+      "employees": "42,175 full-time equivalents at Dec. 31, 2025",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after earnings release / annual report update",
+      "source": "KION Annual Report 2025"
+    },
+    "level3DynamicIntelligence": {
+      "technologyThemes": [
+        "Warehouse automation",
+        "Material handling automation",
+        "Digital services",
+        "Fleet intelligence",
+        "Operator environment"
+      ],
+      "opportunities": [
+        "Material handling automation cockpit",
+        "Smart operator environment concepts",
+        "Comfort and productivity in industrial trucks"
+      ],
+      "risks": [
+        "Automation reducing traditional operator seat demand in selected applications",
+        "Competitors positioning around integrated operator environment"
+      ],
+      "competitorExposure": [
+        "Isringhausen",
+        "KAB Seating",
+        "Milsco"
+      ],
+      "nextActions": [
+        "Track KION automation and industrial truck signals",
+        "Link KION to technology radar themes"
+      ]
+    },
+    "sourceRefs": [
+      "turn32search42"
+    ]
+  },
+  {
+    "customerId": "CUST-006",
+    "name": "Jungheinrich",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Hamburg, Germany",
+      "coreSegments": [
+        "Intralogistics",
+        "Material handling",
+        "Warehouse equipment",
+        "Automation solutions"
+      ],
+      "strategicRelevanceForGrammer": [
+        "Material handling seating",
+        "Warehouse automation",
+        "Operator environment",
+        "Fleet-related technology themes"
+      ]
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "EUR 5,502 million, FY2025",
+      "incomingOrders": "EUR 5,387 million, FY2025",
+      "employees": "21,438 employees, FY2025",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after earnings release / annual report update",
+      "source": "Jungheinrich Annual Report 2025"
+    },
+    "level3DynamicIntelligence": {
+      "technologyThemes": [
+        "Intralogistics automation",
+        "Lithium-ion energy competence",
+        "Mid-tech products",
+        "Networked automation solutions"
+      ],
+      "opportunities": [
+        "Material handling operator environment inputs",
+        "Comfort and ergonomics positioning for warehouse equipment"
+      ],
+      "risks": [
+        "Automation changing operator interaction with machines",
+        "Competitive pressure in material handling seating"
+      ],
+      "competitorExposure": [
+        "Isringhausen",
+        "KAB Seating",
+        "Milsco"
+      ],
+      "nextActions": [
+        "Track Strategy 2030+ and automation-related signals",
+        "Link to material handling technology radar"
+      ]
+    },
+    "sourceRefs": [
+      "turn37search89",
+      "turn37search90",
+      "turn37search91"
+    ]
+  },
+  {
+    "customerId": "CUST-007",
+    "name": "Toyota Material Handling / Toyota Industries",
+    "profileStatus": "V1 seeded",
+    "level1PermanentFacts": {
+      "headquarters": "Japan; Toyota Industries Corporation group context",
+      "coreSegments": [
+        "Material handling",
+        "Industrial equipment",
+        "Toyota Industries group activities"
+      ],
+      "strategicRelevanceForGrammer": [
+        "Material handling seating",
+        "Forklift operator environment",
+        "Warehouse technology",
+        "Automation and fleet topics"
+      ]
+    },
+    "level2QuarterlyFacts": {
+      "revenue": "JPY 4,084,984 million net sales, FY2025 ended March 31, 2025, Toyota Industries consolidated",
+      "employees": "79,454 employees, FY2025, Toyota Industries consolidated",
+      "operatingProfit": "JPY 221,695 million operating profit, FY2025, Toyota Industries consolidated",
+      "lastChecked": "2026-Q3",
+      "updateCadence": "Quarterly after financial results / annual report update",
+      "source": "Toyota Industries Annual Financial Report 2025"
+    },
+    "level3DynamicIntelligence": {
+      "technologyThemes": [
+        "Material handling",
+        "Warehouse automation",
+        "Fleet operations",
+        "Toyota Production System-related efficiency themes"
+      ],
+      "opportunities": [
+        "Forklift and warehouse equipment seating intelligence",
+        "Operator comfort and reliability positioning"
+      ],
+      "risks": [
+        "Parent-level reporting may not isolate material handling figures",
+        "Automation and operating model changes in warehouse equipment"
+      ],
+      "competitorExposure": [
+        "Isringhausen",
+        "KAB Seating",
+        "Milsco"
+      ],
+      "nextActions": [
+        "Separate Toyota Material Handling data from Toyota Industries where public detail allows",
+        "Track material handling product and automation announcements"
+      ]
+    },
+    "sourceRefs": [
+      "turn37search95",
+      "turn37search96"
+    ]
+  }
+]
