@@ -1,6 +1,58 @@
 [
-{"entityId":"COMP-001","entityType":"Competitor","name":"Isringhausen","revenue":"To be validated","employees":"To be validated","headquarters":"To be validated","mainSegments":"Agriculture; Construction; Material Handling","source":"Public website / company factsheet / annual report when available","updateCadence":"Quarterly after public online update","lastChecked":"2026-Q3","status":"Draft"},
-{"entityId":"COMP-002","entityType":"Competitor","name":"Sears Seating","revenue":"To be validated","employees":"To be validated","headquarters":"To be validated","mainSegments":"Agriculture; Construction; Turf & Grounds Care","source":"Public website / company factsheet / annual report when available","updateCadence":"Quarterly after public online update","lastChecked":"2026-Q3","status":"Draft"},
-{"entityId":"CUST-001","entityType":"Customer","name":"John Deere","revenue":"To be validated","employees":"To be validated","headquarters":"To be validated","mainSegments":"Agriculture; Construction","source":"Public annual report / investor presentation / website","updateCadence":"Quarterly after public online update","lastChecked":"2026-Q3","status":"Draft"},
-{"entityId":"CUST-005","entityType":"Customer","name":"KION","revenue":"To be validated","employees":"To be validated","headquarters":"To be validated","mainSegments":"Material Handling","source":"Public annual report / investor presentation / website","updateCadence":"Quarterly after public online update","lastChecked":"2026-Q3","status":"Draft"}
+  {
+    "entityId": "COMP-001",
+    "entityType": "Competitor",
+    "name": "Isringhausen",
+    "revenue": "Not publicly confirmed",
+    "employees": "over 7,000",
+    "headquarters": "Lemgo, Germany",
+    "mainSegments": "Commercial vehicles; off-road vehicles; seating systems; technical springs",
+    "source": "Official Isringhausen website: states 40 plants in 21 countries and over 7,000 employees; revenue not published in the checked source",
+    "sourceUrl": "https://www.isri.com/en/",
+    "updateCadence": "Quarterly after public online update",
+    "lastChecked": "2026-Q3",
+    "status": "Partially populated"
+  },
+  {
+    "entityId": "COMP-002",
+    "entityType": "Competitor",
+    "name": "Sears Seating",
+    "revenue": "Not publicly confirmed",
+    "employees": "Not publicly confirmed in official checked source",
+    "headquarters": "Davenport, Iowa, USA",
+    "mainSegments": "Agriculture; Construction; Forestry; Industrial; Turf Care; seating solutions",
+    "source": "Official Sears Seating website: established in 1855 in Davenport, Iowa; serves agriculture, construction, industrial and turf care industries; revenue not published in the checked source",
+    "sourceUrl": "https://www.searsseating.com/na-en/why-sears-seating/history",
+    "updateCadence": "Quarterly after public online update",
+    "lastChecked": "2026-Q3",
+    "status": "Partially populated"
+  },
+  {
+    "entityId": "CUST-001",
+    "entityType": "Customer",
+    "name": "John Deere / Deere & Company",
+    "revenue": "USD 45.684 billion net sales and revenues, FY2025",
+    "employees": "Not populated from official checked source",
+    "headquarters": "Moline, Illinois, USA",
+    "mainSegments": "Agriculture; Construction; Forestry; Financial Services",
+    "source": "Deere FY2025 earnings release / annual report material: worldwide net sales and revenues were USD 45.684 billion for FY2025; net income attributable to Deere & Company was USD 5.027 billion",
+    "sourceUrl": "https://www.deere.com/assets/pdfs/common/news/deere-4q25-earnings-release.pdf",
+    "updateCadence": "Quarterly after earnings release / annual report update",
+    "lastChecked": "2026-Q3",
+    "status": "Partially populated"
+  },
+  {
+    "entityId": "CUST-005",
+    "entityType": "Customer",
+    "name": "KION Group",
+    "revenue": "EUR 11,297.2 million, FY2025",
+    "employees": "42,175 full-time equivalents at Dec. 31, 2025",
+    "headquarters": "Frankfurt am Main, Germany",
+    "mainSegments": "Industrial Trucks & Services; Supply Chain Solutions / Material Handling",
+    "source": "KION Annual Report 2025: revenue EUR 11,297.2 million and 42,175 employees full-time equivalents at Dec. 31, 2025",
+    "sourceUrl": "https://www.kiongroup.com/KION-Website-Main/Investor-Relations/Shareholders-Meeeting/2026/Annual-Report-of-KION-Group-for-the-2025-financial-year.pdf",
+    "updateCadence": "Quarterly after earnings release / annual report update",
+    "lastChecked": "2026-Q3",
+    "status": "Populated"
+  }
 ]
