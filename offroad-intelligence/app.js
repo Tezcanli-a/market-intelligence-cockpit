@@ -6,6 +6,7 @@ async function loadData(){const entries=await Promise.all(Object.entries(files).
 async function loadNewsFeed(){for(const p of ['../news-data.json','./news-data.json','data/news-data.json']){const d=await fetchOptional(p,null);if(d&&Array.isArray(d.news))return d}return defaults.newsRaw}
 const norm=v=>String(v||'').toLowerCase();
 const cleanText=v=>String(v||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+const extractUrl = v => { const m = String(v || '').match(/https?:\/\/[^\s"<>]+/); return m ? m[0] : ''; };
 const val=(o,keys,fb='')=>{for(const k of keys){if(o&&o[k]!==undefined&&o[k]!==null&&o[k]!=='' )return o[k]}return fb};
 const arr=x=>Array.isArray(x)?x:(x?[x]:[]);
 const safeHtml=v=>cleanText(Array.isArray(v)?v.join('; '):v).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
