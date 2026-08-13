@@ -1,0 +1,19 @@
+[
+  {
+    "patentSignalId": "PAT-001",
+    "source": "IP7",
+    "reviewMonth": "2026-08",
+    "publicationDate": "YYYY-MM-DD",
+    "patentNumber": "TBD",
+    "applicant": "Example competitor or customer",
+    "technologyTheme": "Automation / Operator Environment / HMI / Sensors",
+    "title": "Patent title from IP7",
+    "summary": "Short analyst-readable summary from the monthly IP7 overview.",
+    "linkedCustomerIds": [],
+    "linkedCompetitorIds": [],
+    "linkedTechnologyIds": [],
+    "relevance": "Medium",
+    "confidence": "Medium",
+    "analystNote": "Why this patent matters for GRAMMER."
+  }
+]
