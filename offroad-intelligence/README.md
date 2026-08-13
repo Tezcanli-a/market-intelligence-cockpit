@@ -1,72 +1,33 @@
-# GRAMMER Offroad Intelligence Hub V16.3
+## GRAMMER Offroad Intelligence Hub V16.4 Patch
 
-## What changed
-V16.3 integrates the existing Daily News pipeline as an additional signal source.
+### What changed
 
-The Daily News process remains separate and independent. The Offroad Intelligence Hub only reads the existing root-level file:
+V16.4 Patch adds one new Intelligence Assessments page and two new data files on top of the existing V16.3 structure.
 
-```text
-../news-data.json
-```
+### New page
 
-If needed, the app also tries:
+- Intelligence Assessments
 
-```text
-./news-data.json
-data/news-data.json
-```
+### New data files
 
-## New page
-A new menu item has been added:
+Upload into `offroad-intelligence/data/`:
 
-```text
-Daily News Signals
-```
+- `evidence.json`
+- `assessments.json`
 
-## Daily News filtering logic
-Daily News items are included when:
+### Files to replace
 
-```text
-Auto/CV contains CV
-```
-
-and category contains one of:
-
-```text
-Construction
-Agriculture
-Material Handling
-Turf
-Offroad / Off-highway
-```
-
-Automotive-only records are excluded from the Offroad signal layer.
-
-## Intended role
-Daily News is not replacing the taxonomy. It is an additional evidence/source layer:
-
-```text
-Daily News
-  -> Relevant item
-  -> Entity / category match
-  -> Signal source
-  -> Customer, competitor, technology, risk, opportunity views
-```
-
-## Files to upload
 Replace in `offroad-intelligence/`:
 
-```text
-index.html
-styles.css
-app.js
-README.md
-```
+- `index.html`
+- `app.js`
+- `README.md`
 
-Keep the existing `data/` folder and keep the root-level `news-data.json` where it is.
+Keep the existing `styles.css` unless you want to replace it with your current design file.
 
-## After upload, check
-- The portal still loads.
-- New menu item `Daily News Signals` appears.
-- The page shows relevant CV + Offroad news from root `news-data.json`.
-- Use the buttons to switch between all relevant news, customers, competitors only and news & trends.
+### After upload, check
+
+- Header shows V16.4 Patch.
+- New navigation item Intelligence Assessments appears.
+- Existing Daily News Signals page still works.
+- Existing profiles, benchmarking, matrix, technology radar and heatmap still load.
