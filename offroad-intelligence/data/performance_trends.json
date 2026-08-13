@@ -1,0 +1,76 @@
+[
+  {
+    "entityId": "CUST-001",
+    "entityType": "Customer",
+    "name": "John Deere / Deere & Company",
+    "metrics": [
+      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 45.684}]},
+      {"metric": "Net income", "unit": "USD bn", "values": [{"year": 2025, "value": 5.027}]}
+    ],
+    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+  },
+  {
+    "entityId": "CUST-002",
+    "entityType": "Customer",
+    "name": "CNH Industrial",
+    "metrics": [
+      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 18.10}]},
+      {"metric": "Net income", "unit": "USD bn", "values": [{"year": 2025, "value": 0.505}]}
+    ],
+    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+  },
+  {
+    "entityId": "CUST-003",
+    "entityType": "Customer",
+    "name": "AGCO",
+    "metrics": [
+      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 10.1}]},
+      {"metric": "R&D spend", "unit": "USD m", "values": [{"year": 2025, "value": 487.7}]},
+      {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 22000}]}
+    ],
+    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+  },
+  {
+    "entityId": "CUST-004",
+    "entityType": "Customer",
+    "name": "Caterpillar",
+    "metrics": [
+      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 67.6}]},
+      {"metric": "R&D spend", "unit": "USD bn", "values": [{"year": 2025, "value": 2.1}]},
+      {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 118000}]}
+    ],
+    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+  },
+  {
+    "entityId": "CUST-005",
+    "entityType": "Customer",
+    "name": "KION Group",
+    "metrics": [
+      {"metric": "Revenue", "unit": "EUR bn", "values": [{"year": 2025, "value": 11.2972}]},
+      {"metric": "Employees", "unit": "FTE", "values": [{"year": 2025, "value": 42175}]}
+    ],
+    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+  },
+  {
+    "entityId": "CUST-006",
+    "entityType": "Customer",
+    "name": "Jungheinrich",
+    "metrics": [
+      {"metric": "Revenue", "unit": "EUR bn", "values": [{"year": 2025, "value": 5.502}]},
+      {"metric": "Incoming orders", "unit": "EUR bn", "values": [{"year": 2025, "value": 5.387}]},
+      {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 21438}]}
+    ],
+    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+  },
+  {
+    "entityId": "CUST-007",
+    "entityType": "Customer",
+    "name": "Toyota Material Handling / Toyota Industries",
+    "metrics": [
+      {"metric": "Net sales", "unit": "JPY bn", "values": [{"year": 2025, "value": 4084.984}]},
+      {"metric": "Operating profit", "unit": "JPY bn", "values": [{"year": 2025, "value": 221.695}]},
+      {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 79454}]}
+    ],
+    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+  }
+]
