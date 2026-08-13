@@ -4,73 +4,74 @@
     "entityType": "Customer",
     "name": "John Deere / Deere & Company",
     "metrics": [
-      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 45.684}]},
-      {"metric": "Net income", "unit": "USD bn", "values": [{"year": 2025, "value": 5.027}]}
+      {"metric": "Net sales and revenues", "unit": "USD bn", "values": [{"year": 2024, "value": 51.716}, {"year": 2025, "value": 45.684}]},
+      {"metric": "Net income", "unit": "USD bn", "values": [{"year": 2024, "value": 7.100}, {"year": 2025, "value": 5.027}]}
     ],
-    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+    "note": "2024 from Deere FY2024 release/SEC exhibit; 2025 from existing customer profile data."
   },
   {
     "entityId": "CUST-002",
     "entityType": "Customer",
     "name": "CNH Industrial",
     "metrics": [
-      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 18.10}]},
-      {"metric": "Net income", "unit": "USD bn", "values": [{"year": 2025, "value": 0.505}]}
+      {"metric": "Consolidated revenues", "unit": "USD bn", "values": [{"year": 2024, "value": 19.84}, {"year": 2025, "value": 18.10}]},
+      {"metric": "Net income", "unit": "USD bn", "values": [{"year": 2024, "value": 1.259}, {"year": 2025, "value": 0.505}]}
     ],
-    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+    "note": "2024 from CNH FY2024 results release; 2025 from existing customer profile data."
   },
   {
     "entityId": "CUST-003",
     "entityType": "Customer",
     "name": "AGCO",
     "metrics": [
-      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 10.1}]},
-      {"metric": "R&D spend", "unit": "USD m", "values": [{"year": 2025, "value": 487.7}]},
-      {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 22000}]}
+      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2024, "value": 11.7}, {"year": 2025, "value": 10.1}]},
+      {"metric": "R&D spend", "unit": "USD m", "values": [{"year": 2024, "value": 493}, {"year": 2025, "value": 487.7}]},
+      {"metric": "Employees", "unit": "people", "values": [{"year": 2024, "value": 24000}, {"year": 2025, "value": 22000}]}
     ],
-    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+    "note": "2024 from AGCO 2024 annual report; 2025 from existing customer profile data."
   },
   {
     "entityId": "CUST-004",
     "entityType": "Customer",
     "name": "Caterpillar",
     "metrics": [
-      {"metric": "Revenue", "unit": "USD bn", "values": [{"year": 2025, "value": 67.6}]},
-      {"metric": "R&D spend", "unit": "USD bn", "values": [{"year": 2025, "value": 2.1}]},
+      {"metric": "Sales and revenues", "unit": "USD bn", "values": [{"year": 2024, "value": 64.8}, {"year": 2025, "value": 67.6}]},
+      {"metric": "R&D spend", "unit": "USD bn", "values": [{"year": 2024, "value": 2.11}, {"year": 2025, "value": 2.1}]},
       {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 118000}]}
     ],
-    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+    "note": "2024 revenue from Caterpillar FY2024 results release; 2024 R&D from 2024 10-K summary source; 2025 from existing customer profile data. Add 2024 employee figure when validated."
   },
   {
     "entityId": "CUST-005",
     "entityType": "Customer",
     "name": "KION Group",
     "metrics": [
-      {"metric": "Revenue", "unit": "EUR bn", "values": [{"year": 2025, "value": 11.2972}]},
-      {"metric": "Employees", "unit": "FTE", "values": [{"year": 2025, "value": 42175}]}
+      {"metric": "Revenue", "unit": "EUR bn", "values": [{"year": 2024, "value": 11.5032}, {"year": 2025, "value": 11.2972}]},
+      {"metric": "Employees", "unit": "FTE", "values": [{"year": 2024, "value": 42719}, {"year": 2025, "value": 42175}]},
+      {"metric": "Order intake", "unit": "EUR bn", "values": [{"year": 2024, "value": 10.3209}]}
     ],
-    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+    "note": "2024 from KION 2024 annual report key figures; 2025 from existing customer profile data. Add 2025 order intake when validated."
   },
   {
     "entityId": "CUST-006",
     "entityType": "Customer",
     "name": "Jungheinrich",
     "metrics": [
-      {"metric": "Revenue", "unit": "EUR bn", "values": [{"year": 2025, "value": 5.502}]},
-      {"metric": "Incoming orders", "unit": "EUR bn", "values": [{"year": 2025, "value": 5.387}]},
-      {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 21438}]}
+      {"metric": "Revenue", "unit": "EUR bn", "values": [{"year": 2024, "value": 5.392}, {"year": 2025, "value": 5.502}]},
+      {"metric": "Incoming orders", "unit": "EUR bn", "values": [{"year": 2024, "value": 5.311}, {"year": 2025, "value": 5.387}]},
+      {"metric": "Employees", "unit": "FTE", "values": [{"year": 2024, "value": 20922}, {"year": 2025, "value": 21438}]}
     ],
-    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+    "note": "2024 from Jungheinrich FY2024 release; 2025 from existing customer profile data."
   },
   {
     "entityId": "CUST-007",
     "entityType": "Customer",
     "name": "Toyota Material Handling / Toyota Industries",
     "metrics": [
-      {"metric": "Net sales", "unit": "JPY bn", "values": [{"year": 2025, "value": 4084.984}]},
-      {"metric": "Operating profit", "unit": "JPY bn", "values": [{"year": 2025, "value": 221.695}]},
-      {"metric": "Employees", "unit": "people", "values": [{"year": 2025, "value": 79454}]}
+      {"metric": "Net sales", "unit": "JPY bn", "values": [{"year": 2024, "value": 3833.205}, {"year": 2025, "value": 4084.984}]},
+      {"metric": "Operating profit", "unit": "JPY bn", "values": [{"year": 2024, "value": 200.404}, {"year": 2025, "value": 221.695}]},
+      {"metric": "Employees", "unit": "people", "values": [{"year": 2024, "value": 77824}, {"year": 2025, "value": 79454}]}
     ],
-    "note": "Only FY2025 value populated. Add previous years to activate YoY trend calculation."
+    "note": "2024 from Toyota Industries annual financial report; 2025 from existing customer profile data."
   }
 ]
