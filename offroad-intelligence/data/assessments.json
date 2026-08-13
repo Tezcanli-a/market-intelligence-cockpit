@@ -1,0 +1,44 @@
+[
+  {
+    "assessmentId": "ASM-001",
+    "signalId": "INT-001",
+    "title": "Integrated operator environments becoming more relevant",
+    "assessment": "Current seeded signals suggest that OEM and supplier discussions may increasingly move from standalone seating components toward broader operator-environment solutions.",
+    "businessImplication": "GRAMMER should evaluate where seating, armrests, HMI adjacency and comfort modules can be positioned as a stronger system-level offer.",
+    "confidence": "Medium",
+    "forecast": "Integrated operator-environment requirements may become more visible in selected agriculture and construction customer discussions within the next 6-24 months.",
+    "timeHorizon": "6-24 months",
+    "owner": "Market Intelligence",
+    "reviewDate": "2026-09-15",
+    "opportunityIds": ["OPP-001"],
+    "riskIds": ["RISK-003"]
+  },
+  {
+    "assessmentId": "ASM-002",
+    "signalId": "INT-002",
+    "title": "Automation changes operator role and cockpit expectations",
+    "assessment": "Automation and operator-assistance developments may gradually change how customers evaluate seats, armrests, controls and operator interface concepts.",
+    "businessImplication": "GRAMMER should connect R&D, Innovation and Product Management around intelligent operator-environment use cases, especially for material handling and construction.",
+    "confidence": "Medium",
+    "forecast": "Customer requirements for intelligent or automation-adjacent operator environments are likely to increase over the next 6-24 months.",
+    "timeHorizon": "6-24 months",
+    "owner": "Market Intelligence / Innovation",
+    "reviewDate": "2026-09-15",
+    "opportunityIds": ["OPP-002"],
+    "riskIds": ["RISK-003"]
+  },
+  {
+    "assessmentId": "ASM-003",
+    "signalId": "INT-005",
+    "title": "Material handling automation creates account-specific opportunity potential",
+    "assessment": "Material handling automation signals are relevant because they can connect customer strategy, operator environment concepts and future product differentiation.",
+    "businessImplication": "KION, Jungheinrich and similar accounts should be reviewed for account-specific opportunity cards and customer discussion triggers.",
+    "confidence": "Medium",
+    "forecast": "Material handling customers may increasingly discuss connected, assisted or semi-autonomous operator environments in the next 12-24 months.",
+    "timeHorizon": "12-24 months",
+    "owner": "Sales / Market Intelligence",
+    "reviewDate": "2026-09-30",
+    "opportunityIds": ["OPP-002"],
+    "riskIds": []
+  }
+]
