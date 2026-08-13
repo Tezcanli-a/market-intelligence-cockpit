@@ -1,22 +1,17 @@
-## GRAMMER Offroad Intelligence Hub V16.5
+## GRAMMER Offroad Intelligence Hub V16.5.1
 
 ### What changed
 
-V16.5 implements the frozen Competitive Intelligence structure:
+V16.5.1 keeps the frozen V16.5 structure and restores rich page rendering.
 
-1. Daily News Signals = Evidence Layer / What happened
-2. Signal Register = Signal Layer / Why it matters
-3. Intelligence Assessments = Analyst Layer / What GRAMMER should do
-4. Customer, Competitor and Technology profiles = Where to act
+### Main fixes
 
-### Main V16.5 changes
-
-- Intelligence Overview is no longer a news page.
-- Intelligence Overview now focuses on top signals, top assessments, opportunities and risks.
-- Daily News Signals is clearly positioned as the evidence/source layer.
-- Signal Register now includes Priority, Confidence, Evidence, Business implication, Recommended action and Assessment.
-- Intelligence Assessments uses the three-layer model: Evidence, Interpretation, Decision support.
-- Technology page is renamed Technology Intelligence and prepared for market adoption, competitor adoption, GRAMMER readiness and revenue potential.
+- Intelligence Overview now uses fallback-safe rendering for signals, assessments, opportunities and risks.
+- Customer Profiles use Level 1, Level 2 and Level 3 fields again when available.
+- Competitor Profiles use permanent facts, quarterly facts, strengths, weaknesses, questions and GRAMMER counter-message again when available.
+- Benchmarking shows benchmark dimensions again instead of only benchmark titles.
+- Technology Intelligence keeps existing radar fields and adds a visible V16.5 investment lens.
+- Signal Register keeps Confidence, Evidence, Business implication and Assessment.
 
 ### Files to replace
 
@@ -26,9 +21,4 @@ Replace in `offroad-intelligence/`:
 - `app.js`
 - `README.md`
 
-Keep or add in `offroad-intelligence/data/`:
-
-- `evidence.json`
-- `assessments.json`
-
-Do not replace `styles.css` unless you want to update the visual design separately.
+Do not replace `styles.css` unless you want to change the design.
