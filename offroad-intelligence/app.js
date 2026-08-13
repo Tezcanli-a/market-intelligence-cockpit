@@ -45,7 +45,6 @@ function entityTags(s){return [...byIds(state.data.competitors,s.competitorIds),
 function businessImplication(s){const a=assessmentForSignal(s.id);return a?.businessImplication||s.why||'Business implication not populated yet.';}
 function renderKpis(signals){const kpis=[['Signals',signals.length],['Assessments',state.data.assessments.length],['Evidence items',state.data.evidence.length],['Opportunities',state.data.opportunities.length],['High risks',state.data.risks.filter(r=>r.priority==='High'||r.riskLevel==='High').length],['News updated',state.data.newsRaw.lastUpdated?new Date(state.data.newsRaw.lastUpdated).toLocaleDateString():'n/a']]; setHtml('kpis',kpis.map(([l,v])=>`<div class="kpi"><span>${safeHtml(l)}</span><strong>${safeHtml(v)}</strong></div>`).join(''));}
 function overviewList(items){if(!items.length)return'<p class="empty">No items yet.</p>';return items.map(x=>`<div class="compact-row"><div>${badge(val(x,['priority','riskLevel'],'Medium'))}</div><div><h4>${safeHtml(val(x,['opportunity','description','riskDescription','title','name'],'Untitled'))}</h4><p>${safeHtml(val(x,['nextAction','mitigation','mitigation / watch action','potentialImpact','whyAttractive','why attractive','status'],''))}</p></div></div>`).join('');}
-*/
 function v173_arr(x){return Array.isArray(x)?x:(x?[x]:[])}
 function v173_txt(x){return String(Array.isArray(x)?x.join(' '):(x||'')).replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim()}
 function v173_norm(x){return v173_txt(x).toLowerCase()}
