@@ -250,7 +250,75 @@ function renderHeatmap() {
 
   setHtml('heatmapGrid', `${summary}${matrix}`);
 }
+*/
+function v17Arr(x){ return Array.isArray(x) ? x : (x ? [x] : []); }
+function v17Clean(x){ return String(Array.isArray(x) ? x.join(' ') : (x || '')).replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim(); }
+function v17Norm(x){ return v17Clean(x).toLowerCase(); }
+function v17Set(id, html){ const el = document.getElementById(id); if(el) el.innerHTML = html; }
+function v17Esc(x){ return v17Clean(x).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function v17BarRows(items){
+  const max = Math.max(1, ...items.map(x => x.count));
+  return items.map(x => `<div class="momentum-bar-row"><strong>${v17Esc(x.name)}</strong><div class="momentum-track"><div class="momentum-fill" style="width:${Math.max(5,(x.count/max)*100)}%"></div></div><span>${x.count}</span></div>`).join('');
+}
+function v17Cloud(items){
+  const max = Math.max(1, ...items.map(x => x.count));
+  return items.map(x => {
+    const size = 14 + Math.round((x.count / max) * 18);
+    const cls = x.count >= max * 0.75 ? 'hot' : x.count >= max * 0.45 ? 'up' : 'flat';
+    return `<span class="${cls}" style="font-size:${size}px">${v17Esc(x.name)} ${x.count}</span>`;
+  }).join('');
+}
+function v17TextCorpus(){
+  const d = state.data || {};
+  const blocks = [];
+  v17Arr(d.newsRaw && d.newsRaw.news).forEach(n => blocks.push(`${n.company||''} ${n.headline||''} ${n.summary||''} ${n.category||''} ${n.section||''}`));
+  v17Arr(d.signals).forEach(s => blocks.push(JSON.stringify(s)));
+  v17Arr(d.assessments).forEach(a => blocks.push(JSON.stringify(a)));
+  v17Arr(d.customerProfiles).forEach(c => blocks.push(JSON.stringify(c)));
+  v17Arr(d.competitorProfiles).forEach(c => blocks.push(JSON.stringify(c)));
+  v17Arr(d.technologies).forEach(t => blocks.push(JSON.stringify(t)));
+  v17Arr(d.opportunities).forEach(o => blocks.push(JSON.stringify(o)));
+  v17Arr(d.risks).forEach(r => blocks.push(JSON.stringify(r)));
+  return v17Norm(blocks.join(' '));
+}
+function v17CountMentions(names, corpus){
+  return names.map(name => {
+    const n = v17Norm(name);
+    if(!n) return {name, count:0};
+    const escaped = n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(escaped, 'g');
+    const count = (corpus.match(re) || []).length;
+    return {name, count};
+  }).filter(x => x.count > 0).sort((a,b) => b.count - a.count);
+}
+function v17TechnologyNames(){
+  const base = ['Automation','Operator Environment','Integrated Cabin','HMI','Sensors','Electrification','Precision Agriculture','Autonomy','Sustainability','Materials','Smart Cockpit'];
+  const fromData = v17Arr(state.data.technologies).map(t => t.theme || t.name).filter(Boolean);
+  return [...new Set([...base, ...fromData])];
+}
+function v17CompetitorNames(){ return [...new Set(v17Arr(state.data.competitorProfiles).map(c => c.name || c.competitor).filter(Boolean))]; }
+function v17CustomerNames(){ return [...new Set(v17Arr(state.data.customerProfiles).map(c => c.name || c.customer).filter(Boolean))]; }
+function renderMomentumIntelligence(){
+  const corpus = v17TextCorpus();
+  const tech = v17CountMentions(v17TechnologyNames(), corpus).slice(0,12);
+  const comp = v17CountMentions(v17CompetitorNames(), corpus).slice(0,10);
+  const cust = v17CountMentions(v17CustomerNames(), corpus).slice(0,10);
+  const totalMentions = tech.reduce((a,x)=>a+x.count,0) + comp.reduce((a,x)=>a+x.count,0) + cust.reduce((a,x)=>a+x.count,0);
+  v17Set('momentumSummary', [
+    ['Technology mentions', tech.reduce((a,x)=>a+x.count,0)],
+    ['Competitor mentions', comp.reduce((a,x)=>a+x.count,0)],
+    ['Customer mentions', cust.reduce((a,x)=>a+x.count,0)],
+    ['Total mapped mentions', totalMentions]
+  ].map(([l,v]) => `<div class="kpi"><span>${v17Esc(l)}</span><strong>${v}</strong></div>`).join(''));
+  v17Set('momentumTechCloud', tech.length ? v17Cloud(tech) : '<p class="empty">No technology mentions found yet.</p>');
+  v17Set('momentumCompetitorBars', comp.length ? v17BarRows(comp) : '<p class="empty">No competitor mentions found yet.</p>');
+  v17Set('momentumCustomerBars', cust.length ? v17BarRows(cust) : '<p class="empty">No customer mentions found yet.</p>');
+  const topTech = tech[0] ? `${tech[0].name} (${tech[0].count})` : 'No topic yet';
+  const topComp = comp[0] ? `${comp[0].name} (${comp[0].count})` : 'No competitor yet';
+  const topCust = cust[0] ? `${cust[0].name} (${cust[0].count})` : 'No customer yet';
+  v17Set('momentumInsights', `<div class="info-box"><strong>Top technology topic</strong>${v17Esc(topTech)}</div><div class="info-box"><strong>Most visible competitor</strong>${v17Esc(topComp)}</div><div class="info-box"><strong>Most visible customer</strong>${v17Esc(topCust)}</div><p class="muted">Counts are generated automatically from Daily News, Signals, Assessments, Profiles, Opportunities, Risks and Technology objects.</p>`);
+}
 
-function renderAll(){const signals=filteredSignals();renderKpis(signals);renderOverview(signals);renderSignalsTable();renderAssessments();renderDailyNews();renderRelationships();renderCustomerProfiles();renderCompetitorProfiles();renderBenchmarking();renderTechnology();renderPerformance();renderMatrix();renderHeatmap();}
+function renderAll(){const signals=filteredSignals();renderKpis(signals);renderOverview(signals);renderSignalsTable();renderAssessments();renderDailyNews();renderRelationships();renderCustomerProfiles();renderCompetitorProfiles();renderBenchmarking();renderTechnology();renderPerformance();renderMatrix();renderHeatmap();renderMomentumIntelligence();}
 async function init(){try{await loadData();setup();renderAll();}catch(e){const m=document.querySelector('main');if(m)m.innerHTML=`<h3>Data loading problem</h3><p>${safeHtml(e.message)}</p><p>Check JSON files inside offroad-intelligence/data/ and root news-data.json.</p>`;}}
 init();
