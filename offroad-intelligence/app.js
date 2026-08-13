@@ -250,7 +250,6 @@ function renderHeatmap() {
 
   setHtml('heatmapGrid', `${summary}${matrix}`);
 }
-*/
 function v17Arr(x){ return Array.isArray(x) ? x : (x ? [x] : []); }
 function v17Clean(x){ return String(Array.isArray(x) ? x.join(' ') : (x || '')).replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim(); }
 function v17Norm(x){ return v17Clean(x).toLowerCase(); }
