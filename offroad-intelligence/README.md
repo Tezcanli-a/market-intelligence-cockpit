@@ -1,22 +1,22 @@
-## GRAMMER Offroad Intelligence Hub V16.4.1
+## GRAMMER Offroad Intelligence Hub V16.5
 
 ### What changed
 
-V16.4.1 separates the portal into three intelligence layers:
+V16.5 implements the frozen Competitive Intelligence structure:
 
 1. Daily News Signals = Evidence Layer / What happened
 2. Signal Register = Signal Layer / Why it matters
 3. Intelligence Assessments = Analyst Layer / What GRAMMER should do
+4. Customer, Competitor and Technology profiles = Where to act
 
-### Main fixes
+### Main V16.5 changes
 
-- Intelligence Overview no longer duplicates the full Daily News page.
-- Intelligence Overview now shows curated assessments, opportunities, risks and only a few evidence highlights.
-- Daily News Signals remains the raw source/evidence page.
-- Signal Register now uses Business implication instead of Why it matters.
-- Signal Register includes Confidence and Evidence columns.
-- Intelligence Assessments now uses a three-layer card structure: Evidence, Interpretation, Action/Forecast.
-- If assessments.json is missing or empty, the app creates fallback assessment cards from the first signals to avoid a blank page.
+- Intelligence Overview is no longer a news page.
+- Intelligence Overview now focuses on top signals, top assessments, opportunities and risks.
+- Daily News Signals is clearly positioned as the evidence/source layer.
+- Signal Register now includes Priority, Confidence, Evidence, Business implication, Recommended action and Assessment.
+- Intelligence Assessments uses the three-layer model: Evidence, Interpretation, Decision support.
+- Technology page is renamed Technology Intelligence and prepared for market adoption, competitor adoption, GRAMMER readiness and revenue potential.
 
 ### Files to replace
 
@@ -26,7 +26,9 @@ Replace in `offroad-intelligence/`:
 - `app.js`
 - `README.md`
 
-Add or keep in `offroad-intelligence/data/`:
+Keep or add in `offroad-intelligence/data/`:
 
 - `evidence.json`
 - `assessments.json`
+
+Do not replace `styles.css` unless you want to update the visual design separately.
