@@ -1322,8 +1322,7 @@ function renderAll(){
   renderRelationships();
 
   renderThemeExplorer();
-  renderThemeLandscape();  
-
+  
   renderCustomerProfiles();
   renderCompetitorProfiles();
 
