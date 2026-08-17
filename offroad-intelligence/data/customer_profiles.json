@@ -1,14 +1,36 @@
 [
-  {
-    "customerId": "CUST-001",
-    "name": "John Deere / Deere & Company",
-    "profileStatus": "V16.5 content populated",
-    "level1PermanentFacts": {
-      "headquarters": "Moline, Illinois, USA",
-      "coreSegments": ["Agriculture", "Construction", "Forestry", "Financial Services"],
-      "brands": ["John Deere"],
-      "strategicRelevanceForGrammer": ["Agriculture seating", "Construction seating", "Operator comfort", "Operator environment", "HMI / controls", "Cabin-related concepts"]
-    },
+{
+  "customerId": "CUST-001",
+  "name": "John Deere / Deere & Company",
+
+  "strategicThemes": [
+    "THM-003",
+    "THM-008",
+    "THM-004"
+  ],
+
+  "profileStatus": "V16.5 content populated",
+
+  "level1PermanentFacts": {
+    "headquarters": "Moline, Illinois, USA",
+    "coreSegments": [
+      "Agriculture",
+      "Construction",
+      "Forestry",
+      "Financial Services"
+    ],
+    "brands": [
+      "John Deere"
+    ],
+    "strategicRelevanceForGrammer": [
+      "Agriculture seating",
+      "Construction seating",
+      "Operator comfort",
+      "Operator environment",
+      "HMI / controls",
+      "Cabin-related concepts"
+    ]
+  },
     "level2QuarterlyFacts": {
       "revenue": "USD 45.684 billion net sales and revenues, FY2025",
       "netIncome": "USD 5.027 billion, FY2025",
