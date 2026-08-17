@@ -1,11 +1,22 @@
 const state = { data: {}, filters: { segment: 'all', perspective: 'all', priority: 'all', search: '' }, newsMode: 'all' };
 const files = {
-  meta: 'data/meta.json', signals: 'data/signals.json', competitors: 'data/competitors.json', customers: 'data/customers.json',
-  technologies: 'data/technologies.json', opportunities: 'data/opportunities.json', risks: 'data/risks.json', weekly: 'data/weekly.json',
-  research: 'data/research.json', benchmarking: 'data/benchmarking.json', evidence: 'data/evidence.json', assessments: 'data/assessments.json',
-  customerProfiles: 'data/customer_profiles.json', competitorProfiles: 'data/competitor_profiles.json', performance: 'data/performance_trends.json'
-  themes:'data/themes.json'
-  };
+  meta:'data/meta.json',
+  themes:'data/themes.json',
+  signals:'data/signals.json',
+  competitors:'data/competitors.json',
+  customers:'data/customers.json',
+  technologies:'data/technologies.json',
+  opportunities:'data/opportunities.json',
+  risks:'data/risks.json',
+  weekly:'data/weekly.json',
+  research:'data/research.json',
+  benchmarking:'data/benchmarking.json',
+  evidence:'data/evidence.json',
+  assessments:'data/assessments.json',
+  customerProfiles:'data/customer_profiles.json',
+  competitorProfiles:'data/competitor_profiles.json',
+  performance:'data/performance_trends.json'
+};
 const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, themes:[], signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], newsRaw:{lastUpdated:'',news:[]} };
 async function fetchOptional(path,fallback){try{const r=await fetch(path,{cache:'no-store'}); return r.ok ? await r.json() : fallback;}catch(e){return fallback;}}
 async function loadNewsFeed(){for(const p of ['../news-data.json','./news-data.json','data/news-data.json']){const d=await fetchOptional(p,null); if(d && Array.isArray(d.news)) return d;} return defaults.newsRaw;}
