@@ -21,6 +21,16 @@
     "technologyIds": [
       "TECH-004"
     ],
+    "themeIds":[
+  "THM-003",
+  "THM-008"
+],
+
+"linkedEvidenceIds":[],
+
+"linkedAssessmentIds":[
+  "ASM-001"
+],
     "opportunityIds": [
       "OPP-001"
     ],
@@ -50,6 +60,18 @@
     "technologyIds": [
       "TECH-001",
       "TECH-004"
+    ],
+    "themeIds": [
+  "THM-001",
+  "THM-004",
+  "THM-008"
+],
+
+"linkedEvidenceIds": [],
+
+"linkedAssessmentIds": [
+  "ASM-002"
+],
     ],
     "opportunityIds": [
       "OPP-002"
