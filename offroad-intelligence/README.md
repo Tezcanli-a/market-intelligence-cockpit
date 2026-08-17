@@ -1,88 +1,17 @@
 # Current Platform Status
 
-## V17.6A Complete Intelligence Ontology Foundation
+## V17.7 Theme Intelligence Layer
 
-Introduced a formal intelligence ontology linking:
+V17.7 upgrades the Theme Explorer from a relationship overview into a Theme Intelligence layer.
 
-- Themes
-- Signals
-- Assessments
-- Technologies
-- Customers
-- Competitors
-- Opportunities
-- Risks
+New capabilities:
 
-Relationship fields are now standardized across intelligence objects.
+- Theme Score for each theme
+- Top Themes by intelligence weight
+- Opportunity/Risk balance per theme
+- Automatic Theme Intelligence Summary
+- Human-readable linked signals and assessments
 
----
+The Theme Score is calculated from the number and weight of linked signals, assessments, technologies, customers, competitors, opportunities, risks and the theme momentum classification.
 
-## V17.6B Relationship Engine
-
-Entity Relationships evolved from a simple entity mapping view into an intelligence relationship model:
-
-Theme
-→ Evidence
-→ Signal
-→ Assessment
-→ Opportunity / Risk
-→ Action
-
-The relationship engine uses ontology links rather than isolated dashboard logic.
-
----
-
-## V17.6C Theme Explorer
-
-Added a new Theme Explorer capability.
-
-The Theme Explorer automatically aggregates:
-
-- Signals
-- Assessments
-- Technologies
-- Customers
-- Competitors
-- Opportunities
-- Risks
-
-for each Theme.
-
-Examples:
-
-- Autonomy
-- Electrification
-- Operator Comfort
-- Digital HMI
-- Smart Cabin
-
-This represents the first ontology-driven intelligence exploration capability within the platform.
-
----
-
-## Intelligence Graph Foundation
-
-The platform now operates on a knowledge graph model:
-
-Theme
-→ Signal
-→ Assessment
-→ Opportunity / Risk
-→ Action
-
-plus connections to:
-
-- Customers
-- Competitors
-- Technologies
-
-This foundation enables future capabilities such as:
-
-- Theme Intelligence Scoring
-- Trending Themes
-- Theme Heatmaps
-- Theme Landscape Explorer
-- Patent Intelligence
-- Hiring Intelligence
-- Win/Loss Intelligence
-- Confidence Framework
+The purpose of V17.7 is to answer not only "what is connected?" but also "what is important?".
