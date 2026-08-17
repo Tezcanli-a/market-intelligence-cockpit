@@ -527,7 +527,7 @@ function v176bOpportunityRiskTags(signal){
 }
 
 function renderRelationships(){
-  const signals = (state.data.signals || []).filter(searchMatch);
+  const signals = state.data.signals || [];
   const customers = state.data.customers || [];
   const competitors = state.data.competitors || [];
   const technologies = state.data.technologies || [];
