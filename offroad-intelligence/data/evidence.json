@@ -1,5 +1,121 @@
 [
-  {"evidenceId":"EVD-001","title":"Integrated operator environment signal seed","sourceName":"Offroad Intelligence Hub V16.3","sourceType":"Internal","publicationDate":"2026-08-13","reliability":"B","url":"","segment":"Agriculture / Construction","linkedSignalIds":["INT-001"]},
-  {"evidenceId":"EVD-002","title":"Automation and operator-assistance signal seed","sourceName":"Offroad Intelligence Hub V16.3","sourceType":"Internal","publicationDate":"2026-08-13","reliability":"B","url":"","segment":"Material Handling / Construction","linkedSignalIds":["INT-002"]},
-  {"evidenceId":"EVD-003","title":"Material handling automation opportunity seed","sourceName":"Offroad Intelligence Hub V16.3","sourceType":"Internal","publicationDate":"2026-08-13","reliability":"B","url":"","segment":"Material Handling","linkedSignalIds":["INT-005"]}
+  {
+    "evidenceId": "EVD-001",
+
+    "title": "Integrated operator environment signal seed",
+    "summary": "Initial evidence supporting integrated operator environment developments.",
+
+    "sourceIds": ["SRC-001"],
+
+    "sourceName": "Offroad Intelligence Hub V16.3",
+    "sourceType": "Internal",
+    "publisher": "Market Intelligence",
+
+    "publicationDate": "2026-08-13",
+    "collectionDate": "2026-08-17",
+
+    "sourceQualityScore": 75,
+    "reliability": "Medium",
+
+    "primarySource": false,
+
+    "url": "",
+
+    "segment": "Agriculture / Construction",
+
+    "themeIds": [],
+    "customerIds": [],
+    "competitorIds": [],
+    "technologyIds": [],
+
+    "linkedSignalIds": [
+      "INT-001"
+    ],
+
+    "analystVerified": true,
+    "verifiedBy": "Market Intelligence",
+    "lastVerifiedDate": "2026-08-17",
+
+    "duplicateHash": ""
+  },
+
+  {
+    "evidenceId": "EVD-002",
+
+    "title": "Automation and operator-assistance signal seed",
+    "summary": "Evidence supporting automation-related operator environment requirements.",
+
+    "sourceIds": ["SRC-001"],
+
+    "sourceName": "Offroad Intelligence Hub V16.3",
+    "sourceType": "Internal",
+    "publisher": "Market Intelligence",
+
+    "publicationDate": "2026-08-13",
+    "collectionDate": "2026-08-17",
+
+    "sourceQualityScore": 75,
+    "reliability": "Medium",
+
+    "primarySource": false,
+
+    "url": "",
+
+    "segment": "Material Handling / Construction",
+
+    "themeIds": [],
+    "customerIds": [],
+    "competitorIds": [],
+    "technologyIds": [],
+
+    "linkedSignalIds": [
+      "INT-002"
+    ],
+
+    "analystVerified": true,
+    "verifiedBy": "Market Intelligence",
+    "lastVerifiedDate": "2026-08-17",
+
+    "duplicateHash": ""
+  },
+
+  {
+    "evidenceId": "EVD-003",
+
+    "title": "Material handling automation opportunity seed",
+    "summary": "Initial evidence supporting material handling automation opportunities.",
+
+    "sourceIds": ["SRC-001"],
+
+    "sourceName": "Offroad Intelligence Hub V16.3",
+    "sourceType": "Internal",
+    "publisher": "Market Intelligence",
+
+    "publicationDate": "2026-08-13",
+    "collectionDate": "2026-08-17",
+
+    "sourceQualityScore": 75,
+    "reliability": "Medium",
+
+    "primarySource": false,
+
+    "url": "",
+
+    "segment": "Material Handling",
+
+    "themeIds": [],
+    "customerIds": [],
+    "competitorIds": [],
+    "technologyIds": [],
+
+    "linkedSignalIds": [
+      "INT-005"
+    ],
+
+    "analystVerified": true,
+    "verifiedBy": "Market Intelligence",
+    "lastVerifiedDate": "2026-08-17",
+
+    "duplicateHash": ""
+  }
 ]
