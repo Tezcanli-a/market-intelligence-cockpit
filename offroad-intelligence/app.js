@@ -1060,6 +1060,32 @@ function renderThemeExplorer(){
   setHtml('themeExplorerGrid', topThemeHtml + (cards || '<p class="empty">No themes available. Check data/themes.json.</p>'));
 }
 
-function renderAll(){const signals=filteredSignals();renderKpis(signals);renderOverview(signals);renderSignalsTable();renderAssessments();renderDailyNews();renderRelationships();renderCustomerProfiles();renderCompetitorProfiles();renderBenchmarking();renderTechnology();renderPerformance();renderMatrix();renderHeatmap();renderMomentumIntelligence();renderOverviewMomentumBlock();renderThemeExplorer();}
+function renderAll(){
+  const signals=filteredSignals();
+
+  renderKpis(signals);
+  renderOverview(signals);
+  renderSignalsTable();
+  renderAssessments();
+  renderDailyNews();
+
+  renderRelationships();
+
+  renderThemeExplorer();
+  renderThemeLandscape();   // <-- HINZUFÜGEN
+
+  renderCustomerProfiles();
+  renderCompetitorProfiles();
+
+  renderBenchmarking();
+  renderTechnology();
+  renderPerformance();
+
+  renderMatrix();
+  renderHeatmap();
+
+  renderMomentumIntelligence();
+  renderOverviewMomentumBlock();
+}
 async function init(){try{await loadData();setup();renderAll();}catch(e){const m=document.querySelector('main');if(m)m.innerHTML=`<h3>Data loading problem</h3><p>${safeHtml(e.message)}</p><p>Check JSON files inside offroad-intelligence/data/ and root news-data.json.</p>`;}}
 init();
