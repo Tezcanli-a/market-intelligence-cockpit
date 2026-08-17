@@ -1,0 +1,17 @@
+{
+  "version": "V18.5",
+
+  "scoreRange": {
+    "Low": [0,39],
+    "Medium": [40,69],
+    "High": [70,100]
+  },
+
+  "factors": {
+    "impact": 25,
+    "probability": 20,
+    "immediacy": 15,
+    "strategicRelevance": 25,
+    "novelty": 15
+  }
+}
