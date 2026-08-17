@@ -1,0 +1,42 @@
+[
+  {
+    "actionId": "ACT-001",
+    "title": "Review integrated operator environment opportunity",
+    "description": "Assess whether seating, armrests, HMI adjacency and comfort modules can be positioned as a bundled offroad operator environment concept.",
+    "affectedFunctions": ["Sales", "Product Management", "R&D", "Innovation"],
+    "themeIds": ["THM-003", "THM-008", "THM-004"],
+    "customerIds": ["CUST-001", "CUST-004"],
+    "competitorIds": ["COMP-001", "COMP-003"],
+    "technologyIds": ["TECH-004"],
+    "linkedSignalIds": ["INT-001"],
+    "linkedAssessmentIds": ["ASM-001"],
+    "linkedOpportunityIds": ["OPP-001"],
+    "linkedRiskIds": ["RISK-003"],
+    "linkedOutcomeIds": [],
+    "owner": "Market Intelligence",
+    "status": "Proposed",
+    "priority": "High",
+    "timeHorizon": "6-24 months",
+    "reviewDate": "2026-09-30"
+  },
+  {
+    "actionId": "ACT-002",
+    "title": "Map automation-adjacent operator environment use cases",
+    "description": "Connect R&D, Innovation and Product Management around automation-adjacent cockpit, HMI, armrest and seating concepts for material handling and construction use cases.",
+    "affectedFunctions": ["R&D", "Innovation", "Product Management"],
+    "themeIds": ["THM-001", "THM-004", "THM-008"],
+    "customerIds": ["CUST-005", "CUST-006"],
+    "competitorIds": ["COMP-001", "COMP-003"],
+    "technologyIds": ["TECH-001", "TECH-004"],
+    "linkedSignalIds": ["INT-002"],
+    "linkedAssessmentIds": ["ASM-002"],
+    "linkedOpportunityIds": ["OPP-002"],
+    "linkedRiskIds": ["RISK-003"],
+    "linkedOutcomeIds": [],
+    "owner": "Market Intelligence / Innovation",
+    "status": "Proposed",
+    "priority": "High",
+    "timeHorizon": "6-24 months",
+    "reviewDate": "2026-09-30"
+  }
+]

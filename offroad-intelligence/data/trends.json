@@ -1,0 +1,15 @@
+[
+  {
+    "trendId": "TRD-001",
+    "title": "Automation-adjacent operator environment requirements",
+    "description": "Clustered trend placeholder connecting automation, HMI, smart cabin and operator environment signals.",
+    "themeIds": ["THM-001", "THM-004", "THM-008"],
+    "linkedSignalIds": ["INT-002"],
+    "linkedAssessmentIds": ["ASM-002"],
+    "confidence": "Medium",
+    "confidenceScore": 60,
+    "timeHorizon": "6-24 months",
+    "owner": "Market Intelligence",
+    "status": "Draft"
+  }
+]

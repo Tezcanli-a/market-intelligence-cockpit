@@ -1,0 +1,35 @@
+[
+  {
+    "outcomeId": "OUT-001",
+    "title": "Outcome placeholder for integrated operator environment review",
+    "description": "Placeholder outcome object. Replace after the action is reviewed with Sales, Product Management, R&D or Innovation.",
+    "linkedActionIds": ["ACT-001"],
+    "linkedAssessmentIds": ["ASM-001"],
+    "linkedOpportunityIds": ["OPP-001"],
+    "themeIds": ["THM-003", "THM-008", "THM-004"],
+    "affectedFunctions": ["Sales", "Product Management", "R&D", "Innovation"],
+    "outcomeType": "To be defined",
+    "outcomeStatus": "Open",
+    "businessImpact": "Not evaluated yet",
+    "learning": "Not captured yet",
+    "followUpActionIds": [],
+    "reviewDate": "2026-10-15"
+  },
+  {
+    "outcomeId": "OUT-002",
+    "title": "Outcome placeholder for automation-adjacent operator environment mapping",
+    "description": "Placeholder outcome object. Replace after a workshop, roadmap review or customer discussion has produced a result.",
+    "linkedActionIds": ["ACT-002"],
+    "linkedAssessmentIds": ["ASM-002"],
+    "linkedOpportunityIds": ["OPP-002"],
+    "linkedRiskIds": ["RISK-003"],
+    "themeIds": ["THM-001", "THM-004", "THM-008"],
+    "affectedFunctions": ["R&D", "Innovation", "Product Management"],
+    "outcomeType": "To be defined",
+    "outcomeStatus": "Open",
+    "businessImpact": "Not evaluated yet",
+    "learning": "Not captured yet",
+    "followUpActionIds": [],
+    "reviewDate": "2026-10-15"
+  }
+]

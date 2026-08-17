@@ -1,0 +1,11 @@
+[
+  {
+    "sourceId": "SRC-001",
+    "sourceName": "News / public source placeholder",
+    "sourceType": "External public source",
+    "sourceUrl": "",
+    "sourceOwner": "Market Intelligence",
+    "defaultReliability": "Medium",
+    "notes": "Use this as a placeholder until evidence objects are connected to actual source records."
+  }
+]
