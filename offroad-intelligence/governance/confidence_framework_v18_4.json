@@ -1,0 +1,30 @@
+{
+  "version": "V18.4",
+  "name": "Confidence Engine Framework",
+
+  "confidenceLevels": {
+    "Low": {
+      "range": [0,39],
+      "description": "Weak evidence or limited validation"
+    },
+
+    "Medium": {
+      "range": [40,69],
+      "description": "Reasonable evidence and analyst review"
+    },
+
+    "High": {
+      "range": [70,100],
+      "description": "Strong multi-source support and verification"
+    }
+  },
+
+  "confidenceFactors": {
+    "sourceQuality": 30,
+    "evidenceCount": 20,
+    "sourceDiversity": 15,
+    "analystVerification": 20,
+    "contradictingEvidence": -15
+  }
+}
+`
