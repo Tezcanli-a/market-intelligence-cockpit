@@ -1,41 +1,26 @@
 # Current Platform Status
 
-## V18.0 Intelligence Object Model
+## V18.3 Evidence Governance Foundation
 
-V18.0 introduces the next-level intelligence network model behind the Offroad Intelligence Hub.
+V18.3 introduces formal evidence governance.
 
-Core objects:
+New objects:
 
-- Source
 - Evidence
-- Entity
-- Signal
-- Trend
-- Assessment
-- Opportunity
-- Risk
-- Technology
-- Action
-- Outcome
+- Source Reliability Framework
+- Analyst Verification
+- Evidence IDs
 
-The purpose is to ensure that pages are only views of shared intelligence objects and not separate intelligence silos.
+Key principle:
 
-## V18.1 Relationship Rules
+No assessment should exist without traceable evidence.
 
-V18.1 defines the relationship and propagation rules for the intelligence network.
+Future assessments should be linked to:
 
-Canonical chain:
+- Evidence IDs
+- Signals
+- Confidence
+- Verification State
+- Source Reliability
 
-Source → Evidence → Signal → Trend → Assessment → Opportunity/Risk → Action → Outcome
-
-Relationship rules define how object IDs should link across evidence, signals, assessments, opportunities, risks, actions and outcomes.
-
-## V18.2 Outcome Layer
-
-V18.2 introduces an Outcome object to close the loop between intelligence and business impact.
-
-The new closed-loop model is:
-
-Evidence → Signal → Assessment → Action → Outcome
-
-The Outcome layer is intended to capture whether intelligence led to a decision, workshop, roadmap update, customer discussion, opportunity validation or other business result.
+This establishes the foundation for confidence scoring, audit trails, forecasting and decision intelligence.
