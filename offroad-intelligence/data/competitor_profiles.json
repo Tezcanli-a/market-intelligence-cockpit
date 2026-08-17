@@ -1,8 +1,15 @@
 [
-  {
-    "competitorId": "COMP-001",
-    "name": "Isringhausen",
-    "profileStatus": "V16.5 content populated",
+{
+  "competitorId": "COMP-001",
+  "name": "Isringhausen",
+
+  "strategicThemes": [
+    "THM-003",
+    "THM-008",
+    "THM-011"
+  ],
+
+  "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "ownership": "Part of the AUNDE Group according to official Isringhausen website",
       "headquarters": "Lemgo, Germany",
@@ -26,10 +33,16 @@
     },
     "sourceRefs": ["turn32search51"]
   },
-  {
-    "competitorId": "COMP-002",
-    "name": "Sears Seating",
-    "profileStatus": "V16.5 content populated",
+{
+  "competitorId": "COMP-002",
+  "name": "Sears Seating",
+
+  "strategicThemes": [
+    "THM-003",
+    "THM-011"
+  ],
+
+  "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Davenport, Iowa, USA",
       "founded": "1855 according to official Sears Seating history page",
@@ -53,10 +66,17 @@
     },
     "sourceRefs": ["turn32search52", "turn32search55"]
   },
-  {
-    "competitorId": "COMP-003",
-    "name": "KAB Seating",
-    "profileStatus": "V16.5 content populated",
+{
+  "competitorId": "COMP-003",
+  "name": "KAB Seating",
+
+  "strategicThemes": [
+    "THM-003",
+    "THM-008",
+    "THM-001"
+  ],
+
+  "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "ownership": "Part of Commercial Vehicle Group according to KAB Seating product page",
       "coreProducts": ["Off-highway seating systems", "Air suspension seats", "Mechanical suspension seats", "Active suspension development"],
@@ -79,10 +99,17 @@
     },
     "sourceRefs": ["turn37search110", "turn37search120"]
   },
-  {
-    "competitorId": "COMP-004",
-    "name": "Milsco",
-    "profileStatus": "V16.5 content populated",
+{
+  "competitorId": "COMP-004",
+  "name": "Milsco",
+
+  "strategicThemes": [
+    "THM-003",
+    "THM-005",
+    "THM-011"
+  ],
+
+  "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Milwaukee, Wisconsin, USA according to OEM Off-Highway company listing",
       "coreProducts": ["Seating solutions", "OEM seating", "Heated seats", "Bucket and suspension seating solutions"],
