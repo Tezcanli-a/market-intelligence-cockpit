@@ -6,13 +6,6 @@
     "description": "Autonomous operation, operator assistance and machine intelligence in offroad applications.",
     "momentum": "High",
     "strategicRelevance": "Relevant for future operator environment, cabin intelligence and safety-related use cases.",
-    "linkedSignals": [],
-    "linkedAssessments": [],
-    "linkedCustomers": [],
-    "linkedCompetitors": [],
-    "linkedTechnologies": [],
-    "linkedOpportunities": [],
-    "linkedRisks": [],
     "recommendedAction": "Monitor customer programs and connect autonomy signals to R&D and Product Management."
   },
   {
@@ -21,14 +14,7 @@
     "category": "Technology",
     "description": "Electrified offroad machinery, electric architectures and related cabin or seating requirements.",
     "momentum": "High",
-    "strategicRelevance": "Relevant for future seat electronics, power integration, thermal comfort and energy-efficient cabin systems.",
-    "linkedSignals": [],
-    "linkedAssessments": [],
-    "linkedCustomers": [],
-    "linkedCompetitors": [],
-    "linkedTechnologies": [],
-    "linkedOpportunities": [],
-    "linkedRisks": [],
+    "strategicRelevance": "Relevant for seat electronics, power integration, thermal comfort and energy-efficient cabin systems.",
     "recommendedAction": "Track customer electrification roadmaps and identify implications for GRAMMER product concepts."
   },
   {
@@ -38,13 +24,6 @@
     "description": "Ergonomics, seating comfort, premium operator environment and productivity-related comfort features.",
     "momentum": "Medium",
     "strategicRelevance": "Relevant for customer differentiation, premium seating, cabin upgrades and sales arguments.",
-    "linkedSignals": [],
-    "linkedAssessments": [],
-    "linkedCustomers": [],
-    "linkedCompetitors": [],
-    "linkedTechnologies": [],
-    "linkedOpportunities": [],
-    "linkedRisks": [],
     "recommendedAction": "Use comfort-related evidence in customer profiles and sales enablement discussions."
   },
   {
@@ -54,13 +33,6 @@
     "description": "Digital cockpit, sensors, HMI, smart interfaces and connected operator interaction.",
     "momentum": "Medium",
     "strategicRelevance": "Relevant for integrated cabin concepts, smart seating and future operator interface design.",
-    "linkedSignals": [],
-    "linkedAssessments": [],
-    "linkedCustomers": [],
-    "linkedCompetitors": [],
-    "linkedTechnologies": [],
-    "linkedOpportunities": [],
-    "linkedRisks": [],
     "recommendedAction": "Connect HMI signals to technology intelligence and evaluate integration potential with cabin systems."
   },
   {
@@ -70,13 +42,6 @@
     "description": "Recycled, bio-based, lightweight and lower-emission materials for seating and cabin applications.",
     "momentum": "Medium",
     "strategicRelevance": "Relevant for CSR, customer sustainability requirements and future material positioning.",
-    "linkedSignals": [],
-    "linkedAssessments": [],
-    "linkedCustomers": [],
-    "linkedCompetitors": [],
-    "linkedTechnologies": [],
-    "linkedOpportunities": [],
-    "linkedRisks": [],
     "recommendedAction": "Connect sustainability evidence with CSR, R&D and customer-specific material discussions."
   },
   {
@@ -86,13 +51,60 @@
     "description": "Regional sourcing, local production, supply chain localization and market-specific customer requirements.",
     "momentum": "Medium",
     "strategicRelevance": "Relevant for India, China, regional sourcing decisions and customer footprint strategies.",
-    "linkedSignals": [],
-    "linkedAssessments": [],
-    "linkedCustomers": [],
-    "linkedCompetitors": [],
-    "linkedTechnologies": [],
-    "linkedOpportunities": [],
-    "linkedRisks": [],
     "recommendedAction": "Track localization signals and connect them to customer opportunities and competitive risks."
+  },
+  {
+    "themeId": "THM-007",
+    "name": "Connectivity",
+    "category": "Technology",
+    "description": "Connected machines, telematics, data-enabled services and connected operator environment.",
+    "momentum": "Medium",
+    "strategicRelevance": "Relevant for smart cabin, service data, operator environment and future digital product differentiation.",
+    "recommendedAction": "Monitor connected offroad use cases and identify implications for product and innovation roadmaps."
+  },
+  {
+    "themeId": "THM-008",
+    "name": "Smart Cabin",
+    "category": "Technology / Product Concept",
+    "description": "Integrated cabin systems, intelligent seating, smart controls and operator environment concepts.",
+    "momentum": "Medium",
+    "strategicRelevance": "Relevant for future integrated product positioning and cross-functional innovation discussions.",
+    "recommendedAction": "Link smart cabin signals to Technology Intelligence, R&D and Product Management."
+  },
+  {
+    "themeId": "THM-009",
+    "name": "India",
+    "category": "Market / Geography",
+    "description": "India-related market expansion, localization, customer investment and offroad equipment developments.",
+    "momentum": "Medium",
+    "strategicRelevance": "Relevant for regional growth, localization and customer footprint strategies.",
+    "recommendedAction": "Use India-related evidence to support customer opportunity tracking and regional strategy conversations."
+  },
+  {
+    "themeId": "THM-010",
+    "name": "China",
+    "category": "Market / Geography",
+    "description": "China-related market developments, local competitors, customer changes and technology adoption.",
+    "momentum": "Medium",
+    "strategicRelevance": "Relevant for competitive monitoring, local market intelligence and regional product strategy.",
+    "recommendedAction": "Connect China-related intelligence to customer, competitor and technology profiles."
+  },
+  {
+    "themeId": "THM-011",
+    "name": "Premium Positioning",
+    "category": "Business Theme",
+    "description": "Premium product positioning, customer differentiation and higher-value operator environment concepts.",
+    "momentum": "Medium",
+    "strategicRelevance": "Relevant for Sales, Product Management and customer-specific value arguments.",
+    "recommendedAction": "Use premium positioning signals in customer profiles, benchmarking and sales enablement."
+  },
+  {
+    "themeId": "THM-012",
+    "name": "Cost Reduction",
+    "category": "Business Theme",
+    "description": "Customer cost pressure, value engineering, sourcing changes and cost-focused product requirements.",
+    "momentum": "Medium",
+    "strategicRelevance": "Relevant for competitive pressure, procurement discussions and product portfolio trade-offs.",
+    "recommendedAction": "Track cost pressure signals and connect them to risks, opportunities and account actions."
   }
 ]
