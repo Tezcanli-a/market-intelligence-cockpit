@@ -1072,7 +1072,7 @@ function renderAll(){
   renderRelationships();
 
   renderThemeExplorer();
-  renderThemeLandscape();   // <-- HINZUFÜGEN
+  renderThemeLandscape();  
 
   renderCustomerProfiles();
   renderCompetitorProfiles();
