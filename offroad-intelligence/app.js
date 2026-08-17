@@ -605,6 +605,192 @@ function renderRelationships(){
 
   setHtml('relationshipGrid', html || '<p class="empty">No relationships found.</p>');
 }
-function renderAll(){const signals=filteredSignals();renderKpis(signals);renderOverview(signals);renderSignalsTable();renderAssessments();renderDailyNews();renderRelationships();renderCustomerProfiles();renderCompetitorProfiles();renderBenchmarking();renderTechnology();renderPerformance();renderMatrix();renderHeatmap();renderMomentumIntelligence();renderOverviewMomentumBlock();}
+function v176cArr(x){
+  return Array.isArray(x) ? x : (x ? [x] : []);
+}
+
+function v176cThemeIdsFromObject(obj){
+  return [
+    ...v176cArr(obj.themeIds),
+    ...v176cArr(obj.strategicThemes),
+    ...v176cArr(obj.linkedThemeIds)
+  ];
+}
+
+function v176cObjectHasTheme(obj, themeId){
+  return v176cThemeIdsFromObject(obj).includes(themeId);
+}
+
+function v176cSignalThemeMatch(signal, themeId){
+  return v176cObjectHasTheme(signal, themeId);
+}
+
+function v176cAssessmentThemeMatch(assessment, themeId){
+  if(v176cObjectHasTheme(assessment, themeId)) return true;
+  const linkedSignal = (state.data.signals || []).find(s => s.id === assessment.signalId || s.signalId === assessment.signalId);
+  return linkedSignal ? v176cSignalThemeMatch(linkedSignal, themeId) : false;
+}
+
+function v176cOpportunityThemeMatch(item, themeId){
+  if(v176cObjectHasTheme(item, themeId)) return true;
+  const linkedSignals = (state.data.signals || []).filter(s => v176cArr(s.opportunityIds).includes(item.id || item.opportunityId));
+  return linkedSignals.some(s => v176cSignalThemeMatch(s, themeId));
+}
+
+function v176cRiskThemeMatch(item, themeId){
+  if(v176cObjectHasTheme(item, themeId)) return true;
+  const linkedSignals = (state.data.signals || []).filter(s => v176cArr(s.riskIds).includes(item.id || item.riskId));
+  return linkedSignals.some(s => v176cSignalThemeMatch(s, themeId));
+}
+
+function v176cTitle(obj, keys, fallback){
+  for(const k of keys){
+    if(obj && obj[k]) return obj[k];
+  }
+  return fallback || 'Untitled';
+}
+
+function v176cMiniList(items, keys, max){
+  const listItems = (items || []).slice(0, max || 4);
+  if(!listItems.length) return '<span class="muted">No linked items yet</span>';
+  return listItems.map(x => tag(v176cTitle(x, keys, 'Untitled'))).join('');
+}
+
+function v176cThemeMomentumClass(momentum){
+  const m = String(momentum || '').toLowerCase();
+  if(m === 'high') return 'high';
+  if(m === 'medium') return 'medium';
+  return 'low';
+}
+
+function renderThemeExplorer(){
+  const themes = state.data.themes || [];
+  const signals = state.data.signals || [];
+  const assessments = state.data.assessments || [];
+  const technologies = state.data.technologies || [];
+  const customers = state.data.customerProfiles || [];
+  const competitors = state.data.competitorProfiles || [];
+  const opportunities = state.data.opportunities || [];
+  const risks = state.data.risks || [];
+
+  const linkedThemeIds = new Set();
+  [signals, assessments, technologies, customers, competitors, opportunities, risks].forEach(collection => {
+    (collection || []).forEach(obj => v176cThemeIdsFromObject(obj).forEach(id => linkedThemeIds.add(id)));
+  });
+
+  const totalLinkedObjects = themes.reduce((sum, theme) => {
+    const themeId = theme.themeId;
+    return sum +
+      signals.filter(x => v176cSignalThemeMatch(x, themeId)).length +
+      assessments.filter(x => v176cAssessmentThemeMatch(x, themeId)).length +
+      technologies.filter(x => v176cObjectHasTheme(x, themeId)).length +
+      customers.filter(x => v176cObjectHasTheme(x, themeId)).length +
+      competitors.filter(x => v176cObjectHasTheme(x, themeId)).length +
+      opportunities.filter(x => v176cOpportunityThemeMatch(x, themeId)).length +
+      risks.filter(x => v176cRiskThemeMatch(x, themeId)).length;
+  }, 0);
+
+  setHtml('themeExplorerSummary', [
+    ['Themes', themes.length],
+    ['Active themes', linkedThemeIds.size],
+    ['Linked objects', totalLinkedObjects],
+    ['High momentum', themes.filter(t => String(t.momentum || '').toLowerCase() === 'high').length]
+  ].map(([label,value]) => `
+    <div class="kpi">
+      <span>${safeHtml(label)}</span>
+      <strong>${safeHtml(value)}</strong>
+    </div>
+  `).join(''));
+
+  const cards = themes.map(theme => {
+    const themeId = theme.themeId;
+    const linkedSignals = signals.filter(x => v176cSignalThemeMatch(x, themeId));
+    const linkedAssessments = assessments.filter(x => v176cAssessmentThemeMatch(x, themeId));
+    const linkedTechnologies = technologies.filter(x => v176cObjectHasTheme(x, themeId));
+    const linkedCustomers = customers.filter(x => v176cObjectHasTheme(x, themeId));
+    const linkedCompetitors = competitors.filter(x => v176cObjectHasTheme(x, themeId));
+    const linkedOpportunities = opportunities.filter(x => v176cOpportunityThemeMatch(x, themeId));
+    const linkedRisks = risks.filter(x => v176cRiskThemeMatch(x, themeId));
+
+    const linkedTotal = linkedSignals.length + linkedAssessments.length + linkedTechnologies.length + linkedCustomers.length + linkedCompetitors.length + linkedOpportunities.length + linkedRisks.length;
+    const momentumClass = v176cThemeMomentumClass(theme.momentum);
+
+    return `
+      <article class="v176c-theme-card">
+        <div class="v176c-theme-top">
+          <div>
+            <span class="meta">${safeHtml(theme.themeId || '')} · ${safeHtml(theme.category || 'Theme')}</span>
+            <h3>${safeHtml(theme.name || 'Unnamed theme')}</h3>
+          </div>
+          <div class="score-pill ${momentumClass}">
+            <span>Momentum</span>
+            <strong>${safeHtml(theme.momentum || 'Low')}</strong>
+          </div>
+        </div>
+
+        <p class="v176c-theme-description">${safeHtml(theme.description || 'No description populated yet.')}</p>
+
+        <div class="v176c-kpi-grid">
+          <div class="v17-score"><span>Signals</span><strong>${linkedSignals.length}</strong></div>
+          <div class="v17-score"><span>Assessments</span><strong>${linkedAssessments.length}</strong></div>
+          <div class="v17-score"><span>Technologies</span><strong>${linkedTechnologies.length}</strong></div>
+          <div class="v17-score"><span>Customers</span><strong>${linkedCustomers.length}</strong></div>
+          <div class="v17-score"><span>Competitors</span><strong>${linkedCompetitors.length}</strong></div>
+          <div class="v17-score"><span>Opp / Risk</span><strong>${linkedOpportunities.length + linkedRisks.length}</strong></div>
+        </div>
+
+        <div class="v176c-section">
+          <strong>Strategic relevance</strong>
+          <p>${safeHtml(theme.strategicRelevance || 'Not populated yet.')}</p>
+        </div>
+
+        <div class="v176c-section">
+          <strong>Related signals</strong>
+          <p>${v176cMiniList(linkedSignals, ['id','signal','title'], 5)}</p>
+        </div>
+
+        <div class="v176c-section">
+          <strong>Related assessments</strong>
+          <p>${v176cMiniList(linkedAssessments, ['assessmentId','title','assessment'], 5)}</p>
+        </div>
+
+        <div class="v176c-section-grid">
+          <div class="v176c-section">
+            <strong>Customers</strong>
+            <p>${v176cMiniList(linkedCustomers, ['name','customer','customerId'], 5)}</p>
+          </div>
+          <div class="v176c-section">
+            <strong>Competitors</strong>
+            <p>${v176cMiniList(linkedCompetitors, ['name','competitor','competitorId'], 5)}</p>
+          </div>
+          <div class="v176c-section">
+            <strong>Technologies</strong>
+            <p>${v176cMiniList(linkedTechnologies, ['theme','name','id'], 5)}</p>
+          </div>
+        </div>
+
+        <div class="v176c-section-grid v176c-bottom-grid">
+          <div class="v176c-section">
+            <strong>Opportunities</strong>
+            <p>${v176cMiniList(linkedOpportunities, ['opportunity','title','description','id'], 4)}</p>
+          </div>
+          <div class="v176c-section">
+            <strong>Risks</strong>
+            <p>${v176cMiniList(linkedRisks, ['riskDescription','title','description','id'], 4)}</p>
+          </div>
+        </div>
+
+        <div class="v176c-action-box">
+          <strong>Recommended action</strong>
+          <p>${safeHtml(theme.recommendedAction || 'Define function-specific next action.')}</p>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  setHtml('themeExplorerGrid', cards || '<p class="empty">No themes available. Check data/themes.json.</p>');
+}
+
+function renderAll(){const signals=filteredSignals();renderKpis(signals);renderOverview(signals);renderSignalsTable();renderAssessments();renderDailyNews();renderRelationships();renderCustomerProfiles();renderCompetitorProfiles();renderBenchmarking();renderTechnology();renderPerformance();renderMatrix();renderHeatmap();renderMomentumIntelligence();renderOverviewMomentumBlock();renderThemeExplorer();}
 async function init(){try{await loadData();setup();renderAll();}catch(e){const m=document.querySelector('main');if(m)m.innerHTML=`<h3>Data loading problem</h3><p>${safeHtml(e.message)}</p><p>Check JSON files inside offroad-intelligence/data/ and root news-data.json.</p>`;}}
 init();
