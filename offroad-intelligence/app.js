@@ -4,6 +4,7 @@ const files = {
   technologies: 'data/technologies.json', opportunities: 'data/opportunities.json', risks: 'data/risks.json', weekly: 'data/weekly.json',
   research: 'data/research.json', benchmarking: 'data/benchmarking.json', evidence: 'data/evidence.json', assessments: 'data/assessments.json',
   customerProfiles: 'data/customer_profiles.json', competitorProfiles: 'data/competitor_profiles.json', performance: 'data/performance_trends.json'
+  patentSignals: 'data/patent_signals.json'
 };
 const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], newsRaw:{lastUpdated:'',news:[]} };
 async function fetchOptional(path,fallback){try{const r=await fetch(path,{cache:'no-store'}); return r.ok ? await r.json() : fallback;}catch(e){return fallback;}}
@@ -353,7 +354,110 @@ function renderRelationships(){
  v17set('relationshipGrid',signals.map(s=>{const sc=s.priority||'Medium';const cust=customers.filter(c=>v17a(s.customerIds).includes(c.id));const comp=competitors.filter(c=>v17a(s.competitorIds).includes(c.id));const tech=techs.filter(t=>v17a(s.technologyIds).includes(t.id));const ass=(state.data.assessments||[]).find(a=>a.signalId===s.id);return`<article class="v17-network-card"><div class="v17-network-top"><div><span class="meta">${v17e(s.id)}</span><h3>${v17e(s.signal)}</h3></div><span class="badge ${v17n(sc)}">${v17e(sc)}</span></div><div class="v17-network-cols"><div class="v17-network-col"><strong>Customers</strong>${cust.length?cust.map(c=>v17tag(c.customer||c.name)).join(''):'<span class="v17-muted">None linked</span>'}</div><div class="v17-network-col"><strong>Competitors</strong>${comp.length?comp.map(c=>v17tag(c.name)).join(''):'<span class="v17-muted">None linked</span>'}</div><div class="v17-network-col"><strong>Technologies</strong>${tech.length?tech.map(t=>v17tag(t.theme||t.name)).join(''):'<span class="v17-muted">None linked</span>'}</div><div class="v17-network-col"><strong>Opportunity</strong>${ass&&v17a(ass.opportunityIds).length?v17a(ass.opportunityIds).map(v17tag).join(''):'<span class="v17-muted">Not linked</span>'}</div><div class="v17-network-col"><strong>Risk</strong>${ass&&v17a(ass.riskIds).length?v17a(ass.riskIds).map(v17tag).join(''):'<span class="v17-muted">Not linked</span>'}</div></div><div class="v17-action"><b>Recommended action:</b> ${v17e(s.action||ass?.businessImplication||'Define next action')}</div></article>`}).join('')||'<p class="empty">No relationships found.</p>')
 }
 function renderTechnology(){
- const items=(state.data.technologies||[]).filter(searchMatch);v17set('technologyGrid',items.map(t=>{const rel=t.relevance||'Medium',mat=t.maturity||'Emerging';return`<article class="v17-tech-card"><h3>${v17e(t.theme||t.name)}</h3><div class="v17-score-row"><div class="v17-score ${v17scoreClass(rel)}"><span>Relevance</span><strong>${v17e(rel)}</strong></div><div class="v17-score"><span>Maturity</span><strong>${v17e(mat)}</strong></div><div class="v17-score ${v17scoreClass(t.revenuePotential||'Medium')}"><span>Revenue potential</span><strong>${v17e(t.revenuePotential||'TBD')}</strong></div></div><div class="v17-tech-section"><strong>Market / customer adoption</strong>${v17tag(t.marketAdoption||'TBD')}${v17a(t.customerAdoption).map(v17tag).join('')}</div><div class="v17-tech-section"><strong>Competitor adoption</strong>${v17a(t.competitorAdoption).length?v17a(t.competitorAdoption).map(v17tag).join(''):'<span class="v17-muted">Not populated yet</span>'}</div><div class="v17-tech-section"><strong>Watch signals</strong>${v17e(t.watchSignals||'No watch signals yet')}</div></article>`}).join('')||'<p class="empty">No technology data available.</p>')
+  setHtml('technologyGrid',
+    state.data.technologies.filter(searchMatch).map(t=>{
+
+      const customerCount = arr(t.customerAdoption).length;
+      const competitorCount = arr(t.competitorAdoption).length;
+      const momentum = customerCount + competitorCount;
+
+      let radarScore = 40;
+      if(String(t.relevance||'').toLowerCase()==='high') radarScore += 20;
+      if(String(t.revenuePotential||'').toLowerCase()==='high') radarScore += 20;
+      if(String(t.grammerReadiness||'').toLowerCase()==='high') radarScore += 10;
+      radarScore += Math.min(momentum*2,10);
+
+      let action = 'Continue monitoring.';
+      if(String(t.revenuePotential||'').toLowerCase()==='high'){
+        action='Engage Sales and Product Management.';
+      }else if(String(t.grammerReadiness||'').toLowerCase()==='low'){
+        action='Validate R&D roadmap and monitor development.';
+      }
+
+      return `
+      <article class="v17-tech-card">
+
+        <div class="card-top">
+          <div>
+            <h3>${safeHtml(t.theme)}</h3>
+            ${badge(t.relevance||'Medium')}
+          </div>
+
+          <div class="score-pill ${
+            radarScore>=75?'high':
+            radarScore>=55?'medium':'low'
+          }">
+            <span>Radar Score</span>
+            <strong>${radarScore}</strong>
+          </div>
+        </div>
+
+        <div class="v17-score-row">
+
+          <div class="v17-score">
+            <span>Customer Adoption</span>
+            <strong>${customerCount}</strong>
+          </div>
+
+          <div class="v17-score">
+            <span>Competitor Activity</span>
+            <strong>${competitorCount}</strong>
+          </div>
+
+          <div class="v17-score">
+            <span>Momentum</span>
+            <strong>${momentum}</strong>
+          </div>
+
+        </div>
+
+        <div class="v17-tech-section">
+          <strong>Technology Profile</strong>
+
+          <p>
+            <b>Maturity:</b> ${safeHtml(t.maturity)}<br>
+            <b>Affected segments:</b> ${safeHtml(t.segments)}<br>
+            <b>Watch signals:</b> ${safeHtml(t.watchSignals)}
+          </p>
+        </div>
+
+        <div class="v17-tech-section">
+          <strong>Customer Adoption</strong>
+          <p>
+            ${customerCount
+              ? arr(t.customerAdoption).map(x=>tag(x)).join('')
+              : '<span class="muted">Not populated yet</span>'
+            }
+          </p>
+        </div>
+
+        <div class="v17-tech-section">
+          <strong>Competitor Activity</strong>
+          <p>
+            ${competitorCount
+              ? arr(t.competitorAdoption).map(x=>tag(x)).join('')
+              : '<span class="muted">Not populated yet</span>'
+            }
+          </p>
+        </div>
+
+        ${section(
+          'Technology Radar',
+          kv('Market adoption',t.marketAdoption)+
+          kv('GRAMMER readiness',t.grammerReadiness)+
+          kv('Revenue potential',t.revenuePotential)
+        )}
+
+        <div class="v17-tech-section">
+          <strong>Recommended Action</strong>
+          <p>${safeHtml(action)}</p>
+        </div>
+
+      </article>
+      `;
+    }).join('') ||
+    '<p class="empty">No technology data available.</p>'
+  );
 }
 function renderBenchmarking(){
  const items=(state.data.benchmarking||[]).filter(searchMatch);v17set('benchmarkGrid',items.map(b=>{const dims=v17a(b.dimensions);return`<article class="v17-benchmark-card"><span class="meta">${v17e(b.benchmarkId||b.id||'')} · ${v17e(b.type||'')}</span><h3>${v17e(b.title)}</h3>${dims.length?dims.map(d=>`<div class="v17-dimension"><div class="v17-dimension-name">${v17e(d.dimension||'Dimension')}</div><div class="v17-position"><b>GRAMMER</b><br>${v17e(d.grammerPosition||d.value||'Not populated')}</div><div class="v17-position"><b>Benchmark</b><br>${v17e(d.competitorPosition||d.comment||'Not populated')}</div></div>`).join(''):'<p class="v17-muted">No dimensions yet.</p>'}</article>`}).join('')||'<p class="empty">No benchmarking available.</p>')
