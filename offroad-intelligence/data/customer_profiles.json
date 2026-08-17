@@ -58,6 +58,11 @@
   {
     "customerId": "CUST-002",
     "name": "CNH Industrial",
+    "strategicThemes": [
+  "THM-001",
+  "THM-004",
+  "THM-008"
+],
     "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Basildon, United Kingdom",
@@ -92,6 +97,11 @@
   {
     "customerId": "CUST-003",
     "name": "AGCO",
+    "strategicThemes": [
+  "THM-001",
+  "THM-003",
+  "THM-011"
+],
     "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Duluth, Georgia, USA",
@@ -127,6 +137,11 @@
   {
     "customerId": "CUST-004",
     "name": "Caterpillar",
+    "strategicThemes": [
+  "THM-001",
+  "THM-007",
+  "THM-008"
+],
     "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Irving, Texas, USA",
@@ -161,6 +176,11 @@
   {
     "customerId": "CUST-005",
     "name": "KION Group",
+    "strategicThemes": [
+  "THM-001",
+  "THM-004",
+  "THM-008"
+],
     "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Frankfurt am Main, Germany",
@@ -193,6 +213,11 @@
   {
     "customerId": "CUST-006",
     "name": "Jungheinrich",
+    "strategicThemes": [
+  "THM-001",
+  "THM-004",
+  "THM-008"
+],
     "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Hamburg, Germany",
@@ -226,6 +251,11 @@
   {
     "customerId": "CUST-007",
     "name": "Toyota Material Handling / Toyota Industries",
+    "strategicThemes": [
+  "THM-001",
+  "THM-007",
+  "THM-008"
+],
     "profileStatus": "V16.5 content populated",
     "level1PermanentFacts": {
       "headquarters": "Japan; Toyota Industries Corporation group context",
