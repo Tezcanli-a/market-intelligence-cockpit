@@ -1,0 +1,41 @@
+{
+  "version": "V17.6A",
+  "status": "Approved",
+
+  "entities": [
+    "Customer",
+    "Competitor",
+    "Technology",
+    "Application",
+    "Market",
+    "Geography",
+    "Theme",
+    "Product"
+  ],
+
+  "intelligenceObjects": [
+    "Evidence",
+    "Signal",
+    "Assessment",
+    "Opportunity",
+    "Risk",
+    "Action"
+  ],
+
+  "relationshipFields": [
+    "themeIds",
+    "customerIds",
+    "competitorIds",
+    "technologyIds",
+    "marketIds",
+    "applicationIds",
+    "geographyIds"
+  ],
+
+  "confidenceModel": {
+    "fields": [
+      "confidence",
+      "confidenceScore"
+    ]
+  }
+}
