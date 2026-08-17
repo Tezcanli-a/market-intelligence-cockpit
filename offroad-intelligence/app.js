@@ -790,6 +790,275 @@ function renderThemeExplorer(){
 
   setHtml('themeExplorerGrid', cards || '<p class="empty">No themes available. Check data/themes.json.</p>');
 }
+function v177Arr(x){
+  return Array.isArray(x) ? x : (x ? [x] : []);
+}
+
+function v177ThemeIdsFromObject(obj){
+  return [
+    ...v177Arr(obj.themeIds),
+    ...v177Arr(obj.strategicThemes),
+    ...v177Arr(obj.linkedThemeIds)
+  ];
+}
+
+function v177ObjectHasTheme(obj, themeId){
+  return v177ThemeIdsFromObject(obj).includes(themeId);
+}
+
+function v177SignalThemeMatch(signal, themeId){
+  return v177ObjectHasTheme(signal, themeId);
+}
+
+function v177AssessmentThemeMatch(assessment, themeId){
+  if(v177ObjectHasTheme(assessment, themeId)) return true;
+  const linkedSignal = (state.data.signals || []).find(s => s.id === assessment.signalId || s.signalId === assessment.signalId);
+  return linkedSignal ? v177SignalThemeMatch(linkedSignal, themeId) : false;
+}
+
+function v177OpportunityThemeMatch(item, themeId){
+  if(v177ObjectHasTheme(item, themeId)) return true;
+  const itemId = item.id || item.opportunityId;
+  const linkedSignals = (state.data.signals || []).filter(s => v177Arr(s.opportunityIds).includes(itemId));
+  return linkedSignals.some(s => v177SignalThemeMatch(s, themeId));
+}
+
+function v177RiskThemeMatch(item, themeId){
+  if(v177ObjectHasTheme(item, themeId)) return true;
+  const itemId = item.id || item.riskId;
+  const linkedSignals = (state.data.signals || []).filter(s => v177Arr(s.riskIds).includes(itemId));
+  return linkedSignals.some(s => v177SignalThemeMatch(s, themeId));
+}
+
+function v177Title(obj, keys, fallback){
+  for(const k of keys){
+    if(obj && obj[k]) return obj[k];
+  }
+  return fallback || 'Untitled';
+}
+
+function v177MiniList(items, keys, max){
+  const listItems = (items || []).slice(0, max || 4);
+  if(!listItems.length) return '<span class="muted">No linked items yet</span>';
+  return listItems.map(x => tag(v177Title(x, keys, 'Untitled'))).join('');
+}
+
+function v177MomentumClass(momentum){
+  const m = String(momentum || '').toLowerCase();
+  if(m === 'high') return 'high';
+  if(m === 'medium') return 'medium';
+  return 'low';
+}
+
+function v177MomentumPoints(momentum){
+  const m = String(momentum || '').toLowerCase();
+  if(m === 'high') return 20;
+  if(m === 'medium') return 12;
+  return 6;
+}
+
+function v177Clamp(value, min, max){
+  return Math.max(min, Math.min(max, value));
+}
+
+function v177ThemeData(theme){
+  const themeId = theme.themeId;
+  const signals = state.data.signals || [];
+  const assessments = state.data.assessments || [];
+  const technologies = state.data.technologies || [];
+  const customers = state.data.customerProfiles || [];
+  const competitors = state.data.competitorProfiles || [];
+  const opportunities = state.data.opportunities || [];
+  const risks = state.data.risks || [];
+
+  const linkedSignals = signals.filter(x => v177SignalThemeMatch(x, themeId));
+  const linkedAssessments = assessments.filter(x => v177AssessmentThemeMatch(x, themeId));
+  const linkedTechnologies = technologies.filter(x => v177ObjectHasTheme(x, themeId));
+  const linkedCustomers = customers.filter(x => v177ObjectHasTheme(x, themeId));
+  const linkedCompetitors = competitors.filter(x => v177ObjectHasTheme(x, themeId));
+  const linkedOpportunities = opportunities.filter(x => v177OpportunityThemeMatch(x, themeId));
+  const linkedRisks = risks.filter(x => v177RiskThemeMatch(x, themeId));
+
+  const signalPoints = Math.min(linkedSignals.length * 10, 25);
+  const assessmentPoints = Math.min(linkedAssessments.length * 12, 24);
+  const marketPoints = Math.min((linkedCustomers.length + linkedCompetitors.length) * 3, 18);
+  const technologyPoints = Math.min(linkedTechnologies.length * 5, 15);
+  const businessImpactPoints = Math.min((linkedOpportunities.length * 8) + (linkedRisks.length * 6), 18);
+  const momentumPoints = v177MomentumPoints(theme.momentum);
+
+  const rawScore = signalPoints + assessmentPoints + marketPoints + technologyPoints + businessImpactPoints + momentumPoints;
+  const themeScore = v177Clamp(rawScore, 0, 100);
+
+  let balance = 'Monitor';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity dominant';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk dominant';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Balanced pressure';
+
+  let scoreClass = 'low';
+  if(themeScore >= 75) scoreClass = 'high';
+  else if(themeScore >= 50) scoreClass = 'medium';
+
+  return {
+    theme,
+    linkedSignals,
+    linkedAssessments,
+    linkedTechnologies,
+    linkedCustomers,
+    linkedCompetitors,
+    linkedOpportunities,
+    linkedRisks,
+    themeScore,
+    scoreClass,
+    balance
+  };
+}
+
+function v177ThemeSummaryText(data){
+  const name = data.theme.name || 'This theme';
+  const parts = [];
+  parts.push(`${name} is linked to ${data.linkedSignals.length} signal(s), ${data.linkedAssessments.length} assessment(s), ${data.linkedTechnologies.length} technology item(s), ${data.linkedCustomers.length} customer profile(s) and ${data.linkedCompetitors.length} competitor profile(s).`);
+  if(data.linkedOpportunities.length || data.linkedRisks.length){
+    parts.push(`Opportunity/risk balance: ${data.balance}.`);
+  }
+  if(data.themeScore >= 75){
+    parts.push('This is a high-priority intelligence theme and should be reviewed actively.');
+  }else if(data.themeScore >= 50){
+    parts.push('This theme has moderate intelligence weight and should remain in the regular monitoring cycle.');
+  }else{
+    parts.push('This theme currently has limited linked intelligence and should be enriched when new evidence appears.');
+  }
+  return parts.join(' ');
+}
+
+function renderThemeExplorer(){
+  const themes = state.data.themes || [];
+  const themeData = themes.map(v177ThemeData);
+  const activeThemes = themeData.filter(d => d.themeScore > 0);
+  const highMomentum = themes.filter(t => String(t.momentum || '').toLowerCase() === 'high').length;
+  const topThemes = [...themeData].sort((a,b) => b.themeScore - a.themeScore).slice(0,3);
+  const linkedObjects = themeData.reduce((sum,d) => sum + d.linkedSignals.length + d.linkedAssessments.length + d.linkedTechnologies.length + d.linkedCustomers.length + d.linkedCompetitors.length + d.linkedOpportunities.length + d.linkedRisks.length, 0);
+
+  setHtml('themeExplorerSummary', [
+    ['Themes', themes.length],
+    ['Active themes', activeThemes.length],
+    ['Linked objects', linkedObjects],
+    ['High momentum', highMomentum]
+  ].map(([label,value]) => `
+    <div class="kpi">
+      <span>${safeHtml(label)}</span>
+      <strong>${safeHtml(value)}</strong>
+    </div>
+  `).join(''));
+
+  const topThemeHtml = topThemes.length ? `
+    <div class="v177-top-themes">
+      <div class="v177-top-heading">
+        <span>Theme Intelligence</span>
+        <h3>Top Themes by intelligence weight</h3>
+      </div>
+      ${topThemes.map((d,i) => `
+        <div class="v177-top-row">
+          <strong>#${i + 1} ${safeHtml(d.theme.name || 'Unnamed theme')}</strong>
+          <span>${safeHtml(d.themeScore)}</span>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  const cards = themeData.map(data => {
+    const theme = data.theme;
+    const momentumClass = v177MomentumClass(theme.momentum);
+
+    return `
+      <article class="v177-theme-card">
+        <div class="v177-theme-top">
+          <div>
+            <span class="meta">${safeHtml(theme.themeId || '')} · ${safeHtml(theme.category || 'Theme')}</span>
+            <h3>${safeHtml(theme.name || 'Unnamed theme')}</h3>
+          </div>
+          <div class="v177-score-box ${data.scoreClass}">
+            <span>Theme Score</span>
+            <strong>${safeHtml(data.themeScore)}</strong>
+          </div>
+        </div>
+
+        <div class="v177-score-meter">
+          <div class="v177-score-fill ${data.scoreClass}" style="width:${data.themeScore}%"></div>
+        </div>
+
+        <div class="v177-meta-row">
+          <span class="score-pill ${momentumClass}"><small>Momentum</small><b>${safeHtml(theme.momentum || 'Low')}</b></span>
+          <span class="v177-balance-pill"><small>Opportunity/Risk</small><b>${safeHtml(data.balance)}</b></span>
+        </div>
+
+        <p class="v177-theme-description">${safeHtml(theme.description || 'No description populated yet.')}</p>
+
+        <div class="v177-kpi-grid">
+          <div class="v17-score"><span>Signals</span><strong>${data.linkedSignals.length}</strong></div>
+          <div class="v17-score"><span>Assessments</span><strong>${data.linkedAssessments.length}</strong></div>
+          <div class="v17-score"><span>Technologies</span><strong>${data.linkedTechnologies.length}</strong></div>
+          <div class="v17-score"><span>Customers</span><strong>${data.linkedCustomers.length}</strong></div>
+          <div class="v17-score"><span>Competitors</span><strong>${data.linkedCompetitors.length}</strong></div>
+          <div class="v17-score"><span>Opp / Risk</span><strong>${data.linkedOpportunities.length + data.linkedRisks.length}</strong></div>
+        </div>
+
+        <div class="v177-section v177-summary-box">
+          <strong>Theme Intelligence Summary</strong>
+          <p>${safeHtml(v177ThemeSummaryText(data))}</p>
+        </div>
+
+        <div class="v177-section">
+          <strong>Strategic relevance</strong>
+          <p>${safeHtml(theme.strategicRelevance || 'Not populated yet.')}</p>
+        </div>
+
+        <div class="v177-section-grid">
+          <div class="v177-section">
+            <strong>Related signals</strong>
+            <p>${v177MiniList(data.linkedSignals, ['signal','title','id'], 5)}</p>
+          </div>
+          <div class="v177-section">
+            <strong>Related assessments</strong>
+            <p>${v177MiniList(data.linkedAssessments, ['title','assessmentId','assessment'], 5)}</p>
+          </div>
+        </div>
+
+        <div class="v177-section-grid v177-three-grid">
+          <div class="v177-section">
+            <strong>Customers</strong>
+            <p>${v177MiniList(data.linkedCustomers, ['name','customer','customerId'], 5)}</p>
+          </div>
+          <div class="v177-section">
+            <strong>Competitors</strong>
+            <p>${v177MiniList(data.linkedCompetitors, ['name','competitor','competitorId'], 5)}</p>
+          </div>
+          <div class="v177-section">
+            <strong>Technologies</strong>
+            <p>${v177MiniList(data.linkedTechnologies, ['theme','name','id'], 5)}</p>
+          </div>
+        </div>
+
+        <div class="v177-section-grid">
+          <div class="v177-section">
+            <strong>Opportunities</strong>
+            <p>${v177MiniList(data.linkedOpportunities, ['opportunity','title','description','id'], 4)}</p>
+          </div>
+          <div class="v177-section">
+            <strong>Risks</strong>
+            <p>${v177MiniList(data.linkedRisks, ['riskDescription','title','description','id'], 4)}</p>
+          </div>
+        </div>
+
+        <div class="v177-action-box">
+          <strong>Recommended action</strong>
+          <p>${safeHtml(theme.recommendedAction || 'Define function-specific next action.')}</p>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  setHtml('themeExplorerGrid', topThemeHtml + (cards || '<p class="empty">No themes available. Check data/themes.json.</p>'));
+}
 
 function renderAll(){const signals=filteredSignals();renderKpis(signals);renderOverview(signals);renderSignalsTable();renderAssessments();renderDailyNews();renderRelationships();renderCustomerProfiles();renderCompetitorProfiles();renderBenchmarking();renderTechnology();renderPerformance();renderMatrix();renderHeatmap();renderMomentumIntelligence();renderOverviewMomentumBlock();renderThemeExplorer();}
 async function init(){try{await loadData();setup();renderAll();}catch(e){const m=document.querySelector('main');if(m)m.innerHTML=`<h3>Data loading problem</h3><p>${safeHtml(e.message)}</p><p>Check JSON files inside offroad-intelligence/data/ and root news-data.json.</p>`;}}
