@@ -1059,6 +1059,256 @@ function renderThemeExplorer(){
 
   setHtml('themeExplorerGrid', topThemeHtml + (cards || '<p class="empty">No themes available. Check data/themes.json.</p>'));
 }
+function v178Arr(x){
+  return Array.isArray(x) ? x : (x ? [x] : []);
+}
+
+function v178ThemeIdsFromObject(obj){
+  return [
+    ...v178Arr(obj.themeIds),
+    ...v178Arr(obj.strategicThemes),
+    ...v178Arr(obj.linkedThemeIds)
+  ];
+}
+
+function v178ObjectHasTheme(obj, themeId){
+  return v178ThemeIdsFromObject(obj).includes(themeId);
+}
+
+function v178SignalThemeMatch(signal, themeId){
+  return v178ObjectHasTheme(signal, themeId);
+}
+
+function v178AssessmentThemeMatch(assessment, themeId){
+  if(v178ObjectHasTheme(assessment, themeId)) return true;
+  const linkedSignal = (state.data.signals || []).find(s => s.id === assessment.signalId || s.signalId === assessment.signalId);
+  return linkedSignal ? v178SignalThemeMatch(linkedSignal, themeId) : false;
+}
+
+function v178OpportunityThemeMatch(item, themeId){
+  if(v178ObjectHasTheme(item, themeId)) return true;
+  const itemId = item.id || item.opportunityId;
+  const linkedSignals = (state.data.signals || []).filter(s => v178Arr(s.opportunityIds).includes(itemId));
+  return linkedSignals.some(s => v178SignalThemeMatch(s, themeId));
+}
+
+function v178RiskThemeMatch(item, themeId){
+  if(v178ObjectHasTheme(item, themeId)) return true;
+  const itemId = item.id || item.riskId;
+  const linkedSignals = (state.data.signals || []).filter(s => v178Arr(s.riskIds).includes(itemId));
+  return linkedSignals.some(s => v178SignalThemeMatch(s, themeId));
+}
+
+function v178MomentumPoints(momentum){
+  const m = String(momentum || '').toLowerCase();
+  if(m === 'high') return 20;
+  if(m === 'medium') return 12;
+  return 6;
+}
+
+function v178Clamp(value, min, max){
+  return Math.max(min, Math.min(max, value));
+}
+
+function v178ThemeData(theme){
+  const themeId = theme.themeId;
+  const signals = state.data.signals || [];
+  const assessments = state.data.assessments || [];
+  const technologies = state.data.technologies || [];
+  const customers = state.data.customerProfiles || [];
+  const competitors = state.data.competitorProfiles || [];
+  const opportunities = state.data.opportunities || [];
+  const risks = state.data.risks || [];
+
+  const linkedSignals = signals.filter(x => v178SignalThemeMatch(x, themeId));
+  const linkedAssessments = assessments.filter(x => v178AssessmentThemeMatch(x, themeId));
+  const linkedTechnologies = technologies.filter(x => v178ObjectHasTheme(x, themeId));
+  const linkedCustomers = customers.filter(x => v178ObjectHasTheme(x, themeId));
+  const linkedCompetitors = competitors.filter(x => v178ObjectHasTheme(x, themeId));
+  const linkedOpportunities = opportunities.filter(x => v178OpportunityThemeMatch(x, themeId));
+  const linkedRisks = risks.filter(x => v178RiskThemeMatch(x, themeId));
+
+  const signalPoints = Math.min(linkedSignals.length * 10, 25);
+  const assessmentPoints = Math.min(linkedAssessments.length * 12, 24);
+  const marketPoints = Math.min((linkedCustomers.length + linkedCompetitors.length) * 3, 18);
+  const technologyPoints = Math.min(linkedTechnologies.length * 5, 15);
+  const businessImpactPoints = Math.min((linkedOpportunities.length * 8) + (linkedRisks.length * 6), 18);
+  const momentumPoints = v178MomentumPoints(theme.momentum);
+  const score = v178Clamp(signalPoints + assessmentPoints + marketPoints + technologyPoints + businessImpactPoints + momentumPoints, 0, 100);
+
+  const opportunityPressure = linkedOpportunities.length >= 2 || score >= 80 ? 'High' : linkedOpportunities.length === 1 || score >= 55 ? 'Medium' : 'Low';
+  const riskPressure = linkedRisks.length >= 2 ? 'High' : linkedRisks.length === 1 ? 'Medium' : 'Low';
+
+  let balance = 'Monitor';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity dominant';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk dominant';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Balanced pressure';
+
+  return {
+    theme,
+    score,
+    linkedSignals,
+    linkedAssessments,
+    linkedTechnologies,
+    linkedCustomers,
+    linkedCompetitors,
+    linkedOpportunities,
+    linkedRisks,
+    opportunityPressure,
+    riskPressure,
+    balance
+  };
+}
+
+function v178LandscapeCategory(theme){
+  const cat = String(theme.category || '').toLowerCase();
+  const name = String(theme.name || '').toLowerCase();
+  if(cat.includes('market') || cat.includes('geography') || name === 'india' || name === 'china' || name.includes('localization')) return 'Market Themes';
+  if(cat.includes('business') || cat.includes('customer need') || cat.includes('sustainability') || name.includes('comfort') || name.includes('cost') || name.includes('premium')) return 'Business Themes';
+  return 'Technology Themes';
+}
+
+function v178PressureClass(value){
+  const v = String(value || '').toLowerCase();
+  if(v === 'high') return 'high';
+  if(v === 'medium') return 'medium';
+  return 'low';
+}
+
+function v178ScoreClass(score){
+  if(score >= 75) return 'high';
+  if(score >= 50) return 'medium';
+  return 'low';
+}
+
+function v178LandscapeCard(data){
+  const theme = data.theme;
+  return `
+    <article class="v178-landscape-card ${v178ScoreClass(data.score)}">
+      <div class="v178-landscape-top">
+        <div>
+          <span class="meta">${safeHtml(theme.themeId || '')}</span>
+          <h3>${safeHtml(theme.name || 'Unnamed theme')}</h3>
+        </div>
+        <div class="v178-score-chip ${v178ScoreClass(data.score)}">${safeHtml(data.score)}</div>
+      </div>
+      <p>${safeHtml(theme.description || 'No description populated yet.')}</p>
+      <div class="v178-mini-metrics">
+        <span>S ${data.linkedSignals.length}</span>
+        <span>A ${data.linkedAssessments.length}</span>
+        <span>T ${data.linkedTechnologies.length}</span>
+        <span>C ${data.linkedCustomers.length}</span>
+        <span>R/O ${data.linkedRisks.length}/${data.linkedOpportunities.length}</span>
+      </div>
+      <div class="v178-pressure-row">
+        <span class="v178-pressure ${v178PressureClass(data.opportunityPressure)}">Opp ${safeHtml(data.opportunityPressure)}</span>
+        <span class="v178-pressure ${v178PressureClass(data.riskPressure)}">Risk ${safeHtml(data.riskPressure)}</span>
+      </div>
+    </article>
+  `;
+}
+
+function v178HeatCell(opportunityPressure, riskPressure, themeData){
+  const items = themeData.filter(d => d.opportunityPressure === opportunityPressure && d.riskPressure === riskPressure);
+  const cls = riskPressure === 'High' && opportunityPressure === 'High' ? 'red' :
+              riskPressure === 'High' || opportunityPressure === 'High' ? 'amber' :
+              riskPressure === 'Medium' || opportunityPressure === 'Medium' ? 'yellow' : 'green';
+  return `
+    <div class="v178-heat-cell ${cls}">
+      <strong>${safeHtml(opportunityPressure)} opportunity / ${safeHtml(riskPressure)} risk</strong>
+      <span>${items.length} theme${items.length === 1 ? '' : 's'}</span>
+      <p>${items.slice(0,4).map(d => tag(d.theme.name)).join('') || '<span class="muted">No themes</span>'}</p>
+    </div>
+  `;
+}
+
+function renderThemeLandscape(){
+  const themes = state.data.themes || [];
+  const themeData = themes.map(v178ThemeData);
+  const topTheme = [...themeData].sort((a,b) => b.score - a.score)[0];
+  const highScoreThemes = themeData.filter(d => d.score >= 75).length;
+  const emergingThemes = themeData.filter(d => String(d.theme.momentum || '').toLowerCase() === 'high' && d.score < 60);
+  const watchlist = themeData.filter(d => d.score >= 70 || d.riskPressure === 'High' || d.opportunityPressure === 'High').sort((a,b) => b.score - a.score);
+
+  setHtml('themeLandscapeSummary', [
+    ['Top theme', topTheme ? topTheme.theme.name : 'n/a'],
+    ['High score themes', highScoreThemes],
+    ['Emerging themes', emergingThemes.length],
+    ['Watchlist themes', watchlist.length]
+  ].map(([label,value]) => `
+    <div class="kpi">
+      <span>${safeHtml(label)}</span>
+      <strong>${safeHtml(value)}</strong>
+    </div>
+  `).join(''));
+
+  const grouped = ['Technology Themes','Business Themes','Market Themes'].map(group => {
+    const items = themeData.filter(d => v178LandscapeCategory(d.theme) === group).sort((a,b) => b.score - a.score);
+    return `
+      <section class="v178-landscape-section">
+        <div class="v178-section-head">
+          <span>Theme cluster</span>
+          <h3>${safeHtml(group)}</h3>
+        </div>
+        <div class="v178-landscape-grid">
+          ${items.map(v178LandscapeCard).join('') || '<p class="empty">No themes in this cluster.</p>'}
+        </div>
+      </section>
+    `;
+  }).join('');
+
+  const heatMatrix = `
+    <section class="v178-landscape-section">
+      <div class="v178-section-head">
+        <span>Opportunity / Risk</span>
+        <h3>Theme Heat Matrix</h3>
+      </div>
+      <div class="v178-heat-grid">
+        ${v178HeatCell('High','High',themeData)}
+        ${v178HeatCell('High','Medium',themeData)}
+        ${v178HeatCell('High','Low',themeData)}
+        ${v178HeatCell('Medium','High',themeData)}
+        ${v178HeatCell('Medium','Medium',themeData)}
+        ${v178HeatCell('Medium','Low',themeData)}
+        ${v178HeatCell('Low','High',themeData)}
+        ${v178HeatCell('Low','Medium',themeData)}
+        ${v178HeatCell('Low','Low',themeData)}
+      </div>
+    </section>
+  `;
+
+  const watchlistHtml = `
+    <section class="v178-landscape-section">
+      <div class="v178-section-head">
+        <span>Strategic watchlist</span>
+        <h3>Where to focus next</h3>
+      </div>
+      <div class="v178-watchlist">
+        ${watchlist.slice(0,6).map((d,i) => `
+          <div class="v178-watch-row">
+            <strong>#${i + 1} ${safeHtml(d.theme.name || 'Unnamed theme')}</strong>
+            <span>Score ${safeHtml(d.score)}</span>
+            <small>${safeHtml(d.balance)} · Opp ${safeHtml(d.opportunityPressure)} · Risk ${safeHtml(d.riskPressure)}</small>
+          </div>
+        `).join('') || '<p class="empty">No watchlist themes yet.</p>'}
+      </div>
+    </section>
+  `;
+
+  const emergingHtml = `
+    <section class="v178-landscape-section">
+      <div class="v178-section-head">
+        <span>Emerging themes</span>
+        <h3>High momentum but still underdeveloped</h3>
+      </div>
+      <div class="v178-emerging-list">
+        ${emergingThemes.map(d => v178LandscapeCard(d)).join('') || '<p class="empty">No emerging high-momentum themes at the moment.</p>'}
+      </div>
+    </section>
+  `;
+
+  setHtml('themeLandscapeGrid', watchlistHtml + heatMatrix + grouped + emergingHtml);
+}
 
 function renderAll(){
   const signals=filteredSignals();
