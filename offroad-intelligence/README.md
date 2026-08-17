@@ -1,26 +1,23 @@
 # Current Platform Status
 
-## V18.3 Evidence Governance Foundation
+## V18.4 Confidence Engine
 
-V18.3 introduces formal evidence governance.
+V18.4 introduces formal confidence management.
 
-New objects:
+New concepts:
+
+- Data Confidence
+- Analyst Confidence
+- Forecast Probability
+
+Purpose:
+
+Separate source trustworthiness from future-event probability.
+
+Every important assessment should ultimately reference:
 
 - Evidence
-- Source Reliability Framework
-- Analyst Verification
-- Evidence IDs
-
-Key principle:
-
-No assessment should exist without traceable evidence.
-
-Future assessments should be linked to:
-
-- Evidence IDs
-- Signals
 - Confidence
-- Verification State
-- Source Reliability
-
-This establishes the foundation for confidence scoring, audit trails, forecasting and decision intelligence.
+- Verification state
+- Probability
+- Assumptions
