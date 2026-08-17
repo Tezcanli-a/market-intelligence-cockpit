@@ -1,0 +1,97 @@
+{
+  "version": "V18.1",
+  "name": "GRAMMER Offroad Intelligence Relationship Rules",
+  "status": "foundation",
+  "purpose": "Defines how intelligence objects should connect and propagate across the Offroad Intelligence Hub.",
+  "canonicalChain": [
+    "Source",
+    "Evidence",
+    "Signal",
+    "Trend",
+    "Assessment",
+    "OpportunityRisk",
+    "Action",
+    "Outcome"
+  ],
+  "rules": [
+    {
+      "ruleId": "REL-001",
+      "from": "Source",
+      "to": "Evidence",
+      "relationshipField": "sourceIds",
+      "description": "Every evidence item should preserve where it came from."
+    },
+    {
+      "ruleId": "REL-002",
+      "from": "Evidence",
+      "to": "Signal",
+      "relationshipField": "linkedEvidenceIds",
+      "description": "Signals should reference the evidence that supports them."
+    },
+    {
+      "ruleId": "REL-003",
+      "from": "Signal",
+      "to": "Trend",
+      "relationshipField": "linkedSignalIds",
+      "description": "Trends are formed from repeated or clustered signals."
+    },
+    {
+      "ruleId": "REL-004",
+      "from": "Signal",
+      "to": "Assessment",
+      "relationshipField": "linkedSignalIds",
+      "description": "Assessments should reference the underlying signals."
+    },
+    {
+      "ruleId": "REL-005",
+      "from": "Assessment",
+      "to": "Opportunity",
+      "relationshipField": "linkedOpportunityIds",
+      "description": "Assessments may generate or support opportunities."
+    },
+    {
+      "ruleId": "REL-006",
+      "from": "Assessment",
+      "to": "Risk",
+      "relationshipField": "linkedRiskIds",
+      "description": "Assessments may generate or support risks."
+    },
+    {
+      "ruleId": "REL-007",
+      "from": "OpportunityRisk",
+      "to": "Action",
+      "relationshipField": "linkedActionIds",
+      "description": "Opportunities and risks should lead to function-specific actions where relevant."
+    },
+    {
+      "ruleId": "REL-008",
+      "from": "Action",
+      "to": "Outcome",
+      "relationshipField": "linkedOutcomeIds",
+      "description": "Actions should be closed with outcomes where possible."
+    }
+  ],
+  "propagationRules": [
+    {
+      "ruleId": "PROP-001",
+      "description": "themeIds should propagate from evidence or signals to assessments, opportunities, risks, actions and outcomes where the link remains relevant."
+    },
+    {
+      "ruleId": "PROP-002",
+      "description": "customerIds, competitorIds and technologyIds should propagate from signals to assessments and downstream opportunity/risk/action objects when applicable."
+    },
+    {
+      "ruleId": "PROP-003",
+      "description": "Confidence should not increase automatically downstream unless additional evidence or validation is added."
+    },
+    {
+      "ruleId": "PROP-004",
+      "description": "Pages should read linked objects from the network rather than storing duplicate page-specific intelligence."
+    }
+  ],
+  "confidenceGuidance": {
+    "Low": "Single source, weak reliability, unclear implication or early weak signal.",
+    "Medium": "Multiple indicators or one reliable source with plausible business implication.",
+    "High": "Multiple reliable sources, corroborated pattern or analyst-validated implication."
+  }
+}

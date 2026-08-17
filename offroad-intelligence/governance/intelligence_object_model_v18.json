@@ -1,0 +1,115 @@
+{
+  "version": "V18.0",
+  "name": "GRAMMER Offroad Intelligence Object Model",
+  "status": "foundation",
+  "purpose": "Defines the core intelligence objects behind the Offroad Intelligence Hub so pages remain views of shared intelligence objects rather than independent logic layers.",
+  "principle": "Pages should contain minimal independent intelligence logic. Intelligence should be represented through shared objects, IDs, provenance and relationship rules.",
+  "coreObjects": [
+    {
+      "objectType": "Source",
+      "idPrefix": "SRC",
+      "mainQuestion": "Where did this come from?",
+      "description": "Origin of evidence such as news article, company release, patent source, financial report, internal input or conference material."
+    },
+    {
+      "objectType": "Evidence",
+      "idPrefix": "EVD",
+      "mainQuestion": "What do we actually know?",
+      "description": "Source-backed fact or observation with date, source, reliability, linked entities and provenance."
+    },
+    {
+      "objectType": "Entity",
+      "idPrefix": "ENT",
+      "mainQuestion": "Who or what is involved?",
+      "description": "Generic entity layer for customers, competitors, technologies, applications, markets, geographies, products and themes."
+    },
+    {
+      "objectType": "Signal",
+      "idPrefix": "SIG",
+      "mainQuestion": "What changed?",
+      "description": "Meaningful change or weak signal derived from evidence."
+    },
+    {
+      "objectType": "Trend",
+      "idPrefix": "TRD",
+      "mainQuestion": "Is this becoming a pattern?",
+      "description": "Clustered or repeated signals that indicate a wider market, customer, competitor or technology pattern."
+    },
+    {
+      "objectType": "Assessment",
+      "idPrefix": "ASM",
+      "mainQuestion": "What does it mean for GRAMMER?",
+      "description": "Analyst or AI-supported interpretation linking signals to implications, confidence, time horizon and affected functions."
+    },
+    {
+      "objectType": "Opportunity",
+      "idPrefix": "OPP",
+      "mainQuestion": "Where could GRAMMER benefit?",
+      "description": "Potential commercial, product, innovation or strategic upside."
+    },
+    {
+      "objectType": "Risk",
+      "idPrefix": "RSK",
+      "mainQuestion": "What could hurt GRAMMER?",
+      "description": "Potential commercial, competitive, technology, supply or strategic exposure."
+    },
+    {
+      "objectType": "Technology",
+      "idPrefix": "TECH",
+      "mainQuestion": "What capability is evolving?",
+      "description": "Technology capability, solution area or product-relevant development theme."
+    },
+    {
+      "objectType": "Action",
+      "idPrefix": "ACT",
+      "mainQuestion": "What should someone do?",
+      "description": "Recommended function-specific next step for Sales, R&D, Innovation, Product Management, Strategy, Procurement or Management."
+    },
+    {
+      "objectType": "Outcome",
+      "idPrefix": "OUT",
+      "mainQuestion": "What happened after we acted?",
+      "description": "Closed-loop result of an action, used to evaluate whether intelligence led to useful decisions or follow-up."
+    }
+  ],
+  "standardFields": {
+    "identity": ["id", "title", "description", "objectType", "createdDate", "lastUpdated"],
+    "ownership": ["owner", "functionOwner", "reviewDate", "status"],
+    "relationships": [
+      "sourceIds",
+      "linkedEvidenceIds",
+      "linkedSignalIds",
+      "linkedTrendIds",
+      "linkedAssessmentIds",
+      "linkedOpportunityIds",
+      "linkedRiskIds",
+      "linkedActionIds",
+      "linkedOutcomeIds",
+      "themeIds",
+      "customerIds",
+      "competitorIds",
+      "technologyIds",
+      "applicationIds",
+      "marketIds",
+      "geographyIds",
+      "productIds",
+      "affectedFunctions"
+    ],
+    "provenance": ["sourceQuality", "reliability", "sourceDate", "sourceUrl", "duplicateHash"],
+    "confidence": ["confidence", "confidenceScore", "confidenceRationale"],
+    "impact": ["impact", "timeHorizon", "urgency", "businessImplication"]
+  },
+  "idStandards": {
+    "Source": "SRC-001",
+    "Evidence": "EVD-001",
+    "Entity": "ENT-001",
+    "Signal": "SIG-001",
+    "Trend": "TRD-001",
+    "Assessment": "ASM-001",
+    "Opportunity": "OPP-001",
+    "Risk": "RSK-001",
+    "Technology": "TECH-001",
+    "Action": "ACT-001",
+    "Outcome": "OUT-001"
+  }
+}
