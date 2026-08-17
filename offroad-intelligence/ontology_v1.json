@@ -1,0 +1,161 @@
+{
+  "version": "V17.6A",
+  "name": "GRAMMER Offroad Intelligence Ontology V1",
+  "status": "foundation",
+  "purpose": "Defines the enterprise intelligence object model and relationship standards for the GRAMMER Offroad Intelligence Hub.",
+  "strategicPrinciple": "One intelligence object should feed multiple pages and views without duplicate manual recreation.",
+  "intelligenceChain": [
+    "Evidence",
+    "Signal",
+    "Assessment",
+    "OpportunityRisk",
+    "Action"
+  ],
+  "businessEntities": [
+    {
+      "entityType": "Customer",
+      "idPrefix": "CUS",
+      "description": "OEMs, accounts or customer groups relevant for Offroad intelligence."
+    },
+    {
+      "entityType": "Competitor",
+      "idPrefix": "COM",
+      "description": "Competing companies, products or supplier alternatives."
+    },
+    {
+      "entityType": "Technology",
+      "idPrefix": "TECH",
+      "description": "Technology themes, capabilities or solution areas relevant for GRAMMER."
+    },
+    {
+      "entityType": "Application",
+      "idPrefix": "APP",
+      "description": "Offroad applications such as excavator, tractor, forklift or turf equipment."
+    },
+    {
+      "entityType": "Market",
+      "idPrefix": "MKT",
+      "description": "Market segments such as Agriculture, Construction, Material Handling and Turf."
+    },
+    {
+      "entityType": "Geography",
+      "idPrefix": "GEO",
+      "description": "Countries, regions or market geographies relevant for intelligence interpretation."
+    },
+    {
+      "entityType": "Theme",
+      "idPrefix": "THM",
+      "description": "Strategic themes that connect evidence, signals, assessments, risks, opportunities and actions."
+    },
+    {
+      "entityType": "Product",
+      "idPrefix": "PRD",
+      "description": "GRAMMER product families, modules or product concepts."
+    }
+  ],
+  "intelligenceObjects": [
+    {
+      "objectType": "Evidence",
+      "idPrefix": "EVD",
+      "questionAnswered": "What do we actually know?",
+      "description": "Raw or curated source-backed observation from news, patents, financials, releases, trade media or internal information."
+    },
+    {
+      "objectType": "Signal",
+      "idPrefix": "SIG",
+      "questionAnswered": "What changed or emerged?",
+      "description": "A meaningful change, emerging pattern or weak signal derived from one or more evidence items."
+    },
+    {
+      "objectType": "Assessment",
+      "idPrefix": "ASM",
+      "questionAnswered": "What does it mean for GRAMMER?",
+      "description": "Analyst or AI-supported interpretation of signals with business implication, confidence and time horizon."
+    },
+    {
+      "objectType": "Opportunity",
+      "idPrefix": "OPP",
+      "questionAnswered": "What could create value?",
+      "description": "Commercial, product, innovation or strategic upside linked to evidence and assessments."
+    },
+    {
+      "objectType": "Risk",
+      "idPrefix": "RSK",
+      "questionAnswered": "What could create exposure?",
+      "description": "Commercial, competitive, supply, technology or strategic downside linked to evidence and assessments."
+    },
+    {
+      "objectType": "Action",
+      "idPrefix": "ACT",
+      "questionAnswered": "What should a GRAMMER function do?",
+      "description": "Recommended next step for Sales, R&D, Innovation, Product Management, Procurement, Strategy or Management."
+    }
+  ],
+  "standardRelationshipFields": [
+    "themeIds",
+    "customerIds",
+    "competitorIds",
+    "technologyIds",
+    "marketIds",
+    "applicationIds",
+    "geographyIds",
+    "productIds",
+    "linkedEvidenceIds",
+    "linkedSignalIds",
+    "linkedAssessmentIds",
+    "linkedOpportunityIds",
+    "linkedRiskIds",
+    "linkedActionIds"
+  ],
+  "confidenceModel": {
+    "currentFoundationFields": [
+      "confidence",
+      "confidenceScore"
+    ],
+    "allowedConfidenceValues": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "futureInputs": [
+      "evidenceCount",
+      "sourceReliability",
+      "sourceDiversity",
+      "recency",
+      "analystValidation",
+      "duplicateDetection"
+    ],
+    "principle": "Recommendations should not jump directly from news to action. Evidence, signal, assessment and confidence should be preserved."
+  },
+  "standardObjectTemplate": {
+    "id": "",
+    "title": "",
+    "description": "",
+    "themeIds": [],
+    "customerIds": [],
+    "competitorIds": [],
+    "technologyIds": [],
+    "marketIds": [],
+    "applicationIds": [],
+    "geographyIds": [],
+    "productIds": [],
+    "linkedEvidenceIds": [],
+    "linkedSignalIds": [],
+    "linkedAssessmentIds": [],
+    "linkedOpportunityIds": [],
+    "linkedRiskIds": [],
+    "linkedActionIds": [],
+    "confidence": "Medium",
+    "confidenceScore": 60,
+    "createdDate": "",
+    "reviewDate": "",
+    "owner": "Market Intelligence"
+  },
+  "governanceRules": [
+    "Do not duplicate the same intelligence manually across multiple pages.",
+    "Use identifiers to link intelligence objects across files.",
+    "Every recommendation should preserve the chain back to evidence where possible.",
+    "Theme IDs should be used as the main connection layer across pages.",
+    "The UI should consume linked intelligence objects rather than creating separate page-specific logic."
+  ]
+}
