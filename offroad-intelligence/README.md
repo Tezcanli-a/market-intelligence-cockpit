@@ -1,202 +1,88 @@
-# GRAMMER Offroad Intelligence Hub
+# Current Platform Status
 
-## Purpose
+## V17.6A Complete Intelligence Ontology Foundation
 
-The GRAMMER Offroad Intelligence Hub is an intelligence workbench for Offroad market, customer, competitor and technology intelligence. It supports Sales, Product Management, Innovation, R&D, Strategy and Management with structured, evidence-backed intelligence.
+Introduced a formal intelligence ontology linking:
 
-## Strategic Principle
+- Themes
+- Signals
+- Assessments
+- Technologies
+- Customers
+- Competitors
+- Opportunities
+- Risks
 
-One intelligence object should feed multiple views.
+Relationship fields are now standardized across intelligence objects.
 
-Instead of recreating the same information manually across different pages, the platform should connect intelligence objects through IDs and shared relationship fields.
+---
 
-Example:
+## V17.6B Relationship Engine
 
-```text
-Evidence -> Signal -> Assessment -> Opportunity / Risk -> Action
-```
+Entity Relationships evolved from a simple entity mapping view into an intelligence relationship model:
 
-The same intelligence chain can support:
+Theme
+→ Evidence
+→ Signal
+→ Assessment
+→ Opportunity / Risk
+→ Action
 
-- Intelligence Overview
-- Daily News Signals
-- Signal Register
-- Intelligence Assessments
-- Entity Relationships
-- Customer Profiles
-- Competitor Profiles
-- Technology Intelligence
-- Benchmarking
-- Risk-Opportunity Heatmap
-- Momentum Intelligence
-- Future Theme Explorer
+The relationship engine uses ontology links rather than isolated dashboard logic.
 
-## Intelligence Model
+---
 
-The platform follows a structured intelligence process:
+## V17.6C Theme Explorer
 
-```text
-Sources
--> Evidence layer
--> Intelligence network
--> Analyst / AI reasoning
--> Decision layer
--> Pages
-```
+Added a new Theme Explorer capability.
 
-## Core Intelligence Chain
+The Theme Explorer automatically aggregates:
 
-```text
-Evidence
--> Signal
--> Assessment
--> Opportunity / Risk
--> Action
-```
+- Signals
+- Assessments
+- Technologies
+- Customers
+- Competitors
+- Opportunities
+- Risks
 
-### Evidence
+for each Theme.
 
-What do we actually know?
+Examples:
 
-### Signal
+- Autonomy
+- Electrification
+- Operator Comfort
+- Digital HMI
+- Smart Cabin
 
-What changed or emerged?
+This represents the first ontology-driven intelligence exploration capability within the platform.
 
-### Assessment
+---
 
-What does it mean for GRAMMER?
+## Intelligence Graph Foundation
 
-### Opportunity / Risk
+The platform now operates on a knowledge graph model:
 
-What could it mean commercially or strategically?
+Theme
+→ Signal
+→ Assessment
+→ Opportunity / Risk
+→ Action
 
-### Action
+plus connections to:
 
-What should a GRAMMER function do?
+- Customers
+- Competitors
+- Technologies
 
-## Business Entities
+This foundation enables future capabilities such as:
 
-- Customer
-- Competitor
-- Technology
-- Application
-- Market
-- Geography
-- Theme
-- Product
-
-## Intelligence Objects
-
-- Evidence
-- Signal
-- Assessment
-- Opportunity
-- Risk
-- Action
-
-## Governance Files
-
-```text
-governance/ontology_v1.json
-```
-
-This file defines the core data model, entity types, intelligence objects, relationship fields and confidence model foundation.
-
-## Data Files
-
-```text
-data/themes.json
-data/signals.json
-data/assessments.json
-data/opportunities.json
-data/risks.json
-data/technologies.json
-data/customers.json
-data/competitors.json
-data/customer_profiles.json
-data/competitor_profiles.json
-data/performance_trends.json
-```
-
-## V17.6A Ontology Foundation
-
-V17.6A introduces the intelligence ontology foundation:
-
-- Governance folder
-- Ontology definition file
-- Theme taxonomy
-- Standard relationship fields
-- Confidence model placeholders
-
-## Standard Relationship Fields
-
-Future intelligence objects should support these relationship fields where relevant:
-
-```json
-{
-  "themeIds": [],
-  "customerIds": [],
-  "competitorIds": [],
-  "technologyIds": [],
-  "marketIds": [],
-  "applicationIds": [],
-  "geographyIds": [],
-  "productIds": [],
-  "linkedEvidenceIds": [],
-  "linkedSignalIds": [],
-  "linkedAssessmentIds": [],
-  "linkedOpportunityIds": [],
-  "linkedRiskIds": [],
-  "linkedActionIds": []
-}
-```
-
-## Current Views
-
-- Intelligence Overview
-- Daily News Signals
-- Signal Register
-- Intelligence Assessments
-- Entity Relationships
-- Customer Profiles
-- Competitor Profiles
-- Technology Intelligence
-- Benchmarking
-- Performance Monitor
-- Customer-Competitor Matrix
-- Risk-Opportunity Heatmap
-- Momentum Intelligence
-
-## Roadmap
-
-### V17.4
-
-Technology Radar Foundation
-
-### V17.6A
-
-Intelligence Ontology Foundation
-
-### V17.6B
-
-Relationship Engine
-
-### V17.6C
-
-Theme Explorer
-
-### V18.0
-
-Win / Loss Intelligence
-
-### V18.1
-
-Evidence Confidence Framework
-
-### V18.2
-
-Push Distribution Layer
-
-## Development Rule
-
-Do not add more disconnected dashboard pages before the intelligence object model and relationship structure are stable.
+- Theme Intelligence Scoring
+- Trending Themes
+- Theme Heatmaps
+- Theme Landscape Explorer
+- Patent Intelligence
+- Hiring Intelligence
+- Win/Loss Intelligence
+- Confidence Framework
