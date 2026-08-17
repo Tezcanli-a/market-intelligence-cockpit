@@ -4,6 +4,7 @@ const files = {
   technologies: 'data/technologies.json', opportunities: 'data/opportunities.json', risks: 'data/risks.json', weekly: 'data/weekly.json',
   research: 'data/research.json', benchmarking: 'data/benchmarking.json', evidence: 'data/evidence.json', assessments: 'data/assessments.json',
   customerProfiles: 'data/customer_profiles.json', competitorProfiles: 'data/competitor_profiles.json', performance: 'data/performance_trends.json'
+  themes:'data/themes.json'
   };
 const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], newsRaw:{lastUpdated:'',news:[]} };
 async function fetchOptional(path,fallback){try{const r=await fetch(path,{cache:'no-store'}); return r.ok ? await r.json() : fallback;}catch(e){return fallback;}}
