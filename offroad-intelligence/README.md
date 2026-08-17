@@ -1,15 +1,41 @@
 # Current Platform Status
 
-## V17.8 Theme Landscape
+## V18.0 Intelligence Object Model
 
-V17.8 adds a strategic Theme Landscape view above the detailed Theme Explorer.
+V18.0 introduces the next-level intelligence network model behind the Offroad Intelligence Hub.
 
-New capabilities:
+Core objects:
 
-- Theme clusters: Technology Themes, Business Themes and Market Themes
-- Strategic Watchlist based on Theme Score and opportunity/risk pressure
-- Theme Heat Matrix showing opportunity versus risk pressure
-- Emerging Themes view for high-momentum but underdeveloped themes
-- Landscape cards showing score, signal count, assessment count, technology links, customer links and opportunity/risk pressure
+- Source
+- Evidence
+- Entity
+- Signal
+- Trend
+- Assessment
+- Opportunity
+- Risk
+- Technology
+- Action
+- Outcome
 
-The purpose of V17.8 is to provide a strategic landing page for theme prioritization before users go into detailed Theme Explorer analysis.
+The purpose is to ensure that pages are only views of shared intelligence objects and not separate intelligence silos.
+
+## V18.1 Relationship Rules
+
+V18.1 defines the relationship and propagation rules for the intelligence network.
+
+Canonical chain:
+
+Source → Evidence → Signal → Trend → Assessment → Opportunity/Risk → Action → Outcome
+
+Relationship rules define how object IDs should link across evidence, signals, assessments, opportunities, risks, actions and outcomes.
+
+## V18.2 Outcome Layer
+
+V18.2 introduces an Outcome object to close the loop between intelligence and business impact.
+
+The new closed-loop model is:
+
+Evidence → Signal → Assessment → Action → Outcome
+
+The Outcome layer is intended to capture whether intelligence led to a decision, workshop, roadmap update, customer discussion, opportunity validation or other business result.
