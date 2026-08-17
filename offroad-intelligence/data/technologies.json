@@ -1,53 +1,35 @@
 [
   {
-  "id": "TECH-001",
-  "theme": "Automation / operator assist",
-
-  "themeIds":[
-    "THM-001",
-    "THM-004",
-    "THM-008"
-}
-        "maturity": "Emerging",
+    "id": "TECH-001",
+    "theme": "Automation / operator assist",
+    "themeIds": ["THM-001","THM-004","THM-008"],
+    "maturity": "Emerging",
     "relevance": "High",
     "segments": "Material Handling; Construction",
     "watchSignals": "OEM partnerships; sensor integration; autonomous fleet announcements"
-  }
+  },
   {
-  "id": "TECH-003",
-  "theme": "Ergonomics and comfort",
-
-  "themeIds":[
-    "THM-003",
-    "THM-011"
-}
+    "id": "TECH-003",
+    "theme": "Ergonomics and comfort",
+    "themeIds": ["THM-003","THM-011"],
     "maturity": "Established / evolving",
     "relevance": "High",
     "segments": "All Offroad segments",
     "watchSignals": "New premium seat options; customer comfort claims"
-  }
+  },
   {
-  "id": "TECH-004",
-  "theme": "HMI / sensors",
-
-  "themeIds":[
-    "THM-004",
-    "THM-007",
-    "THM-008"
-}
+    "id": "TECH-004",
+    "theme": "HMI / sensors",
+    "themeIds": ["THM-004","THM-007","THM-008"],
     "maturity": "Emerging",
     "relevance": "Medium",
     "segments": "Material Handling; Construction",
     "watchSignals": "New HMI cockpit concepts; partner announcements"
-  }
+  },
   {
-  "id": "TECH-005",
-  "theme": "Sustainable materials",
-
-  "themeIds":[
-    "THM-005",
-    "THM-102"
-}
+    "id": "TECH-005",
+    "theme": "Sustainable materials",
+    "themeIds": ["THM-005","THM-102"],
     "maturity": "Evolving",
     "relevance": "Medium",
     "segments": "Agriculture; Construction; Turf & Grounds Care",
