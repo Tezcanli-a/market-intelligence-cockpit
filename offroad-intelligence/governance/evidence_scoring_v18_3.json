@@ -1,0 +1,32 @@
+{
+  "version": "V18.3",
+  "name": "Evidence Governance Framework",
+  "status": "foundation",
+
+  "sourceReliability": {
+    "Patent": 90,
+    "RegulatoryFiling": 90,
+    "CompanyAnnouncement": 85,
+    "InvestorPresentation": 85,
+    "CustomerStatement": 80,
+    "ConferencePresentation": 75,
+    "IndustryJournal": 75,
+    "NewsMedia": 70,
+    "SocialMedia": 50,
+    "Blog": 30,
+    "Unknown": 10
+  },
+
+  "verificationStatus": [
+    "Not Reviewed",
+    "Analyst Reviewed",
+    "Verified",
+    "Rejected"
+  ],
+
+  "confidenceGuidance": {
+    "Low": "Single weak source or limited evidence",
+    "Medium": "Multiple indicators or analyst-reviewed evidence",
+    "High": "Multiple corroborated sources and validated interpretation"
+  }
+}
