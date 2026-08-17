@@ -1,0 +1,16 @@
+{
+  "assessmentLifecycle": [
+    "Draft",
+    "Review",
+    "Approved",
+    "Archived"
+  ],
+
+  "requiredFields": [
+    "evidenceIds",
+    "confidenceScore",
+    "probability",
+    "assumptions",
+    "analyst"
+  ]
+}
