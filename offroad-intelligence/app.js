@@ -1460,18 +1460,6 @@ function renderProvenance(){
 
   const assessments = state.data.assessments || [];
 
-  const high = assessments.filter(a =>
-    (a.confidence || '').toLowerCase() === 'high'
-  );
-
-  const medium = assessments.filter(a =>
-    (a.confidence || '').toLowerCase() === 'medium'
-  );
-
-  const low = assessments.filter(a =>
-    (a.confidence || '').toLowerCase() === 'low'
-  );
-
   setHtml('confidenceSummary', `
     <div class="kpi-card">
       <div class="value">${assessments.length}</div>
@@ -1479,28 +1467,47 @@ function renderProvenance(){
     </div>
 
     <div class="kpi-card">
-      <div class="value">${high.length}</div>
+      <div class="value">${assessments.filter(a => a.confidence === 'High').length}</div>
       <div class="label">High Confidence</div>
     </div>
 
     <div class="kpi-card">
-      <div class="value">${medium.length}</div>
+      <div class="value">${assessments.filter(a => a.confidence === 'Medium').length}</div>
       <div class="label">Medium Confidence</div>
     </div>
 
     <div class="kpi-card">
-      <div class="value">${low.length}</div>
+      <div class="value">${assessments.filter(a => a.confidence === 'Low').length}</div>
       <div class="label">Low Confidence</div>
     </div>
   `);
 
-setHtml('confidenceGrid',
-  assessments.map(a => `
-    <article class="profile-card">
-      <h3>${safeHtml(JSON.stringify(a).substring(0,150))}</h3>
-    </article>
-  `).join('')
-);
+  setHtml('confidenceGrid',
+    assessments.map(a => `
+      <article class="profile-card">
+
+        <div class="profile-head">
+          <span class="meta">${safeHtml(a.assessmentId || '')}</span>
+          <span class="pill">${safeHtml(a.confidence || '')}</span>
+        </div>
+
+        <h3>${safeHtml(a.title || '')}</h3>
+
+        <p>${safeHtml(a.assessment || '')}</p>
+
+        <p>
+          <strong>Business Implication:</strong><br>
+          ${safeHtml(a.businessImplication || '')}
+        </p>
+
+        <p>
+          <strong>Forecast:</strong><br>
+          ${safeHtml(a.forecast || '')}
+        </p>
+
+      </article>
+    `).join('')
+  );
 
 }
 
@@ -1529,8 +1536,8 @@ function renderAll(){
 
   renderKIQs();
   renderGaps();
-  // renderProvenance();
-  ``
+  renderProvenance();
+  
 
   renderMomentumIntelligence();
   renderOverviewMomentumBlock();
