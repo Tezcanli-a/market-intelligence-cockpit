@@ -2188,9 +2188,47 @@ setHtml('decisionUncertain', `
 
 `);
 
-  setHtml('decisionAction',
-    '<p>V20.0 placeholder – management actions will appear here.</p>'
+const actions = state.data.actions || [];
+
+const highPriorityActions =
+  actions.filter(a =>
+    (a.priority || '').toLowerCase() === 'high'
   );
+
+const reviewActions =
+  actions.filter(a => a.reviewDate);
+
+setHtml('decisionAction', `
+
+  <div class="profile-grid">
+
+    <article class="profile-card">
+      <h3>High Priority Actions</h3>
+      <p>
+        ${highPriorityActions.length}
+        high-priority actions require attention.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Upcoming Reviews</h3>
+      <p>
+        ${reviewActions.length}
+        actions have review dates assigned.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Open Actions</h3>
+      <p>
+        ${actions.length}
+        actions are currently tracked in the system.
+      </p>
+    </article>
+
+  </div>
+
+`);
 
   setHtml('decisionLearning',
     '<p>V20.0 placeholder – outcomes and learning will appear here.</p>'
