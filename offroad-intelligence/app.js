@@ -1365,6 +1365,89 @@ function renderKIQs(){
     `).join('')
   );
 }
+function renderGaps(){
+
+  const kiqs = state.data.kiqs || [];
+
+  const gaps = kiqs.filter(k =>
+    (k.evidenceCoverage || '').toLowerCase() === 'low' ||
+    (k.confidence || '').toLowerCase() === 'low' ||
+    (k.intelligenceGap || '').trim() !== ''
+  );
+
+  const lowConfidence = gaps.filter(k => (k.confidence || '').toLowerCase() === 'low');
+  const lowCoverage = gaps.filter(k => (k.evidenceCoverage || '').toLowerCase() === 'low');
+  const highPriorityGaps = gaps.filter(k => (k.priority || '').toLowerCase() === 'high');
+
+  setHtml('gapSummary', `
+    <div class="kpi">
+      <strong>${gaps.length}</strong>
+      <span>Total gaps</span>
+    </div>
+
+    <div class="kpi">
+      <strong>${highPriorityGaps.length}</strong>
+      <span>High priority gaps</span>
+    </div>
+
+    <div class="kpi">
+      <strong>${lowConfidence.length}</strong>
+      <span>Low confidence</span>
+    </div>
+
+    <div class="kpi">
+      <strong>${lowCoverage.length}</strong>
+      <span>Low evidence coverage</span>
+    </div>
+  `);
+
+  setHtml('gapGrid',
+    gaps.map(k => {
+
+      const status =
+        (k.confidence || '').toLowerCase() === 'low' && (k.evidenceCoverage || '').toLowerCase() === 'low'
+          ? 'Critical gap'
+          : (k.evidenceCoverage || '').toLowerCase() === 'low'
+            ? 'Evidence gap'
+            : (k.confidence || '').toLowerCase() === 'low'
+              ? 'Confidence gap'
+              : 'Monitoring gap';
+
+      return `
+        <article class="profile-card">
+          <div class="profile-head">
+            <span class="meta">${safeHtml(k.kiqId || '')}</span>
+            <span class="pill">${safeHtml(status)}</span>
+          </div>
+
+          <h3>${safeHtml(k.title || '')}</h3>
+
+          <div class="pill-row">
+            <span class="pill">${safeHtml(k.category || '')}</span>
+            <span class="pill">${safeHtml(k.priority || '')}</span>
+            <span class="pill">Confidence: ${safeHtml(k.confidence || '')}</span>
+            <span class="pill">Coverage: ${safeHtml(k.evidenceCoverage || '')}</span>
+          </div>
+
+          <p>
+            <strong>Intelligence Gap:</strong><br>
+            ${safeHtml(k.intelligenceGap || 'No gap description available.')}
+          </p>
+
+          <p>
+            <strong>Recommended next step:</strong><br>
+            ${safeHtml(k.recommendedNextStep || 'Define next collection action.')}
+          </p>
+
+          <p>
+            <strong>Decision use:</strong><br>
+            ${safeHtml(k.decisionUse || '')}
+          </p>
+        </article>
+      `;
+    }).join('')
+  );
+}
 function renderAll(){
   const signals=filteredSignals();
 
@@ -1389,6 +1472,7 @@ function renderAll(){
   renderHeatmap();
 
   renderKIQs();
+  renderGaps();
 
   renderMomentumIntelligence();
   renderOverviewMomentumBlock();
