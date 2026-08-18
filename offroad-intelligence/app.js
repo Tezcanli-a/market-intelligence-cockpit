@@ -1967,14 +1967,14 @@ document.getElementById('actionSummary').innerHTML = `
           <span class="pill">Risks: ${(a.linkedRiskIds || []).length}</span>
         </div>
 
-        <p>
-          <strong>Affected Functions:</strong><br>
-          ${(a.affectedFunctions || []).join(', ')}
-        </p>
+      <p>
+        <strong>Affected Functions:</strong><br>
+        ${(a.affectedFunctions || []).join(', ')}
+      </p>
 
-      </article>
+    </article>
 
-    `).join('');
+  `).join('');
 }
 function renderAll(){
   const signals=filteredSignals();
