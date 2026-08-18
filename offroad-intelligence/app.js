@@ -1460,54 +1460,16 @@ function renderProvenance(){
 
   const assessments = state.data.assessments || [];
 
-  setHtml('confidenceSummary', `
-    <div class="kpi-card">
-      <div class="value">${assessments.length}</div>
-      <div class="label">Assessments</div>
-    </div>
+  document.getElementById('confidenceSummary').innerHTML =
+    `<h2>Assessments Loaded: ${assessments.length}</h2>`;
 
-    <div class="kpi-card">
-      <div class="value">${assessments.filter(a => a.confidence === 'High').length}</div>
-      <div class="label">High Confidence</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${assessments.filter(a => a.confidence === 'Medium').length}</div>
-      <div class="label">Medium Confidence</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${assessments.filter(a => a.confidence === 'Low').length}</div>
-      <div class="label">Low Confidence</div>
-    </div>
-  `);
-
-  setHtml('confidenceGrid',
+  document.getElementById('confidenceGrid').innerHTML =
     assessments.map(a => `
-      <article class="profile-card">
-
-        <div class="profile-head">
-          <span class="meta">${safeHtml(a.assessmentId || '')}</span>
-          <span class="pill">${safeHtml(a.confidence || '')}</span>
-        </div>
-
-        <h3>${safeHtml(a.title || '')}</h3>
-
-        <p>${safeHtml(a.assessment || '')}</p>
-
-        <p>
-          <strong>Business Implication:</strong><br>
-          ${safeHtml(a.businessImplication || '')}
-        </p>
-
-        <p>
-          <strong>Forecast:</strong><br>
-          ${safeHtml(a.forecast || '')}
-        </p>
-
-      </article>
-    `).join('')
-  );
+      <div class="profile-card">
+        <h3>${a.title || 'No Title'}</h3>
+        <p>${a.confidence || 'No Confidence'}</p>
+      </div>
+    `).join('');
 
 }
 
