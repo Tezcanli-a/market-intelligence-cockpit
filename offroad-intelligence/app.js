@@ -2099,30 +2099,66 @@ setHtml('decisionHealth', `
   `);
 
   setHtml('decisionUncertain', `
-    <div class="profile-grid">
+<div class="profile-grid">
 
-      <article class="profile-card">
-        <h3>Critical Intelligence Gaps</h3>
-        <p>${criticalGaps.length} high-priority gaps require additional intelligence collection.</p>
-      </article>
+  <article class="profile-card">
 
-      <article class="profile-card">
-        <h3>Low Confidence Assessments</h3>
-        <p>${lowConfidence.length} assessments currently carry low confidence.</p>
-      </article>
+    <h3>Most Consequential Unknown</h3>
 
-      <article class="profile-card">
-        <h3>Priority KIQs</h3>
-        <p>
-          ${(kiqs || []).filter(k =>
-            (k.priority || '').toLowerCase() === 'high'
-          ).length}
-          high-priority Key Intelligence Questions remain active.
-        </p>
-      </article>
+    <strong>Competitor Autonomy Investment</strong>
 
+    <p>
+      Future investment trajectory remains unclear.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Confidence: 54%</span>
+      <span class="pill">Exposure: High</span>
     </div>
-  `);
+
+    <p>
+      Could materially affect future seat and cabin
+      architecture requirements.
+    </p>
+
+    <strong>Resolution Path</strong>
+
+    <p>
+      Customer validation and patent intelligence review.
+    </p>
+
+  </article>
+
+  <article class="profile-card">
+
+    <h3>Intelligence Gaps</h3>
+
+    <p>
+      ${criticalGaps.length} priority gaps remain open.
+    </p>
+
+    <p>
+      Additional collection and validation required.
+    </p>
+
+  </article>
+
+  <article class="profile-card">
+
+    <h3>Priority KIQs</h3>
+
+    <p>
+      ${priorityKIQs.length} active intelligence questions.
+    </p>
+
+    <p>
+      Monitor unresolved strategic uncertainties.
+    </p>
+
+  </article>
+
+</div>
+`);
 
   setHtml('decisionAction', `
 <div class="profile-grid">
