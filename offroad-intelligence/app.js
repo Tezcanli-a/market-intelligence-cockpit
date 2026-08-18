@@ -1404,7 +1404,77 @@ setHtml('gapSummary', `
     <span>Low evidence coverage</span>
   </div>
 `);
+function renderProvenance(){
 
+  const assessments = state.data.assessments || [];
+
+  const high = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'high'
+  );
+
+  const medium = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'medium'
+  );
+
+  const low = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'low'
+  );
+
+  setHtml('confidenceSummary', `
+    <div class="kpi-card">
+      <div class="value">${assessments.length}</div>
+      <div class="label">Assessments</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${high.length}</div>
+      <div class="label">High Confidence</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${medium.length}</div>
+      <div class="label">Medium Confidence</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${low.length}</div>
+      <div class="label">Low Confidence</div>
+    </div>
+  `);
+
+  setHtml('confidenceGrid',
+    assessments.map(a=>`
+
+      <article class="profile-card">
+
+        <div class="profile-head">
+          <span class="meta">${safeHtml(a.assessmentId || '')}</span>
+          <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
+        </div>
+
+        <h3>${safeHtml(a.title || '')}</h3>
+
+        <p>
+          <strong>Assessment:</strong><br>
+          ${safeHtml(a.summary || a.assessment || '')}
+        </p>
+
+        <p>
+          <strong>Confidence:</strong><br>
+          ${safeHtml(a.confidence || '')}
+        </p>
+
+        <p>
+          <strong>Evidence Base:</strong><br>
+          ${safeHtml(a.evidenceCount || 'Not specified')}
+        </p>
+
+      </article>
+
+    `).join('')
+  );
+
+}
 
   setHtml('gapGrid',
     gaps.map(k => {
@@ -1478,6 +1548,7 @@ function renderAll(){
 
   renderKIQs();
   renderGaps();
+  renderProvenance();
 
   renderMomentumIntelligence();
   renderOverviewMomentumBlock();
