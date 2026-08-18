@@ -1790,24 +1790,33 @@ function renderConfidenceEngine(){
 
   const scored = assessments.map(a => {
 
-    const evidenceCount =
-      (a.linkedEvidenceIds || []).length;
+const evidenceCount =
+  (a.linkedEvidenceIds || []).length;
 
-    const signalCount =
-      (a.linkedSignalIds || []).length;
+const signalCount =
+  (a.linkedSignalIds || []).length +
+  (a.signalId ? 1 : 0);
 
-    const opportunityCount =
-      (a.linkedOpportunityIds || []).length;
+const opportunityCount =
+  (a.linkedOpportunityIds || []).length +
+  (a.opportunityIds || []).length;
 
-    const riskCount =
-      (a.linkedRiskIds || []).length;
+const riskCount =
+  (a.linkedRiskIds || []).length +
+  (a.riskIds || []).length;
 
-    const score =
-      40 +
-      evidenceCount * 10 +
-      signalCount * 10 +
-      opportunityCount * 5 +
-      riskCount * 5;
+const relationshipStrength =
+  signalCount +
+  opportunityCount +
+  riskCount;
+
+const score =
+  Math.min(
+    100,
+    40 +
+    evidenceCount * 10 +
+    relationshipStrength * 10
+  );
 
     const confidenceLevel =
       score >= 80
@@ -1861,6 +1870,10 @@ function renderConfidenceEngine(){
           <strong>Calculated Score:</strong><br>
           ${a.calculatedScore}
         </p>
+        <p>
+  <strong>Relationship Strength:</strong><br>
+  ${relationshipStrength}
+</p>
 
         <div class="pill-row">
           <span class="pill">
