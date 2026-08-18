@@ -529,6 +529,8 @@ function v176bOpportunityRiskTags(signal){
 
 function renderRelationships(){
   const signals = state.data.signals || [];
+  document.getElementById('radarSummary').innerHTML =
+  `<h2>Signals Loaded: ${signals.length}</h2>`;
   const customers = state.data.customers || [];
   const competitors = state.data.competitors || [];
   const technologies = state.data.technologies || [];
@@ -1472,6 +1474,7 @@ function renderProvenance(){
     `).join('');
 
 }
+
 function renderRadar(){
 
   const signals = state.data.signals || [];
