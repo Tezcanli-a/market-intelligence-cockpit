@@ -1977,6 +1977,92 @@ function renderActionEngine(){
 
   `).join('');
 }
+function renderOutcomeEngine(){
+
+  const outcomes = state.data.outcomes || [];
+
+  document.getElementById('outcomeSummary').innerHTML = `
+    <div class="kpi-card">
+      <div class="value">${outcomes.length}</div>
+      <div class="label">Outcomes</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">
+        ${outcomes.filter(o => o.outcomeStatus === 'Open').length}
+      </div>
+      <div class="label">Open</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">
+        ${outcomes.filter(o =>
+          (o.learning || '').toLowerCase() !== 'not captured yet'
+        ).length}
+      </div>
+      <div class="label">Lessons Captured</div>
+    </div>
+  `;
+
+  document.getElementById('outcomeGrid').innerHTML =
+    outcomes.map(o => `
+
+      <article class="profile-card">
+
+        <div class="profile-head">
+          <span class="meta">${safeHtml(o.outcomeId)}</span>
+          <span class="pill">${safeHtml(o.outcomeStatus)}</span>
+        </div>
+
+        <h3>${safeHtml(o.title)}</h3>
+
+        <p>
+          <strong>Description:</strong><br>
+          ${safeHtml(o.description || '')}
+        </p>
+
+        <p>
+          <strong>Outcome Type:</strong><br>
+          ${safeHtml(o.outcomeType || '')}
+        </p>
+
+        <p>
+          <strong>Business Impact:</strong><br>
+          ${safeHtml(o.businessImpact || '')}
+        </p>
+
+        <p>
+          <strong>Learning:</strong><br>
+          ${safeHtml(o.learning || '')}
+        </p>
+
+        <div class="pill-row">
+          <span class="pill">
+            Actions: ${(o.linkedActionIds || []).length}
+          </span>
+
+          <span class="pill">
+            Assessments: ${(o.linkedAssessmentIds || []).length}
+          </span>
+
+          <span class="pill">
+            Opportunities: ${(o.linkedOpportunityIds || []).length}
+          </span>
+
+          <span class="pill">
+            Risks: ${(o.linkedRiskIds || []).length}
+          </span>
+        </div>
+
+        <p>
+          <strong>Review Date:</strong><br>
+          ${safeHtml(o.reviewDate || '')}
+        </p>
+
+      </article>
+
+    `).join('');
+}
 function renderAll(){
   const signals=filteredSignals();
 
@@ -2007,6 +2093,7 @@ function renderAll(){
   renderGraph();
   renderConfidenceEngine();
   renderActionEngine();
+  renderOutcomeEngine();
 
   renderMomentumIntelligence();
   renderOverviewMomentumBlock();
