@@ -1472,6 +1472,59 @@ function renderProvenance(){
     `).join('');
 
 }
+function renderRadar(){
+
+  const signals = state.data.signals || [];
+
+  const radarSignals = signals.filter(s =>
+    (s.priority || '').toLowerCase() !== 'low'
+  );
+
+  setHtml('radarSummary', `
+    <div class="kpi-card">
+      <div class="value">${radarSignals.length}</div>
+      <div class="label">Radar Signals</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">
+        ${radarSignals.filter(s =>
+          (s.priority || '').toLowerCase() === 'high'
+        ).length}
+      </div>
+      <div class="label">High Priority</div>
+    </div>
+  `);
+
+  setHtml('radarGrid',
+    radarSignals.map(s => `
+      <article class="profile-card">
+
+        <div class="profile-head">
+          <span class="meta">${safeHtml(s.signalId || s.id || '')}</span>
+          <span class="pill">${safeHtml(s.priority || '')}</span>
+        </div>
+
+        <h3>${safeHtml(s.title || '')}</h3>
+
+        <p>
+          ${safeHtml(
+            s.businessImplication ||
+            s.description ||
+            ''
+          )}
+        </p>
+
+        <p>
+          <strong>Radar Classification:</strong><br>
+          Emerging Signal
+        </p>
+
+      </article>
+    `).join('')
+  );
+
+}
 
 function renderAll(){
   const signals=filteredSignals();
@@ -1499,6 +1552,7 @@ function renderAll(){
   renderKIQs();
   renderGaps();
   renderProvenance();
+  renderRadar();
   
 
   renderMomentumIntelligence();
