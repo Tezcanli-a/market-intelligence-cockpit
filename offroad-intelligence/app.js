@@ -2276,17 +2276,154 @@ setHtml('decisionLearning', `
 </div>
 `);
 
-  setHtml('decisionPanel',
-    '<p>Executive decision queue placeholder.</p>'
-  );
+setHtml('decisionPanel', `
+<div class="profile-grid">
 
-  setHtml('decisionMatrix',
-    '<p>Strategic priority matrix placeholder.</p>'
-  );
+  <article class="profile-card">
+    <h3>Decision Candidate</h3>
 
-  setHtml('decisionAlerts',
-    '<p>No active management alerts.</p>'
-  );
+    <strong>Integrated Cabin Strategy</strong>
+
+    <p>
+      Customer and technology signals indicate increasing relevance
+      of integrated operator environments.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Decision Required</span>
+      <span class="pill">Confidence: 78%</span>
+    </div>
+
+    <p>
+      <strong>Recommendation:</strong><br>
+      Initiate a product roadmap review for integrated cabin and
+      operator-environment positioning.
+    </p>
+  </article>
+
+  <article class="profile-card">
+    <h3>Options</h3>
+
+    <p>
+      <strong>Option A:</strong><br>
+      Continue monitoring without escalation.
+    </p>
+
+    <p>
+      <strong>Option B:</strong><br>
+      Start cross-functional roadmap review.
+    </p>
+
+    <p>
+      <strong>Option C:</strong><br>
+      Launch dedicated strategic initiative.
+    </p>
+  </article>
+
+  <article class="profile-card">
+    <h3>Consequence</h3>
+
+    <p>
+      If the shift toward integrated solutions accelerates,
+      component-only positioning may become strategically exposed.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Owner: Strategy / Product</span>
+      <span class="pill">Status: Review Needed</span>
+    </div>
+  </article>
+
+</div>
+`);
+
+setHtml('decisionMatrix', `
+<div class="profile-grid">
+
+  <article class="profile-card">
+    <h3>Act Now</h3>
+    <p>
+      High exposure and high momentum topics requiring management attention.
+    </p>
+    <div class="pill-row">
+      <span class="pill">Integrated Cabin Platforms</span>
+    </div>
+  </article>
+
+  <article class="profile-card">
+    <h3>Investigate</h3>
+    <p>
+      High exposure topics where uncertainty remains material.
+    </p>
+    <div class="pill-row">
+      <span class="pill">Competitor Autonomy Investment</span>
+    </div>
+  </article>
+
+  <article class="profile-card">
+    <h3>Watch</h3>
+    <p>
+      High momentum topics with lower current exposure.
+    </p>
+    <div class="pill-row">
+      <span class="pill">Automation Signals</span>
+    </div>
+  </article>
+
+  <article class="profile-card">
+    <h3>Monitor</h3>
+    <p>
+      Relevant themes without immediate decision pressure.
+    </p>
+    <div class="pill-row">
+      <span class="pill">General Market Signals</span>
+    </div>
+  </article>
+
+</div>
+`);
+
+setHtml('decisionAlerts', `
+<div class="profile-grid">
+
+  <article class="profile-card">
+    <h3>Confidence Watch</h3>
+
+    <p>
+      ${lowConfidence.length} low-confidence assessments currently require review.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Threshold monitor</span>
+    </div>
+  </article>
+
+  <article class="profile-card">
+    <h3>Gap Watch</h3>
+
+    <p>
+      ${criticalGaps.length} high-priority intelligence gaps remain open.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Collection required</span>
+    </div>
+  </article>
+
+  <article class="profile-card">
+    <h3>Action Watch</h3>
+
+    <p>
+      ${highPriorityActions.length} high-priority actions require follow-up.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Management attention</span>
+    </div>
+  </article>
+
+</div>
+`);
 }
 function renderAll(){
   renderDecisionCockpit();
