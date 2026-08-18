@@ -1829,9 +1829,12 @@ return {
   ...a,
   calculatedScore: score,
   confidenceLevel,
-  relationshipStrength
+  relationshipStrength,
+  evidenceCount,
+  signalCount,
+  opportunityCount,
+  riskCount
 };
-  });
 
   document.getElementById('confidenceEngineSummary').innerHTML = `
     <div class="kpi-card">
@@ -1875,7 +1878,16 @@ return {
   Relationship Strength:
   ${a.relationshipStrength}
 </p>
+<p>
+  <strong>Confidence Drivers:</strong><br>
 
+  ${a.signalCount > 0 ? '✓ Linked Signal<br>' : ''}
+  ${a.opportunityCount > 0 ? '✓ Linked Opportunity<br>' : ''}
+  ${a.riskCount > 0 ? '✓ Linked Risk<br>' : ''}
+  ${a.evidenceCount > 0 ? '✓ Supporting Evidence<br>' : ''}
+
+  ${a.evidenceCount === 0 ? '⚠ No Evidence Links<br>' : ''}
+</p>
         <div class="pill-row">
           <span class="pill">
             Evidence: ${(a.linkedEvidenceIds || []).length}
