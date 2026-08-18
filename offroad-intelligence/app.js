@@ -2051,25 +2051,48 @@ setHtml('decisionHealth', `
   setHtml('decisionMatters', `
     <div class="profile-grid">
 
-      ${topAssessments.map(a => `
+      ${topAssessments.map((a, idx) => `
         <article class="profile-card">
 
-          <span class="meta">${safeHtml(a.assessmentId || '')}</span>
+    <span class="meta">
+      #${idx + 1}
+      ${idx === 0 ? 'HIGH PRIORITY' :
+        idx === 1 ? 'MEDIUM PRIORITY' :
+        'LOW PRIORITY'}
+    </span>
 
-          <h3>${safeHtml(a.title || '')}</h3>
+    <h3>${safeHtml(a.title || '')}</h3>
 
-          <p>
-            ${safeHtml(
-              a.businessImplication ||
-              'Business implication not populated yet.'
-            )}
-          </p>
+    <div class="pill-row">
+      <span class="pill">Impact: High</span>
+      <span class="pill">Exposure: High</span>
+      <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
+    </div>
 
-          <div class="pill-row">
-            <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
-          </div>
+    <p>
+      ${safeHtml(
+        a.businessImplication ||
+        'Business implication not populated yet.'
+      )}
+    </p>
 
-        </article>
+    <strong>Management implication</strong>
+
+    <p>
+      ${safeHtml(
+        a.businessImplication ||
+        'Management implication pending.'
+      )}
+    </p>
+
+    <strong>Recommended response</strong>
+
+    <p>
+      Review and validate through product, strategy
+      and intelligence teams.
+    </p>
+
+</article>
       `).join('')}
 
     </div>
