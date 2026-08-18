@@ -2148,7 +2148,7 @@ setHtml('decisionHealth', `
     <h3>Priority KIQs</h3>
 
     <p>
-      ${priorityKIQs.length} active intelligence questions.
+      ${kiqs.length}  active intelligence questions.
     </p>
 
     <p>
