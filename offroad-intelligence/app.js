@@ -2063,9 +2063,51 @@ function renderOutcomeEngine(){
 
     `).join('');
 }
-function renderAll(){
-  const signals=filteredSignals();
+function renderDecisionCockpit(){
 
+  setHtml('decisionHealth', `
+    <div class="kpi-card">
+      <div class="value">84%</div>
+      <div class="label">Intelligence Health</div>
+    </div>
+  `);
+
+  setHtml('decisionChanged',
+    '<p>V20.0 placeholder – material changes will appear here.</p>'
+  );
+
+  setHtml('decisionMatters',
+    '<p>V20.0 placeholder – top strategic intelligence will appear here.</p>'
+  );
+
+  setHtml('decisionUncertain',
+    '<p>V20.0 placeholder – KIQs, gaps and uncertainty will appear here.</p>'
+  );
+
+  setHtml('decisionAction',
+    '<p>V20.0 placeholder – management actions will appear here.</p>'
+  );
+
+  setHtml('decisionLearning',
+    '<p>V20.0 placeholder – outcomes and learning will appear here.</p>'
+  );
+
+  setHtml('decisionPanel',
+    '<p>Executive decision queue placeholder.</p>'
+  );
+
+  setHtml('decisionMatrix',
+    '<p>Strategic priority matrix placeholder.</p>'
+  );
+
+  setHtml('decisionAlerts',
+    '<p>No active management alerts.</p>'
+  );
+}
+function renderAll(){
+  renderDecisionCockpit();
+  const signals=filteredSignals();
+    
   renderKpis(signals);
   renderOverview(signals);
   renderSignalsTable();
