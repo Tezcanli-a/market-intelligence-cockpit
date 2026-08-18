@@ -1505,7 +1505,7 @@ setHtml('confidenceGrid',
       `;
     }).join('')
   );
-}
+
 function renderAll(){
   const signals=filteredSignals();
 
