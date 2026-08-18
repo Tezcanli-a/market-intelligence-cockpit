@@ -1369,37 +1369,42 @@ function renderGaps(){
 
   const kiqs = state.data.kiqs || [];
 
-  const gaps = kiqs.filter(k =>
-    (k.evidenceCoverage || '').toLowerCase() === 'low' ||
-    (k.confidence || '').toLowerCase() === 'low' ||
-    (k.intelligenceGap || '').trim() !== ''
+  const gaps = kiqs;
+
+  const lowConfidence = gaps.filter(k =>
+    (k.confidence || '').toLowerCase() === 'low'
   );
 
-  const lowConfidence = gaps.filter(k => (k.confidence || '').toLowerCase() === 'low');
-  const lowCoverage = gaps.filter(k => (k.evidenceCoverage || '').toLowerCase() === 'low');
-  const highPriorityGaps = gaps.filter(k => (k.priority || '').toLowerCase() === 'high');
+  const lowCoverage = gaps.filter(k =>
+    (k.evidenceCoverage || '').toLowerCase() === 'low'
+  );
 
-  setHtml('gapSummary', `
-    <div class="kpi">
-      <strong>${gaps.length}</strong>
-      <span>Total gaps</span>
-    </div>
+  const highPriorityGaps = gaps.filter(k =>
+    (k.priority || '').toLowerCase() === 'high'
+  );
 
-    <div class="kpi">
-      <strong>${highPriorityGaps.length}</strong>
-      <span>High priority gaps</span>
-    </div>
+setHtml('gapSummary', `
+  <div class="kpi">
+    <strong>${gaps.length}</strong>
+    <span>Total gaps</span>
+  </div>
 
-    <div class="kpi">
-      <strong>${lowConfidence.length}</strong>
-      <span>Low confidence</span>
-    </div>
+  <div class="kpi">
+    <strong>${highPriorityGaps.length}</strong>
+    <span>High priority gaps</span>
+  </div>
 
-    <div class="kpi">
-      <strong>${lowCoverage.length}</strong>
-      <span>Low evidence coverage</span>
-    </div>
-  `);
+  <div class="kpi">
+    <strong>${lowConfidence.length}</strong>
+    <span>Low confidence</span>
+  </div>
+
+  <div class="kpi">
+    <strong>${lowCoverage.length}</strong>
+    <span>Low evidence coverage</span>
+  </div>
+`);
+
 
   setHtml('gapGrid',
     gaps.map(k => {
