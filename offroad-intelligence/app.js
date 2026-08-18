@@ -2125,25 +2125,65 @@ setHtml('decisionHealth', `
   `);
 
   setHtml('decisionAction', `
-    <div class="profile-grid">
+<div class="profile-grid">
 
-      <article class="profile-card">
-        <h3>High Priority Actions</h3>
-        <p>${highPriorityActions.length} high-priority actions require attention.</p>
-      </article>
+  <article class="profile-card">
+    <h3>🔴 Decision Required</h3>
 
-      <article class="profile-card">
-        <h3>Upcoming Reviews</h3>
-        <p>${reviewActions.length} actions have review dates assigned.</p>
-      </article>
+    <strong>Integrated Cabin Strategy</strong>
 
-      <article class="profile-card">
-        <h3>Open Actions</h3>
-        <p>${actions.length} actions are currently tracked in the system.</p>
-      </article>
+    <p>
+      Customer requirements are moving toward
+      integrated operator solutions.
+    </p>
 
+    <div class="pill-row">
+      <span class="pill">Confidence: 78%</span>
     </div>
-  `);
+
+    <p>
+      Recommendation:
+      Initiate product roadmap review.
+    </p>
+
+  </article>
+
+  <article class="profile-card">
+
+    <h3>🟠 Action Required</h3>
+
+    <strong>Competitor Validation</strong>
+
+    <p>
+      Validate competitor supplier and
+      technology relationships.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Owner: Intelligence</span>
+    </div>
+
+  </article>
+
+  <article class="profile-card">
+
+    <h3>🟡 Monitor</h3>
+
+    <strong>Automation Signals</strong>
+
+    <p>
+      Continue tracking autonomy and
+      operator-environment developments.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Status: Monitor</span>
+    </div>
+
+  </article>
+
+</div>
+`);
 
   setHtml('decisionLearning', `
     <div class="profile-grid">
