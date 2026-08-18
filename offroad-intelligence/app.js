@@ -1322,7 +1322,10 @@ function renderThemeLandscape(){
   setHtml('themeLandscapeGrid', watchlistHtml + heatMatrix + grouped + emergingHtml);
 }
 function renderKIQs(){
-
+const kiqs = Array.isArray(state.data.kiqs)
+  ? state.data.kiqs
+  : [];
+  
   setHtml('kiqKpis',`
     <div class="kpi-card">
       <div class="value">${kiqs.length}</div>
@@ -1375,6 +1378,10 @@ function renderKIQs(){
   );
 }
 function renderGaps(){
+
+  const gaps = Array.isArray(state.data.kiqs)
+    ? state.data.kiqs
+    : [];
 
   const gaps = kiqs;
 
@@ -1458,6 +1465,10 @@ function renderGaps(){
 
 }
 function renderProvenance(){
+
+  const assessments = Array.isArray(state.data.assessments)
+    ? state.data.assessments
+    : [];
 
   const high = assessments.filter(a =>
     (a.confidence || '').toLowerCase() === 'high'
@@ -1657,102 +1668,6 @@ function renderGraph(){
       <div class="label">KIQs</div>
     </div>
   `;
-    document.getElementById('graphGrid').innerHTML =
-    signals.map(s => `
-
-      <article class="profile-card">
-
-        <div class="profile-head">
-          <span class="meta">${safeHtml(s.id || '')}</span>
-        </div>
-
-        <h3>${safeHtml(s.signal || '')}</h3>
-
-        <div class="pill-row">
-          <span class="pill">
-             Customers: ${(s.customerIds || []).length}
-          </span>
-
-          <span class="pill">
-             Competitors: ${(s.competitorIds || []).length}
-          </span>
-
-          <span class="pill">
-             Technologies: ${(s.technologyIds || []).length}
-          </span>
-        </div>
-        <p>
-  <strong>Connected Assessments:</strong><br>
-  ${
-    (state.data.assessments || [])
-      .filter(a =>
-        (a.linkedSignalIds || []).includes(s.id)
-      )
-      .map(a => a.assessmentId)
-      .join(', ') || 'None'
-  }
-</p>
-
-        <p>
-          <strong>Connected Assessment:</strong><br>
-          ${(s.linkedAssessmentIds || []).join(', ')}
-        </p>
-
-        <p>
-          <strong>Connected Opportunities:</strong><br>
-          ${(s.opportunityIds || []).join(', ')}
-        </p>
-
-        <p>
-          <strong>Connected Risks:</strong><br>
-          ${(s.riskIds || []).join(', ')}
-        </p>
-
-      </article>
-
-    `).join('');
-
-}
-function renderGraph(){
-
-  const signals = state.data.signals || [];
-  const assessments = state.data.assessments || [];
-  const customers = state.data.customers || [];
-  const competitors = state.data.competitors || [];
-  const technologies = state.data.technologies || [];
-  const kiqs = state.data.kiqs || [];
-
-  document.getElementById('graphSummary').innerHTML = `
-    <div class="kpi-card">
-      <div class="value">${signals.length}</div>
-      <div class="label">Signals</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${assessments.length}</div>
-      <div class="label">Assessments</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${customers.length}</div>
-      <div class="label">Customers</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${competitors.length}</div>
-      <div class="label">Competitors</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${technologies.length}</div>
-      <div class="label">Technologies</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${kiqs.length}</div>
-      <div class="label">KIQs</div>
-    </div>
-  `;
 
   document.getElementById('graphGrid').innerHTML =
     signals.map(s => `
@@ -1909,6 +1824,9 @@ return {
     `).join('');
 }
 function renderActionEngine(){
+  const actions = Array.isArray(state.data.actions)
+  ? state.data.actions
+  : [];
 
    document.getElementById('actionSummary').innerHTML = `
     <div class="kpi-card">
@@ -1970,7 +1888,9 @@ function renderActionEngine(){
   `).join('');
 }
 function renderOutcomeEngine(){
-
+  const outcomes = Array.isArray(state.data.outcomes)
+  ? state.data.outcomes
+  : [];
 
   document.getElementById('outcomeSummary').innerHTML = `
     <div class="kpi-card">
