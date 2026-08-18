@@ -2072,9 +2072,36 @@ function renderDecisionCockpit(){
     </div>
   `);
 
-  setHtml('decisionChanged',
-    '<p>V20.0 placeholder – material changes will appear here.</p>'
-  );
+const signals = state.data.signals || [];
+const outcomes = state.data.outcomes || [];
+const themes = state.data.themes || [];
+
+setHtml('decisionChanged', `
+  <div class="profile-grid">
+
+    <article class="profile-card">
+      <h3>Signals</h3>
+      <p>
+        ${signals.length} active signals in the intelligence system.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Outcomes</h3>
+      <p>
+        ${outcomes.length} tracked outcomes and learning loops.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Themes</h3>
+      <p>
+        ${themes.length} strategic themes currently monitored.
+      </p>
+    </article>
+
+  </div>
+`);
 
   setHtml('decisionMatters',
     '<p>V20.0 placeholder – top strategic intelligence will appear here.</p>'
