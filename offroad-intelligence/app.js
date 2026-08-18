@@ -2230,9 +2230,49 @@ setHtml('decisionAction', `
 
 `);
 
-  setHtml('decisionLearning',
-    '<p>V20.0 placeholder – outcomes and learning will appear here.</p>'
+const outcomes = state.data.outcomes || [];
+
+const lessonsCaptured =
+  outcomes.filter(o =>
+    (o.learning || '').toLowerCase() !== 'not captured yet'
   );
+
+const openOutcomes =
+  outcomes.filter(o =>
+    (o.outcomeStatus || '').toLowerCase() === 'open'
+  );
+
+setHtml('decisionLearning', `
+
+  <div class="profile-grid">
+
+    <article class="profile-card">
+      <h3>Tracked Outcomes</h3>
+      <p>
+        ${outcomes.length}
+        outcomes are currently connected to actions and assessments.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Learning Captured</h3>
+      <p>
+        ${lessonsCaptured.length}
+        lessons have been formally documented.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Open Learning Loops</h3>
+      <p>
+        ${openOutcomes.length}
+        outcomes are still awaiting validation.
+      </p>
+    </article>
+
+  </div>
+
+`);
 
   setHtml('decisionPanel',
     '<p>Executive decision queue placeholder.</p>'
