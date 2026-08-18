@@ -2143,9 +2143,50 @@ setHtml('decisionMatters', `
   </div>
 `);
 
-  setHtml('decisionUncertain',
-    '<p>V20.0 placeholder – KIQs, gaps and uncertainty will appear here.</p>'
+const kiqs = state.data.kiqs || [];
+const assessments = state.data.assessments || [];
+
+const lowConfidence =
+  assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'low'
   );
+
+const criticalGaps =
+  kiqs.filter(k =>
+    (k.priority || '').toLowerCase() === 'high'
+  );
+
+setHtml('decisionUncertain', `
+
+  <div class="profile-grid">
+
+    <article class="profile-card">
+      <h3>Critical Intelligence Gaps</h3>
+      <p>
+        ${criticalGaps.length} high-priority gaps require additional intelligence collection.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Low Confidence Assessments</h3>
+      <p>
+        ${lowConfidence.length} assessments currently carry low confidence.
+      </p>
+    </article>
+
+    <article class="profile-card">
+      <h3>Priority KIQs</h3>
+      <p>
+        ${kiqs.filter(k =>
+          (k.priority || '').toLowerCase() === 'high'
+        ).length}
+        high-priority Key Intelligence Questions remain active.
+      </p>
+    </article>
+
+  </div>
+
+`);
 
   setHtml('decisionAction',
     '<p>V20.0 placeholder – management actions will appear here.</p>'
