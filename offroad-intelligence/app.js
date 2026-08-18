@@ -1684,6 +1684,17 @@ function renderGraph(){
              Technologies: ${(s.technologyIds || []).length}
           </span>
         </div>
+        <p>
+  <strong>Connected Assessments:</strong><br>
+  ${
+    (state.data.assessments || [])
+      .filter(a =>
+        (a.linkedSignalIds || []).includes(s.id)
+      )
+      .map(a => a.assessmentId)
+      .join(', ') || 'None'
+  }
+</p>
 
         <p>
           <strong>Connected Assessment:</strong><br>
