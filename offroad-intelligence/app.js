@@ -1784,6 +1784,106 @@ function renderGraph(){
       </article>
     `).join('');
 }
+function renderConfidenceEngine(){
+
+  const assessments = state.data.assessments || [];
+
+  const scored = assessments.map(a => {
+
+    const evidenceCount =
+      (a.linkedEvidenceIds || []).length;
+
+    const signalCount =
+      (a.linkedSignalIds || []).length;
+
+    const opportunityCount =
+      (a.linkedOpportunityIds || []).length;
+
+    const riskCount =
+      (a.linkedRiskIds || []).length;
+
+    const score =
+      40 +
+      evidenceCount * 10 +
+      signalCount * 10 +
+      opportunityCount * 5 +
+      riskCount * 5;
+
+    const confidenceLevel =
+      score >= 80
+        ? 'High'
+        : score >= 60
+          ? 'Medium'
+          : 'Low';
+
+    return {
+      ...a,
+      calculatedScore: score,
+      confidenceLevel
+    };
+  });
+
+  document.getElementById('confidenceEngineSummary').innerHTML = `
+    <div class="kpi-card">
+      <div class="value">${scored.length}</div>
+      <div class="label">Assessments</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">
+        ${Math.round(
+          scored.reduce((a,b)=>a+b.calculatedScore,0) /
+          (scored.length || 1)
+        )}
+      </div>
+      <div class="label">Avg Confidence</div>
+    </div>
+  `;
+
+  document.getElementById('confidenceEngineGrid').innerHTML =
+    scored.map(a => `
+
+      <article class="profile-card">
+
+        <div class="profile-head">
+          <span class="meta">
+            ${safeHtml(a.assessmentId || '')}
+          </span>
+
+          <span class="pill">
+            ${safeHtml(a.confidenceLevel)}
+          </span>
+        </div>
+
+        <h3>${safeHtml(a.title || '')}</h3>
+
+        <p>
+          <strong>Calculated Score:</strong><br>
+          ${a.calculatedScore}
+        </p>
+
+        <div class="pill-row">
+          <span class="pill">
+            Evidence: ${(a.linkedEvidenceIds || []).length}
+          </span>
+
+          <span class="pill">
+            Signals: ${(a.linkedSignalIds || []).length}
+          </span>
+
+          <span class="pill">
+            Opportunities: ${(a.linkedOpportunityIds || []).length}
+          </span>
+
+          <span class="pill">
+            Risks: ${(a.linkedRiskIds || []).length}
+          </span>
+        </div>
+
+      </article>
+
+    `).join('');
+}
 function renderAll(){
   const signals=filteredSignals();
 
@@ -1812,6 +1912,7 @@ function renderAll(){
   renderProvenance();
   renderRadar();
   renderGraph();
+  renderConfidenceEngine();
   
 
   renderMomentumIntelligence();
