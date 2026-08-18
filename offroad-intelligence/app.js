@@ -1389,43 +1389,44 @@ function renderGaps(){
     (k.priority || '').toLowerCase() === 'high'
   );
 
-setHtml('gapSummary', `
-  <div class="kpi">
-    <strong>${gaps.length}</strong>
-    <span>Total gaps</span>
-  </div>
+  setHtml('gapSummary', `
+    <div class="kpi-card">
+      <div class="value">${gaps.length}</div>
+      <div class="label">Total Gaps</div>
+    </div>
 
-  <div class="kpi">
-    <strong>${highPriorityGaps.length}</strong>
-    <span>High priority gaps</span>
-  </div>
+    <div class="kpi-card">
+      <div class="value">${highPriorityGaps.length}</div>
+      <div class="label">High Priority</div>
+    </div>
 
-  <div class="kpi">
-    <strong>${lowConfidence.length}</strong>
-    <span>Low confidence</span>
-  </div>
+    <div class="kpi-card">
+      <div class="value">${lowConfidence.length}</div>
+      <div class="label">Low Confidence</div>
+    </div>
 
-  <div class="kpi">
-    <strong>${lowCoverage.length}</strong>
-    <span>Low evidence coverage</span>
-  </div>
-`);
-}
+    <div class="kpi-card">
+      <div class="value">${lowCoverage.length}</div>
+      <div class="label">Low Coverage</div>
+    </div>
+  `);
 
   setHtml('gapGrid',
     gaps.map(k => {
 
       const status =
-        (k.confidence || '').toLowerCase() === 'low' && (k.evidenceCoverage || '').toLowerCase() === 'low'
-          ? 'Critical gap'
+        (k.confidence || '').toLowerCase() === 'low' &&
+        (k.evidenceCoverage || '').toLowerCase() === 'low'
+          ? 'Critical Gap'
           : (k.evidenceCoverage || '').toLowerCase() === 'low'
-            ? 'Evidence gap'
+            ? 'Evidence Gap'
             : (k.confidence || '').toLowerCase() === 'low'
-              ? 'Confidence gap'
-              : 'Monitoring gap';
+              ? 'Confidence Gap'
+              : 'Monitoring Gap';
 
       return `
         <article class="profile-card">
+
           <div class="profile-head">
             <span class="meta">${safeHtml(k.kiqId || '')}</span>
             <span class="pill">${safeHtml(status)}</span>
@@ -1434,30 +1435,27 @@ setHtml('gapSummary', `
           <h3>${safeHtml(k.title || '')}</h3>
 
           <div class="pill-row">
-            <span class="pill">${safeHtml(k.category || '')}</span>
             <span class="pill">${safeHtml(k.priority || '')}</span>
-            <span class="pill">Confidence: ${safeHtml(k.confidence || '')}</span>
-            <span class="pill">Coverage: ${safeHtml(k.evidenceCoverage || '')}</span>
+            <span class="pill">${safeHtml(k.confidence || '')}</span>
+            <span class="pill">${safeHtml(k.evidenceCoverage || '')}</span>
           </div>
 
           <p>
-            <strong>Intelligence Gap:</strong><br>
-            ${safeHtml(k.intelligenceGap || 'No gap description available.')}
+            <strong>Gap:</strong><br>
+            ${safeHtml(k.intelligenceGap || '')}
           </p>
 
           <p>
-            <strong>Recommended next step:</strong><br>
-            ${safeHtml(k.recommendedNextStep || 'Define next collection action.')}
+            <strong>Next Step:</strong><br>
+            ${safeHtml(k.recommendedNextStep || '')}
           </p>
 
-          <p>
-            <strong>Decision use:</strong><br>
-            ${safeHtml(k.decisionUse || '')}
-          </p>
         </article>
       `;
     }).join('')
   );
+
+}
 function renderProvenance(){
 
   const assessments = state.data.assessments || [];
@@ -1531,7 +1529,8 @@ function renderAll(){
 
   renderKIQs();
   renderGaps();
-  renderProvenance();
+  // renderProvenance();
+  ``
 
   renderMomentumIntelligence();
   renderOverviewMomentumBlock();
