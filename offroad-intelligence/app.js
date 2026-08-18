@@ -1508,14 +1508,24 @@ function renderRadar(){
           <span class="pill">${safeHtml(s.priority || '')}</span>
         </div>
 
-        <h3>${safeHtml(s.title || '')}</h3>
+       <h3>${safeHtml(
+  s.signal ||
+  s.title ||
+  ''
+)}</h3>
+
 
         <p>
           ${safeHtml(
-            s.businessImplication ||
-            s.description ||
-            ''
-          )}
+  s.why ||
+  s.businessImplication ||
+  s.description ||
+  ''
+)}
+<p>
+  <strong>Recommended Action:</strong><br>
+  ${safeHtml(s.action || '')}
+</p>
         </p>
 
         <p>
