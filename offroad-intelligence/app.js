@@ -1835,6 +1835,7 @@ return {
   opportunityCount,
   riskCount
 };
+    });
 
   document.getElementById('confidenceEngineSummary').innerHTML = `
     <div class="kpi-card">
