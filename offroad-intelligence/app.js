@@ -1383,8 +1383,6 @@ function renderGaps(){
     ? state.data.kiqs
     : [];
 
-  const gaps = kiqs;
-
   const lowConfidence = gaps.filter(k =>
     (k.confidence || '').toLowerCase() === 'low'
   );
