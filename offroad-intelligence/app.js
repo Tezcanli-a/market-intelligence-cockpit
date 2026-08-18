@@ -1620,7 +1620,91 @@ function renderRadar(){
   );
 
 }
+function renderGraph(){
 
+  const signals = state.data.signals || [];
+  const assessments = state.data.assessments || [];
+  const customers = state.data.customers || [];
+  const competitors = state.data.competitors || [];
+  const technologies = state.data.technologies || [];
+  const kiqs = state.data.kiqs || [];
+
+  document.getElementById('graphSummary').innerHTML = `
+    <div class="kpi-card">
+      <div class="value">${signals.length}</div>
+      <div class="label">Signals</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${assessments.length}</div>
+      <div class="label">Assessments</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${customers.length}</div>
+      <div class="label">Customers</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${competitors.length}</div>
+      <div class="label">Competitors</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${technologies.length}</div>
+      <div class="label">Technologies</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${kiqs.length}</div>
+      <div class="label">KIQs</div>
+    </div>
+  `;
+    document.getElementById('graphGrid').innerHTML =
+    signals.map(s => `
+
+      <article class="profile-card">
+
+        <div class="profile-head">
+          <span class="meta">${safeHtml(s.id || '')}</span>
+        </div>
+
+        <h3>${safeHtml(s.signal || '')}</h3>
+
+        <div class="pill-row">
+          <span class="pill">
+             Customers: ${(s.customerIds || []).length}
+          </span>
+
+          <span class="pill">
+             Competitors: ${(s.competitorIds || []).length}
+          </span>
+
+          <span class="pill">
+             Technologies: ${(s.technologyIds || []).length}
+          </span>
+        </div>
+
+        <p>
+          <strong>Connected Assessment:</strong><br>
+          ${(s.linkedAssessmentIds || []).join(', ')}
+        </p>
+
+        <p>
+          <strong>Connected Opportunities:</strong><br>
+          ${(s.opportunityIds || []).join(', ')}
+        </p>
+
+        <p>
+          <strong>Connected Risks:</strong><br>
+          ${(s.riskIds || []).join(', ')}
+        </p>
+
+      </article>
+
+    `).join('');
+
+}
 function renderAll(){
   const signals=filteredSignals();
 
