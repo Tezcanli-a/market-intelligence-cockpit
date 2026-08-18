@@ -16,6 +16,7 @@ const files = {
   customerProfiles:'data/customer_profiles.json',
   competitorProfiles:'data/competitor_profiles.json',
   performance:'data/performance_trends.json'
+  kiqs:'data/kiqs.json'
 };
 const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, themes:[], signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], newsRaw:{lastUpdated:'',news:[]} };
 async function fetchOptional(path,fallback){try{const r=await fetch(path,{cache:'no-store'}); return r.ok ? await r.json() : fallback;}catch(e){return fallback;}}
@@ -1309,7 +1310,61 @@ function renderThemeLandscape(){
 
   setHtml('themeLandscapeGrid', watchlistHtml + heatMatrix + grouped + emergingHtml);
 }
+function renderKIQs(){
 
+  const kiqs = state.data.kiqs || [];
+
+  setHtml('kiqKpis',`
+    <div class="kpi-card">
+      <div class="value">${kiqs.length}</div>
+      <div class="label">Total KIQs</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${kiqs.filter(k=>k.priority==='High').length}</div>
+      <div class="label">High Priority</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${kiqs.filter(k=>k.confidence==='Low').length}</div>
+      <div class="label">Low Confidence</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${kiqs.filter(k=>k.evidenceCoverage==='Low').length}</div>
+      <div class="label">Evidence Gaps</div>
+    </div>
+  `);
+
+  setHtml('kiqGrid',
+    kiqs.map(k=>`
+      <article class="relationship-card">
+        <span class="meta">${safeHtml(k.kiqId||'')}</span>
+
+        <h3>${safeHtml(k.title||'')}</h3>
+
+        <p>${safeHtml(k.description||'')}</p>
+
+        <div class="pill-row">
+          <span class="pill">${safeHtml(k.category||'')}</span>
+          <span class="pill">${safeHtml(k.priority||'')}</span>
+          <span class="pill">${safeHtml(k.confidence||'')}</span>
+        </div>
+
+        <p>
+          <strong>Decision Use:</strong><br>
+          ${safeHtml(k.decisionUse||'')}
+        </p>
+
+        <p>
+          <strong>Intelligence Gap:</strong><br>
+          ${safeHtml(k.intelligenceGap||'')}
+        </p>
+
+      </article>
+    `).join('')
+  );
+}
 function renderAll(){
   const signals=filteredSignals();
 
@@ -1332,6 +1387,8 @@ function renderAll(){
 
   renderMatrix();
   renderHeatmap();
+
+  renderKIQs();
 
   renderMomentumIntelligence();
   renderOverviewMomentumBlock();
