@@ -1910,24 +1910,21 @@ return {
 
     `).join('');
 }
-  function renderActionEngine(){
+function renderActionEngine(){
 
   const actions = state.data.actions || [];
 
-document.getElementById('actionSummary').innerHTML = `
-  <div class="kpi-card">
-    <div class="value">${actions.length}</div>
-    <div class="label">Actions</div>
-  </div>
-
-  <div class="kpi-card">
-    <div class="value">
-      ${actions.filter(a => a.status === 'Proposed').length}
+  document.getElementById('actionSummary').innerHTML = `
+    <div class="kpi-card">
+      <div class="value">${actions.length}</div>
+      <div class="label">Actions</div>
     </div>
-    <div class="label">Proposed</div>
-  </div>
-`;
 
+    <div class="kpi-card">
+      <div class="value">${actions.filter(a => a.status === 'Proposed').length}</div>
+      <div class="label">Proposed</div>
+    </div>
+  `;
   document.getElementById('actionGrid').innerHTML =
     actions.map(a => `
 
