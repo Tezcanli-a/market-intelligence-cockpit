@@ -1,0 +1,15 @@
+{
+  "version": "19.4A",
+  "generated": "2026-08-18",
+  "entityTypes": [
+    "Customer",
+    "Competitor",
+    "Technology",
+    "Signal",
+    "Assessment",
+    "Evidence",
+    "Opportunity",
+    "Risk",
+    "KIQ"
+  ]
+}
