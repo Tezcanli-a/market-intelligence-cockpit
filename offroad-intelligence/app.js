@@ -1462,16 +1462,98 @@ function renderProvenance(){
 
   const assessments = state.data.assessments || [];
 
-  document.getElementById('confidenceSummary').innerHTML =
-    `<h2>Assessments Loaded: ${assessments.length}</h2>`;
+  const high = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'high'
+  );
+
+  const medium = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'medium'
+  );
+
+  const low = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'low'
+  );
+
+  document.getElementById('confidenceSummary').innerHTML = `
+    <div class="kpi-card">
+      <div class="value">${assessments.length}</div>
+      <div class="label">Assessments</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${high.length}</div>
+      <div class="label">High Confidence</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${medium.length}</div>
+      <div class="label">Medium Confidence</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${low.length}</div>
+      <div class="label">Low Confidence</div>
+    </div>
+  `;
 
   document.getElementById('confidenceGrid').innerHTML =
-    assessments.map(a => `
-      <div class="profile-card">
-        <h3>${a.title || 'No Title'}</h3>
-        <p>${a.confidence || 'No Confidence'}</p>
-      </div>
-    `).join('');
+    assessments.map(a => {
+
+      const linkedSignals = a.linkedSignalIds || (a.signalId ? [a.signalId] : []);
+      const linkedEvidence = a.linkedEvidenceIds || [];
+      const linkedOpportunities = a.linkedOpportunityIds || a.opportunityIds || [];
+      const linkedRisks = a.linkedRiskIds || a.riskIds || [];
+
+      return `
+        <article class="profile-card">
+
+          <div class="profile-head">
+            <span class="meta">${safeHtml(a.assessmentId || '')}</span>
+            <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
+          </div>
+
+          <h3>${safeHtml(a.title || '')}</h3>
+
+          <p>
+            <strong>Assessment:</strong><br>
+            ${safeHtml(a.assessment || '')}
+          </p>
+
+          <p>
+            <strong>Business Implication:</strong><br>
+            ${safeHtml(a.businessImplication || '')}
+          </p>
+
+          <p>
+            <strong>Forecast:</strong><br>
+            ${safeHtml(a.forecast || 'Forecast statement not populated yet.')}
+          </p>
+
+          <div class="pill-row">
+            <span class="pill">Signal links: ${linkedSignals.length}</span>
+            <span class="pill">Evidence links: ${linkedEvidence.length}</span>
+            <span class="pill">Opportunities: ${linkedOpportunities.length}</span>
+            <span class="pill">Risks: ${linkedRisks.length}</span>
+          </div>
+
+          <p>
+            <strong>Confidence Score:</strong><br>
+            ${safeHtml(a.confidenceScore || 'Not scored yet')}
+          </p>
+
+          <p>
+            <strong>Owner:</strong><br>
+            ${safeHtml(a.owner || '')}
+          </p>
+
+          <p>
+            <strong>Review Date:</strong><br>
+            ${safeHtml(a.reviewDate || '')}
+          </p>
+
+        </article>
+      `;
+    }).join('');
 
 }
 
