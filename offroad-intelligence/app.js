@@ -668,6 +668,12 @@ function renderThemeExplorer(){
   const themes = state.data.themes || [];
   const signals = state.data.signals || [];
   const assessments = state.data.assessments || [];
+  setHtml('confidenceSummary', `
+  <div class="kpi-card">
+    <div class="value">${assessments.length}</div>
+    <div class="label">Records Loaded</div>
+  </div>
+`);
   const technologies = state.data.technologies || [];
   const customers = state.data.customerProfiles || [];
   const competitors = state.data.competitorProfiles || [];
@@ -1442,37 +1448,13 @@ function renderProvenance(){
     </div>
   `);
 
-  setHtml('confidenceGrid',
-    assessments.map(a=>`
-
-      <article class="profile-card">
-
-        <div class="profile-head">
-          <span class="meta">${safeHtml(a.assessmentId || '')}</span>
-          <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
-        </div>
-
-        <h3>${safeHtml(a.title || '')}</h3>
-
-        <p>
-          <strong>Assessment:</strong><br>
-          ${safeHtml(a.summary || a.assessment || '')}
-        </p>
-
-        <p>
-          <strong>Confidence:</strong><br>
-          ${safeHtml(a.confidence || '')}
-        </p>
-
-        <p>
-          <strong>Evidence Base:</strong><br>
-          ${safeHtml(a.evidenceCount || 'Not specified')}
-        </p>
-
-      </article>
-
-    `).join('')
-  );
+setHtml('confidenceGrid',
+  assessments.map(a => `
+    <article class="profile-card">
+      <h3>${safeHtml(JSON.stringify(a).substring(0,150))}</h3>
+    </article>
+  `).join('')
+);
 
 }
 
