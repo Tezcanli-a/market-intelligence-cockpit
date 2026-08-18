@@ -1411,53 +1411,6 @@ setHtml('gapSummary', `
   </div>
 `);
 }
-function renderProvenance(){
-
-  const assessments = state.data.assessments || [];
-
-  const high = assessments.filter(a =>
-    (a.confidence || '').toLowerCase() === 'high'
-  );
-
-  const medium = assessments.filter(a =>
-    (a.confidence || '').toLowerCase() === 'medium'
-  );
-
-  const low = assessments.filter(a =>
-    (a.confidence || '').toLowerCase() === 'low'
-  );
-
-  setHtml('confidenceSummary', `
-    <div class="kpi-card">
-      <div class="value">${assessments.length}</div>
-      <div class="label">Assessments</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${high.length}</div>
-      <div class="label">High Confidence</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${medium.length}</div>
-      <div class="label">Medium Confidence</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${low.length}</div>
-      <div class="label">Low Confidence</div>
-    </div>
-  `);
-
-setHtml('confidenceGrid',
-  assessments.map(a => `
-    <article class="profile-card">
-      <h3>${safeHtml(JSON.stringify(a).substring(0,150))}</h3>
-    </article>
-  `).join('')
-);
-
-}
 
   setHtml('gapGrid',
     gaps.map(k => {
@@ -1505,6 +1458,53 @@ setHtml('confidenceGrid',
       `;
     }).join('')
   );
+function renderProvenance(){
+
+  const assessments = state.data.assessments || [];
+
+  const high = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'high'
+  );
+
+  const medium = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'medium'
+  );
+
+  const low = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'low'
+  );
+
+  setHtml('confidenceSummary', `
+    <div class="kpi-card">
+      <div class="value">${assessments.length}</div>
+      <div class="label">Assessments</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${high.length}</div>
+      <div class="label">High Confidence</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${medium.length}</div>
+      <div class="label">Medium Confidence</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">${low.length}</div>
+      <div class="label">Low Confidence</div>
+    </div>
+  `);
+
+setHtml('confidenceGrid',
+  assessments.map(a => `
+    <article class="profile-card">
+      <h3>${safeHtml(JSON.stringify(a).substring(0,150))}</h3>
+    </article>
+  `).join('')
+);
+
+}
 
 function renderAll(){
   const signals=filteredSignals();
