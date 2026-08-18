@@ -1,23 +1,17 @@
 # Current Platform Status
 
-## V18.4 Confidence Engine
+## V20.0 Decision Intelligence Homepage Blueprint
 
-V18.4 introduces formal confidence management.
+V20.0 replaces the traditional overview dashboard with a Decision Intelligence Cockpit.
 
-New concepts:
+The homepage is structured around five executive questions:
 
-- Data Confidence
-- Analyst Confidence
-- Forecast Probability
+1. What changed?
+2. What matters?
+3. What are we uncertain about?
+4. What requires action?
+5. What did we learn?
 
-Purpose:
+The homepage does not create new intelligence. It orchestrates existing intelligence from Signals, Assessments, KIQs, Gaps, Confidence Engine, Intelligence Graph, Action Engine and Outcome Engine.
 
-Separate source trustworthiness from future-event probability.
-
-Every important assessment should ultimately reference:
-
-- Evidence
-- Confidence
-- Verification state
-- Probability
-- Assumptions
+The purpose is to allow management to understand the current offroad intelligence situation within 60 seconds.
