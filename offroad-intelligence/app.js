@@ -2007,29 +2007,42 @@ function renderDecisionCockpit(){
     (o.outcomeStatus || '').toLowerCase() === 'open'
   );
 
-  setHtml('decisionHealth', `
-    <div class="kpi-card">
-      <div class="value">84%</div>
-      <div class="label">Intelligence Health</div>
-    </div>
-  `);
+setHtml('decisionHealth', `
+<div class="profile-grid">
+
+  <article class="profile-card">
+    <h3>Executive Situation</h3>
+    <p><strong>${signals.length}</strong> Material Changes</p>
+    <p><strong>${assessments.length}</strong> Strategic Assessments</p>
+    <p><strong>${actions.length}</strong> Decisions Requiring Attention</p>
+  </article>
+
+  <article class="profile-card">
+    <h3>Intelligence Health</h3>
+    <p><strong>84%</strong></p>
+    <p>Confidence coverage healthy</p>
+    <p>Learning loop active</p>
+  </article>
+
+</div>
+`);
 
   setHtml('decisionChanged', `
     <div class="profile-grid">
 
       <article class="profile-card">
-        <h3>Signals</h3>
-        <p>${signals.length} active signals in the intelligence system.</p>
+        <h3>Material Changes</h3>
+        <p>${signals.length} material developments currently affecting the intelligence picture.</p>
       </article>
 
       <article class="profile-card">
-        <h3>Outcomes</h3>
-        <p>${outcomes.length} tracked outcomes and learning loops.</p>
+      <h3>Momentum Shifts</h3>
+     <p>${outcomes.length} developments currently changing direction or velocity.</p>
       </article>
 
       <article class="profile-card">
-        <h3>Themes</h3>
-        <p>${themes.length} strategic themes currently monitored.</p>
+        <h3>Strategic Developments</h3>
+        <p>${themes.length} strategic developments requiring management awareness.</p>
       </article>
 
     </div>
