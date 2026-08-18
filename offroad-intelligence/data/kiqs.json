@@ -1,8 +1,40 @@
 [
   {
-    "kiqId":"KIQ-001",
-    "title":"Which OEMs are investing most aggressively in operator comfort?",
-    "priority":"High",
-    "status":"Open"
-  }
-]
+    "kiqId": "KIQ-001",
+    "title": "Which Offroad OEMs are investing most aggressively in operator comfort and operator experience?",
+    "description": "Identify customers and OEMs showing strong activity around cab comfort, seat ergonomics, HMI integration, noise and vibration reduction, climate comfort, and integrated operator environments.",
+    "category": "Customer Intelligence",
+    "strategicTheme": "Operator Experience",
+    "priority": "High",
+    "status": "Open",
+    "owner": "Market Intelligence",
+    "decisionUse": "Support customer prioritization, innovation focus, and sales argumentation for comfort-related seating and interior solutions.",
+    "linkedCustomers": [],
+    "linkedCompetitors": [],
+    "linkedTechnologies": [
+      "operator comfort",
+      "ergonomics",
+      "HMI",
+      "integrated operator environment",
+      "cab comfort"
+    ],
+    "linkedSignals": [],
+    "linkedAssessments": [],
+    "linkedEvidence": [],
+    "linkedRisks": [],
+    "linkedOpportunities": [],
+    "evidenceCoverage": "Low",
+    "confidence": "Medium",
+    "intelligenceGap": "Need stronger evidence from patents, product launches, customer programs, trade fairs, and hiring signals.",
+    "recommendedNextStep": "Collect customer-specific evidence for agriculture, construction, and material handling OEMs."
+  },
+  {
+    "kiqId": "KIQ-002",
+    "title": "Which Offroad OEMs are accelerating electrification and how does this affect seating, interior, and operator interface requirements?",
+    "description": "Track electrification-related customer activity and assess implications for seating systems, controls, thermal comfort, cabin layout, and operator interaction.",
+    "category": "Customer Intelligence",
+    "strategicTheme": "Electrification",
+    "priority": "High",
+    "status": "Open",
+    "owner": "Market Intelligence",
+    "decisionUse": "Support product roadmap decisions and identify customers where electrification creates new GRAMMER
