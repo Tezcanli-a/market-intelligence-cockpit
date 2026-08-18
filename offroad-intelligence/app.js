@@ -1410,6 +1410,7 @@ setHtml('gapSummary', `
     <span>Low evidence coverage</span>
   </div>
 `);
+}
 function renderProvenance(){
 
   const assessments = state.data.assessments || [];
