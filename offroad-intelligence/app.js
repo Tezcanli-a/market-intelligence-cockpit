@@ -1330,17 +1330,17 @@ function renderKIQs(){
     </div>
 
     <div class="kpi-card">
-      <div class="value">${kiqs.filter(k=>k.priority==='High').length}</div>
+      <div class="value">${(kiqs || []).filter(k=>k.priority==='High').length}</div>
       <div class="label">High Priority</div>
     </div>
 
     <div class="kpi-card">
-      <div class="value">${kiqs.filter(k=>k.confidence==='Low').length}</div>
+      <div class="value">${(kiqs || []).filter(k=>k.confidence==='Low').length}</div>
       <div class="label">Low Confidence</div>
     </div>
 
     <div class="kpi-card">
-      <div class="value">${kiqs.filter(k=>k.evidenceCoverage==='Low').length}</div>
+      <div class="value">${(kiqs || []).filter(k=>k.evidenceCoverage==='Low').length}</div>
       <div class="label">Evidence Gaps</div>
     </div>
   `);
@@ -2060,7 +2060,9 @@ function renderDecisionCockpit(){
   const outcomes = state.data.outcomes || [];
   const themes = state.data.themes || [];
   const assessments = state.data.assessments || [];
-  const kiqs = state.data.kiqs || [];
+ const kiqs = Array.isArray(state.data.kiqs)
+  ? state.data.kiqs
+  : [];
   const actions = state.data.actions || [];
 
   const topAssessments = assessments.slice(0,3);
@@ -2069,7 +2071,7 @@ function renderDecisionCockpit(){
     (a.confidence || '').toLowerCase() === 'low'
   );
 
-  const criticalGaps = kiqs.filter(k =>
+  const criticalGaps = (kiqs || []).filter(k =>
     (k.priority || '').toLowerCase() === 'high'
   );
 
@@ -2158,7 +2160,7 @@ function renderDecisionCockpit(){
       <article class="profile-card">
         <h3>Priority KIQs</h3>
         <p>
-          ${kiqs.filter(k =>
+          ${(kiqs || []).filter(k =>
             (k.priority || '').toLowerCase() === 'high'
           ).length}
           high-priority Key Intelligence Questions remain active.
