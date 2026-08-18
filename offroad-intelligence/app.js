@@ -1825,11 +1825,12 @@ const score =
           ? 'Medium'
           : 'Low';
 
-    return {
-      ...a,
-      calculatedScore: score,
-      confidenceLevel
-    };
+return {
+  ...a,
+  calculatedScore: score,
+  confidenceLevel,
+  relationshipStrength
+};
   });
 
   document.getElementById('confidenceEngineSummary').innerHTML = `
@@ -1870,9 +1871,9 @@ const score =
           <strong>Calculated Score:</strong><br>
           ${a.calculatedScore}
         </p>
-        <p>
-  <strong>Relationship Strength:</strong><br>
-  ${relationshipStrength}
+<p>
+  Relationship Strength:
+  ${a.relationshipStrength}
 </p>
 
         <div class="pill-row">
