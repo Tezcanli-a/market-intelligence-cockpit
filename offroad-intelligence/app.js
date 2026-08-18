@@ -1323,8 +1323,6 @@ function renderThemeLandscape(){
 }
 function renderKIQs(){
 
-  const kiqs = state.data.kiqs || [];
-
   setHtml('kiqKpis',`
     <div class="kpi-card">
       <div class="value">${kiqs.length}</div>
@@ -1377,8 +1375,6 @@ function renderKIQs(){
   );
 }
 function renderGaps(){
-
-  const kiqs = state.data.kiqs || [];
 
   const gaps = kiqs;
 
@@ -1462,8 +1458,6 @@ function renderGaps(){
 
 }
 function renderProvenance(){
-
-  const assessments = state.data.assessments || [];
 
   const high = assessments.filter(a =>
     (a.confidence || '').toLowerCase() === 'high'
@@ -1916,9 +1910,7 @@ return {
 }
 function renderActionEngine(){
 
-  const actions = state.data.actions || [];
-
-  document.getElementById('actionSummary').innerHTML = `
+   document.getElementById('actionSummary').innerHTML = `
     <div class="kpi-card">
       <div class="value">${actions.length}</div>
       <div class="label">Actions</div>
@@ -1979,7 +1971,6 @@ function renderActionEngine(){
 }
 function renderOutcomeEngine(){
 
-  const outcomes = state.data.outcomes || [];
 
   document.getElementById('outcomeSummary').innerHTML = `
     <div class="kpi-card">
@@ -2072,6 +2063,30 @@ function renderDecisionCockpit(){
   const kiqs = state.data.kiqs || [];
   const actions = state.data.actions || [];
 
+  const topAssessments = assessments.slice(0,3);
+
+  const lowConfidence = assessments.filter(a =>
+    (a.confidence || '').toLowerCase() === 'low'
+  );
+
+  const criticalGaps = kiqs.filter(k =>
+    (k.priority || '').toLowerCase() === 'high'
+  );
+
+  const highPriorityActions = actions.filter(a =>
+    (a.priority || '').toLowerCase() === 'high'
+  );
+
+  const reviewActions = actions.filter(a => a.reviewDate);
+
+  const lessonsCaptured = outcomes.filter(o =>
+    (o.learning || '').toLowerCase() !== 'not captured yet'
+  );
+
+  const openOutcomes = outcomes.filter(o =>
+    (o.outcomeStatus || '').toLowerCase() === 'open'
+  );
+
   setHtml('decisionHealth', `
     <div class="kpi-card">
       <div class="value">84%</div>
@@ -2079,204 +2094,121 @@ function renderDecisionCockpit(){
     </div>
   `);
 
-
-setHtml('decisionChanged', `
-  <div class="profile-grid">
-
-    <article class="profile-card">
-      <h3>Signals</h3>
-      <p>
-        ${signals.length} active signals in the intelligence system.
-      </p>
-    </article>
-
-    <article class="profile-card">
-      <h3>Outcomes</h3>
-      <p>
-        ${outcomes.length} tracked outcomes and learning loops.
-      </p>
-    </article>
-
-    <article class="profile-card">
-      <h3>Themes</h3>
-      <p>
-        ${themes.length} strategic themes currently monitored.
-      </p>
-    </article>
-
-  </div>
-`);
-
-const assessments = state.data.assessments || [];
-
-const topAssessments =
-  assessments.slice(0,3);
-
-setHtml('decisionMatters', `
-  <div class="profile-grid">
-
-    ${topAssessments.map(a => `
+  setHtml('decisionChanged', `
+    <div class="profile-grid">
 
       <article class="profile-card">
-
-        <span class="meta">
-          ${safeHtml(a.assessmentId || '')}
-        </span>
-
-        <h3>
-          ${safeHtml(a.title || '')}
-        </h3>
-
-        <p>
-          ${safeHtml(
-            a.businessImplication ||
-            'Business implication not populated yet.'
-          )}
-        </p>
-
-        <div class="pill-row">
-          <span class="pill">
-            ${safeHtml(a.confidence || 'Unknown')}
-          </span>
-        </div>
-
+        <h3>Signals</h3>
+        <p>${signals.length} active signals in the intelligence system.</p>
       </article>
 
-    `).join('')}
+      <article class="profile-card">
+        <h3>Outcomes</h3>
+        <p>${outcomes.length} tracked outcomes and learning loops.</p>
+      </article>
 
-  </div>
-`);
+      <article class="profile-card">
+        <h3>Themes</h3>
+        <p>${themes.length} strategic themes currently monitored.</p>
+      </article>
 
-const kiqs = state.data.kiqs || [];
-const assessments = state.data.assessments || [];
+    </div>
+  `);
 
-const lowConfidence =
-  assessments.filter(a =>
-    (a.confidence || '').toLowerCase() === 'low'
-  );
+  setHtml('decisionMatters', `
+    <div class="profile-grid">
 
-const criticalGaps =
-  kiqs.filter(k =>
-    (k.priority || '').toLowerCase() === 'high'
-  );
+      ${topAssessments.map(a => `
+        <article class="profile-card">
 
-setHtml('decisionUncertain', `
+          <span class="meta">${safeHtml(a.assessmentId || '')}</span>
 
-  <div class="profile-grid">
+          <h3>${safeHtml(a.title || '')}</h3>
 
-    <article class="profile-card">
-      <h3>Critical Intelligence Gaps</h3>
-      <p>
-        ${criticalGaps.length} high-priority gaps require additional intelligence collection.
-      </p>
-    </article>
+          <p>
+            ${safeHtml(
+              a.businessImplication ||
+              'Business implication not populated yet.'
+            )}
+          </p>
 
-    <article class="profile-card">
-      <h3>Low Confidence Assessments</h3>
-      <p>
-        ${lowConfidence.length} assessments currently carry low confidence.
-      </p>
-    </article>
+          <div class="pill-row">
+            <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
+          </div>
 
-    <article class="profile-card">
-      <h3>Priority KIQs</h3>
-      <p>
-        ${kiqs.filter(k =>
-          (k.priority || '').toLowerCase() === 'high'
-        ).length}
-        high-priority Key Intelligence Questions remain active.
-      </p>
-    </article>
+        </article>
+      `).join('')}
 
-  </div>
+    </div>
+  `);
 
-`);
+  setHtml('decisionUncertain', `
+    <div class="profile-grid">
 
-const actions = state.data.actions || [];
+      <article class="profile-card">
+        <h3>Critical Intelligence Gaps</h3>
+        <p>${criticalGaps.length} high-priority gaps require additional intelligence collection.</p>
+      </article>
 
-const highPriorityActions =
-  actions.filter(a =>
-    (a.priority || '').toLowerCase() === 'high'
-  );
+      <article class="profile-card">
+        <h3>Low Confidence Assessments</h3>
+        <p>${lowConfidence.length} assessments currently carry low confidence.</p>
+      </article>
 
-const reviewActions =
-  actions.filter(a => a.reviewDate);
+      <article class="profile-card">
+        <h3>Priority KIQs</h3>
+        <p>
+          ${kiqs.filter(k =>
+            (k.priority || '').toLowerCase() === 'high'
+          ).length}
+          high-priority Key Intelligence Questions remain active.
+        </p>
+      </article>
 
-setHtml('decisionAction', `
+    </div>
+  `);
 
-  <div class="profile-grid">
+  setHtml('decisionAction', `
+    <div class="profile-grid">
 
-    <article class="profile-card">
-      <h3>High Priority Actions</h3>
-      <p>
-        ${highPriorityActions.length}
-        high-priority actions require attention.
-      </p>
-    </article>
+      <article class="profile-card">
+        <h3>High Priority Actions</h3>
+        <p>${highPriorityActions.length} high-priority actions require attention.</p>
+      </article>
 
-    <article class="profile-card">
-      <h3>Upcoming Reviews</h3>
-      <p>
-        ${reviewActions.length}
-        actions have review dates assigned.
-      </p>
-    </article>
+      <article class="profile-card">
+        <h3>Upcoming Reviews</h3>
+        <p>${reviewActions.length} actions have review dates assigned.</p>
+      </article>
 
-    <article class="profile-card">
-      <h3>Open Actions</h3>
-      <p>
-        ${actions.length}
-        actions are currently tracked in the system.
-      </p>
-    </article>
+      <article class="profile-card">
+        <h3>Open Actions</h3>
+        <p>${actions.length} actions are currently tracked in the system.</p>
+      </article>
 
-  </div>
+    </div>
+  `);
 
-`);
+  setHtml('decisionLearning', `
+    <div class="profile-grid">
 
-const outcomes = state.data.outcomes || [];
+      <article class="profile-card">
+        <h3>Tracked Outcomes</h3>
+        <p>${outcomes.length} outcomes are currently connected to actions and assessments.</p>
+      </article>
 
-const lessonsCaptured =
-  outcomes.filter(o =>
-    (o.learning || '').toLowerCase() !== 'not captured yet'
-  );
+      <article class="profile-card">
+        <h3>Learning Captured</h3>
+        <p>${lessonsCaptured.length} lessons have been formally documented.</p>
+      </article>
 
-const openOutcomes =
-  outcomes.filter(o =>
-    (o.outcomeStatus || '').toLowerCase() === 'open'
-  );
+      <article class="profile-card">
+        <h3>Open Learning Loops</h3>
+        <p>${openOutcomes.length} outcomes are still awaiting validation.</p>
+      </article>
 
-setHtml('decisionLearning', `
-
-  <div class="profile-grid">
-
-    <article class="profile-card">
-      <h3>Tracked Outcomes</h3>
-      <p>
-        ${outcomes.length}
-        outcomes are currently connected to actions and assessments.
-      </p>
-    </article>
-
-    <article class="profile-card">
-      <h3>Learning Captured</h3>
-      <p>
-        ${lessonsCaptured.length}
-        lessons have been formally documented.
-      </p>
-    </article>
-
-    <article class="profile-card">
-      <h3>Open Learning Loops</h3>
-      <p>
-        ${openOutcomes.length}
-        outcomes are still awaiting validation.
-      </p>
-    </article>
-
-  </div>
-
-`);
+    </div>
+  `);
 
   setHtml('decisionPanel',
     '<p>Executive decision queue placeholder.</p>'
