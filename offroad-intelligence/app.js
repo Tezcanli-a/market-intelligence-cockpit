@@ -1910,6 +1910,72 @@ return {
 
     `).join('');
 }
+                                 function renderActionEngine(){
+
+  const actions = state.data.actions || [];
+
+  document.getElementById('actionSummary').innerHTML = `
+    <div class="kpi-card">
+      <div class="value">${actions.length}</div>
+      <div class="label">Actions</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="value">
+        ${actions.filter(a => a.status === 'Proposed').length}
+      </div>
+      <div class="label">Proposed</div>
+    </div>
+  `;
+
+  document.getElementById('actionGrid').innerHTML =
+    actions.map(a => `
+
+      <article class="profile-card">
+
+        <div class="profile-head">
+          <span class="meta">${safeHtml(a.actionId)}</span>
+          <span class="pill">${safeHtml(a.status)}</span>
+        </div>
+
+        <h3>${safeHtml(a.title)}</h3>
+
+        <p>
+          <strong>Description:</strong><br>
+          ${safeHtml(a.description || '')}
+        </p>
+
+        <p>
+          <strong>Owner:</strong><br>
+          ${safeHtml(a.owner || '')}
+        </p>
+
+        <p>
+          <strong>Priority:</strong><br>
+          ${safeHtml(a.priority || '')}
+        </p>
+
+        <p>
+          <strong>Review Date:</strong><br>
+          ${safeHtml(a.reviewDate || '')}
+        </p>
+
+        <div class="pill-row">
+          <span class="pill">Assessments: ${(a.linkedAssessmentIds || []).length}</span>
+          <span class="pill">Signals: ${(a.linkedSignalIds || []).length}</span>
+          <span class="pill">Opportunities: ${(a.linkedOpportunityIds || []).length}</span>
+          <span class="pill">Risks: ${(a.linkedRiskIds || []).length}</span>
+        </div>
+
+        <p>
+          <strong>Affected Functions:</strong><br>
+          ${(a.affectedFunctions || []).join(', ')}
+        </p>
+
+      </article>
+
+    `).join('');
+}
 function renderAll(){
   const signals=filteredSignals();
 
@@ -1939,7 +2005,7 @@ function renderAll(){
   renderRadar();
   renderGraph();
   renderConfidenceEngine();
-  
+  renderActionEngine();
 
   renderMomentumIntelligence();
   renderOverviewMomentumBlock();
