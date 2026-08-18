@@ -2065,6 +2065,13 @@ function renderOutcomeEngine(){
 }
 function renderDecisionCockpit(){
 
+  const signals = state.data.signals || [];
+  const outcomes = state.data.outcomes || [];
+  const themes = state.data.themes || [];
+  const assessments = state.data.assessments || [];
+  const kiqs = state.data.kiqs || [];
+  const actions = state.data.actions || [];
+
   setHtml('decisionHealth', `
     <div class="kpi-card">
       <div class="value">84%</div>
@@ -2072,9 +2079,6 @@ function renderDecisionCockpit(){
     </div>
   `);
 
-const signals = state.data.signals || [];
-const outcomes = state.data.outcomes || [];
-const themes = state.data.themes || [];
 
 setHtml('decisionChanged', `
   <div class="profile-grid">
