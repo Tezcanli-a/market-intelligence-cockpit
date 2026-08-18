@@ -2103,9 +2103,45 @@ setHtml('decisionChanged', `
   </div>
 `);
 
-  setHtml('decisionMatters',
-    '<p>V20.0 placeholder – top strategic intelligence will appear here.</p>'
-  );
+const assessments = state.data.assessments || [];
+
+const topAssessments =
+  assessments.slice(0,3);
+
+setHtml('decisionMatters', `
+  <div class="profile-grid">
+
+    ${topAssessments.map(a => `
+
+      <article class="profile-card">
+
+        <span class="meta">
+          ${safeHtml(a.assessmentId || '')}
+        </span>
+
+        <h3>
+          ${safeHtml(a.title || '')}
+        </h3>
+
+        <p>
+          ${safeHtml(
+            a.businessImplication ||
+            'Business implication not populated yet.'
+          )}
+        </p>
+
+        <div class="pill-row">
+          <span class="pill">
+            ${safeHtml(a.confidence || 'Unknown')}
+          </span>
+        </div>
+
+      </article>
+
+    `).join('')}
+
+  </div>
+`);
 
   setHtml('decisionUncertain',
     '<p>V20.0 placeholder – KIQs, gaps and uncertainty will appear here.</p>'
