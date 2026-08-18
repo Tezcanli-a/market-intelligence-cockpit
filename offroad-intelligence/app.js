@@ -15,7 +15,7 @@ const files = {
   assessments:'data/assessments.json',
   customerProfiles:'data/customer_profiles.json',
   competitorProfiles:'data/competitor_profiles.json',
-  performance:'data/performance_trends.json'
+  performance:'data/performance_trends.json' , 
   kiqs:'data/kiqs.json'
 };
 const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, themes:[], signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], newsRaw:{lastUpdated:'',news:[]} };
