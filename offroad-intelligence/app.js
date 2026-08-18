@@ -2221,26 +2221,60 @@ setHtml('decisionHealth', `
 </div>
 `);
 
-  setHtml('decisionLearning', `
-    <div class="profile-grid">
+setHtml('decisionLearning', `
+<div class="profile-grid">
 
-      <article class="profile-card">
-        <h3>Tracked Outcomes</h3>
-        <p>${outcomes.length} outcomes are currently connected to actions and assessments.</p>
-      </article>
+  <article class="profile-card">
 
-      <article class="profile-card">
-        <h3>Learning Captured</h3>
-        <p>${lessonsCaptured.length} lessons have been formally documented.</p>
-      </article>
+    <h3>Assessment Validated</h3>
 
-      <article class="profile-card">
-        <h3>Open Learning Loops</h3>
-        <p>${openOutcomes.length} outcomes are still awaiting validation.</p>
-      </article>
+    <strong>Operator Environment Trend</strong>
 
+    <p>
+      Multiple signals confirmed the assessment.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Confidence +6%</span>
     </div>
-  `);
+
+  </article>
+
+  <article class="profile-card">
+
+    <h3>Learning Captured</h3>
+
+    <strong>Hiring Signals</strong>
+
+    <p>
+      Hiring activity proved to be a stronger early indicator
+      than previously assumed.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Model Updated</span>
+    </div>
+
+  </article>
+
+  <article class="profile-card">
+
+    <h3>Open Learning Loop</h3>
+
+    <strong>Autonomy Adoption</strong>
+
+    <p>
+      Continue monitoring to confirm long-term trajectory.
+    </p>
+
+    <div class="pill-row">
+      <span class="pill">Review Pending</span>
+    </div>
+
+  </article>
+
+</div>
+`);
 
   setHtml('decisionPanel',
     '<p>Executive decision queue placeholder.</p>'
