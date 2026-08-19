@@ -1973,6 +1973,7 @@ function renderOutcomeEngine(){
     `).join('');
 }
 function renderExecutiveAgenda() {
+  console.log(state.data.assessments);
 
   const assessments = state.data.assessments || [];
 
