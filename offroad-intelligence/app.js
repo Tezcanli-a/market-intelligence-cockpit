@@ -2012,12 +2012,22 @@ agendaItems.map(a => {
             <strong>Recommended action</strong><br>
             ${safeHtml(d.recommendedAction || '')}
           </p>
-          <p>
-  <strong>Affected</strong><br>
-  ${impact.customers || 0} Customers •
-  ${impact.competitors || 0} Competitors •
-  ${impact.technologies || 0} Technologies
-</p>
+          
+<div class="impact-chips">
+
+  <span class="pill">
+    ${impact.customers || 0} Customers
+  </span>
+
+  <span class="pill">
+    ${impact.competitors || 0} Competitors
+  </span>
+
+  <span class="pill">
+    ${impact.technologies || 0} Technologies
+  </span>
+
+</div>
 
         </article>
       `;
