@@ -2453,6 +2453,44 @@ function renderPriorityMatrix() {
   ctx.lineTo(40, h - 40);
   ctx.stroke();
 
+  // quadrant divider
+
+ctx.strokeStyle = '#e5e7eb';
+
+ctx.beginPath();
+ctx.moveTo(w / 2, 20);
+ctx.lineTo(w / 2, h - 40);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(40, h / 2);
+ctx.lineTo(w - 20, h / 2);
+ctx.stroke();
+
+ctx.fillStyle = '#64748b';
+ctx.font = '12px Arial';
+
+ctx.fillText('Act Now', w - 120, 40);
+
+ctx.fillText('Investigate', w - 130, h - 60);
+
+ctx.fillText('Watch', 60, 40);
+
+ctx.fillText('Monitor', 60, h - 60);
+
+ctx.fillStyle = '#334155';
+
+ctx.fillText('Exposure →', w/2 - 40, h - 10);
+
+ctx.save();
+
+ctx.translate(12, h/2);
+ctx.rotate(-Math.PI / 2);
+
+ctx.fillText('Momentum →', 0, 0);
+
+ctx.restore();
+
   const data = buildPriorityMatrixData();
 
   data.forEach(item => {
