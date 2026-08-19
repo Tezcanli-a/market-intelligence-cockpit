@@ -2425,6 +2425,43 @@ setHtml('decisionAlerts', `
 </div>
 `);
 }
+
+function buildPriorityMatrixData() {
+
+  const assessments = state.data.assessments || [];
+
+  return assessments.map(a => ({
+    label: a.title,
+    x: a.exposure || 50,
+    y: a.momentum || 50,
+    impact: a.impact || 50,
+    confidence: a.confidence || 50
+  }));
+
+}
+
+function renderDecisionCockpit() {
+   ...
+}
+
+function buildPriorityMatrixData() {
+
+  const assessments = state.data.assessments || [];
+
+  return assessments.map(a => ({
+    label: a.title,
+    x: a.exposure || 50,
+    y: a.momentum || 50,
+    impact: a.impact || 50,
+    confidence: a.confidence || 50
+  }));
+
+}
+
+function renderPriorityMatrix() {
+   ...
+}
+
 function renderAll(){
   renderDecisionCockpit();
   const signals=filteredSignals();
