@@ -1976,7 +1976,9 @@ function renderExecutiveAgenda() {
   
   const assessments = state.data.assessments || [];
 
-const agendaItems = assessments.slice(0,3);
+const agendaItems =
+  assessments.filter(a => a.decisionBrief);
+  console.log('Agenda Items:', agendaItems);
 
   setHtml(
     'executiveAgenda',
