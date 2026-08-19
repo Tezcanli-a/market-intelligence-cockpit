@@ -31,20 +31,15 @@
     "timeHorizon": "6-24 months",
     "owner": "Market Intelligence",
     "reviewDate": "2026-09-15",
-    "decisionBrief": {
-"impactPreview": {
-  "customers": 3,
-  "competitors": 2,
-  "technologies": 4
-}
-      
-      "agendaStatus":"Act Now",
+"decisionBrief": {
+
+  "agendaStatus":"Act Now",
 
   "whatChanged":"OEM and supplier discussions increasingly move toward integrated operator-environment solutions.",
 
   "whyItMatters":"GRAMMER may need to evolve from component positioning toward broader operator-environment system offers.",
 
-  "whatCouldHappenNext":"Integrated operator-environment requirements may become visible in offroad programmes within the next 6–24 months.",
+  "whatCouldHappenNext":"Integrated operator-environment requirements may become visible in offroad programmes within the next 6-24 months.",
 
   "recommendedAction":"Initiate cross-functional roadmap review.",
 
@@ -56,7 +51,14 @@
     "Required capability build-up"
   ],
 
-  "whyAmISeeingThis":"2 linked themes, 1 opportunity, 1 risk, active KIQ relevance."
+  "whyAmISeeingThis":"2 linked themes, 1 opportunity, 1 risk, active KIQ relevance.",
+
+  "impactPreview": {
+    "customers":3,
+    "competitors":2,
+    "technologies":4
+  }
+
 },
     "opportunityIds": [
       "OPP-001"
@@ -98,12 +100,8 @@
     "timeHorizon": "6-24 months",
     "owner": "Market Intelligence / Innovation",
     "reviewDate": "2026-09-15",
-    "decisionBrief": {
-      "impactPreview": {
-  "customers": 2,
-  "competitors": 1,
-  "technologies": 5
-}
+"decisionBrief": {
+
   "agendaStatus":"Watch",
 
   "whatChanged":"Automation and operator-assistance developments continue to expand.",
@@ -122,8 +120,16 @@
     "Technology maturity"
   ],
 
-  "whyAmISeeingThis":"3 linked themes and automation-related signal activity."
+  "whyAmISeeingThis":"3 linked themes and automation-related signal activity.",
+
+  "impactPreview":{
+    "customers":2,
+    "competitors":1,
+    "technologies":5
+  }
+
 },
+
     "opportunityIds": [
       "OPP-002"
     ],
@@ -161,12 +167,8 @@
     "timeHorizon": "12-24 months",
     "owner": "Sales / Market Intelligence",
     "reviewDate": "2026-09-30",
-    "decisionBrief": {
-      "impactPreview": {
-  "customers": 4,
-  "competitors": 2,
-  "technologies": 3
-}
+"decisionBrief": {
+
   "agendaStatus":"Investigate",
 
   "whatChanged":"Material handling automation signals continue to accumulate.",
@@ -184,7 +186,14 @@
     "Customer investment priorities"
   ],
 
-  "whyAmISeeingThis":"Material-handling automation trend linked to opportunity potential."
+  "whyAmISeeingThis":"Material-handling automation trend linked to opportunity potential.",
+
+  "impactPreview":{
+    "customers":4,
+    "competitors":2,
+    "technologies":3
+  }
+
 },
     "opportunityIds": [
       "OPP-002"
