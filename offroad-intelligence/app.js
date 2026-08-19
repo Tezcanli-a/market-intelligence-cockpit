@@ -1984,6 +1984,7 @@ const agendaItems = assessments.slice(0,3);
 agendaItems.map(a => {
 
       const d = a.decisionBrief || {};
+  const impact = d.impactPreview || {};
 
       return `
         <article class="profile-card">
@@ -2016,6 +2017,12 @@ agendaItems.map(a => {
             <strong>Recommended action</strong><br>
             ${safeHtml(d.recommendedAction || '')}
           </p>
+          <p>
+  <strong>Affected</strong><br>
+  ${impact.customers || 0} Customers •
+  ${impact.competitors || 0} Competitors •
+  ${impact.technologies || 0} Technologies
+</p>
 
           <p>
             <strong>Why am I seeing this?</strong><br>
