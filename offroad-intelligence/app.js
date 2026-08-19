@@ -2092,6 +2092,8 @@ function renderDecisionCockpit(){
   assessments.find(a =>
     a.decisionBrief?.agendaStatus === 'Act Now'
   ) || topAssessments[0];
+  
+  const d = decisionCandidate?.decisionBrief || {};
 
   const lowConfidence = assessments.filter(a =>
     (a.confidence || '').toLowerCase() === 'low'
@@ -2390,7 +2392,7 @@ setHtml('decisionPanel', `
   <article class="profile-card">
     <h3>Decision Candidate</h3>
 
-  ${safeHtml(decisionCandidate.title)}
+ ${safeHtml(decisionCandidate?.title || '')}
 
     <p>
 ${safeHtml(d.whyItMatters || '')}
@@ -2398,7 +2400,9 @@ ${safeHtml(d.whyItMatters || '')}
 
     <div class="pill-row">
       <span class="pill">Decision Required</span>
-      <span class="pill">Confidence: 78%</span>
+      <span class="pill">
+  Confidence: ${safeHtml(decisionCandidate?.confidenceScore || 'n/a')}%
+</span>
     </div>
 
     <p>
