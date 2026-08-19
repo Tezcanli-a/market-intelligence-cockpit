@@ -1980,7 +1980,22 @@ function renderExecutiveAgenda() {
   setHtml(
     'executiveAgenda',
 
-    assessments.slice(0,3).map(a => {
+    const rank = {
+  'Act Now': 1,
+  'Investigate': 2,
+  'Watch': 3,
+  'Monitor': 4
+};
+
+const agendaItems =
+  assessments
+    .filter(a => a.decisionBrief)
+    .sort((a,b) =>
+      (rank[a.decisionBrief?.agendaStatus] || 99) -
+      (rank[b.decisionBrief?.agendaStatus] || 99)
+    );
+
+agendaItems.map(a => {
 
       const d = a.decisionBrief || {};
 
