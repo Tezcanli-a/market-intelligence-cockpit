@@ -2618,10 +2618,18 @@ ctx.restore();
 
     const radius = 15 + item.impact / 8;
 
-    const green = Math.round(item.confidence * 2.55);
-    const red = 255 - green;
-
-    ctx.fillStyle = `rgb(${red},${green},80)`;
+if(item.status === 'Act Now'){
+  ctx.fillStyle = '#dc2626';
+}
+else if(item.status === 'Watch'){
+  ctx.fillStyle = '#f59e0b';
+}
+else if(item.status === 'Investigate'){
+  ctx.fillStyle = '#2563eb';
+}
+else{
+  ctx.fillStyle = '#64748b';
+}
 
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -2633,7 +2641,9 @@ ctx.restore();
 ctx.font = '12px Arial';
 
 ctx.fillText(
-  item.label,
+  item.label.length > 28
+    ? item.label.substring(0,28) + '...'
+    : item.label,
   x + radius + 6,
   y + 4
 );
@@ -2646,13 +2656,14 @@ function buildPriorityMatrixData() {
 
   const assessments = state.data.assessments || [];
 
-  return assessments.map(a => ({
-    label: a.title,
-    x: a.exposure || 50,
-    y: a.momentum || 50,
-    impact: a.impact || 50,
-    confidence: a.confidenceScore || 50
-  }));
+return assessments.map(a => ({
+  label: a.title,
+  x: a.exposure || 50,
+  y: a.momentum || 50,
+  impact: a.impact || 50,
+  confidence: a.confidenceScore || 50,
+  status: a.decisionBrief?.agendaStatus || 'Monitor'
+}));
 
 }
 
