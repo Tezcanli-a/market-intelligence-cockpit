@@ -2439,12 +2439,22 @@ function renderPriorityMatrix() {
   const w = canvas.width;
   const h = canvas.height;
 
-  ctx.clearRect(0, 0, w, h);
-  ctx.clearRect(...);
+ctx.clearRect(0, 0, w, h);
 
 // colored quadrants
-ctx.fillStyle ...
-ctx.fillRect ...
+
+ctx.fillStyle = 'rgba(34,197,94,0.08)';
+ctx.fillRect(w/2,20,w/2-20,h/2-20);
+
+ctx.fillStyle = 'rgba(59,130,246,0.08)';
+ctx.fillRect(40,20,w/2-40,h/2-20);
+
+ctx.fillStyle = 'rgba(251,191,36,0.08)';
+ctx.fillRect(w/2,h/2,w/2-20,h/2-40);
+
+ctx.fillStyle = 'rgba(239,68,68,0.08)';
+ctx.fillRect(40,h/2,w/2-40,h/2-40);
+
 
 // axes
 ctx.beginPath();
