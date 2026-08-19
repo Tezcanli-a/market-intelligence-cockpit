@@ -614,3 +614,19 @@
   display:block;
   margin:0 auto;
 }
+.impact-chips{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+
+.impact-chips .pill{
+  background:#eef6f7;
+  border:1px solid #cfe5e7;
+  color:#0f5e66;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+}
