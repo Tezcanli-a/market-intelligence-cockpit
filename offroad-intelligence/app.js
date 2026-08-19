@@ -2088,6 +2088,10 @@ function renderDecisionCockpit(){
   const actions = state.data.actions || [];
 
   const topAssessments = assessments.slice(0,3);
+  const decisionCandidate =
+  assessments.find(a =>
+    a.decisionBrief?.agendaStatus === 'Act Now'
+  ) || topAssessments[0];
 
   const lowConfidence = assessments.filter(a =>
     (a.confidence || '').toLowerCase() === 'low'
@@ -2386,11 +2390,10 @@ setHtml('decisionPanel', `
   <article class="profile-card">
     <h3>Decision Candidate</h3>
 
-    <strong>Integrated Cabin Strategy</strong>
+  ${safeHtml(decisionCandidate.title)}
 
     <p>
-      Customer and technology signals indicate increasing relevance
-      of integrated operator environments.
+${safeHtml(d.whyItMatters || '')}
     </p>
 
     <div class="pill-row">
@@ -2400,8 +2403,7 @@ setHtml('decisionPanel', `
 
     <p>
       <strong>Recommendation:</strong><br>
-      Initiate a product roadmap review for integrated cabin and
-      operator-environment positioning.
+${safeHtml(d.recommendedAction || '')}
     </p>
   </article>
 
@@ -2428,8 +2430,7 @@ setHtml('decisionPanel', `
     <h3>Consequence</h3>
 
     <p>
-      If the shift toward integrated solutions accelerates,
-      component-only positioning may become strategically exposed.
+ ${safeHtml(d.whatCouldHappenNext || '')}
     </p>
 
     <div class="pill-row">
