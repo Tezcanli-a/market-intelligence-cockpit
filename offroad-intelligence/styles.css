@@ -630,3 +630,18 @@
   font-size:12px;
   font-weight:600;
 }
+.agenda-card.act-now{
+  border-left:8px solid #dc2626;
+}
+
+.agenda-card.watch{
+  border-left:8px solid #f59e0b;
+}
+
+.agenda-card.investigate{
+  border-left:8px solid #2563eb;
+}
+
+.agenda-card.monitor{
+  border-left:8px solid #64748b;
+}
