@@ -1521,7 +1521,9 @@ function renderProvenance(){
           <h3>${safeHtml(a.title || '')}</h3>
           <div class="pill-row">
   <span class="pill">
-    ${safeHtml(d.agendaStatus || 'Monitor')}
+   ${safeHtml(
+  a.decisionBrief?.agendaStatus || 'Monitor'
+)}
   </span>
 
   <span class="pill">
