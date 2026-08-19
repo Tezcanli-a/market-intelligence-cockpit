@@ -2023,6 +2023,19 @@ const status =
           </div>
 
           <h3>${safeHtml(a.title || '')}</h3>
+          <div class="agenda-meta">
+    <span class="impact-tag">
+        Impact: ${assessment.impactLevel || 'Medium'}
+    </span>
+
+    <span class="confidence-tag">
+        Confidence: ${assessment.confidence || 75}%
+    </span>
+
+    <span class="decision-tag">
+        ${assessment.decisionStatus || 'Monitor'}
+    </span>
+</div>
 
           <p>
   <strong>What Changed</strong><br>
