@@ -2458,7 +2458,7 @@ ctx.fillRect(40,h/2,w/2-40,h/2-40);
 
 // axes
 ctx.beginPath();
-ctx.moveTo(...)
+
 
     ctx.strokeStyle = '#cccccc';
 
