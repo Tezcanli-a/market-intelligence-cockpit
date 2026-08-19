@@ -2508,6 +2508,15 @@ ctx.restore();
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
+    ctx.fillStyle = '#1f2937';
+    ctx.font = '11px Arial';
+
+    ctx.fillText(
+  item.label,
+  x + radius + 4,
+  y + 4
+);
+  
 
   });
 
