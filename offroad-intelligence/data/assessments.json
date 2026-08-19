@@ -32,7 +32,13 @@
     "owner": "Market Intelligence",
     "reviewDate": "2026-09-15",
     "decisionBrief": {
-  "agendaStatus":"Act Now",
+"impactPreview": {
+  "customers": 3,
+  "competitors": 2,
+  "technologies": 4
+}
+      
+      "agendaStatus":"Act Now",
 
   "whatChanged":"OEM and supplier discussions increasingly move toward integrated operator-environment solutions.",
 
@@ -93,6 +99,11 @@
     "owner": "Market Intelligence / Innovation",
     "reviewDate": "2026-09-15",
     "decisionBrief": {
+      "impactPreview": {
+  "customers": 2,
+  "competitors": 1,
+  "technologies": 5
+}
   "agendaStatus":"Watch",
 
   "whatChanged":"Automation and operator-assistance developments continue to expand.",
@@ -151,6 +162,11 @@
     "owner": "Sales / Market Intelligence",
     "reviewDate": "2026-09-30",
     "decisionBrief": {
+      "impactPreview": {
+  "customers": 4,
+  "competitors": 2,
+  "technologies": 3
+}
   "agendaStatus":"Investigate",
 
   "whatChanged":"Material handling automation signals continue to accumulate.",
