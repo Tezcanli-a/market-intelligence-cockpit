@@ -1987,11 +1987,13 @@ const agendaItems =
 agendaItems.map(a => {
 
       const d = a.decisionBrief || {};
+  const status =
+  (d.agendaStatus || 'Monitor').toLowerCase();
   const unknowns = d.unknowns || [];
   const impact = d.impactPreview || {};
 
       return `
-        <article class="profile-card">
+        <article class="profile-card agenda-card ${status}">
 
           <div class="profile-head">
 
