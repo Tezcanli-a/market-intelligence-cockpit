@@ -1976,20 +1976,7 @@ function renderExecutiveAgenda() {
   
   const assessments = state.data.assessments || [];
 
-  const rank = {
-  'Act Now': 1,
-  'Investigate': 2,
-  'Watch': 3,
-  'Monitor': 4
-};
-
-const agendaItems =
-  assessments
-    .filter(a => a.decisionBrief)
-    .sort((a,b) =>
-      (rank[a.decisionBrief?.agendaStatus] || 99) -
-      (rank[b.decisionBrief?.agendaStatus] || 99)
-    );
+const agendaItems = assessments.slice(0,3);
 
   setHtml(
     'executiveAgenda',
