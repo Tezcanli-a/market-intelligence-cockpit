@@ -1999,8 +1999,11 @@ const agendaItems =
 agendaItems.map(a => {
 
       const d = a.decisionBrief || {};
-  const status =
-  (d.agendaStatus || 'Monitor').toLowerCase();
+const status =
+ (d.agendaStatus || 'Monitor')
+   .toLowerCase()
+   .replace(/\s+/g,'-');
+
   const unknowns = d.unknowns || [];
   const impact = d.impactPreview || {};
 
