@@ -2560,7 +2560,7 @@ function buildPriorityMatrixData() {
     x: a.exposure || 50,
     y: a.momentum || 50,
     impact: a.impact || 50,
-    confidence: a.confidence || 50
+    confidence: a.confidenceScore || 50
   }));
 
 }
