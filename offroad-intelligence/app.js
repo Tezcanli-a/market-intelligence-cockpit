@@ -2009,11 +2009,6 @@ agendaItems.map(a => {
           </p>
 
           <p>
-            <strong>What could happen next</strong><br>
-            ${safeHtml(d.whatCouldHappenNext || '')}
-          </p>
-
-          <p>
             <strong>Recommended action</strong><br>
             ${safeHtml(d.recommendedAction || '')}
           </p>
@@ -2023,11 +2018,6 @@ agendaItems.map(a => {
   ${impact.competitors || 0} Competitors •
   ${impact.technologies || 0} Technologies
 </p>
-
-          <p>
-            <strong>Why am I seeing this?</strong><br>
-            ${safeHtml(d.whyAmISeeingThis || '')}
-          </p>
 
         </article>
       `;
