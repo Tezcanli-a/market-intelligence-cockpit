@@ -1972,8 +1972,66 @@ function renderOutcomeEngine(){
 
     `).join('');
 }
-function renderDecisionCockpit(){
+function renderExecutiveAgenda() {
 
+  const assessments = state.data.assessments || [];
+
+  setHtml(
+    'executiveAgenda',
+
+    assessments.slice(0,3).map(a => {
+
+      const d = a.decisionBrief || {};
+
+      return `
+        <article class="profile-card">
+
+          <div class="profile-head">
+
+            <span class="meta">
+              ${safeHtml(d.agendaStatus || 'Monitor')}
+            </span>
+
+            <span class="pill">
+              ${safeHtml(a.confidenceScore || 'n/a')}%
+            </span>
+
+          </div>
+
+          <h3>${safeHtml(a.title || '')}</h3>
+
+          <p>
+            <strong>Why it matters</strong><br>
+            ${safeHtml(d.whyItMatters || '')}
+          </p>
+
+          <p>
+            <strong>What could happen next</strong><br>
+            ${safeHtml(d.whatCouldHappenNext || '')}
+          </p>
+
+          <p>
+            <strong>Recommended action</strong><br>
+            ${safeHtml(d.recommendedAction || '')}
+          </p>
+
+          <p>
+            <strong>Why am I seeing this?</strong><br>
+            ${safeHtml(d.whyAmISeeingThis || '')}
+          </p>
+
+        </article>
+      `;
+
+    }).join('')
+  );
+
+}
+
+function renderDecisionCockpit(){
+  
+  renderExecutiveAgenda();
+  
   const signals = state.data.signals || [];
   const outcomes = state.data.outcomes || [];
   const themes = state.data.themes || [];
