@@ -645,3 +645,29 @@
 .agenda-card.monitor{
   border-left:8px solid #64748b;
 }
+.decision-tag{
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.decision-required{
+    background:#fef2f2;
+    color:#b91c1c;
+}
+
+.action-required{
+    background:#fff7ed;
+    color:#c2410c;
+}
+
+.monitor{
+    background:#fefce8;
+    color:#a16207;
+}
+
+.closed{
+    background:#ecfdf5;
+    color:#15803d;
+}
