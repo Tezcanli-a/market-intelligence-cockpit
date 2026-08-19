@@ -1987,6 +1987,7 @@ const agendaItems =
 agendaItems.map(a => {
 
       const d = a.decisionBrief || {};
+  const unknowns = d.unknowns || [];
   const impact = d.impactPreview || {};
 
       return `
@@ -2007,16 +2008,32 @@ agendaItems.map(a => {
           <h3>${safeHtml(a.title || '')}</h3>
 
           <p>
+  <strong>What Changed</strong><br>
+  ${safeHtml(d.whatChanged || '')}
+</p>
+          <p>
             <strong>Why it matters</strong><br>
             ${safeHtml(d.whyItMatters || '')}
           </p>
+          <p>
+  <strong>What Could Happen Next</strong><br>
+  ${safeHtml(d.whatCouldHappenNext || '')}
+</p>
 
           <p>
             <strong>Recommended action</strong><br>
             ${safeHtml(d.recommendedAction || '')}
           </p>
-          
+<div class="pill-row">
+  ${unknowns.map(u =>
+    `<span class="pill">${safeHtml(u)}</span>`
+  ).join('')}
+</div>   
+
 <div class="impact-chips">
+<p class="muted">
+  ${safeHtml(d.whyAmISeeingThis || '')}
+</p>
 
   <span class="pill">
     ${impact.customers || 0} Customers
