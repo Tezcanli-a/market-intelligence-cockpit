@@ -746,10 +746,10 @@
   color:#006c73;
 }
 .j4-agenda-body{
-  display:grid;
-  grid-template-columns:1.25fr .95fr 1.05fr;
-  gap:10px;
-  align-items:stretch;
+    display:grid;
+    grid-template-columns:1.25fr .95fr 1.05fr;
+    gap:10px;
+    align-items:start;
 }
 .j4-block{
   background:#f6fafb;
