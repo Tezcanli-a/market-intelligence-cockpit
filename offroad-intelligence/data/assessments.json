@@ -31,6 +31,27 @@
     "timeHorizon": "6-24 months",
     "owner": "Market Intelligence",
     "reviewDate": "2026-09-15",
+    "decisionBrief": {
+  "agendaStatus":"Act Now",
+
+  "whatChanged":"OEM and supplier discussions increasingly move toward integrated operator-environment solutions.",
+
+  "whyItMatters":"GRAMMER may need to evolve from component positioning toward broader operator-environment system offers.",
+
+  "whatCouldHappenNext":"Integrated operator-environment requirements may become visible in offroad programmes within the next 6–24 months.",
+
+  "recommendedAction":"Initiate cross-functional roadmap review.",
+
+  "owner":"Product Management",
+
+  "unknowns":[
+    "Customer willingness to pay",
+    "Competitor maturity",
+    "Required capability build-up"
+  ],
+
+  "whyAmISeeingThis":"2 linked themes, 1 opportunity, 1 risk, active KIQ relevance."
+},
     "opportunityIds": [
       "OPP-001"
     ],
@@ -71,6 +92,27 @@
     "timeHorizon": "6-24 months",
     "owner": "Market Intelligence / Innovation",
     "reviewDate": "2026-09-15",
+    "decisionBrief": {
+  "agendaStatus":"Watch",
+
+  "whatChanged":"Automation and operator-assistance developments continue to expand.",
+
+  "whyItMatters":"Customer evaluation criteria may increasingly include intelligent operator-environment capabilities.",
+
+  "whatCouldHappenNext":"Automation requirements could influence cockpit architecture discussions.",
+
+  "recommendedAction":"Track customer requirements and innovation signals.",
+
+  "owner":"Innovation",
+
+  "unknowns":[
+    "Speed of adoption",
+    "Customer priorities",
+    "Technology maturity"
+  ],
+
+  "whyAmISeeingThis":"3 linked themes and automation-related signal activity."
+},
     "opportunityIds": [
       "OPP-002"
     ],
@@ -108,6 +150,26 @@
     "timeHorizon": "12-24 months",
     "owner": "Sales / Market Intelligence",
     "reviewDate": "2026-09-30",
+    "decisionBrief": {
+  "agendaStatus":"Investigate",
+
+  "whatChanged":"Material handling automation signals continue to accumulate.",
+
+  "whyItMatters":"Several strategic accounts may require differentiated operator-environment solutions.",
+
+  "whatCouldHappenNext":"Account-specific opportunities may emerge within KION and Jungheinrich programmes.",
+
+  "recommendedAction":"Validate customer roadmaps and account opportunities.",
+
+  "owner":"Sales",
+
+  "unknowns":[
+    "Programme timing",
+    "Customer investment priorities"
+  ],
+
+  "whyAmISeeingThis":"Material-handling automation trend linked to opportunity potential."
+},
     "opportunityIds": [
       "OPP-002"
     ],
