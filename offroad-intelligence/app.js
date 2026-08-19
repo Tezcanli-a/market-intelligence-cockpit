@@ -1985,108 +1985,153 @@ function renderOutcomeEngine(){
     `).join('');
 }
 function renderExecutiveAgenda() {
-  
   const assessments = state.data.assessments || [];
-
-const agendaItems =
-  assessments
+  const actions = state.data.actions || [];
+  const agendaItems = assessments
     .filter(a => a.decisionBrief)
-    .slice(0,3);
-  
+    .slice(0, 3);
+
+  const impactLabel = score => {
+    const n = Number(score || 0);
+    if (n >= 80) return 'High';
+    if (n >= 60) return 'Medium';
+    return 'Low';
+  };
+
+  const levelClass = value => String(value || 'medium').toLowerCase();
+
+  const statusClass = value =>
+    String(value || 'Monitor')
+      .toLowerCase()
+      .replace(/\s+/g, '-');
+
+  const decisionClass = value =>
+    String(value || 'Monitor')
+      .toLowerCase()
+      .replace(/\s+/g, '-');
+
+  const businessImpactRows = impact => {
+    const labels = [
+      ['sales', 'Sales'],
+      ['rnd', 'R&D'],
+      ['innovation', 'Innovation'],
+      ['portfolio', 'Portfolio']
+    ];
+
+    return labels.map(([key, label]) => {
+      const level = impact?.[key] || 'medium';
+      return `
+        <div class="j4-impact-row">
+          <span>${safeHtml(label)}</span>
+          <div class="j4-impact-track">
+            <div class="j4-impact-fill ${levelClass(level)}"></div>
+          </div>
+          <strong>${safeHtml(level)}</strong>
+        </div>`;
+    }).join('');
+  };
+
+  const scenarioRows = (d, a) => {
+    const scenarios = d.scenarios || {};
+    const likelihood = d.likelihood || {};
+    const likely = scenarios.likely || d.whatCouldHappenNext || a.forecast || '';
+    const possible = scenarios.possible || a.forecast || '';
+    const earlyWarning = scenarios.earlyWarning || d.openGap || arr(d.unknowns)[0] || '';
+
+    return `
+      <div class="j4-scenario-row">
+        <strong>Likely (${safeHtml(likelihood.likely || 70)}%)</strong>
+        <p>${safeHtml(likely)}</p>
+      </div>
+      <div class="j4-scenario-row">
+        <strong>Possible (${safeHtml(likelihood.possible || 45)}%)</strong>
+        <p>${safeHtml(possible)}</p>
+      </div>
+      <div class="j4-scenario-row">
+        <strong>Early Warning (${safeHtml(likelihood.earlyWarning || 25)}%)</strong>
+        <p>${safeHtml(earlyWarning)}</p>
+      </div>`;
+  };
+
   setHtml(
     'executiveAgenda',
-
-agendaItems.map(a => {
-
+    agendaItems.map(a => {
       const d = a.decisionBrief || {};
-const status =
- (d.agendaStatus || 'Monitor')
-   .toLowerCase()
-   .replace(/\s+/g,'-');
-
-  const unknowns = d.unknowns || [];
-  const impact = d.impactPreview || {};
+      const action = actions.find(x => arr(x.linkedAssessmentIds).includes(a.assessmentId)) || {};
+      const agendaStatus = d.agendaStatus || 'Monitor';
+      const decisionStatus = d.decisionStatus || (agendaStatus === 'Act Now' ? 'Decision Required' : agendaStatus === 'Investigate' ? 'Action Required' : 'Monitor');
+      const unknowns = arr(d.unknowns);
+      const impactPreview = d.impactPreview || {};
+      const impactMap = d.impactMap || {};
+      const businessImpact = d.businessImpact || {};
+      const owner = d.owner || action.owner || a.owner || 'Market Intelligence';
+      const due = d.dueDate || action.reviewDate || a.reviewDate || '';
+      const openGap = d.openGap || unknowns[0] || 'No explicit open gap populated yet.';
+      const decisionTask = action.title || d.recommendedAction || a.recommendedAction || 'Define decision task.';
 
       return `
-        <article class="profile-card agenda-card ${status}">
-
-          <div class="profile-head">
-
-            <span class="meta">
-              ${safeHtml(d.agendaStatus || 'Monitor')}
-            </span>
-
-            <span class="pill">
-              ${safeHtml(a.confidenceScore || 'n/a')}%
-            </span>
-
+        <article id="agenda-${safeHtml(a.assessmentId || '')}" class="profile-card agenda-card j4-agenda-card ${statusClass(agendaStatus)}">
+          <div class="j4-agenda-top">
+            <div>
+              <span class="j4-status ${statusClass(agendaStatus)}">${safeHtml(agendaStatus)}</span>
+              <h3>${safeHtml(a.title || '')}</h3>
+            </div>
+            <span class="j4-decision-badge ${decisionClass(decisionStatus)}">${safeHtml(decisionStatus)}</span>
           </div>
 
-          <h3>${safeHtml(a.title || '')}</h3>
-          <div class="agenda-meta">
-    <span class="impact-tag">
-        Impact: ${assessment.impactLevel || 'Medium'}
-    </span>
+          <div class="j4-metric-row">
+            <span><b>Impact</b> ${safeHtml(impactLabel(a.impact))}</span>
+            <span><b>Confidence</b> ${safeHtml(a.confidenceScore || 'n/a')}%</span>
+            <span><b>Horizon</b> ${safeHtml(a.timeHorizon || 'n/a')}</span>
+          </div>
 
-    <span class="confidence-tag">
-        Confidence: ${assessment.confidence || 75}%
-    </span>
+          <div class="j4-agenda-body">
+            <section class="j4-block j4-main-text">
+              <strong>Why GRAMMER cares</strong>
+              <p>${safeHtml(d.whyItMatters || a.businessImplication || a.assessment || '')}</p>
+            </section>
 
-    <span class="decision-tag">
-        ${assessment.decisionStatus || 'Monitor'}
-    </span>
-</div>
+            <section class="j4-block">
+              <strong>Business Impact</strong>
+              <div class="j4-impact-bars">
+                ${businessImpactRows(businessImpact)}
+              </div>
+            </section>
 
-          <p>
-  <strong>What Changed</strong><br>
-  ${safeHtml(d.whatChanged || '')}
-</p>
-          <p>
-            <strong>Why it matters</strong><br>
-            ${safeHtml(d.whyItMatters || '')}
-          </p>
-          <p>
-  <strong>What Could Happen Next</strong><br>
-  ${safeHtml(d.whatCouldHappenNext || '')}
-</p>
+            <section class="j4-block">
+              <strong>What could happen next</strong>
+              <div class="j4-scenarios">
+                ${scenarioRows(d, a)}
+              </div>
+            </section>
 
-          <p>
-            <strong>Recommended action</strong><br>
-            ${safeHtml(d.recommendedAction || '')}
-          </p>
-<div class="pill-row">
-  ${unknowns.map(u =>
-    `<span class="pill">${safeHtml(u)}</span>`
-  ).join('')}
-</div>   
+            <section class="j4-block j4-decision-task">
+              <strong>Decision Task</strong>
+              <p>${safeHtml(decisionTask)}</p>
+              <div class="j4-owner-row">
+                <span><b>Owner:</b> ${safeHtml(owner)}</span>
+                <span><b>Due:</b> ${safeHtml(due)}</span>
+              </div>
+            </section>
+          </div>
 
-<div class="impact-chips">
-<p class="muted">
-  ${safeHtml(d.whyAmISeeingThis || '')}
-</p>
+          <div class="j4-footer-row">
+            <span class="pill">Customers ${safeHtml(impactPreview.customers || arr(impactMap.customers).length || 0)}</span>
+            <span class="pill">Competitors ${safeHtml(impactPreview.competitors || arr(impactMap.competitors).length || 0)}</span>
+            <span class="pill">Technologies ${safeHtml(impactPreview.technologies || arr(impactMap.technologies).length || 0)}</span>
+            <span class="pill">Signals ${safeHtml(arr(a.linkedSignalIds).length || 0)}</span>
+            <span class="pill">Opportunities ${safeHtml(arr(a.linkedOpportunityIds || a.opportunityIds).length || 0)}</span>
+            <span class="pill">Risks ${safeHtml(arr(a.linkedRiskIds || a.riskIds).length || 0)}</span>
+          </div>
 
-  <span class="pill">
-    ${impact.customers || 0} Customers
-  </span>
-
-  <span class="pill">
-    ${impact.competitors || 0} Competitors
-  </span>
-
-  <span class="pill">
-    ${impact.technologies || 0} Technologies
-  </span>
-
-</div>
-
+          <div class="j4-gap-row">
+            <strong>Open gap:</strong> ${safeHtml(openGap)}
+          </div>
         </article>
       `;
-
-    }).join('')
+    }).join('') || '<p class="empty">No executive agenda items available.</p>'
   );
-
 }
-
 function renderDecisionCockpit(){
   
   renderExecutiveAgenda();
@@ -2400,62 +2445,39 @@ setHtml('decisionLearning', `
 `);
 
 setHtml('decisionPanel', `
-<div class="profile-grid">
-
-  <article class="profile-card">
-    <h3>Decision Candidate</h3>
-
- ${safeHtml(decisionCandidate?.title || '')}
-
-    <p>
-${safeHtml(d.whyItMatters || '')}
-    </p>
-
+<div class="profile-grid j4-decision-panel-grid">
+  <article class="profile-card j4-panel-card j4-panel-primary">
+    <h3>Decision Required</h3>
+    <strong>${safeHtml(decisionCandidate?.title || '')}</strong>
+    <p>${safeHtml(d.whyItMatters || decisionCandidate?.businessImplication || '')}</p>
     <div class="pill-row">
-      <span class="pill">Decision Required</span>
-      <span class="pill">
-  Confidence: ${safeHtml(decisionCandidate?.confidenceScore || 'n/a')}%
-</span>
+      <span class="pill">${safeHtml(d.agendaStatus || 'Monitor')}</span>
+      <span class="pill">Confidence: ${safeHtml(decisionCandidate?.confidenceScore || 'n/a')}%</span>
+      <span class="pill">Impact: ${safeHtml(decisionCandidate?.impact || 'n/a')}</span>
+      <span class="pill">Horizon: ${safeHtml(decisionCandidate?.timeHorizon || 'n/a')}</span>
     </div>
-
     <p>
-      <strong>Recommendation:</strong><br>
-${safeHtml(d.recommendedAction || '')}
+      <strong>Decision task:</strong><br>
+      ${safeHtml((actions.find(x => arr(x.linkedAssessmentIds).includes(decisionCandidate?.assessmentId)) || {}).title || d.recommendedAction || '')}
     </p>
   </article>
 
-  <article class="profile-card">
-    <h3>Options</h3>
-
-    <p>
-      <strong>Option A:</strong><br>
-      Continue monitoring without escalation.
-    </p>
-
-    <p>
-      <strong>Option B:</strong><br>
-      Start cross-functional roadmap review.
-    </p>
-
-    <p>
-      <strong>Option C:</strong><br>
-      Launch dedicated strategic initiative.
-    </p>
+  <article class="profile-card j4-panel-card">
+    <h3>Owner & Timing</h3>
+    <p><strong>Owner:</strong><br>${safeHtml(d.owner || (actions.find(x => arr(x.linkedAssessmentIds).includes(decisionCandidate?.assessmentId)) || {}).owner || decisionCandidate?.owner || '')}</p>
+    <p><strong>Due / Review:</strong><br>${safeHtml(d.dueDate || (actions.find(x => arr(x.linkedAssessmentIds).includes(decisionCandidate?.assessmentId)) || {}).reviewDate || decisionCandidate?.reviewDate || '')}</p>
+    <p><strong>Open gap:</strong><br>${safeHtml(d.openGap || arr(d.unknowns)[0] || 'No explicit open gap populated yet.')}</p>
   </article>
 
-  <article class="profile-card">
+  <article class="profile-card j4-panel-card">
     <h3>Consequence</h3>
-
-    <p>
- ${safeHtml(d.whatCouldHappenNext || '')}
-    </p>
-
+    <p>${safeHtml(d.whatCouldHappenNext || decisionCandidate?.forecast || '')}</p>
     <div class="pill-row">
-      <span class="pill">Owner: Strategy / Product</span>
-      <span class="pill">Status: Review Needed</span>
+      <span class="pill">Customers: ${safeHtml(d.impactPreview?.customers || arr(d.impactMap?.customers).length || 0)}</span>
+      <span class="pill">Competitors: ${safeHtml(d.impactPreview?.competitors || arr(d.impactMap?.competitors).length || 0)}</span>
+      <span class="pill">Technologies: ${safeHtml(d.impactPreview?.technologies || arr(d.impactMap?.technologies).length || 0)}</span>
     </div>
   </article>
-
 </div>
 `);
 

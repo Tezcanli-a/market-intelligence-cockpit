@@ -671,3 +671,203 @@
     background:#ecfdf5;
     color:#15803d;
 }
+
+
+/* V20.0J.4 - Decision Grade Executive Agenda */
+#executiveAgenda{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+.j4-agenda-card{
+  padding:14px 16px;
+  gap:10px;
+  border-top:0;
+  box-shadow:0 8px 20px rgba(6,63,79,.06);
+}
+.j4-agenda-top{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+}
+.j4-agenda-top h3{
+  margin:6px 0 0;
+  font-size:18px;
+  line-height:1.25;
+}
+.j4-status,
+.j4-decision-badge{
+  display:inline-block;
+  border-radius:999px;
+  padding:5px 9px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+}
+.j4-status.act-now,
+.j4-decision-badge.decision-required{
+  background:#fef2f2;
+  color:#b91c1c;
+  border:1px solid #fecaca;
+}
+.j4-status.watch,
+.j4-decision-badge.monitor{
+  background:#fffbeb;
+  color:#a16207;
+  border:1px solid #fde68a;
+}
+.j4-status.investigate,
+.j4-decision-badge.action-required{
+  background:#eff6ff;
+  color:#1d4ed8;
+  border:1px solid #bfdbfe;
+}
+.j4-decision-badge.closed{
+  background:#ecfdf5;
+  color:#15803d;
+  border:1px solid #bbf7d0;
+}
+.j4-metric-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.j4-metric-row span{
+  background:#f6fafb;
+  border:1px solid #dce7ec;
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:12px;
+  color:#12333d;
+}
+.j4-metric-row b{
+  color:#006c73;
+}
+.j4-agenda-body{
+  display:grid;
+  grid-template-columns:1.25fr .95fr 1.05fr;
+  gap:10px;
+  align-items:stretch;
+}
+.j4-block{
+  background:#f6fafb;
+  border:1px solid #dce7ec;
+  border-radius:12px;
+  padding:10px;
+}
+.j4-block strong{
+  display:block;
+  color:#006c73;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  margin-bottom:6px;
+}
+.j4-block p{
+  margin:0;
+  line-height:1.38;
+  font-size:13px;
+}
+.j4-main-text{
+  background:#eef7f8;
+  border-left:5px solid #00858c;
+}
+.j4-decision-task{
+  background:#fff;
+  border-left:5px solid #063f4f;
+}
+.j4-impact-bars{
+  display:grid;
+  gap:7px;
+}
+.j4-impact-row{
+  display:grid;
+  grid-template-columns:82px 1fr 62px;
+  gap:8px;
+  align-items:center;
+  font-size:12px;
+}
+.j4-impact-row span{
+  color:#12333d;
+  font-weight:700;
+}
+.j4-impact-row strong{
+  margin:0;
+  color:#12333d;
+  font-size:12px;
+  text-transform:none;
+  letter-spacing:0;
+}
+.j4-impact-track{
+  height:8px;
+  background:#e5eef2;
+  border-radius:999px;
+  overflow:hidden;
+}
+.j4-impact-fill{
+  height:100%;
+  border-radius:999px;
+}
+.j4-impact-fill.high{width:100%;background:#dc2626;}
+.j4-impact-fill.medium{width:66%;background:#f59e0b;}
+.j4-impact-fill.low{width:35%;background:#16a34a;}
+.j4-scenarios{
+  display:grid;
+  gap:6px;
+}
+.j4-scenario-row{
+  border-bottom:1px solid #dce7ec;
+  padding-bottom:6px;
+}
+.j4-scenario-row:last-child{
+  border-bottom:0;
+  padding-bottom:0;
+}
+.j4-scenario-row strong{
+  color:#12333d;
+  text-transform:none;
+  letter-spacing:0;
+  font-size:12px;
+  margin-bottom:3px;
+}
+.j4-owner-row,
+.j4-footer-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:8px;
+}
+.j4-owner-row span{
+  font-size:12px;
+  background:#edf6f7;
+  border-radius:999px;
+  padding:5px 8px;
+}
+.j4-footer-row{
+  margin-top:0;
+}
+.j4-gap-row{
+  background:#fff7ed;
+  color:#7c2d12;
+  border:1px solid #fed7aa;
+  border-radius:10px;
+  padding:8px 10px;
+  font-size:12px;
+}
+.j4-panel-card{
+  border-top:0;
+  border-left:6px solid #00858c;
+}
+.j4-panel-primary{
+  border-left-color:#dc2626;
+}
+@media(max-width:1200px){
+  .j4-agenda-body{
+    grid-template-columns:1fr;
+  }
+  .j4-impact-row{
+    grid-template-columns:95px 1fr 70px;
+  }
+}
