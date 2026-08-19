@@ -2508,13 +2508,22 @@ ctx.restore();
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '#1f2937';
-    ctx.font = '11px Arial';
+    ctx.lineWidth = 2;
+  ctx.strokeStyle = '#ffffff';
+  ctx.stroke();
+ ctx.fillStyle = '#475569';
+ctx.font = '11px Arial';
 
-    ctx.fillText(
-  item.label,
-  x + radius + 4,
-  y + 4
+ctx.fillText(
+  'Size = Impact',
+  w - 120,
+  h - 20
+);
+
+ctx.fillText(
+  'Color = Confidence',
+  w - 120,
+  h - 5
 );
   
 
