@@ -2530,26 +2530,18 @@ ctx.restore();
     ctx.lineWidth = 2;
   ctx.strokeStyle = '#ffffff';
   ctx.stroke();
- ctx.fillStyle = '#475569';
-ctx.font = '11px Arial';
+  ctx.fillStyle = '#1f2937';
+ctx.font = '12px Arial';
 
 ctx.fillText(
-  'Size = Impact',
-  w - 120,
-  h - 20
+  item.label,
+  x + radius + 6,
+  y + 4
 );
-
-ctx.fillText(
-  'Color = Confidence',
-  w - 120,
-  h - 5
-);
-  
 
   });
 
 }
-
 
 function buildPriorityMatrixData() {
 
