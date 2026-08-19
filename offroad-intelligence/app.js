@@ -2440,8 +2440,17 @@ function renderPriorityMatrix() {
   const h = canvas.height;
 
   ctx.clearRect(0, 0, w, h);
+  ctx.clearRect(...);
 
-  ctx.strokeStyle = '#cccccc';
+// colored quadrants
+ctx.fillStyle ...
+ctx.fillRect ...
+
+// axes
+ctx.beginPath();
+ctx.moveTo(...)
+
+    ctx.strokeStyle = '#cccccc';
 
   ctx.beginPath();
   ctx.moveTo(40, h - 40);
@@ -2468,7 +2477,7 @@ ctx.lineTo(w - 20, h / 2);
 ctx.stroke();
 
 ctx.fillStyle = '#64748b';
-ctx.font = '12px Arial';
+ctx.font = 'bold 15px Arial';
 
 ctx.fillText('Act Now', w - 120, 40);
 
@@ -2498,7 +2507,7 @@ ctx.restore();
     const x = 40 + ((w - 60) * item.x / 100);
     const y = (h - 40) - ((h - 60) * item.y / 100);
 
-    const radius = 8 + item.impact / 10;
+    const radius = 15 + item.impact / 8;
 
     const green = Math.round(item.confidence * 2.55);
     const red = 255 - green;
