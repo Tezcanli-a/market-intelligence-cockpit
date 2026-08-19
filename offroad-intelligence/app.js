@@ -2440,10 +2440,6 @@ function buildPriorityMatrixData() {
 
 }
 
-function renderDecisionCockpit() {
-   ...
-}
-
 function buildPriorityMatrixData() {
 
   const assessments = state.data.assessments || [];
@@ -2458,9 +2454,6 @@ function buildPriorityMatrixData() {
 
 }
 
-function renderPriorityMatrix() {
-   ...
-}
 
 function renderAll(){
   renderDecisionCockpit();
