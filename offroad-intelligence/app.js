@@ -2424,21 +2424,57 @@ setHtml('decisionAlerts', `
 
 </div>
 `);
+
+  renderPriorityMatrix();
 }
 
-function buildPriorityMatrixData() {
+function renderPriorityMatrix() {
 
-  const assessments = state.data.assessments || [];
+  const canvas = document.getElementById('priorityMatrix');
 
-  return assessments.map(a => ({
-    label: a.title,
-    x: a.exposure || 50,
-    y: a.momentum || 50,
-    impact: a.impact || 50,
-    confidence: a.confidence || 50
-  }));
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+
+  const w = canvas.width;
+  const h = canvas.height;
+
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.strokeStyle = '#cccccc';
+
+  ctx.beginPath();
+  ctx.moveTo(40, h - 40);
+  ctx.lineTo(w - 20, h - 40);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(40, 20);
+  ctx.lineTo(40, h - 40);
+  ctx.stroke();
+
+  const data = buildPriorityMatrixData();
+
+  data.forEach(item => {
+
+    const x = 40 + ((w - 60) * item.x / 100);
+    const y = (h - 40) - ((h - 60) * item.y / 100);
+
+    const radius = 8 + item.impact / 10;
+
+    const green = Math.round(item.confidence * 2.55);
+    const red = 255 - green;
+
+    ctx.fillStyle = `rgb(${red},${green},80)`;
+
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+  });
 
 }
+
 
 function buildPriorityMatrixData() {
 
