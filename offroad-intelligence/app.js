@@ -1977,10 +1977,7 @@ function renderExecutiveAgenda() {
 
   const assessments = state.data.assessments || [];
 
-  setHtml(
-    'executiveAgenda',
-
-    const rank = {
+  const rank = {
   'Act Now': 1,
   'Investigate': 2,
   'Watch': 3,
@@ -1994,6 +1991,9 @@ const agendaItems =
       (rank[a.decisionBrief?.agendaStatus] || 99) -
       (rank[b.decisionBrief?.agendaStatus] || 99)
     );
+
+  setHtml(
+    'executiveAgenda',
 
 agendaItems.map(a => {
 
