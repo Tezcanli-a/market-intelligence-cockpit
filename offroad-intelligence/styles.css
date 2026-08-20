@@ -890,3 +890,19 @@
     grid-template-columns:95px 1fr 70px;
   }
 }
+/* V20.0J.5A - Matrix to Executive Agenda connection */
+
+#priorityMatrix{
+  cursor:pointer;
+}
+
+.j5-linked-highlight{
+  outline:3px solid #00858c;
+  outline-offset:3px;
+  box-shadow:
+    0 0 0 6px rgba(0,133,140,.14),
+    0 14px 34px rgba(6,63,79,.18);
+  transition:
+    outline .2s ease,
+    box-shadow .2s ease;
+}
