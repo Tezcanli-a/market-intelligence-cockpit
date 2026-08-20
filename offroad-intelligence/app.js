@@ -2147,7 +2147,8 @@ function renderDecisionCockpit(){
   : [];
   const actions = state.data.actions || [];
 
-const decisionCandidate =
+  const topAssessments = assessments.slice(0,3);
+  const decisionCandidate =
 
   assessments.find(a =>
     a.assessmentId === selectedAssessmentId
