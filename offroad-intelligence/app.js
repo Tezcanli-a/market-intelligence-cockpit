@@ -2730,7 +2730,7 @@ ctx.fillText(
       selectedBubble.label,
       selectedBubble.assessmentId
     );
-
+};
 }
 
 function buildPriorityMatrixData() {
