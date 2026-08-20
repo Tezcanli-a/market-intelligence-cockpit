@@ -2098,8 +2098,8 @@ function renderExecutiveAgenda() {
               </div>
             </section>
 
-            <section class="j4-block">
-              <strong>What could happen next</strong>
+            <section class="j4-block j4-forecast">
+                <strong>What could happen next</strong>
               <div class="j4-scenarios">
                 ${scenarioRows(d, a)}
               </div>
