@@ -2189,97 +2189,33 @@ function renderDecisionCockpit(){
     (o.outcomeStatus || '').toLowerCase() === 'open'
   );
 
-setHtml('decisionHealth', `
-<div class="profile-grid">
-
+setHtml('decisionChanged', `
   <article class="profile-card">
-    <h3>Executive Situation</h3>
-    <p><strong>${signals.length}</strong> Material Changes</p>
-    <p><strong>${assessments.length}</strong> Strategic Assessments</p>
-    <p><strong>${actions.length}</strong> Decisions Requiring Attention</p>
-  </article>
+    <h3>SINCE LAST REVIEW</h3>
 
-  <article class="profile-card">
-    <h3>Intelligence Health</h3>
-    <p><strong>84%</strong></p>
-    <p>Confidence coverage healthy</p>
-    <p>Learning loop active</p>
-  </article>
+    <p>
+      <strong>↑ ${signals.length}</strong>
+      material developments
+    </p>
 
-</div>
-`);
+    <p>
+      <strong>↑ ${outcomes.length}</strong>
+      momentum shifts
+    </p>
 
-  setHtml('decisionChanged', `
-    <div class="profile-grid">
-
-      <article class="profile-card">
-        <h3>Material Changes</h3>
-        <p>${signals.length} material developments currently affecting the intelligence picture.</p>
-      </article>
-
-      <article class="profile-card">
-      <h3>Momentum Shifts</h3>
-     <p>${outcomes.length} developments currently changing direction or velocity.</p>
-      </article>
-
-      <article class="profile-card">
-        <h3>Strategic Developments</h3>
-        <p>${themes.length} strategic developments requiring management awareness.</p>
-      </article>
-
-    </div>
-  `);
-
-  setHtml('decisionMatters', `
-    <div class="profile-grid">
-
-      ${topAssessments.map((a, idx) => `
-        <article class="profile-card">
-
-    <span class="meta">
-      #${idx + 1}
-      ${idx === 0 ? 'HIGH PRIORITY' :
-        idx === 1 ? 'MEDIUM PRIORITY' :
-        'LOW PRIORITY'}
-    </span>
-
-    <h3>${safeHtml(a.title || '')}</h3>
+    <p>
+      <strong>↑ ${themes.length}</strong>
+      strategic developments
+    </p>
 
     <div class="pill-row">
-      <span class="pill">Impact: High</span>
-      <span class="pill">Exposure: High</span>
-      <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
+      <span class="pill">Material Changes</span>
+      <span class="pill">Momentum</span>
+      <span class="pill">Themes</span>
     </div>
-
-    <p>
-      ${safeHtml(
-        a.businessImplication ||
-        'Business implication not populated yet.'
-      )}
-    </p>
-
-    <strong>Management implication</strong>
-
-    <p>
-      ${safeHtml(
-        a.businessImplication ||
-        'Management implication pending.'
-      )}
-    </p>
-
-    <strong>Recommended response</strong>
-
-    <p>
-      Review and validate through product, strategy
-      and intelligence teams.
-    </p>
-
-</article>
-      `).join('')}
-
-    </div>
-  `);
-
+  </article>
+`);
+ 
   setHtml('decisionUncertain', `
 <div class="profile-grid">
 
@@ -2336,67 +2272,6 @@ setHtml('decisionHealth', `
     <p>
       Monitor unresolved strategic uncertainties.
     </p>
-
-  </article>
-
-</div>
-`);
-
-  setHtml('decisionAction', `
-<div class="profile-grid">
-
-  <article class="profile-card">
-    <h3>🔴 Decision Required</h3>
-
-    <strong>Integrated Cabin Strategy</strong>
-
-    <p>
-      Customer requirements are moving toward
-      integrated operator solutions.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Confidence: 78%</span>
-    </div>
-
-    <p>
-      Recommendation:
-      Initiate product roadmap review.
-    </p>
-
-  </article>
-
-  <article class="profile-card">
-
-    <h3>🟠 Action Required</h3>
-
-    <strong>Competitor Validation</strong>
-
-    <p>
-      Validate competitor supplier and
-      technology relationships.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Owner: Intelligence</span>
-    </div>
-
-  </article>
-
-  <article class="profile-card">
-
-    <h3>🟡 Monitor</h3>
-
-    <strong>Automation Signals</strong>
-
-    <p>
-      Continue tracking autonomy and
-      operator-environment developments.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Status: Monitor</span>
-    </div>
 
   </article>
 
@@ -2542,45 +2417,30 @@ setHtml('decisionMatrix', `
 `);
 
 setHtml('decisionAlerts', `
-<div class="profile-grid">
-
-  <article class="profile-card">
-    <h3>Confidence Watch</h3>
-
-    <p>
-      ${lowConfidence.length} low-confidence assessments currently require review.
-    </p>
+  <div class="profile-card">
+    <h3>Intelligence Health</h3>
 
     <div class="pill-row">
-      <span class="pill">Threshold monitor</span>
+      <span class="pill">
+        Low Confidence:
+        ${lowConfidence.length}
+      </span>
+
+      <span class="pill">
+        Open Gaps:
+        ${criticalGaps.length}
+      </span>
+
+      <span class="pill">
+        High Priority Actions:
+        ${highPriorityActions.length}
+      </span>
     </div>
-  </article>
 
-  <article class="profile-card">
-    <h3>Gap Watch</h3>
-
-    <p>
-      ${criticalGaps.length} high-priority intelligence gaps remain open.
+    <p class="muted">
+      System diagnostic information.
     </p>
-
-    <div class="pill-row">
-      <span class="pill">Collection required</span>
-    </div>
-  </article>
-
-  <article class="profile-card">
-    <h3>Action Watch</h3>
-
-    <p>
-      ${highPriorityActions.length} high-priority actions require follow-up.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Management attention</span>
-    </div>
-  </article>
-
-</div>
+  </div>
 `);
 
   renderPriorityMatrix();
