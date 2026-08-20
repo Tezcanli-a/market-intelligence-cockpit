@@ -2214,122 +2214,8 @@ setHtml('decisionChanged', `
   </article>
 `);
  
-  setHtml('decisionUncertain', `
-<div class="profile-grid">
 
-  <article class="profile-card">
 
-    <h3>Most Consequential Unknown</h3>
-
-    <strong>Competitor Autonomy Investment</strong>
-
-    <p>
-      Future investment trajectory remains unclear.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Confidence: 54%</span>
-      <span class="pill">Exposure: High</span>
-    </div>
-
-    <p>
-      Could materially affect future seat and cabin
-      architecture requirements.
-    </p>
-
-    <strong>Resolution Path</strong>
-
-    <p>
-      Customer validation and patent intelligence review.
-    </p>
-
-  </article>
-
-  <article class="profile-card">
-
-    <h3>Intelligence Gaps</h3>
-
-    <p>
-      ${criticalGaps.length} priority gaps remain open.
-    </p>
-
-    <p>
-      Additional collection and validation required.
-    </p>
-
-  </article>
-
-  <article class="profile-card">
-
-    <h3>Priority KIQs</h3>
-
-    <p>
-      ${kiqs.length}  active intelligence questions.
-    </p>
-
-    <p>
-      Monitor unresolved strategic uncertainties.
-    </p>
-
-  </article>
-
-</div>
-`);
-
-setHtml('decisionLearning', `
-<div class="profile-grid">
-
-  <article class="profile-card">
-
-    <h3>Assessment Validated</h3>
-
-    <strong>Operator Environment Trend</strong>
-
-    <p>
-      Multiple signals confirmed the assessment.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Confidence +6%</span>
-    </div>
-
-  </article>
-
-  <article class="profile-card">
-
-    <h3>Learning Captured</h3>
-
-    <strong>Hiring Signals</strong>
-
-    <p>
-      Hiring activity proved to be a stronger early indicator
-      than previously assumed.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Model Updated</span>
-    </div>
-
-  </article>
-
-  <article class="profile-card">
-
-    <h3>Open Learning Loop</h3>
-
-    <strong>Autonomy Adoption</strong>
-
-    <p>
-      Continue monitoring to confirm long-term trajectory.
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Review Pending</span>
-    </div>
-
-  </article>
-
-</div>
-`);
 
 setHtml('decisionPanel', `
 <div class="profile-grid j4-decision-panel-grid">
@@ -2368,51 +2254,6 @@ setHtml('decisionPanel', `
 </div>
 `);
 
-setHtml('decisionMatrix', `
-<div class="profile-grid">
-
-  <article class="profile-card">
-    <h3>Act Now</h3>
-    <p>
-      High exposure and high momentum topics requiring management attention.
-    </p>
-    <div class="pill-row">
-      <span class="pill">Integrated Cabin Platforms</span>
-    </div>
-  </article>
-
-  <article class="profile-card">
-    <h3>Investigate</h3>
-    <p>
-      High exposure topics where uncertainty remains material.
-    </p>
-    <div class="pill-row">
-      <span class="pill">Competitor Autonomy Investment</span>
-    </div>
-  </article>
-
-  <article class="profile-card">
-    <h3>Watch</h3>
-    <p>
-      High momentum topics with lower current exposure.
-    </p>
-    <div class="pill-row">
-      <span class="pill">Automation Signals</span>
-    </div>
-  </article>
-
-  <article class="profile-card">
-    <h3>Monitor</h3>
-    <p>
-      Relevant themes without immediate decision pressure.
-    </p>
-    <div class="pill-row">
-      <span class="pill">General Market Signals</span>
-    </div>
-  </article>
-
-</div>
-`);
 
 setHtml('decisionAlerts', `
   <div class="profile-card">
@@ -2628,8 +2469,7 @@ function renderAll(){
   renderDecisionCockpit();
   const signals=filteredSignals();
     
-  renderKpis(signals);
-  renderOverview(signals);
+   renderOverview(signals);
   renderSignalsTable();
   renderAssessments();
   renderDailyNews();
