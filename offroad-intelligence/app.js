@@ -1,4 +1,6 @@
 const state = { data: {}, filters: { segment: 'all', perspective: 'all', priority: 'all', search: '' }, newsMode: 'all' };
+let selectedAssessmentId = null;
+
 const files = {
   meta:'data/meta.json',
   themes:'data/themes.json',
@@ -2145,11 +2147,22 @@ function renderDecisionCockpit(){
   : [];
   const actions = state.data.actions || [];
 
-  const topAssessments = assessments.slice(0,3);
-  const decisionCandidate =
+const decisionCandidate =
+
+  assessments.find(a =>
+    a.assessmentId === selectedAssessmentId
+  )
+
+  ||
+
   assessments.find(a =>
     a.decisionBrief?.agendaStatus === 'Act Now'
-  ) || topAssessments[0];
+  )
+
+  ||
+
+  topAssessments[0];
+
   
   const d = decisionCandidate?.decisionBrief || {};
 
@@ -2730,6 +2743,10 @@ ctx.fillText(
       selectedBubble.label,
       selectedBubble.assessmentId
     );
+    selectedAssessmentId =
+  selectedBubble.assessmentId;
+
+renderDecisionCockpit();
 };
 }
 
