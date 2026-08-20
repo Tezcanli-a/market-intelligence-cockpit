@@ -762,10 +762,10 @@
 .j4-block strong{
   display:block;
   color:#006c73;
-  font-size:11px;
+  font-size:10px;
   text-transform:uppercase;
-  letter-spacing:.7px;
-  margin-bottom:6px;
+  letter-spacing:1px;
+  margin-bottom:5px;
 }
 .j4-block p{
   margin:0;
@@ -773,8 +773,12 @@
   font-size:12px;
 }
 .j4-main-text{
-  background:#eef7f8;
-  border-left:5px solid #00858c;
+  background:#ecf8fa;
+  border-left:6px solid #00858c;
+}
+.j4-forecast{
+  background:#f3fbfc;
+  border-left:6px solid #006c73;
 }
 .j4-decision-task{
   background:#fff;
@@ -864,6 +868,12 @@
 }
 .j4-panel-primary{
   border-left-color:#dc2626;
+}
+.j4-forecast p{
+  font-size:13px;
+  line-height:1.4;
+  font-weight:600;
+  color:#063f4f;
 }
 @media(max-width:1200px){
   .j4-agenda-body{
