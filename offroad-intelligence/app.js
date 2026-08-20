@@ -2702,6 +2702,34 @@ ctx.fillText(
 );
 
   });
+  canvas.onclick = function(event) {
+
+    const rect = canvas.getBoundingClientRect();
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const mouseX = (event.clientX - rect.left) * scaleX;
+    const mouseY = (event.clientY - rect.top) * scaleY;
+
+    const selectedBubble = bubbleHitAreas.find(function(bubble){
+
+      const dx = mouseX - bubble.x;
+      const dy = mouseY - bubble.y;
+
+      return Math.sqrt(dx * dx + dy * dy) <= bubble.radius;
+
+    });
+
+    if(!selectedBubble){
+      return;
+    }
+
+    console.log(
+      'Bubble clicked',
+      selectedBubble.label,
+      selectedBubble.assessmentId
+    );
 
 }
 
