@@ -2654,14 +2654,22 @@ ctx.fillText('Momentum →', 0, 0);
 
 ctx.restore();
 
-  const data = buildPriorityMatrixData();
+const data = buildPriorityMatrixData();
+const bubbleHitAreas = [];
 
-  data.forEach(item => {
+data.forEach(item => {
 
     const x = 40 + ((w - 60) * item.x / 100);
     const y = (h - 40) - ((h - 60) * item.y / 100);
 
     const radius = 15 + item.impact / 8;
+  bubbleHitAreas.push({
+  x,
+  y,
+  radius,
+  assessmentId: item.assessmentId,
+  label: item.label
+});
 
 if(item.status === 'Act Now'){
   ctx.fillStyle = '#dc2626';
@@ -2702,14 +2710,75 @@ function buildPriorityMatrixData() {
   const assessments = state.data.assessments || [];
 
 return assessments.map(a => ({
+  assessmentId: a.assessmentId || a.id || '',
   label: a.title,
   x: a.exposure || 50,
   y: a.momentum || 50,
   impact: a.impact || 50,
   confidence: a.confidenceScore || 50,
   status: a.decisionBrief?.agendaStatus || 'Monitor'
-}));
+  });
 
+  canvas.style.cursor = 'pointer';
+  canvas.title = 'Click a priority bubble to open its Executive Agenda item';
+
+  canvas.onclick = event => {
+    const rect = canvas.getBoundingClientRect();
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const mouseX = (event.clientX - rect.left) * scaleX;
+    const mouseY = (event.clientY - rect.top) * scaleY;
+
+    const selectedBubble = bubbleHitAreas.find(bubble => {
+      const deltaX = mouseX - bubble.x;
+      const deltaY = mouseY - bubble.y;
+
+      return Math.sqrt(
+        deltaX * deltaX + deltaY * deltaY
+      ) <= bubble.radius;
+    });
+
+    if (!selectedBubble || !selectedBubble.assessmentId) return;
+
+    const agendaCard = document.getElementById(
+      `agenda-${selectedBubble.assessmentId}`
+    );
+
+    if (!agendaCard) {
+      console.warn(
+        'No Executive Agenda card found for:',
+        selectedBubble.assessmentId
+      );
+      return;
+    }
+
+    const agendaView = agendaCard.closest('.view');
+
+    if (agendaView) {
+      document.querySelectorAll('.view').forEach(view => {
+        view.classList.remove('active');
+      });
+
+      agendaView.classList.add('active');
+    }
+
+    document.querySelectorAll('.nav').forEach(nav => {
+      nav.classList.remove('active');
+    });
+
+    agendaCard.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+
+    agendaCard.classList.add('j5-linked-highlight');
+
+    window.setTimeout(() => {
+      agendaCard.classList.remove('j5-linked-highlight');
+    }, 2200);
+  };
 }
 
 
