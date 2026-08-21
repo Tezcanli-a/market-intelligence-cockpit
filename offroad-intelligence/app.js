@@ -2252,15 +2252,14 @@ setHtml('decisionPanel', `
     )}</p>
   </div>
 
-  <div class="j4-block j4-forecast">
+<div class="j4-block">
     <strong>Possible Consequence</strong>
     <p>${safeHtml(
       d.whatCouldHappenNext ||
       decisionCandidate?.forecast ||
       ''
     )}</p>
-  </div>
-
+</div>
   <div class="j4-owner-row">
       <span>${safeHtml(d.agendaStatus || 'Monitor')}</span>
       <span>Confidence: ${safeHtml(decisionCandidate?.confidenceScore || 'n/a')}%</span>
