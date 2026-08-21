@@ -2291,10 +2291,14 @@ function renderPriorityMatrix() {
 
   if (!canvas) return;
 
-  const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 
-  const w = canvas.width;
-  const h = canvas.height;
+/* J.6B: compact matrix dimensions */
+canvas.width = 620;
+canvas.heigh* = 300;
+
+const w = canvas.width;
+c*nst h = canvas.height;
 
 ctx.clearRect(0, 0, w, h);
 
