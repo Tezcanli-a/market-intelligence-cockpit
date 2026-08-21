@@ -985,3 +985,7 @@
 #decisionAlerts .pill-row{
     margin:0;
 }
+#decisionChanged .profile-card,
+#decisionAlerts .profile-card{
+    padding:12px 16px;
+}
