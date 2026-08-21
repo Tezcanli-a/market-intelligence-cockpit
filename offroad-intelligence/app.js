@@ -2271,7 +2271,7 @@ setHtml('decisionPanel', `
 
 setHtml('decisionAlerts', `
   <div class="profile-card">
-    <h3>Intelligence Health</h3>
+    <h3>Uncertainty & Warning Signals</h3>
 
     <div class="pill-row">
       <span class="pill">
