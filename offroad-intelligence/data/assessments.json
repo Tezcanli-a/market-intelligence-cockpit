@@ -184,9 +184,9 @@
     ]
   },
   {
-    "assessmentId": "ASM-003",
-    "signalId": "INT-002"
-    "themeIds": [
+ "assessmentId": "ASM-003",
+"signalId": "INT-002",
+"themeIds": [
       "THM-001",
       "THM-004"
     ],
