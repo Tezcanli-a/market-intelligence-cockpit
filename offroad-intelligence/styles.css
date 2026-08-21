@@ -918,3 +918,9 @@
 .decision-panel-compact{
     min-width:0;
 }
+.decision-grid{
+    display:grid;
+    grid-template-columns: 45% 55%;
+    gap:16px;
+    align-items:start;
+}
