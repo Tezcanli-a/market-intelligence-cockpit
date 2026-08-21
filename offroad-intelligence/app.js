@@ -2134,7 +2134,7 @@ function renderExecutiveAgenda() {
 }
 function renderDecisionCockpit(){
   
-  renderExecutiveAgenda();
+ // renderExecutiveAgenda();
   
   const signals = state.data.signals || [];
   const outcomes = state.data.outcomes || [];
