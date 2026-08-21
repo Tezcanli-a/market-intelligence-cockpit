@@ -2188,30 +2188,30 @@ function renderDecisionCockpit(){
   );
 
 setHtml('decisionChanged', `
-  <article class="profile-card">
-    <h3>SINCE LAST REVIEW</h3>
+<article class="profile-card">
 
-    <p>
+  <h3>SINCE LAST REVIEW</h3>
+
+  <div class="review-strip">
+
+    <div class="review-item">
       <strong>↑ ${signals.length}</strong>
-      material developments
-    </p>
-
-    <p>
-      <strong>↑ ${outcomes.length}</strong>
-      momentum shifts
-    </p>
-
-    <p>
-      <strong>↑ ${themes.length}</strong>
-      strategic developments
-    </p>
-
-    <div class="pill-row">
-      <span class="pill">Material Changes</span>
-      <span class="pill">Momentum</span>
-      <span class="pill">Themes</span>
+      <span>Material Developments</span>
     </div>
-  </article>
+
+    <div class="review-item">
+      <strong>↑ ${outcomes.length}</strong>
+      <span>Momentum Shifts</span>
+    </div>
+
+    <div class="review-item">
+      <strong>↑ ${themes.length}</strong>
+      <span>Strategic Developments</span>
+    </div>
+
+  </div>
+
+</article>
 `);
  
 
