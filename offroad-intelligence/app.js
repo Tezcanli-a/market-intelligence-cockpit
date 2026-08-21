@@ -2295,7 +2295,7 @@ const ctx = canvas.getContext('2d');
 
 /* J.6B: compact matrix dimensions */
 canvas.width = 620;
-canvas.heigh* = 300;
+canvas.height = 300;
 
 const w = canvas.width;
 const h = canvas.height;
