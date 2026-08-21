@@ -972,3 +972,16 @@
     border-bottom:0;
   }
 }
+#decisionAlerts .profile-card{
+    padding:12px 16px;
+    min-height:auto;
+}
+
+#decisionAlerts h3{
+    margin:0 0 8px 0;
+    font-size:16px;
+}
+
+#decisionAlerts .pill-row{
+    margin:0;
+}
