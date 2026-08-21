@@ -776,17 +776,6 @@
   background:#ecf8fa;
   border-left:6px solid #00858c;
 }
-.j4-forecast{
-  background:#f3fbfc;
-  border-left:6px solid #006c73;
-}
-
-.j4-forecast p{
-  font-size:13px;
-  line-height:1.40;
-  font-weight:600;
-  color:#063f4f;
-}
 .j4-decision-task{
   background:#fff;
   border-left:5px solid #063f4f;
