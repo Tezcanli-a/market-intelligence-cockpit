@@ -920,7 +920,15 @@
 }
 .decision-grid{
     display:grid;
-    grid-template-columns: 45% 55%;
+    grid-template-columns:45% 55%;
     gap:16px;
-    align-items:start;
+    align-items:stretch;
+}
+.decision-grid > .decision-panel:first-child{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+.decision-grid > .decision-panel:first-child canvas{
+    flex:1;
 }
