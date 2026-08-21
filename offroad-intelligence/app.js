@@ -2290,10 +2290,7 @@ setHtml('decisionAlerts', `
       </span>
     </div>
 
-    <p class="muted">
-      System diagnostic information.
-    </p>
-  </div>
+   </div>
 `);
 
   renderPriorityMatrix();
