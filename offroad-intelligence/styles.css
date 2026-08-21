@@ -906,3 +906,15 @@
     outline .2s ease,
     box-shadow .2s ease;
 }
+.priority-workspace{
+    display:grid;
+    grid-template-columns: 45% 55%;
+    gap:20px;
+    align-items:start;
+    margin-bottom:24px;
+}
+
+.matrix-panel,
+.decision-panel-compact{
+    min-width:0;
+}
