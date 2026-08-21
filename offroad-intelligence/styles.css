@@ -860,11 +860,8 @@
 }
 .j4-panel-card{
   border-top:0;
-  border-left:6px solid #00858c;
 }
-.j4-panel-primary{
-  border-left-color:#00858c;
-}
+
 .j4-forecast p{
   font-size:13px;
   line-height:1.4;
