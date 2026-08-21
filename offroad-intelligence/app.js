@@ -2298,7 +2298,7 @@ canvas.width = 620;
 canvas.heigh* = 300;
 
 const w = canvas.width;
-c*nst h = canvas.height;
+const h = canvas.height;
 
 ctx.clearRect(0, 0, w, h);
 
