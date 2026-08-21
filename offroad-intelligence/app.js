@@ -1987,7 +1987,11 @@ function renderOutcomeEngine(){
 function renderExecutiveAgenda() {
   const assessments = state.data.assessments || [];
   const actions = state.data.actions || [];
-const agendaItems = assessments.slice(0,3);
+const agendaItems = assessments
+  .sort((a,b)=>
+     (b.impact||0) - (a.impact||0)
+  )
+  .slice(0,3);
 
   const impactLabel = score => {
     const n = Number(score || 0);
