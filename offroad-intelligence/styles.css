@@ -910,4 +910,65 @@
     gap:16px;
     align-items:start;
 }
+/* V20.0J.6B - Compact Since Last Review */
+#decisionChanged .profile-card{
+  padding:12px 16px;
+  gap:8px;
+}
 
+#decisionChanged .profile-card h3{
+  margin:0;
+  font-size:14px;
+}
+
+.review-strip{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  align-items:center;
+  margin-top:2px;
+}
+
+.review-item{
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:7px;
+  min-width:0;
+  padding:6px 16px;
+  border-right:1px solid #dce7ec;
+}
+
+.review-item:last-child{
+  border-right:0;
+}
+
+.review-item strong{
+  font-size:20px;
+  line-height:1;
+  color:#063f4f;
+  white-space:nowrap;
+}
+
+.review-item span{
+  font-size:12px;
+  line-height:1.2;
+  color:#667d86;
+  font-weight:600;
+}
+
+@media(max-width:850px){
+  .review-strip{
+    grid-template-columns:1fr;
+  }
+
+  .review-item{
+    justify-content:flex-start;
+    border-right:0;
+    border-bottom:1px solid #dce7ec;
+  }
+
+  .review-item:last-child{
+    border-bottom:0;
+  }
+}
