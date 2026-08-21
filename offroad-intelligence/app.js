@@ -2190,8 +2190,6 @@ function renderDecisionCockpit(){
 setHtml('decisionChanged', `
 <article class="profile-card">
 
-  <h3>SINCE LAST REVIEW</h3>
-
   <div class="review-strip">
 
     <div class="review-item">
