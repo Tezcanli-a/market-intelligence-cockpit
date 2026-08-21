@@ -2218,42 +2218,57 @@ setHtml('decisionChanged', `
 
 
 setHtml('decisionPanel', `
-<div class="profile-grid j4-decision-panel-grid">
-  <article class="profile-card j4-panel-card j4-panel-primary">
-    <h3>Decision Required</h3>
-    <strong>${safeHtml(decisionCandidate?.title || '')}</strong>
-    <p>${safeHtml(d.whyItMatters || decisionCandidate?.businessImplication || '')}</p>
-    <div class="pill-row">
-      <span class="pill">${safeHtml(d.agendaStatus || 'Monitor')}</span>
-      <span class="pill">Confidence: ${safeHtml(decisionCandidate?.confidenceScore || 'n/a')}%</span>
-      <span class="pill">Impact: ${safeHtml(decisionCandidate?.impact || 'n/a')}</span>
-      <span class="pill">Horizon: ${safeHtml(decisionCandidate?.timeHorizon || 'n/a')}</span>
-    </div>
-    <p>
-      <strong>Decision task:</strong><br>
-      ${safeHtml((actions.find(x => arr(x.linkedAssessmentIds).includes(decisionCandidate?.assessmentId)) || {}).title || d.recommendedAction || '')}
-    </p>
-  </article>
+<article class="profile-card j4-panel-primary">
 
-  <article class="profile-card j4-panel-card">
-    <h3>Owner & Timing</h3>
-    <p><strong>Owner:</strong><br>${safeHtml(d.owner || (actions.find(x => arr(x.linkedAssessmentIds).includes(decisionCandidate?.assessmentId)) || {}).owner || decisionCandidate?.owner || '')}</p>
-    <p><strong>Due / Review:</strong><br>${safeHtml(d.dueDate || (actions.find(x => arr(x.linkedAssessmentIds).includes(decisionCandidate?.assessmentId)) || {}).reviewDate || decisionCandidate?.reviewDate || '')}</p>
-    <p><strong>Open gap:</strong><br>${safeHtml(d.openGap || arr(d.unknowns)[0] || 'No explicit open gap populated yet.')}</p>
-  </article>
+  <h3>${safeHtml(decisionCandidate?.title || 'Decision Required')}</h3>
 
-  <article class="profile-card j4-panel-card">
-    <h3>Consequence</h3>
-    <p>${safeHtml(d.whatCouldHappenNext || decisionCandidate?.forecast || '')}</p>
-    <div class="pill-row">
-      <span class="pill">Customers: ${safeHtml(d.impactPreview?.customers || arr(d.impactMap?.customers).length || 0)}</span>
-      <span class="pill">Competitors: ${safeHtml(d.impactPreview?.competitors || arr(d.impactMap?.competitors).length || 0)}</span>
-      <span class="pill">Technologies: ${safeHtml(d.impactPreview?.technologies || arr(d.impactMap?.technologies).length || 0)}</span>
-    </div>
-  </article>
-</div>
+  <div class="j4-block">
+    <strong>Why it matters</strong>
+    <p>${safeHtml(
+      d.whyItMatters ||
+      decisionCandidate?.businessImplication ||
+      ''
+    )}</p>
+  </div>
+
+  <div class="j4-block">
+    <strong>Recommended Action</strong>
+    <p>${safeHtml(
+      (actions.find(x =>
+        arr(x.linkedAssessmentIds)
+        .includes(decisionCandidate?.assessmentId)
+      ) || {}).title ||
+      d.recommendedAction ||
+      ''
+    )}</p>
+  </div>
+
+  <div class="j4-block">
+    <strong>Open Intelligence Gap</strong>
+    <p>${safeHtml(
+      d.openGap ||
+      arr(d.unknowns)[0] ||
+      'No explicit gap populated.'
+    )}</p>
+  </div>
+
+  <div class="j4-block j4-forecast">
+    <strong>Possible Consequence</strong>
+    <p>${safeHtml(
+      d.whatCouldHappenNext ||
+      decisionCandidate?.forecast ||
+      ''
+    )}</p>
+  </div>
+
+  <div class="j4-owner-row">
+      <span>${safeHtml(d.agendaStatus || 'Monitor')}</span>
+      <span>Confidence: ${safeHtml(decisionCandidate?.confidenceScore || 'n/a')}%</span>
+      <span>Impact: ${safeHtml(d.impact || decisionCandidate?.impact || 'n/a')}</span>
+  </div>
+
+</article>
 `);
-
 
 setHtml('decisionAlerts', `
   <div class="profile-card">
