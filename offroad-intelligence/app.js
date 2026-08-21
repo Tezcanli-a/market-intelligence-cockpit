@@ -1987,9 +1987,7 @@ function renderOutcomeEngine(){
 function renderExecutiveAgenda() {
   const assessments = state.data.assessments || [];
   const actions = state.data.actions || [];
-  const agendaItems = assessments
-    .filter(a => a.decisionBrief)
-    .slice(0, 3);
+const agendaItems = assessments.slice(0,3);
 
   const impactLabel = score => {
     const n = Number(score || 0);
