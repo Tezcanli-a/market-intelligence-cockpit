@@ -185,14 +185,14 @@
   },
   {
     "assessmentId": "ASM-003",
-    "signalId": "INT-005",
+    "signalId": "INT-002"
     "themeIds": [
       "THM-001",
       "THM-004"
     ],
     "linkedEvidenceIds": [],
     "linkedSignalIds": [
-      "INT-005"
+      "INT-002"
     ],
     "linkedOpportunityIds": [
       "OPP-002"
