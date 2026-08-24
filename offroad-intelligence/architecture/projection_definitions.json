@@ -1,0 +1,59 @@
+{
+  "version": "V21.1",
+
+  "projections": {
+
+    "ExecutiveView": {
+      "source": "DecisionBrief",
+      "focus": [
+        "status",
+        "confidence",
+        "impact",
+        "whatChanged",
+        "whyItMatters",
+        "recommendedDecision",
+        "owner",
+        "dueDate"
+      ]
+    },
+
+    "AnalystView": {
+      "source": "DecisionBrief",
+      "focus": [
+        "evidenceIds",
+        "signalIds",
+        "assessmentIds",
+        "unknowns",
+        "confidence"
+      ]
+    },
+
+    "ExecutionView": {
+      "source": "DecisionBrief",
+      "focus": [
+        "decisionStatus",
+        "actionIds",
+        "owner",
+        "dueDate"
+      ]
+    },
+
+    "OutcomeView": {
+      "source": "DecisionBrief",
+      "focus": [
+        "outcomeIds",
+        "lessonsLearned"
+      ]
+    },
+
+    "PortfolioView": {
+      "source": "DecisionBrief",
+      "focus": [
+        "themeIds",
+        "customerIds",
+        "competitorIds",
+        "technologyIds"
+      ]
+    }
+  }
+}
