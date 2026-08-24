@@ -2077,7 +2077,12 @@ const agendaItems = assessments
   setHtml(
     'executiveAgenda',
     agendaItems.map(a => {
-      const d = a.decisionBrief || {};
+      const db =
+  decisionBriefForAssessment(
+    a.assessmentId
+  ) || {};
+
+const d = db;
       const action = actions.find(x => arr(x.linkedAssessmentIds).includes(a.assessmentId)) || {};
       const agendaStatus = d.agendaStatus || 'Monitor';
       const decisionStatus = d.decisionStatus || (agendaStatus === 'Act Now' ? 'Decision Required' : agendaStatus === 'Investigate' ? 'Action Required' : 'Monitor');
