@@ -37,5 +37,85 @@
     "learning": {
       "outcomeIds": []
     }
+  },
+
+  {
+    "decisionBriefId": "DB-002",
+
+    "title": "Automation changes operator role and cockpit expectations",
+
+    "status": "Monitor",
+
+    "intelligenceFoundation": {
+      "observationIds": [],
+      "evidenceIds": [],
+      "signalIds": ["INT-002"],
+      "assessmentIds": ["ASM-002"]
+    },
+
+    "context": {
+      "themeIds": ["THM-001","THM-004","THM-008"],
+      "customerIds": [],
+      "competitorIds": [],
+      "technologyIds": [],
+      "kiqIds": []
+    },
+
+    "decisionLogic": {
+      "confidence": 60,
+      "impact": 75
+    },
+
+    "decision": {
+      "decisionStatus": "Decision Required"
+    },
+
+    "execution": {
+      "actionIds": []
+    },
+
+    "learning": {
+      "outcomeIds": []
+    }
+  },
+
+  {
+    "decisionBriefId": "DB-003",
+
+    "title": "Material handling automation creates account-specific opportunity potential",
+
+    "status": "Investigate",
+
+    "intelligenceFoundation": {
+      "observationIds": [],
+      "evidenceIds": [],
+      "signalIds": ["INT-002"],
+      "assessmentIds": ["ASM-003"]
+    },
+
+    "context": {
+      "themeIds": ["THM-001","THM-004"],
+      "customerIds": [],
+      "competitorIds": [],
+      "technologyIds": [],
+      "kiqIds": []
+    },
+
+    "decisionLogic": {
+      "confidence": 55,
+      "impact": 65
+    },
+
+    "decision": {
+      "decisionStatus": "Decision Required"
+    },
+
+    "execution": {
+      "actionIds": []
+    },
+
+    "learning": {
+      "outcomeIds": []
+    }
   }
 ]
