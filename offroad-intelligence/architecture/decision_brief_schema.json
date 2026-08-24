@@ -1,0 +1,38 @@
+{
+  "version": "V21.1",
+  "object": "DecisionBrief",
+
+  "requiredFields": [
+    "decisionBriefId",
+    "title",
+    "status",
+    "assessmentIds",
+    "confidence",
+    "recommendedDecision",
+    "owner"
+  ],
+
+  "statusEnums": {
+    "decisionBriefStatus": [
+      "Act Now",
+      "Investigate",
+      "Monitor",
+      "Closed"
+    ],
+
+    "decisionStatus": [
+      "Decision Required",
+      "Approved",
+      "Rejected",
+      "Deferred",
+      "Partially Approved",
+      "Superseded"
+    ]
+  },
+
+  "rules": {
+    "minimumAssessments": 1,
+    "decisionReadinessDerived": true,
+    "contextOrthogonal": true
+  }
+}
