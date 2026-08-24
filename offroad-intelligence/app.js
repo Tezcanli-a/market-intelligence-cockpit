@@ -113,6 +113,41 @@ function buildExecutiveProjection(db){
   };
 
 }
+function buildAnalystProjection(db){
+
+  if(!db) return null;
+
+  return {
+
+    id: db.decisionBriefId,
+
+    title: db.title,
+
+    assessmentIds:
+      db.intelligenceFoundation?.assessmentIds || [],
+
+    signalIds:
+      db.intelligenceFoundation?.signalIds || [],
+
+    evidenceIds:
+      db.intelligenceFoundation?.evidenceIds || [],
+
+    confidence:
+      db.decisionLogic?.confidence || 0,
+
+    impact:
+      db.decisionLogic?.impact || 0,
+
+    unknowns:
+      db.uncertainty?.unknowns || [],
+
+    openGap:
+      db.uncertainty?.openGap || ''
+
+  };
+
+}
+
 function confidenceFromPriority(p){return p==='High'?'Medium':p==='Low'?'Low':'Medium';}
 function seedFallbackAssessments(){state.data.assessments=(state.data.signals||[]).slice(0,3).map((s,i)=>({assessmentId:`ASM-AUTO-${String(i+1).padStart(3,'0')}`,signalId:s.id,title:s.signal,assessment:s.why||'Analyst assessment not populated yet.',businessImplication:s.why||'Business implication should be added by Market Intelligence.',confidence:confidenceFromPriority(s.priority),forecast:'Forecast statement not populated yet.',timeHorizon:'To be defined',owner:s.owner||'Market Intelligence',reviewDate:s.date||'',opportunityIds:[],riskIds:[]}));}
 function setup(){
