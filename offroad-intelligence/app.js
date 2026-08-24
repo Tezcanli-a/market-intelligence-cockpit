@@ -2227,7 +2227,13 @@ const projection =
           <div class="j4-agenda-body">
             <section class="j4-block j4-main-text">
               <strong>Why GRAMMER cares</strong>
-              <p>${safeHtml(d.whyItMatters || a.businessImplication || a.assessment || '')}</p>
+              <p>${safeHtml(
+  projection?.whyItMatters ||
+  d.whyItMatters ||
+  a.businessImplication ||
+  a.assessment ||
+  ''
+)}</p>
             </section>
 
             <section class="j4-block">
