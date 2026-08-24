@@ -1,0 +1,29 @@
+{
+  "version": "V21.1",
+
+  "DecisionBrief": {
+
+    "must": [
+      "Assessment",
+      "Confidence",
+      "RecommendedDecision",
+      "Owner",
+      "Status"
+    ],
+
+    "should": [
+      "Evidence",
+      "Signal",
+      "Context",
+      "Unknowns",
+      "DueDate"
+    ],
+
+    "may": [
+      "Decision",
+      "Action",
+      "Outcome",
+      "Learning"
+    ]
+  }
+}
