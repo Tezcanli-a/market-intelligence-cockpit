@@ -1,6 +1,7 @@
 [
   {
     "assessmentId": "ASM-001",
+    "decisionBriefId": "DB-001",
     "signalId": "INT-001",
     "themeIds": [
       "THM-003",
@@ -93,6 +94,7 @@
   },
   {
     "assessmentId": "ASM-002",
+    "decisionBriefId": "DB-002",
     "signalId": "INT-002",
     "themeIds": [
       "THM-001",
@@ -184,7 +186,8 @@
     ]
   },
   {
- "assessmentId": "ASM-003",
+"assessmentId": "ASM-003",
+"decisionBriefId": "DB-003",
 "signalId": "INT-002",
 "themeIds": [
       "THM-001",
