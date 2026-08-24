@@ -187,6 +187,37 @@ function buildProjectionBundle(decisionBriefId){
     return null;
   }
 
+function getDecisionBriefCards(){
+
+  return (state.data.decisionBriefs || [])
+    .map(db => {
+
+      const executive =
+        buildExecutiveProjection(db);
+
+      return {
+
+        id: executive.id,
+
+        title: executive.title,
+
+        status: executive.status,
+
+        confidence: executive.confidence,
+
+        impact: executive.impact,
+
+        owner: executive.owner,
+
+        dueDate: executive.dueDate
+
+      };
+
+    });
+
+}
+
+  
 return {
 
   executive:
