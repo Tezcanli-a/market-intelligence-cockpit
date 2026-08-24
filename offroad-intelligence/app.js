@@ -147,6 +147,37 @@ function buildAnalystProjection(db){
   };
 
 }
+function buildPortfolioProjection(db){
+
+  if(!db) return null;
+
+  return {
+
+    id: db.decisionBriefId,
+
+    title: db.title,
+
+    themeIds:
+      db.context?.themeIds || [],
+
+    customerIds:
+      db.context?.customerIds || [],
+
+    competitorIds:
+      db.context?.competitorIds || [],
+
+    technologyIds:
+      db.context?.technologyIds || [],
+
+    impact:
+      db.decisionLogic?.impact || 0,
+
+    status:
+      db.status || 'Monitor'
+
+  };
+
+}
 function buildProjectionBundle(decisionBriefId){
 
   const db =
