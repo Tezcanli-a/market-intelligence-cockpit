@@ -5,6 +5,9 @@ const files = {
   meta:'data/meta.json',
   themes:'data/themes.json',
   signals:'data/signals.json',
+
+
+  
   competitors:'data/competitors.json',
   customers:'data/customers.json',
   technologies:'data/technologies.json',
@@ -2077,10 +2080,7 @@ const agendaItems = assessments
   setHtml(
     'executiveAgenda',
     agendaItems.map(a => {
-      const db =
-  decisionBriefForAssessment(
-    a.assessmentId
-  ) || {};
+const d = a.decisionBrief || {};
 
 const d = db;
       const action = actions.find(x => arr(x.linkedAssessmentIds).includes(a.assessmentId)) || {};
