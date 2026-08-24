@@ -2189,7 +2189,10 @@ const projection =
 
 
       const action = actions.find(x => arr(x.linkedAssessmentIds).includes(a.assessmentId)) || {};
-      const agendaStatus = d.agendaStatus || 'Monitor';
+      const agendaStatus =
+  projection?.status ||
+  d.agendaStatus ||
+  'Monitor';
       const decisionStatus = d.decisionStatus || (agendaStatus === 'Act Now' ? 'Decision Required' : agendaStatus === 'Investigate' ? 'Action Required' : 'Monitor');
       const unknowns = arr(d.unknowns);
       const impactPreview = d.impactPreview || {};
