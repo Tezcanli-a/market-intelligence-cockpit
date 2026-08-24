@@ -1,26 +1,80 @@
-OBSERVATION
-Not yet implemented
+# V21.1 Validation
 
-EVIDENCE
-evidence.json
+## Intelligence Layer
 
-SIGNAL
-signals.json
+| Object | Exists | Status |
+|----------|----------|----------|
+| Evidence | Yes | V20 |
+| Signal | Yes | V20 |
+| Assessment | Yes | V20 |
 
-ASSESSMENT
-assessments.json
+## Decision Layer
 
-DECISION BRIEF
-decision_briefs.json
+| Object | Exists | Status |
+|----------|----------|----------|
+| Decision Brief | Yes | V21.1 |
+| Decision | No | Planned |
 
-DECISION
-Not yet implemented
+## Execution Layer
 
-ACTION
-actions.json
+| Object | Exists | Status |
+|----------|----------|----------|
+| Action | Yes | V20 |
+| Outcome | Yes | V20 |
+| Learning | No | Planned |
 
-OUTCOME
-outcomes.json
+---
 
-LEARNING
-Not yet implemented
+## Decision Brief Coverage
+
+### DB-001
+
+- Assessment ✅
+- Signal ✅
+- Confidence ✅
+- Owner ✅
+- Recommended Decision ✅
+- Action ❌
+- Outcome ❌
+- Learning ❌
+
+### DB-002
+
+- Assessment ✅
+- Signal ✅
+- Confidence ✅
+- Owner ✅
+- Recommended Decision ✅
+- Action ❌
+- Outcome ❌
+- Learning ❌
+
+### DB-003
+
+- Assessment ✅
+- Signal ✅
+- Confidence ✅
+- Owner ✅
+- Recommended Decision ✅
+- Action ❌
+- Outcome ❌
+- Learning ❌
+
+---
+
+## Validation Result
+
+Architecture Contract: PASS
+
+Decision Brief Layer: PASS
+
+Bidirectional Assessment Links: PASS
+
+Lifecycle Coverage: PARTIAL
+
+Missing Future Objects:
+
+- Decision
+- Learning
+
+Ready for V21.1 Projection Layer.
