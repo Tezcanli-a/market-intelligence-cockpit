@@ -2222,7 +2222,12 @@ const projection =
   d.openGap ||
   unknowns[0] ||
   'No explicit open gap populated yet.';
-      const decisionTask = action.title || d.recommendedAction || a.recommendedAction || 'Define decision task.';
+      const decisionTask =
+  projection?.recommendedDecision ||
+  action.title ||
+  d.recommendedAction ||
+  a.recommendedAction ||
+  'Define decision task.';
 
       return `
         <article id="agenda-${safeHtml(a.assessmentId || '')}" class="profile-card agenda-card j4-agenda-card ${statusClass(agendaStatus)}">
