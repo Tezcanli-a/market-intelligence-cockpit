@@ -2163,7 +2163,12 @@ const statusClass = value => {
   const scenarioRows = (d, a) => {
     const scenarios = d.scenarios || {};
     const likelihood = d.likelihood || {};
-    const likely = scenarios.likely || d.whatCouldHappenNext || a.forecast || '';
+    const likely =
+  scenarios.likely ||
+  projection?.whatCouldHappenNext ||
+  d.whatCouldHappenNext ||
+  a.forecast ||
+  '';
     const possible = scenarios.possible || a.forecast || '';
     const earlyWarning = scenarios.earlyWarning || d.openGap || arr(d.unknowns)[0] || '';
 
