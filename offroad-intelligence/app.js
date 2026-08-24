@@ -180,26 +180,17 @@ function buildPortfolioProjection(db){
 }
 function buildProjectionBundle(decisionBriefId){
 
-  const db =
-    decisionBriefById(decisionBriefId);
+  const db = decisionBriefById(decisionBriefId);
 
   if(!db){
     return null;
   }
 
   return {
-
-    executive:
-      buildExecutiveProjection(db),
-
-    analyst:
-      buildAnalystProjection(db),
-
-    portfolio:
-      buildPortfolioProjection(db)
-
+    executive: buildExecutiveProjection(db),
+    analyst: buildAnalystProjection(db),
+    portfolio: buildPortfolioProjection(db)
   };
-
 }
 
 function getDecisionBriefCards(){
@@ -207,11 +198,9 @@ function getDecisionBriefCards(){
   return (state.data.decisionBriefs || [])
     .map(db => {
 
-      const executive =
-        buildExecutiveProjection(db);
+      const executive = buildExecutiveProjection(db);
 
       return {
-
         id: executive.id,
         title: executive.title,
         status: executive.status,
@@ -219,27 +208,9 @@ function getDecisionBriefCards(){
         impact: executive.impact,
         owner: executive.owner,
         dueDate: executive.dueDate
-
       };
 
     });
-
-}
-
-  
-return {
-
-  executive:
-    buildExecutiveProjection(db),
-
-  analyst:
-    buildAnalystProjection(db),
-
-  portfolio:
-    buildPortfolioProjection(db)
-
-};
-
 }
 function confidenceFromPriority(p){return p==='High'?'Medium':p==='Low'?'Low':'Medium';}
 function seedFallbackAssessments(){state.data.assessments=(state.data.signals||[]).slice(0,3).map((s,i)=>({assessmentId:`ASM-AUTO-${String(i+1).padStart(3,'0')}`,signalId:s.id,title:s.signal,assessment:s.why||'Analyst assessment not populated yet.',businessImplication:s.why||'Business implication should be added by Market Intelligence.',confidence:confidenceFromPriority(s.priority),forecast:'Forecast statement not populated yet.',timeHorizon:'To be defined',owner:s.owner||'Market Intelligence',reviewDate:s.date||'',opportunityIds:[],riskIds:[]}));}
