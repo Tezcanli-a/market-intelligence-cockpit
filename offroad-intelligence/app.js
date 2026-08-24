@@ -2122,10 +2122,17 @@ const agendaItems = assessments
 
   const levelClass = value => String(value || 'medium').toLowerCase();
 
-  const statusClass = value =>
-    String(value || 'Monitor')
-      .toLowerCase()
-      .replace(/\s+/g, '-');
+const statusClass = value => {
+
+  const v = String(value || '')
+    .toLowerCase();
+
+  if(v === 'monitor'){
+    return 'watch';
+  }
+
+  return v.replace(/\s+/g, '-');
+};
 
   const decisionClass = value =>
     String(value || 'Monitor')
