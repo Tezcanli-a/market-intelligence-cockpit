@@ -2179,6 +2179,14 @@ const agendaItems = assessments
     'executiveAgenda',
     agendaItems.map(a => {
 const d = a.decisionBrief || {};
+      const db =
+  decisionBriefForAssessment(
+    a.assessmentId
+  );
+
+const projection =
+  buildExecutiveProjection(db);
+
 
       const action = actions.find(x => arr(x.linkedAssessmentIds).includes(a.assessmentId)) || {};
       const agendaStatus = d.agendaStatus || 'Monitor';
