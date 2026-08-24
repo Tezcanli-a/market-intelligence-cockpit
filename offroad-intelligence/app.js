@@ -2216,7 +2216,12 @@ const projection =
   action.owner ||
   a.owner ||
   'Market Intelligence';
-      const due = d.dueDate || action.reviewDate || a.reviewDate || '';
+      const due =
+  projection?.dueDate ||
+  d.dueDate ||
+  action.reviewDate ||
+  a.reviewDate ||
+  '';
       const openGap =
   projection?.openGap ||
   d.openGap ||
