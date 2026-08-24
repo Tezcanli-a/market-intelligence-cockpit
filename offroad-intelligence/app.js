@@ -24,7 +24,13 @@ const files = {
   decisionBriefs:'data/decision_briefs.json'
   
 };
-const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, themes:[], signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], kiqs:[], actions:[], outcomes:[], newsRaw:{lastUpdated:'',news:[], decisionBriefs:[]} };
+const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, themes:[], signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], kiqs:[], actions:[],
+outcomes:[],
+decisionBriefs:[],
+newsRaw:{
+   lastUpdated:'',
+   news:[]
+} };
 async function fetchOptional(path,fallback){try{const r=await fetch(path,{cache:'no-store'}); return r.ok ? await r.json() : fallback;}catch(e){return fallback;}}
 async function loadNewsFeed(){for(const p of ['../news-data.json','./news-data.json','data/news-data.json']){const d=await fetchOptional(p,null); if(d && Array.isArray(d.news)) return d;} return defaults.newsRaw;}
 async function loadData(){const entries=await Promise.all(Object.entries(files).map(async([k,p])=>[k,await fetchOptional(p,defaults[k])])); state.data=Object.fromEntries(entries); state.data.newsRaw=await loadNewsFeed(); if(!state.data.assessments.length) seedFallbackAssessments();}
@@ -48,6 +54,18 @@ function filteredSignals(){return (state.data.signals||[]).filter(s=>segMatch(va
 function assessmentForSignal(id){return (state.data.assessments||[]).find(a=>a.signalId===id);}
 function evidenceForSignal(id){return (state.data.evidence||[]).filter(e=>(e.linkedSignalIds||[]).includes(id)||e.linkedSignalId===id);}
 function signalById(id){return (state.data.signals||[]).find(s=>s.id===id||s.signalId===id);}
+function decisionBriefById(id){
+  return (state.data.decisionBriefs || [])
+    .find(d => d.decisionBriefId === id);
+}
+
+function decisionBriefForAssessment(assessmentId){
+  return (state.data.decisionBriefs || [])
+    .find(d =>
+      (d.intelligenceFoundation?.assessmentIds || [])
+      .includes(assessmentId)
+    );
+}
 function confidenceFromPriority(p){return p==='High'?'Medium':p==='Low'?'Low':'Medium';}
 function seedFallbackAssessments(){state.data.assessments=(state.data.signals||[]).slice(0,3).map((s,i)=>({assessmentId:`ASM-AUTO-${String(i+1).padStart(3,'0')}`,signalId:s.id,title:s.signal,assessment:s.why||'Analyst assessment not populated yet.',businessImplication:s.why||'Business implication should be added by Market Intelligence.',confidence:confidenceFromPriority(s.priority),forecast:'Forecast statement not populated yet.',timeHorizon:'To be defined',owner:s.owner||'Market Intelligence',reviewDate:s.date||'',opportunityIds:[],riskIds:[]}));}
 function setup(){
