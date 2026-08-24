@@ -187,15 +187,18 @@ function buildProjectionBundle(decisionBriefId){
     return null;
   }
 
-  return {
+return {
 
-    executive:
-      buildExecutiveProjection(db),
+  executive:
+    buildExecutiveProjection(db),
 
-    analyst:
-      buildAnalystProjection(db)
+  analyst:
+    buildAnalystProjection(db),
 
-  };
+  portfolio:
+    buildPortfolioProjection(db)
+
+};
 
 }
 function confidenceFromPriority(p){return p==='High'?'Medium':p==='Low'?'Low':'Medium';}
