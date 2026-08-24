@@ -1,80 +1,41 @@
-# V21.1 Validation
+# Projection Coverage
 
-## Intelligence Layer
+## DB-001
 
-| Object | Exists | Status |
-|----------|----------|----------|
-| Evidence | Yes | V20 |
-| Signal | Yes | V20 |
-| Assessment | Yes | V20 |
+Executive View
+✅ status
+✅ confidence
+✅ impact
+✅ recommendedDecision
 
-## Decision Layer
+Analyst View
+✅ assessmentIds
+✅ signalIds
+❌ evidenceIds
 
-| Object | Exists | Status |
-|----------|----------|----------|
-| Decision Brief | Yes | V21.1 |
-| Decision | No | Planned |
+Execution View
+✅ owner
+✅ dueDate
+❌ actionIds
 
-## Execution Layer
+Outcome View
+❌ outcomeIds
+❌ lessonsLearned
 
-| Object | Exists | Status |
-|----------|----------|----------|
-| Action | Yes | V20 |
-| Outcome | Yes | V20 |
-| Learning | No | Planned |
-
----
-
-## Decision Brief Coverage
-
-### DB-001
-
-- Assessment ✅
-- Signal ✅
-- Confidence ✅
-- Owner ✅
-- Recommended Decision ✅
-- Action ❌
-- Outcome ❌
-- Learning ❌
-
-### DB-002
-
-- Assessment ✅
-- Signal ✅
-- Confidence ✅
-- Owner ✅
-- Recommended Decision ✅
-- Action ❌
-- Outcome ❌
-- Learning ❌
-
-### DB-003
-
-- Assessment ✅
-- Signal ✅
-- Confidence ✅
-- Owner ✅
-- Recommended Decision ✅
-- Action ❌
-- Outcome ❌
-- Learning ❌
+Portfolio View
+✅ themeIds
+❌ customerIds
+❌ competitorIds
+❌ technologyIds
 
 ---
 
-## Validation Result
+## DB-002
 
-Architecture Contract: PASS
+(same exercise)
 
-Decision Brief Layer: PASS
+---
 
-Bidirectional Assessment Links: PASS
+## DB-003
 
-Lifecycle Coverage: PARTIAL
-
-Missing Future Objects:
-
-- Decision
-- Learning
-
-Ready for V21.1 Projection Layer.
+(same exercise)
