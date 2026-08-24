@@ -20,10 +20,11 @@ const files = {
   performance:'data/performance_trends.json',
   kiqs:'data/kiqs.json',
   actions:'data/actions.json', 
-  outcomes:'data/outcomes.json'
+  outcomes:'data/outcomes.json', 
+  decisionBriefs:'data/decision_briefs.json'
   
 };
-const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, themes:[], signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], kiqs:[], actions:[], outcomes:[], newsRaw:{lastUpdated:'',news:[]} };
+const defaults = { meta:{segments:['Agriculture','Construction','Material Handling','Turf','Offroad'], perspectives:['Sales','R&D','Product Management','Innovation','Procurement','Strategy']}, themes:[], signals:[], competitors:[], customers:[], technologies:[], opportunities:[], risks:[], weekly:[], research:[], benchmarking:[], evidence:[], assessments:[], customerProfiles:[], competitorProfiles:[], performance:[], kiqs:[], actions:[], outcomes:[], newsRaw:{lastUpdated:'',news:[], decisionBriefs:[]} };
 async function fetchOptional(path,fallback){try{const r=await fetch(path,{cache:'no-store'}); return r.ok ? await r.json() : fallback;}catch(e){return fallback;}}
 async function loadNewsFeed(){for(const p of ['../news-data.json','./news-data.json','data/news-data.json']){const d=await fetchOptional(p,null); if(d && Array.isArray(d.news)) return d;} return defaults.newsRaw;}
 async function loadData(){const entries=await Promise.all(Object.entries(files).map(async([k,p])=>[k,await fetchOptional(p,defaults[k])])); state.data=Object.fromEntries(entries); state.data.newsRaw=await loadNewsFeed(); if(!state.data.assessments.length) seedFallbackAssessments();}
