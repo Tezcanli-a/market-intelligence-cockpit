@@ -147,7 +147,26 @@ function buildAnalystProjection(db){
   };
 
 }
+function buildProjectionBundle(decisionBriefId){
 
+  const db =
+    decisionBriefById(decisionBriefId);
+
+  if(!db){
+    return null;
+  }
+
+  return {
+
+    executive:
+      buildExecutiveProjection(db),
+
+    analyst:
+      buildAnalystProjection(db)
+
+  };
+
+}
 function confidenceFromPriority(p){return p==='High'?'Medium':p==='Low'?'Low':'Medium';}
 function seedFallbackAssessments(){state.data.assessments=(state.data.signals||[]).slice(0,3).map((s,i)=>({assessmentId:`ASM-AUTO-${String(i+1).padStart(3,'0')}`,signalId:s.id,title:s.signal,assessment:s.why||'Analyst assessment not populated yet.',businessImplication:s.why||'Business implication should be added by Market Intelligence.',confidence:confidenceFromPriority(s.priority),forecast:'Forecast statement not populated yet.',timeHorizon:'To be defined',owner:s.owner||'Market Intelligence',reviewDate:s.date||'',opportunityIds:[],riskIds:[]}));}
 function setup(){
