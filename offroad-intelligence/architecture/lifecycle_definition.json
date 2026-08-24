@@ -1,0 +1,45 @@
+{
+  "version": "V21.1",
+
+  "stages": [
+    "Observe",
+    "Interpret",
+    "Assess",
+    "Prioritize",
+    "Decide",
+    "Act",
+    "Measure",
+    "Learn"
+  ],
+
+  "transitions": {
+
+    "Observe->Interpret": {
+      "requires": ["Observation"]
+    },
+
+    "Interpret->Assess": {
+      "requires": ["Evidence","Signal"]
+    },
+
+    "Assess->Prioritize": {
+      "requires": ["Assessment"]
+    },
+
+    "Prioritize->Decide": {
+      "creates": ["DecisionBrief"]
+    },
+
+    "Decide->Act": {
+      "requires": ["Decision"]
+    },
+
+    "Act->Measure": {
+      "requires": ["Action"]
+    },
+
+    "Measure->Learn": {
+      "requires": ["Outcome"]
+    }
+  }
+}
