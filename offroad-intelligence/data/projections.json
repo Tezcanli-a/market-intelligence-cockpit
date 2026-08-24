@@ -1,0 +1,41 @@
+{
+  "version": "V21.1",
+
+  "executiveProjection": [
+    "status",
+    "confidence",
+    "impact",
+    "whatChanged",
+    "whyItMatters",
+    "recommendedDecision",
+    "owner",
+    "dueDate"
+  ],
+
+  "analystProjection": [
+    "evidenceIds",
+    "signalIds",
+    "assessmentIds",
+    "unknowns",
+    "confidence"
+  ],
+
+  "portfolioProjection": [
+    "themeIds",
+    "customerIds",
+    "competitorIds",
+    "technologyIds"
+  ],
+
+  "executionProjection": [
+    "decisionStatus",
+    "actionIds",
+    "owner",
+    "dueDate"
+  ],
+
+  "outcomeProjection": [
+    "outcomeIds",
+    "lessonsLearned"
+  ]
+}
