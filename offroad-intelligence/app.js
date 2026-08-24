@@ -2195,7 +2195,12 @@ const projection =
       const impactPreview = d.impactPreview || {};
       const impactMap = d.impactMap || {};
       const businessImpact = d.businessImpact || {};
-      const owner = d.owner || action.owner || a.owner || 'Market Intelligence';
+      const owner =
+  projection?.owner ||
+  d.owner ||
+  action.owner ||
+  a.owner ||
+  'Market Intelligence';
       const due = d.dueDate || action.reviewDate || a.reviewDate || '';
       const openGap = d.openGap || unknowns[0] || 'No explicit open gap populated yet.';
       const decisionTask = action.title || d.recommendedAction || a.recommendedAction || 'Define decision task.';
