@@ -2205,7 +2205,7 @@ const statusClass = value => {
     }).join('');
   };
 
-  const scenarioRows = (d, a) => {
+  const scenarioRows = (d, a, projection) => {
     const scenarios = d.scenarios || {};
     const likelihood = d.likelihood || {};
     const likely =
@@ -2317,7 +2317,7 @@ const projection =
             <section class="j4-block j4-forecast">
                 <strong>What could happen next</strong>
               <div class="j4-scenarios">
-                ${scenarioRows(d, a)}
+                ${scenarioRows(d, a, projection)}
               </div>
             </section>
 
