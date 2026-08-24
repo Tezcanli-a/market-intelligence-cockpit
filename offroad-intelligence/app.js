@@ -187,6 +187,21 @@ function buildProjectionBundle(decisionBriefId){
     return null;
   }
 
+  return {
+
+    executive:
+      buildExecutiveProjection(db),
+
+    analyst:
+      buildAnalystProjection(db),
+
+    portfolio:
+      buildPortfolioProjection(db)
+
+  };
+
+}
+
 function getDecisionBriefCards(){
 
   return (state.data.decisionBriefs || [])
@@ -198,17 +213,11 @@ function getDecisionBriefCards(){
       return {
 
         id: executive.id,
-
         title: executive.title,
-
         status: executive.status,
-
         confidence: executive.confidence,
-
         impact: executive.impact,
-
         owner: executive.owner,
-
         dueDate: executive.dueDate
 
       };
