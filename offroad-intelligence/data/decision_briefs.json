@@ -1,0 +1,41 @@
+[
+  {
+    "decisionBriefId": "DB-001",
+
+    "title": "Integrated operator environments becoming more relevant",
+
+    "status": "Act Now",
+
+    "intelligenceFoundation": {
+      "observationIds": [],
+      "evidenceIds": [],
+      "signalIds": ["INT-001"],
+      "assessmentIds": ["ASM-001"]
+    },
+
+    "context": {
+      "themeIds": ["THM-003","THM-008"],
+      "customerIds": [],
+      "competitorIds": [],
+      "technologyIds": [],
+      "kiqIds": []
+    },
+
+    "decisionLogic": {
+      "confidence": 78,
+      "impact": 90
+    },
+
+    "decision": {
+      "decisionStatus": "Decision Required"
+    },
+
+    "execution": {
+      "actionIds": []
+    },
+
+    "learning": {
+      "outcomeIds": []
+    }
+  }
+]
