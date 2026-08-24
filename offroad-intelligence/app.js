@@ -2217,7 +2217,11 @@ const projection =
   a.owner ||
   'Market Intelligence';
       const due = d.dueDate || action.reviewDate || a.reviewDate || '';
-      const openGap = d.openGap || unknowns[0] || 'No explicit open gap populated yet.';
+      const openGap =
+  projection?.openGap ||
+  d.openGap ||
+  unknowns[0] ||
+  'No explicit open gap populated yet.';
       const decisionTask = action.title || d.recommendedAction || a.recommendedAction || 'Define decision task.';
 
       return `
