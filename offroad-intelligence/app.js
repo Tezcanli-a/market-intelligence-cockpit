@@ -2477,9 +2477,10 @@ const projection =
       const impactPreview = d.impactPreview || {};
       const impactMap = d.impactMap || {};
       const businessImpact = d.businessImpact || {};
-      console.log(
+console.log(
   a.assessmentId,
-  businessImpact
+  db?.businessImpact,
+  d.businessImpact
 );
 
       const owner =
