@@ -1668,14 +1668,24 @@ function renderProvenance(){
   `;
 
   document.getElementById('confidenceGrid').innerHTML =
-    assessments.map(a => {
+    assessments.map(a => {      
 
+        const db =
+  decisionBriefForAssessment(
+    a.assessmentId
+  );
       const linkedSignals = a.linkedSignalIds || (a.signalId ? [a.signalId] : []);
       const linkedEvidence = a.linkedEvidenceIds || [];
       const linkedOpportunities = a.linkedOpportunityIds || a.opportunityIds || [];
       const linkedRisks = a.linkedRiskIds || a.riskIds || [];
+      
 
       return `
+
+         ${safeHtml(
+  db?.status
+ || 'Monitor'
+)}
         <article class="profile-card">
 
           <div class="profile-head">
@@ -1686,10 +1696,9 @@ function renderProvenance(){
           <h3>${safeHtml(a.title || '')}</h3>
           <div class="pill-row">
   <span class="pill">
-   ${safeHtml(
-  a.decisionBrief?.agendaStatus || 'Monitor'
-)}
+
   </span>
+
 
   <span class="pill">
     Confidence:
