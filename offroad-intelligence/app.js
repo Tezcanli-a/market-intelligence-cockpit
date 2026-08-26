@@ -2835,10 +2835,211 @@ function renderDecisionBriefWorkspace(){
     `
   );
 }
+function renderDecisionBriefs(){
 
-function renderAll(){
+  const items = getDecisionBriefCards();
+
+  setHtml(
+    'decisionBriefSummary',
+    [
+      ['Decision Briefs', items.length],
+
+      [
+        'Act Now',
+        items.filter(x => x.status === 'Act Now').length
+      ],
+
+      [
+        'Investigate',
+        items.filter(x => x.status === 'Investigate').length
+      ],
+
+      [
+        'Monitor',
+        items.filter(x => x.status === 'Monitor').length
+      ]
+
+    ].map(([label, value]) => `
+      <div class="kpi">
+        <span>${safeHtml(label)}</span>
+        <strong>${safeHtml(value)}</strong>
+      </div>
+    `).join('')
+  );
+
+  setHtml(
+    'decisionBriefGrid',
+
+    items.map(db => {
+
+      const statusClass =
+        String(db.status || 'Monitor')
+          .toLowerCase()
+          .replace(/\s+/g, '-');
+
+      return `
+        <article
+          class="profile-card decision-brief-card ${statusClass}"
+          data-decision-brief-id="${safeHtml(db.id)}"
+          tabindex="0"
+          role="button"
+          aria-label="Open Decision Brief ${safeHtml(db.id)}">
+
+          <div class="profile-head">
+
+            <div>
+              <span class="meta">
+                ${safeHtml(db.id)}
+              </span>
+
+              <h3>
+                ${safeHtml(db.title)}
+              </h3>
+            </div>
+
+            ${badge(db.status || 'Monitor')}
+
+          </div>
+
+          <div class="pill-row">
+
+            <span class="pill">
+              Confidence:
+              ${safeHtml(db.confidence)}%
+            </span>
+
+            <span class="pill">
+              Impact:
+              ${safeHtml(db.impact)}
+            </span>
+
+          </div>
+
+          <p>
+            <strong>Owner:</strong><br>
+            ${safeHtml(db.owner || 'Not assigned')}
+          </p>
+
+          <p>
+            <strong>Due:</strong><br>
+            ${safeHtml(db.dueDate || 'Not defined')}
+          </p>
+
+          <div class="j4-gap-row">
+            Open Decision Brief
+          </div>
+
+        </article>
+      `;
+    }).join('') ||
+    '<p class="empty">No Decision Briefs available.</p>'
+  );
+
+  document
+    .querySelectorAll('[data-decision-brief-id]')
+    .forEach(card => {
+
+      const open = () => {
+        openDecisionBrief(
+          card.dataset.decisionBriefId
+        );
+      };
+
+      card.onclick = open;
+
+      card.onkeydown = event => {
+        if(
+          event.key === 'Enter' ||
+          event.key === ' '
+        ){
+          event.preventDefault();
+          open();
+        }
+      };
+
+    });
+}
+function openDecisionBrief(id){
+
+  const db = decisionBriefById(id);
+
+  if(!db){
+    console.warn(
+      'Decision Brief not found:',
+      id
+    );
+    return;
+  }
+
+  const assessmentId =
+    arr(
+      db.intelligenceFoundation
+        ?.assessmentIds
+    )[0];
+
+  if(!assessmentId){
+    console.warn(
+      'No Assessment linked to Decision Brief:',
+      id
+    );
+    return;
+  }
+
+  selectedAssessmentId =
+    assessmentId;
+
+  document
+    .querySelectorAll('.nav')
+    .forEach(item =>
+      item.classList.remove('active')
+    );
+
+  document
+    .querySelectorAll('.view')
+    .forEach(view =>
+      view.classList.remove('active')
+    );
+
+  const overview =
+    document.getElementById('overview');
+
+  if(overview){
+    overview.classList.add('active');
+  }
+
+  const overviewNav =
+    document.querySelector(
+      '.nav[data-view="overview"]'
+    );
+
+  if(overviewNav){
+    overviewNav.classList.add('active');
+  }
+
   renderDecisionCockpit();
-  const signals=filteredSignals();
+
+  requestAnimationFrame(() => {
+
+    const workspace =
+      document.getElementById(
+        'decisionBriefWorkspace'
+      );
+
+    if(workspace){
+      workspace.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+  });
+}
+function renderAll(){
+
+  renderDecisionCockpit();
+  renderDecisionBriefs();
+
+  const signals = filteredSignals();
     
    renderOverview(signals);
   renderSignalsTable();
