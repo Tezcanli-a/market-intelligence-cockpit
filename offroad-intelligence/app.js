@@ -2869,7 +2869,28 @@ function renderDecisionBriefPageWorkspace(){
     `
     <article class="profile-card">
 
-      <h2>${safeHtml(executive.title)}</h2>
+      <div class="decision-header">
+
+  <div>
+    ${badge(executive.status || 'Monitor')}
+    <h2>${safeHtml(executive.title)}</h2>
+  </div>
+
+  <div class="pill-row">
+    <span class="pill">
+      Impact: ${safeHtml(executive.impact)}
+    </span>
+
+    <span class="pill">
+      Confidence: ${safeHtml(executive.confidence)}%
+    </span>
+
+    <span class="pill">
+      Owner: ${safeHtml(executive.owner)}
+    </span>
+  </div>
+
+</div>
 
       <div class="j4-block">
         <strong>What Changed</strong>
@@ -2888,6 +2909,10 @@ function renderDecisionBriefPageWorkspace(){
 
       <div class="j4-block">
         <strong>Recommended Decision</strong>
+        <div class="j4-block">
+  <strong>Open Intelligence Gap</strong>
+  <p>${safeHtml(analyst.openGap)}</p>
+</div>
         <p>${safeHtml(executive.recommendedDecision)}</p>
       </div>
 
