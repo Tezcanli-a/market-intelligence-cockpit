@@ -2920,7 +2920,14 @@ return assessments.map(a => ({
   y: a.momentum || 50,
   impact: a.impact || 50,
   confidence: a.confidenceScore || 50,
-  status: a.decisionBrief?.agendaStatus || 'Monitor'
+ const db =
+  decisionBriefForAssessment(
+    a.assessmentId
+  );
+
+const status =
+  db?.status ||
+  'Monitor';
   }));
 }
 function renderDecisionBriefWorkspace(){
