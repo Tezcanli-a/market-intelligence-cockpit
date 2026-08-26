@@ -2508,6 +2508,7 @@ setHtml('decisionAlerts', `
 `);
 
   renderPriorityMatrix();
+  renderDecisionBriefWorkspace();
 }
 
 function renderPriorityMatrix() {
@@ -2692,6 +2693,147 @@ return assessments.map(a => ({
   confidence: a.confidenceScore || 50,
   status: a.decisionBrief?.agendaStatus || 'Monitor'
   }));
+}
+function renderDecisionBriefWorkspace(){
+
+  const assessment =
+    (state.data.assessments || []).find(
+      a => a.assessmentId === selectedAssessmentId
+    );
+
+  if(!assessment){
+    return;
+  }
+
+  const db =
+    decisionBriefForAssessment(
+      assessment.assessmentId
+    );
+
+  if(!db){
+    return;
+  }
+
+  const executive =
+    buildExecutiveProjection(db);
+
+  const analyst =
+    buildAnalystProjection(db);
+
+  const portfolio =
+    buildPortfolioProjection(db);
+
+  setHtml(
+    'decisionBriefWorkspace',
+    `
+    <article class="profile-card">
+
+      <h2>${safeHtml(executive.title)}</h2>
+
+      <div class="j4-block">
+        <strong>What Changed</strong>
+        <p>${safeHtml(executive.whatChanged)}</p>
+      </div>
+
+      <div class="j4-block">
+        <strong>Why It Matters</strong>
+        <p>${safeHtml(executive.whyItMatters)}</p>
+      </div>
+
+      <div class="j4-block">
+        <strong>What Could Happen Next</strong>
+        <p>${safeHtml(executive.whatCouldHappenNext)}</p>
+      </div>
+
+      <div class="j4-block">
+        <strong>Recommended Decision</strong>
+        <p>${safeHtml(executive.recommendedDecision)}</p>
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">
+          Owner:
+          ${safeHtml(executive.owner)}
+        </span>
+
+        <span class="pill">
+          Due:
+          ${safeHtml(executive.dueDate)}
+        </span>
+
+        <span class="pill">
+          Confidence:
+          ${safeHtml(executive.confidence)}
+        </span>
+
+        <span class="pill">
+          Impact:
+          ${safeHtml(executive.impact)}
+        </span>
+      </div>
+
+      <details class="j4-block">
+        <summary><strong>Analyst View</strong></summary>
+
+        <p>
+          <strong>Assessment IDs:</strong><br>
+          ${arr(analyst.assessmentIds).join(', ')}
+        </p>
+
+        <p>
+          <strong>Signal IDs:</strong><br>
+          ${arr(analyst.signalIds).join(', ')}
+        </p>
+
+        <p>
+          <strong>Evidence IDs:</strong><br>
+          ${arr(analyst.evidenceIds).join(', ')}
+        </p>
+
+        <p>
+          <strong>Open Gap:</strong><br>
+          ${safeHtml(analyst.openGap)}
+        </p>
+
+        <p>
+          <strong>Unknowns:</strong><br>
+          ${arr(analyst.unknowns).join('<br>')}
+        </p>
+      </details>
+
+      <details class="j4-block">
+        <summary><strong>Portfolio View</strong></summary>
+
+        <p>
+          <strong>Themes:</strong><br>
+          ${arr(portfolio.themeIds).join(', ')}
+        </p>
+
+        <p>
+          <strong>Customers:</strong><br>
+          ${arr(portfolio.customerIds).join(', ')}
+        </p>
+
+        <p>
+          <strong>Competitors:</strong><br>
+          ${arr(portfolio.competitorIds).join(', ')}
+        </p>
+
+        <p>
+          <strong>Technologies:</strong><br>
+          ${arr(portfolio.technologyIds).join(', ')}
+        </p>
+
+        <p>
+          <strong>Status:</strong><br>
+          ${safeHtml(portfolio.status)}
+        </p>
+
+      </details>
+
+    </article>
+    `
+  );
 }
 
 function renderAll(){
