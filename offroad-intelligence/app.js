@@ -3287,6 +3287,24 @@ function renderDecisionBriefPageWorkspace(){
           ${arr(analyst.unknowns).join('<br>')}
         </p>
       </details>
+      
+<details class="j4-block">
+  <summary><strong>Intelligence Foundation</strong></summary>
+
+  <p><strong>Evidence:</strong> ${arr(foundation.evidenceIds).join(', ') || 'None'}</p>
+
+  <p><strong>Signals:</strong> ${arr(foundation.signalIds).join(', ') || 'None'}</p>
+
+  <p><strong>Assessments:</strong> ${arr(foundation.assessmentIds).join(', ') || 'None'}</p>
+
+  <p><strong>KIQs:</strong> ${arr(foundation.kiqIds).join(', ') || 'None'}</p>
+
+  <p><strong>Gaps:</strong> ${arr(foundation.gapIds).join(', ') || 'None'}</p>
+
+  <p><strong>Actions:</strong> ${arr(execution.actionIds).join(', ') || 'None'}</p>
+
+  <p><strong>Outcomes:</strong> ${arr(learning.outcomeIds).join(', ') || 'None'}</p>
+</details>
 
       <details class="j4-block">
         <summary><strong>Portfolio View</strong></summary>
