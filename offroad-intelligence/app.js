@@ -2584,22 +2584,21 @@ function renderDecisionCockpit(){
   const actions = state.data.actions || [];
 
   const topAssessments = assessments.slice(0,3);
-  const decisionCandidate =
-
+const decisionCandidate =
   assessments.find(a =>
     a.assessmentId === selectedAssessmentId
   )
-
   ||
+  assessments.find(a => {
+    const db =
+      decisionBriefForAssessment(
+        a.assessmentId
+      );
 
-  assessments.find(a =>
-    a.decisionBrief?.agendaStatus === 'Act Now'
-  )
-
+    return db?.status === 'Act Now';
+  })
   ||
-
   topAssessments[0];
-
   
   const db =
   decisionCandidate
