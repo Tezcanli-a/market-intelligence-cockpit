@@ -6,11 +6,11 @@
 
 "intelligenceFoundation": {
   "observationIds": [],
-  "evidenceIds": [],
+  "evidenceIds": ["E-001"],
   "signalIds": ["INT-001"],
   "assessmentIds": ["ASM-001"],
-  "kiqIds": [],
-  "gapIds": []
+  "kiqIds": ["KIQ-001"],
+  "gapIds": ["GAP-001"]
 }
 
     "context": {
