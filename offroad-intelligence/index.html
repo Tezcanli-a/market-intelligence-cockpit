@@ -1,5 +1,8 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>GRAMMER Offroad Intelligence Hub</title><link rel="stylesheet" href="styles.css"></head><body>
-<aside class="sidebar"><div class="brand"><div class="logo">G</div><div><strong>Offroad Hub</strong><span>V21.1 Decision Brief Navigation</span></div></div><div class="nav-label">Intelligence</div><button class="nav active" data-view="overview">Intelligence Overview</button><button class="nav" data-view="dailynews">Daily News Signals</button><button class="nav" data-view="signals">Signal Register</button><button class="nav" data-view="assessments">Intelligence Assessments</button><button class="nav" data-view="relationships">Entity Relationships</button><button class="nav" data-view="themes">Theme Explorer</button><div class="nav-label">Where to act</div><button class="nav" data-view="customers">Customer Profiles</button><button class="nav" data-view="competitors">Competitor Profiles</button><button class="nav" data-view="technology">Technology Intelligence</button><button class="nav" data-view="benchmarking">Benchmarking</button><button class="nav" data-view="performance">Performance Monitor</button><div class="nav-label">Visual Analysis</div>
+<aside class="sidebar"><div class="brand"><div class="logo">G</div><div><strong>Offroad Hub</strong><span>V21.1 Decision Brief Navigation</span></div></div><div class="nav-label">INTELLIGENCE</div><button class="nav"
+        data-view="decisionBriefs">
+  Decision Briefs
+</button><button class="nav active" data-view="overview">Intelligence Overview</button><button class="nav" data-view="dailynews">Daily News Signals</button><button class="nav" data-view="signals">Signal Register</button><button class="nav" data-view="assessments">Intelligence Assessments</button><button class="nav" data-view="relationships">Entity Relationships</button><button class="nav" data-view="themes">Theme Explorer</button><div class="nav-label">RISKS & OPPORTUNITIES</div><button class="nav" data-view="customers">Customer Profiles</button><button class="nav" data-view="competitors">Competitor Profiles</button><button class="nav" data-view="technology">Technology Intelligence</button><button class="nav" data-view="benchmarking">Benchmarking</button><button class="nav" data-view="performance">Performance Monitor</button><div class="nav-label"></div>
 
 <button class="nav" data-view="matrix">Customer-Competitor Matrix</button>
 
@@ -11,10 +14,7 @@
 <button class="nav" data-view="gaps">
   Intelligence Gaps
 </button>
-<button class="nav"
-        data-view="decisionBriefs">
-  Decision Briefs
-</button>
+
 <button class="nav" data-view="provenance">
   Provenance & Confidence
 </button>
@@ -84,13 +84,13 @@ Built on Evidence → Signal → Assessment → Opportunity/Risk → Action.
 <section id="signals" class="view"><div class="heading"><div><span>Layer 2 · Signal</span><h2>Signal Register: why it matters</h2></div><small>Signals translate evidence into GRAMMER business implications.</small></div><div id="signalsTable" class="table-wrap"></div></section>
 <section id="assessments" class="view"><div class="heading"><div><span>Layer 3 · Assessment</span><h2>Intelligence Assessments: what GRAMMER should do</h2></div><small>Evidence, interpretation, action and forecast in one analyst card.</small></div><div id="assessmentSummary" class="kpis compact-kpis"></div><div id="assessmentGrid" class="profile-grid"></div></section>
 <section id="relationships" class="view"><div class="heading"><div><span>Entity relationship model</span><h2>How signals connect to customers, competitors, technologies and actions</h2></div></div><div id="relationshipGrid" class="relationship-grid"></div></section>
-<section id="customers" class="view"><div class="heading"><div><span>Where to act</span><h2>Customer profiles</h2></div><small>Customer facts, dynamic intelligence and next actions. Current key figures are embedded here.</small></div><div id="customerProfiles" class="profile-grid"></div></section>
+<section id="customers" class="view"><div class="heading"><div><span>RISKS & OPPORTUNITIES</span><h2>Customer profiles</h2></div><small>Customer facts, dynamic intelligence and next actions. Current key figures are embedded here.</small></div><div id="customerProfiles" class="profile-grid"></div></section>
 <section id="competitors" class="view"><div class="heading"><div><span>Where competitors move</span><h2>Competitor profiles</h2></div><small>Competitor facts, strengths, weaknesses and sales enablement. Current key figures are embedded here.</small></div><div id="competitorProfiles" class="profile-grid"></div></section>
 <section id="technology" class="view"><div class="heading"><div><span>Where to invest</span><h2>Technology Intelligence</h2></div><small>Technology relevance, market adoption clues and GRAMMER readiness.</small></div><div id="technologyGrid" class="card-grid"></div></section>
 <section id="benchmarking" class="view"><div class="heading"><div><span>Benchmarking</span><h2>GRAMMER comparisons and customer supplier landscapes</h2></div></div><div id="benchmarkGrid" class="profile-grid"></div></section>
 <section id="momentum" class="view">
   <div class="heading">
-    <div><span>Visual analysis</span><h2>Momentum Intelligence</h2></div>
+    <div><span></span><h2>Momentum Intelligence</h2></div>
     <small>What is gaining attention across news, signals, assessments and profiles?</small>
   </div>
   <div id="momentumSummary" class="kpis compact-kpis"></div>
@@ -103,7 +103,7 @@ Built on Evidence → Signal → Assessment → Opportunity/Risk → Action.
 </section>
 
 <section id="performance" class="view"><div class="heading"><div><span>Performance monitor</span><h2>Visual key figure development</h2></div><small>Visual YoY trend monitor. Use this only for historical time series, not static profile facts.</small></div><div id="performanceSummary" class="kpis compact-kpis"></div><div id="performanceGrid" class="profile-grid"></div></section>
-<section id="matrix" class="view"><div class="heading"><div><span>Visual analysis</span><h2>Customer-Competitor Matrix</h2></div></div><div id="matrixTable" class="table-wrap"></div></section>
+<section id="matrix" class="view"><div class="heading"><div><span>LANDSCAPE</span><h2>Customer-Competitor Matrix</h2></div></div><div id="matrixTable" class="table-wrap"></div></section>
 <section id="kiqs" class="view">
   <div class="heading">
     <div>
@@ -239,7 +239,7 @@ Built on Evidence → Signal → Assessment → Opportunity/Risk → Action.
 
 </section>
 
-  <section id="heatmap" class="view"><div class="heading"><div><span>Visual analysis</span><h2>Risk-Opportunity Heatmap</h2></div></div><div id="heatmapGrid" class="heatmap-grid"></div></section><section id="themes" class="view">
+  <section id="heatmap" class="view"><div class="heading"><div><span>LANDSCAPE</span><h2>Risk-Opportunity Heatmap</h2></div></div><div id="heatmapGrid" class="heatmap-grid"></div></section><section id="themes" class="view">
   <div class="heading">
     <div>
       <span>Intelligence graph</span>
