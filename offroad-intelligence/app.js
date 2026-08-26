@@ -2712,7 +2712,11 @@ setHtml('decisionPanel', `
     )}</p>
 </div>
   <div class="j4-owner-row">
-      <span>${safeHtml(d.agendaStatus || 'Monitor')}</span>
+      <span>
+  ${safeHtml(
+    db?.status || 'Monitor'
+  )}
+</span>
       <span>Confidence: ${safeHtml(decisionCandidate?.confidenceScore || 'n/a')}%</span>
       <span>Impact: ${safeHtml(d.impact || decisionCandidate?.impact || 'n/a')}</span>
   </div>
