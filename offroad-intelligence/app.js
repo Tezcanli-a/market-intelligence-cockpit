@@ -2452,10 +2452,7 @@ const d = {
   likelihood:
     db?.likelihood || {}
 };
-      const db =
-  decisionBriefForAssessment(
-    a.assessmentId
-  );
+      
 
 const projection =
   buildExecutiveProjection(db);
