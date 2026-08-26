@@ -1873,130 +1873,319 @@ function renderGraph(){
 }
 function renderConfidenceEngine(){
 
-  const assessments = state.data.assessments || [];
+  const assessments =
+    state.data.assessments || [];
+
+  const uniqueIds = values =>
+    [...new Set(
+      values.filter(Boolean)
+    )];
 
   const scored = assessments.map(a => {
 
-const evidenceCount =
-  (a.linkedEvidenceIds || []).length;
+    const evidenceIds = uniqueIds([
+      ...(a.linkedEvidenceIds || []),
+      ...(a.evidenceIds || [])
+    ]);
 
-const signalCount =
-  (a.linkedSignalIds || []).length +
-  (a.signalId ? 1 : 0);
+    const signalIds = uniqueIds([
+      ...(a.linkedSignalIds || []),
+      a.signalId
+    ]);
 
-const opportunityCount =
-  (a.linkedOpportunityIds || []).length +
-  (a.opportunityIds || []).length;
+    const opportunityIds = uniqueIds([
+      ...(a.linkedOpportunityIds || []),
+      ...(a.opportunityIds || [])
+    ]);
 
-const riskCount =
-  (a.linkedRiskIds || []).length +
-  (a.riskIds || []).length;
+    const riskIds = uniqueIds([
+      ...(a.linkedRiskIds || []),
+      ...(a.riskIds || [])
+    ]);
 
-const relationshipStrength =
-  signalCount +
-  opportunityCount +
-  riskCount;
+    const evidenceCount =
+      evidenceIds.length;
 
-const score =
-  Math.min(
-    100,
-    40 +
-    evidenceCount * 10 +
-    relationshipStrength * 10
+    const signalCount =
+      signalIds.length;
+
+    const opportunityCount =
+      opportunityIds.length;
+
+    const riskCount =
+      riskIds.length;
+
+    const relationshipStrength =
+      signalCount +
+      opportunityCount +
+      riskCount;
+
+    const relationshipScore =
+      Math.min(
+        100,
+        40 +
+        evidenceCount * 10 +
+        relationshipStrength * 10
+      );
+
+    const evidenceReadinessScore =
+      evidenceCount === 0
+        ? 0
+        : relationshipScore;
+
+    const evidenceReadinessLevel =
+      evidenceCount === 0
+        ? 'Evidence Required'
+        : evidenceReadinessScore >= 80
+          ? 'High'
+          : evidenceReadinessScore >= 60
+            ? 'Medium'
+            : 'Low';
+
+    return {
+      ...a,
+
+      evidenceIds,
+      signalIds,
+      opportunityIds,
+      riskIds,
+
+      evidenceCount,
+      signalCount,
+      opportunityCount,
+      riskCount,
+
+      relationshipStrength,
+      relationshipScore,
+
+      evidenceReadinessScore,
+      evidenceReadinessLevel
+    };
+
+  });
+
+  const evidenceRequiredCount =
+    scored.filter(
+      a =>
+        a.evidenceReadinessLevel ===
+        'Evidence Required'
+    ).length;
+
+  const evidenceLinkedCount =
+    scored.filter(
+      a => a.evidenceCount > 0
+    ).length;
+
+  const readyScores =
+    scored.filter(
+      a => a.evidenceCount > 0
+    );
+
+  const averageReadiness =
+    readyScores.length
+      ? Math.round(
+          readyScores.reduce(
+            (sum, item) =>
+              sum +
+              item.evidenceReadinessScore,
+            0
+          ) /
+          readyScores.length
+        )
+      : 0;
+
+  setHtml(
+    'confidenceEngineSummary',
+    `
+      <div class="kpi-card">
+        <div class="value">
+          ${scored.length}
+        </div>
+        <div class="label">
+          Assessments
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="value">
+          ${evidenceLinkedCount}
+        </div>
+        <div class="label">
+          Evidence Linked
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="value">
+          ${evidenceRequiredCount}
+        </div>
+        <div class="label">
+          Evidence Required
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="value">
+          ${
+            readyScores.length
+              ? averageReadiness
+              : 'n/a'
+          }
+        </div>
+        <div class="label">
+          Average Evidence Readiness
+        </div>
+      </div>
+    `
   );
 
-    const confidenceLevel =
-      score >= 80
-        ? 'High'
-        : score >= 60
-          ? 'Medium'
-          : 'Low';
+  setHtml(
+    'confidenceEngineGrid',
 
-return {
-  ...a,
-  calculatedScore: score,
-  confidenceLevel,
-  relationshipStrength,
-  evidenceCount,
-  signalCount,
-  opportunityCount,
-  riskCount
-};
-    });
+    scored.map(a => {
 
-  document.getElementById('confidenceEngineSummary').innerHTML = `
-    <div class="kpi-card">
-      <div class="value">${scored.length}</div>
-      <div class="label">Assessments</div>
-    </div>
+      const evidenceRequired =
+        a.evidenceCount === 0;
 
-    <div class="kpi-card">
-      <div class="value">
-        ${Math.round(
-          scored.reduce((a,b)=>a+b.calculatedScore,0) /
-          (scored.length || 1)
-        )}
-      </div>
-      <div class="label">Avg Confidence</div>
-    </div>
-  `;
+      return `
+        <article class="profile-card">
 
-  document.getElementById('confidenceEngineGrid').innerHTML =
-    scored.map(a => `
+          <div class="profile-head">
 
-      <article class="profile-card">
+            <span class="meta">
+              ${safeHtml(
+                a.assessmentId || ''
+              )}
+            </span>
 
-        <div class="profile-head">
-          <span class="meta">
-            ${safeHtml(a.assessmentId || '')}
-          </span>
+            <span class="pill">
+              ${safeHtml(
+                a.evidenceReadinessLevel
+              )}
+            </span>
 
-          <span class="pill">
-            ${safeHtml(a.confidenceLevel)}
-          </span>
-        </div>
+          </div>
 
-        <h3>${safeHtml(a.title || '')}</h3>
+          <h3>
+            ${safeHtml(a.title || '')}
+          </h3>
 
-        <p>
-          <strong>Calculated Score:</strong><br>
-          ${a.calculatedScore}
-        </p>
-<p>
-  Relationship Strength:
-  ${a.relationshipStrength}
-</p>
-<p>
-  <strong>Confidence Drivers:</strong><br>
+          <div class="pill-row">
 
-  ${a.signalCount > 0 ? '✓ Linked Signal<br>' : ''}
-  ${a.opportunityCount > 0 ? '✓ Linked Opportunity<br>' : ''}
-  ${a.riskCount > 0 ? '✓ Linked Risk<br>' : ''}
-  ${a.evidenceCount > 0 ? '✓ Supporting Evidence<br>' : ''}
+            <span class="pill">
+              Analyst Confidence:
+              ${safeHtml(
+                a.confidence || 'Not set'
+              )}
+            </span>
 
-  ${a.evidenceCount === 0 ? '⚠ No Evidence Links<br>' : ''}
-</p>
-        <div class="pill-row">
-          <span class="pill">
-            Evidence: ${(a.linkedEvidenceIds || []).length}
-          </span>
+            <span class="pill">
+              Analyst Score:
+              ${safeHtml(
+                a.confidenceScore ??
+                'Not scored'
+              )}
+            </span>
 
-          <span class="pill">
-            Signals: ${(a.linkedSignalIds || []).length}
-          </span>
+          </div>
 
-          <span class="pill">
-            Opportunities: ${(a.linkedOpportunityIds || []).length}
-          </span>
+          <p>
+            <strong>
+              Evidence Readiness:
+            </strong><br>
 
-          <span class="pill">
-            Risks: ${(a.linkedRiskIds || []).length}
-          </span>
-        </div>
+            ${
+              evidenceRequired
+                ? 'Evidence Required'
+                : safeHtml(
+                    a.evidenceReadinessScore
+                  )
+            }
+          </p>
 
-      </article>
+          ${
+            evidenceRequired
+              ? `
+                <div class="j4-gap-row">
+                  No evidence is linked to this
+                  assessment. Relationship links
+                  alone do not establish evidence
+                  readiness.
+                </div>
+              `
+              : ''
+          }
 
-    `).join('');
+          <p>
+            <strong>
+              Structural Relationship Score:
+            </strong><br>
+
+            ${safeHtml(
+              a.relationshipScore
+            )}
+          </p>
+
+          <p>
+            <strong>
+              Readiness Drivers:
+            </strong><br>
+
+            ${
+              a.signalCount > 0
+                ? '✓ Linked Signal<br>'
+                : '⚠ No Linked Signal<br>'
+            }
+
+            ${
+              a.opportunityCount > 0
+                ? '✓ Linked Opportunity<br>'
+                : ''
+            }
+
+            ${
+              a.riskCount > 0
+                ? '✓ Linked Risk<br>'
+                : ''
+            }
+
+            ${
+              a.evidenceCount > 0
+                ? '✓ Supporting Evidence<br>'
+                : '⚠ Supporting Evidence Required<br>'
+            }
+          </p>
+
+          <div class="pill-row">
+
+            <span class="pill">
+              Evidence:
+              ${a.evidenceCount}
+            </span>
+
+            <span class="pill">
+              Signals:
+              ${a.signalCount}
+            </span>
+
+            <span class="pill">
+              Opportunities:
+              ${a.opportunityCount}
+            </span>
+
+            <span class="pill">
+              Risks:
+              ${a.riskCount}
+            </span>
+
+          </div>
+
+        </article>
+      `;
+
+    }).join('') ||
+    '<p class="empty">No assessments available.</p>'
+  );
 }
 function renderActionEngine(){
   const actions = Array.isArray(state.data.actions)
