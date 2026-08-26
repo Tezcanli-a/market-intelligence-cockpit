@@ -3141,30 +3141,32 @@ function openDecisionBrief(id){
       view.classList.remove('active')
     );
 
-  const overview =
-    document.getElementById('overview');
+const page =
+  document.getElementById('decisionBriefs');
 
-  if(overview){
-    overview.classList.add('active');
-  }
+if(page){
+  page.classList.add('active');
+}
 
-  const overviewNav =
-    document.querySelector(
-      '.nav[data-view="overview"]'
-    );
+const nav =
+  document.querySelector(
+    '.nav[data-view="decisionBriefs"]'
+  );
 
-  if(overviewNav){
-    overviewNav.classList.add('active');
-  }
+if(nav){
+  nav.classList.add('active');
+}
+
+renderDecisionBriefPageWorkspace();
 
   renderDecisionCockpit();
 
   requestAnimationFrame(() => {
 
-    const workspace =
-      document.getElementById(
-        'decisionBriefWorkspace'
-      );
+const workspace =
+  document.getElementById(
+    'decisionBriefWorkspacePage'
+  );
 
     if(workspace){
       workspace.scrollIntoView({
