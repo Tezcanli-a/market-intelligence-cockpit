@@ -1,9 +1,7 @@
 [
   {
     "decisionBriefId": "DB-001",
-
     "title": "Integrated operator environments becoming more relevant",
-
     "status": "Act Now",
 
     "intelligenceFoundation": {
@@ -22,12 +20,57 @@
     },
 
     "decisionLogic": {
+      "whatChanged": "OEM and supplier discussions increasingly move toward integrated operator-environment solutions.",
+      "whyItMatters": "GRAMMER may need to evolve from component positioning toward broader operator-environment system offers.",
+      "whatCouldHappenNext": "Integrated operator-environment requirements may become visible in offroad programmes within the next 6-24 months.",
       "confidence": 78,
       "impact": 90
     },
 
     "decision": {
-      "decisionStatus": "Decision Required"
+      "decisionStatus": "Decision Required",
+      "recommendedAction": "Initiate cross-functional roadmap review.",
+      "owner": "Product Management",
+      "dueDate": "2026-09-30"
+    },
+
+    "uncertainty": {
+      "openGap": "Customer validation and willingness-to-pay evidence is still incomplete.",
+      "unknowns": [
+        "Customer willingness to pay",
+        "Competitor maturity",
+        "Required capability build-up"
+      ]
+    },
+
+    "impactMap": {
+      "customers": ["CNH","John Deere","AGCO"],
+      "competitors": ["Isri","KAB"],
+      "technologies": [
+        "Integrated Cabin",
+        "Operator Environment",
+        "Digital HMI",
+        "Automation"
+      ]
+    },
+
+    "businessImpact": {
+      "sales": "high",
+      "rnd": "medium",
+      "innovation": "high",
+      "portfolio": "high"
+    },
+
+    "scenarios": {
+      "likely": "Integrated operator-environment requirements appear in additional offroad customer programmes.",
+      "possible": "OEMs begin requesting system-level cockpit or operator-environment proposals instead of standalone component offers.",
+      "earlyWarning": "New sourcing activity or competitor partnership activity appears around integrated cabin, HMI or operator-environment systems."
+    },
+
+    "likelihood": {
+      "likely": 70,
+      "possible": 45,
+      "earlyWarning": 25
     },
 
     "execution": {
@@ -41,9 +84,7 @@
 
   {
     "decisionBriefId": "DB-002",
-
     "title": "Automation changes operator role and cockpit expectations",
-
     "status": "Monitor",
 
     "intelligenceFoundation": {
@@ -62,12 +103,58 @@
     },
 
     "decisionLogic": {
+      "whatChanged": "Automation and operator-assistance developments continue to expand.",
+      "whyItMatters": "Customer evaluation criteria may increasingly include intelligent operator-environment capabilities.",
+      "whatCouldHappenNext": "Automation requirements could influence cockpit architecture discussions.",
       "confidence": 60,
       "impact": 75
     },
 
     "decision": {
-      "decisionStatus": "Decision Required"
+      "decisionStatus": "Monitor",
+      "recommendedAction": "Track customer requirements and innovation signals.",
+      "owner": "Innovation",
+      "dueDate": "2026-09-30"
+    },
+
+    "uncertainty": {
+      "openGap": "Customer adoption timing and technology maturity remain unclear.",
+      "unknowns": [
+        "Speed of adoption",
+        "Customer priorities",
+        "Technology maturity"
+      ]
+    },
+
+    "impactMap": {
+      "customers": ["KION","Jungheinrich"],
+      "competitors": ["Isri"],
+      "technologies": [
+        "Automation",
+        "ADAS",
+        "Operator Assistance",
+        "Smart Controls",
+        "Digital Cockpit"
+      ]
+    },
+
+    "businessImpact": {
+      "sales": "medium",
+      "rnd": "high",
+      "innovation": "high",
+      "portfolio": "medium"
+    },
+
+    "scenarios": {
+      "likely": "Automation-adjacent cockpit and operator-assistance expectations become part of selected customer discussions.",
+      "possible": "R&D and Innovation need to define use cases for smart controls, ADAS and operator-assistance features.",
+      "earlyWarning": "A strategic customer or competitor publicly connects automation with operator-environment redesign."
+    },
+
+    "likelihood": {
+      "likely": 65,
+      "possible": 40,
+      "earlyWarning": 25
     },
 
     "execution": {
@@ -81,9 +168,7 @@
 
   {
     "decisionBriefId": "DB-003",
-
     "title": "Material handling automation creates account-specific opportunity potential",
-
     "status": "Investigate",
 
     "intelligenceFoundation": {
@@ -102,12 +187,63 @@
     },
 
     "decisionLogic": {
+      "whatChanged": "Material handling automation signals continue to accumulate.",
+      "whyItMatters": "Several strategic accounts may require differentiated operator-environment solutions.",
+      "whatCouldHappenNext": "Account-specific opportunities may emerge within KION and Jungheinrich programmes.",
       "confidence": 55,
       "impact": 65
     },
 
     "decision": {
-      "decisionStatus": "Decision Required"
+      "decisionStatus": "Action Required",
+      "recommendedAction": "Validate customer roadmaps and account opportunities.",
+      "owner": "Sales",
+      "dueDate": "2026-09-30"
+    },
+
+    "uncertainty": {
+      "openGap": "Programme timing and customer investment priorities need validation.",
+      "unknowns": [
+        "Programme timing",
+        "Customer investment priorities"
+      ]
+    },
+
+    "impactMap": {
+      "customers": [
+        "KION",
+        "Jungheinrich",
+        "Linde",
+        "Toyota MH"
+      ],
+      "competitors": [
+        "KAB",
+        "Isri"
+      ],
+      "technologies": [
+        "Automation",
+        "Remote Operation",
+        "Connected Operator Environment"
+      ]
+    },
+
+    "businessImpact": {
+      "sales": "high",
+      "rnd": "medium",
+      "innovation": "medium",
+      "portfolio": "high"
+    },
+
+    "scenarios": {
+      "likely": "Account-specific opportunities emerge around material-handling automation and operator-environment concepts.",
+      "possible": "KION, Jungheinrich or comparable accounts request more connected or assisted operator-environment concepts.",
+      "earlyWarning": "New programme notes, sourcing signals or customer roadmap updates indicate higher automation-related demand."
+    },
+
+    "likelihood": {
+      "likely": 60,
+      "possible": 45,
+      "earlyWarning": 30
     },
 
     "execution": {
