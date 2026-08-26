@@ -2592,7 +2592,23 @@ function renderDecisionCockpit(){
   topAssessments[0];
 
   
-  const d = decisionCandidate?.decisionBrief || {};
+  const db =
+  decisionCandidate
+    ? decisionBriefForAssessment(
+        decisionCandidate.assessmentId
+      )
+    : null;
+
+const d = {
+  ...(decisionCandidate?.decisionBrief || {}),
+  ...(db?.uncertainty || {}),
+  ...(db?.decision || {}),
+  ...(db?.decisionLogic || {}),
+  impactMap: db?.impactMap || {},
+  businessImpact: db?.businessImpact || {},
+  scenarios: db?.scenarios || {},
+  likelihood: db?.likelihood || {}
+};
 
   const lowConfidence = assessments.filter(a =>
     (a.confidence || '').toLowerCase() === 'low'
