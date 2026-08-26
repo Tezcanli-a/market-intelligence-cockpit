@@ -1920,7 +1920,7 @@ function renderConfidenceEngine(){
       opportunityCount +
       riskCount;
 
-    const relationshipScore =
+    const relationshipCompleteness =
       Math.min(
         100,
         40 +
@@ -1931,7 +1931,7 @@ function renderConfidenceEngine(){
     const evidenceReadinessScore =
       evidenceCount === 0
         ? 0
-        : relationshipScore;
+        : relationshipCompleteness;
 
     const evidenceReadinessLevel =
       evidenceCount === 0
@@ -1956,7 +1956,7 @@ function renderConfidenceEngine(){
       riskCount,
 
       relationshipStrength,
-      relationshipScore,
+      relationshipCompleteness,
 
       evidenceReadinessScore,
       evidenceReadinessLevel
@@ -2058,11 +2058,15 @@ function renderConfidenceEngine(){
               )}
             </span>
 
-            <span class="pill">
-              ${safeHtml(
-                a.evidenceReadinessLevel
-              )}
-            </span>
+<span class="${
+  evidenceRequired
+    ? 'pill pill-evidence-required'
+    : 'pill'
+}">
+  ${safeHtml(
+    a.evidenceReadinessLevel
+  )}
+</span>
 
           </div>
 
@@ -2117,12 +2121,12 @@ function renderConfidenceEngine(){
           }
 
           <p>
-            <strong>
-              Structural Relationship Score:
-            </strong><br>
+<strong>
+  Relationship Completeness:
+</strong><br>
 
             ${safeHtml(
-              a.relationshipScore
+              a.relationshipCompleteness
             )}
           </p>
 
