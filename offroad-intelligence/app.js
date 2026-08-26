@@ -2428,7 +2428,30 @@ const statusClass = value => {
   setHtml(
     'executiveAgenda',
     agendaItems.map(a => {
-const d = a.decisionBrief || {};
+const db =
+  decisionBriefForAssessment(
+    a.assessmentId
+  );
+
+const d = {
+  ...(a.decisionBrief || {}),
+
+  ...(db?.uncertainty || {}),
+  ...(db?.decision || {}),
+  ...(db?.decisionLogic || {}),
+
+  impactMap:
+    db?.impactMap || {},
+    
+  businessImpact:
+    db?.businessImpact || {},
+
+  scenarios:
+    db?.scenarios || {},
+
+  likelihood:
+    db?.likelihood || {}
+};
       const db =
   decisionBriefForAssessment(
     a.assessmentId
