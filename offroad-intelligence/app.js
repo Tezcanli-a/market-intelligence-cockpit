@@ -2990,6 +2990,14 @@ function renderDecisionBriefWorkspace(){
 
   const portfolio =
     buildPortfolioProjection(db);
+  const foundation =
+  db.intelligenceFoundation || {};
+
+const execution =
+  db.execution || {};
+
+const learning =
+  db.learning || {};
 
   setHtml(
     'decisionBriefWorkspace',
@@ -3068,6 +3076,45 @@ function renderDecisionBriefWorkspace(){
           ${arr(analyst.unknowns).join('<br>')}
         </p>
       </details>
+
+      <details class="j4-block">
+  <summary><strong>Intelligence Foundation</strong></summary>
+
+  <p>
+    <strong>Evidence:</strong>
+    ${arr(foundation.evidenceIds).length}
+  </p>
+
+  <p>
+    <strong>Signals:</strong>
+    ${arr(foundation.signalIds).length}
+  </p>
+
+  <p>
+    <strong>Assessments:</strong>
+    ${arr(foundation.assessmentIds).length}
+  </p>
+
+  <p>
+    <strong>KIQs:</strong>
+    ${arr(foundation.kiqIds).length}
+  </p>
+
+  <p>
+    <strong>Gaps:</strong>
+    ${arr(foundation.gapIds).length}
+  </p>
+
+  <p>
+    <strong>Actions:</strong>
+    ${arr(execution.actionIds).length}
+  </p>
+
+  <p>
+    <strong>Outcomes:</strong>
+    ${arr(learning.outcomeIds).length}
+  </p>
+</details>
 
       <details class="j4-block">
         <summary><strong>Portfolio View</strong></summary>
