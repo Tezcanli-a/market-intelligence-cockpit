@@ -2911,24 +2911,44 @@ renderDecisionCockpit();
 
 function buildPriorityMatrixData() {
 
-  const assessments = state.data.assessments || [];
+  const assessments =
+    state.data.assessments || [];
 
-return assessments.map(a => ({
-  assessmentId: a.assessmentId || a.id || '',
-  label: a.title,
-  x: a.exposure || 50,
-  y: a.momentum || 50,
-  impact: a.impact || 50,
-  confidence: a.confidenceScore || 50,
- const db =
-  decisionBriefForAssessment(
-    a.assessmentId
-  );
+  return assessments.map(a => {
 
-const status =
-  db?.status ||
-  'Monitor';
-  }));
+    const db =
+      decisionBriefForAssessment(
+        a.assessmentId
+      );
+
+    const status =
+      db?.status ||
+      'Monitor';
+
+    return {
+      assessmentId:
+        a.assessmentId || a.id || '',
+
+      label:
+        a.title,
+
+      x:
+        a.exposure || 50,
+
+      y:
+        a.momentum || 50,
+
+      impact:
+        a.impact || 50,
+
+      confidence:
+        a.confidenceScore || 50,
+
+      status
+    };
+
+  });
+
 }
 function renderDecisionBriefWorkspace(){
 
