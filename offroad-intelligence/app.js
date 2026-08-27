@@ -2477,11 +2477,6 @@ const projection =
       const impactPreview = d.impactPreview || {};
       const impactMap = d.impactMap || {};
       const businessImpact = d.businessImpact || {};
-console.log(
-  a.assessmentId,
-  db?.businessImpact,
-  d.businessImpact
-);
 
       const owner =
   projection?.owner ||
@@ -2605,6 +2600,10 @@ const decisionCandidate =
   })
   ||
   topAssessments[0];
+
+  if(decisionCandidate && !selectedAssessmentId){
+    selectedAssessmentId = decisionCandidate.assessmentId;
+  }
   
   const db =
   decisionCandidate
@@ -2755,10 +2754,6 @@ setHtml('decisionAlerts', `
 `);
 
   renderPriorityMatrix();
-  console.log(
-  'selectedAssessmentId =',
-  selectedAssessmentId
-);
   renderDecisionBriefWorkspace();
 }
 
@@ -2973,77 +2968,82 @@ function buildPriorityMatrixData() {
 
 }
 function renderDecisionBriefWorkspace(){
-
-  const assessment =
-    (state.data.assessments || []).find(
-      a => a.assessmentId === selectedAssessmentId
-    );
+  const assessment = (state.data.assessments || []).find(
+    a => a.assessmentId === selectedAssessmentId
+  );
 
   if(!assessment){
+    setHtml('decisionBriefWorkspace', '');
     return;
   }
 
-  const db =
-    decisionBriefForAssessment(
-      assessment.assessmentId
-    );
+  const db = decisionBriefForAssessment(assessment.assessmentId);
 
   if(!db){
-    return;
-  }
-
-  const executive =
-    buildExecutiveProjection(db);
-
-  const analyst =
-    buildAnalystProjection(db);
-
-  const portfolio =
-    buildPortfolioProjection(db);
-  const foundation =
-  db.intelligenceFoundation || {};
-
-const execution =
-  db.execution || {};
-
-const learning =
-  db.learning || {};
-
-function renderDecisionBriefWorkspace(){
-
-  const assessment =
-    (state.data.assessments || []).find(
-      a => a.assessmentId === selectedAssessmentId
+    setHtml(
+      'decisionBriefWorkspace',
+      '<p class="muted">No Decision Brief is linked to this assessment.</p>'
     );
-
-  if(!assessment){
     return;
   }
 
-  const db =
-    decisionBriefForAssessment(
-      assessment.assessmentId
-    );
-
-  if(!db){
-    return;
-  }
+  const executive = buildExecutiveProjection(db);
+  const analyst = buildAnalystProjection(db);
+  const portfolio = buildPortfolioProjection(db);
 
   setHtml(
     'decisionBriefWorkspace',
     `
-      <div style="
-        background:red;
-        color:white;
-        padding:20px;
-        font-size:24px;
-        margin-top:20px;
-      ">
-        WORKSPACE TEST
+    <article class="profile-card">
+      <h2>${safeHtml(executive.title)}</h2>
+
+      <div class="j4-block">
+        <strong>What Changed</strong>
+        <p>${safeHtml(executive.whatChanged)}</p>
       </div>
+
+      <div class="j4-block">
+        <strong>Why It Matters</strong>
+        <p>${safeHtml(executive.whyItMatters)}</p>
+      </div>
+
+      <div class="j4-block">
+        <strong>What Could Happen Next</strong>
+        <p>${safeHtml(executive.whatCouldHappenNext)}</p>
+      </div>
+
+      <div class="j4-block">
+        <strong>Recommended Decision</strong>
+        <p>${safeHtml(executive.recommendedDecision)}</p>
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">Owner: ${safeHtml(executive.owner)}</span>
+        <span class="pill">Due: ${safeHtml(executive.dueDate)}</span>
+        <span class="pill">Confidence: ${safeHtml(executive.confidence)}</span>
+        <span class="pill">Impact: ${safeHtml(executive.impact)}</span>
+      </div>
+
+      <details class="j4-block">
+        <summary><strong>Analyst View</strong></summary>
+        <p><strong>Assessment IDs:</strong><br>${arr(analyst.assessmentIds).map(safeHtml).join(', ') || 'None'}</p>
+        <p><strong>Signal IDs:</strong><br>${arr(analyst.signalIds).map(safeHtml).join(', ') || 'None'}</p>
+        <p><strong>Evidence IDs:</strong><br>${arr(analyst.evidenceIds).map(safeHtml).join(', ') || 'None'}</p>
+        <p><strong>Open Gap:</strong><br>${safeHtml(analyst.openGap || 'None')}</p>
+        <p><strong>Unknowns:</strong><br>${arr(analyst.unknowns).map(safeHtml).join('<br>') || 'None'}</p>
+      </details>
+
+      <details class="j4-block">
+        <summary><strong>Portfolio View</strong></summary>
+        <p><strong>Themes:</strong><br>${arr(portfolio.themeIds).map(safeHtml).join(', ') || 'None'}</p>
+        <p><strong>Customers:</strong><br>${arr(portfolio.customerIds).map(safeHtml).join(', ') || 'None'}</p>
+        <p><strong>Competitors:</strong><br>${arr(portfolio.competitorIds).map(safeHtml).join(', ') || 'None'}</p>
+        <p><strong>Technologies:</strong><br>${arr(portfolio.technologyIds).map(safeHtml).join(', ') || 'None'}</p>
+        <p><strong>Status:</strong><br>${safeHtml(portfolio.status)}</p>
+      </details>
+    </article>
     `
   );
-}
 }
 function renderDecisionBriefPageWorkspace(){
 
