@@ -838,7 +838,13 @@ function v176cThemeMomentumClass(momentum){
 function renderThemeExplorer(){
   const themes = state.data.themes || [];
   const signals = state.data.signals || [];
-  const assessments = state.data.assessments || [];
+  const visibleSignalIds =
+  filteredSignals().map(s => s.id);
+
+const assessments =
+  (state.data.assessments || []).filter(a =>
+    visibleSignalIds.includes(a.signalId)
+  );
   setHtml('confidenceSummary', `
   <div class="kpi-card">
     <div class="value">${assessments.length}</div>
