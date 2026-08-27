@@ -1,40 +1,12 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>GRAMMER Offroad Intelligence Hub</title><link rel="stylesheet" href="styles.css"></head><body>
 <aside class="sidebar">
-  <div class="brand">
-    <div class="logo">G</div>
-    <div>
-      <strong>Offroad Hub</strong>
-      <span>V21.4.0</span>
-    </div>
-  </div>
-
+  <div class="brand"><div class="logo">G</div><div><strong>Offroad Hub</strong><span>V21.4.0</span></div></div>
   <button class="nav active" data-view="overview">Intelligence Overview</button>
-
-  <div class="nav-label">INTELLIGENCE</div>
-  <button class="nav" data-view="dailynews">Daily News Signals</button>
-  <button class="nav" data-view="assessments">Intelligence Assessments</button>
-  <button class="nav" data-view="themes">Theme Explorer</button>
-
-  <div class="nav-label">LANDSCAPE</div>
-  <button class="nav" data-view="customers">Customer Profiles</button>
-  <button class="nav" data-view="competitors">Competitor Profiles</button>
-  <button class="nav" data-view="technology">Technology Intelligence</button>
-  <button class="nav" data-view="matrix">Customer-Competitor Matrix</button>
-
-  <div class="nav-label">RISKS &amp; OPPORTUNITIES</div>
-  <button class="nav" data-view="heatmap">Risk-Opportunity Heatmap</button>
-  <button class="nav" data-view="kiqs">Key Intelligence Questions</button>
-  <button class="nav" data-view="radar">Early Warning Radar</button>
-
-  <div class="nav-label">TRUST</div>
-  <button class="nav" data-view="provenance">Trust &amp; Provenance</button>
-  <button class="nav" data-view="confidenceEngine">Evidence Readiness</button>
-  <button class="nav" data-view="gaps">Intelligence Gaps</button>
-  <button class="nav" data-view="relationships">Entity Relationships</button>
-
-  <div class="nav-label">DECISIONS</div>
-  <button class="nav" data-view="actionEngine">Recommended Actions</button>
-  <button class="nav" data-view="outcomeEngine">Outcomes</button>
+  <details class="nav-group" open><summary>INTELLIGENCE</summary><div class="nav-group-items"><button class="nav" data-view="dailynews">Daily News Signals</button><button class="nav" data-view="assessments">Intelligence Assessments</button><button class="nav" data-view="themes">Theme Explorer</button></div></details>
+  <details class="nav-group" open><summary>LANDSCAPE</summary><div class="nav-group-items"><button class="nav" data-view="customers">Customer Profiles</button><button class="nav" data-view="competitors">Competitor Profiles</button><button class="nav" data-view="technology">Technology Intelligence</button><button class="nav" data-view="matrix">Customer-Competitor Matrix</button></div></details>
+  <details class="nav-group" open><summary>RISKS &amp; OPPORTUNITIES</summary><div class="nav-group-items"><button class="nav" data-view="heatmap">Risk-Opportunity Heatmap</button><button class="nav" data-view="kiqs">Key Intelligence Questions</button><button class="nav" data-view="radar">Early Warning Radar</button></div></details>
+  <details class="nav-group" open><summary>DECISIONS</summary><div class="nav-group-items"><button class="nav" data-view="actionEngine">Recommended Actions</button><button class="nav" data-view="outcomeEngine">Outcomes</button></div></details>
+  <details class="nav-group" open><summary>TRUST</summary><div class="nav-group-items"><button class="nav" data-view="provenance">Trust &amp; Provenance</button><button class="nav" data-view="confidenceEngine">Evidence Readiness</button><button class="nav" data-view="gaps">Intelligence Gaps</button><button class="nav" data-view="relationships">Entity Relationships</button></div></details>
 </aside>
 <div class="shell"><header class="hero"><div><div class="crumb">GRAMMER Market Intelligence / Offroad</div><h1>Offroad Intelligence Hub</h1>
 <p>
@@ -83,28 +55,11 @@ Built on Evidence → Signal → Assessment → Opportunity/Risk → Action.
 </section>
 </section>
 <section id="dailynews" class="view"><div class="heading"><div><span>Layer 1 · Evidence</span><h2>Daily News Signals: what happened</h2></div><small>Raw source layer only. No recommendations here.</small></div><div class="news-tools"><button id="showAllNews" class="mini-btn">All relevant news</button><button id="showCustomerNews" class="mini-btn">Customers</button><button id="showCompetitorNews" class="mini-btn">Competitors only</button><button id="showTrendNews" class="mini-btn">News & Trends</button></div><div id="dailyNewsSummary" class="kpis compact-kpis"></div><div id="dailyNewsTable" class="table-wrap"></div></section>
-<section id="signals" class="view"><div class="heading"><div><span>Layer 2 · Signal</span><h2>Signal Register: why it matters</h2></div><small>Signals translate evidence into GRAMMER business implications.</small></div><div id="signalsTable" class="table-wrap"></div></section>
-<section id="assessments" class="view"><div class="heading"><div><span>Layer 3 · Assessment</span><h2>Intelligence Assessments: what GRAMMER should do</h2></div><small>Evidence, interpretation, action and forecast in one analyst card.</small></div><div id="assessmentSummary" class="kpis compact-kpis"></div><div id="assessmentGrid" class="profile-grid"></div></section>
+<section id="assessments" class="view"><div class="heading"><div><span>INTELLIGENCE</span><h2>Intelligence Assessments</h2></div><small>Assessment workspace with the merged Signal Register.</small></div><div class="subnav" role="tablist" aria-label="Intelligence Assessments sections"><button class="subnav-btn active" data-subtab="assessment-cards">Assessments</button><button class="subnav-btn" data-subtab="signal-register">Signal Register</button></div><div class="subpanel active" data-subpanel="assessment-cards"><div id="assessmentSummary" class="kpis compact-kpis"></div><div id="assessmentGrid" class="profile-grid"></div></div><div class="subpanel" data-subpanel="signal-register"><div class="heading compact-heading"><div><span>Layer 2 · Signal</span><h2>Signal Register</h2></div><small>Signals translate evidence into GRAMMER business implications.</small></div><div id="signalsTable" class="table-wrap"></div></div></section>
 <section id="relationships" class="view"><div class="heading"><div><span>Entity relationship model</span><h2>How signals connect to customers, competitors, technologies and actions</h2></div></div><div id="relationshipGrid" class="relationship-grid"></div></section>
-<section id="customers" class="view"><div class="heading"><div><span>RISKS & OPPORTUNITIES</span><h2>Customer profiles</h2></div><small>Customer facts, dynamic intelligence and next actions. Current key figures are embedded here.</small></div><div id="customerProfiles" class="profile-grid"></div></section>
-<section id="competitors" class="view"><div class="heading"><div><span>Where competitors move</span><h2>Competitor profiles</h2></div><small>Competitor facts, strengths, weaknesses and sales enablement. Current key figures are embedded here.</small></div><div id="competitorProfiles" class="profile-grid"></div></section>
+<section id="customers" class="view"><div class="heading"><div><span>LANDSCAPE</span><h2>Customer Profiles</h2></div><small>Customer intelligence and performance trends in one workspace.</small></div><div class="subnav" role="tablist" aria-label="Customer Profiles sections"><button class="subnav-btn active" data-subtab="customer-intelligence">Customer Intelligence</button><button class="subnav-btn" data-subtab="customer-performance">Performance Monitor</button></div><div class="subpanel active" data-subpanel="customer-intelligence"><div id="customerProfiles" class="profile-grid"></div></div><div class="subpanel" data-subpanel="customer-performance"><div class="heading compact-heading"><div><span>Performance Monitor</span><h2>Visual key figure development</h2></div><small>Revenue, employees, orders, R&amp;D spend and YoY trends.</small></div><div id="performanceSummary" class="kpis compact-kpis"></div><div id="performanceGrid" class="profile-grid"></div></div></section>
+<section id="competitors" class="view"><div class="heading"><div><span>LANDSCAPE</span><h2>Competitor Profiles</h2></div><small>Competitor intelligence and benchmarking in one workspace.</small></div><div class="subnav" role="tablist" aria-label="Competitor Profiles sections"><button class="subnav-btn active" data-subtab="competitor-intelligence">Competitor Intelligence</button><button class="subnav-btn" data-subtab="competitor-benchmarking">Benchmarking</button></div><div class="subpanel active" data-subpanel="competitor-intelligence"><div id="competitorProfiles" class="profile-grid"></div></div><div class="subpanel" data-subpanel="competitor-benchmarking"><div class="heading compact-heading"><div><span>Benchmarking</span><h2>GRAMMER comparisons and supplier landscapes</h2></div></div><div id="benchmarkGrid" class="profile-grid"></div></div></section>
 <section id="technology" class="view"><div class="heading"><div><span>Where to invest</span><h2>Technology Intelligence</h2></div><small>Technology relevance, market adoption clues and GRAMMER readiness.</small></div><div id="technologyGrid" class="card-grid"></div></section>
-<section id="benchmarking" class="view"><div class="heading"><div><span>Benchmarking</span><h2>GRAMMER comparisons and customer supplier landscapes</h2></div></div><div id="benchmarkGrid" class="profile-grid"></div></section>
-<section id="momentum" class="view">
-  <div class="heading">
-    <div><span></span><h2>Momentum Intelligence</h2></div>
-    <small>What is gaining attention across news, signals, assessments and profiles?</small>
-  </div>
-  <div id="momentumSummary" class="kpis compact-kpis"></div>
-  <div class="momentum-grid">
-    <article class="momentum-panel"><h3>Trending technologies</h3><div id="momentumTechCloud" class="momentum-cloud"></div></article>
-    <article class="momentum-panel"><h3>Competitor momentum</h3><div id="momentumCompetitorBars"></div></article>
-    <article class="momentum-panel"><h3>Customer attention map</h3><div id="momentumCustomerBars"></div></article>
-    <article class="momentum-panel"><h3>Automated insights</h3><div id="momentumInsights"></div></article>
-  </div>
-</section>
-
-<section id="performance" class="view"><div class="heading"><div><span>Performance monitor</span><h2>Visual key figure development</h2></div><small>Visual YoY trend monitor. Use this only for historical time series, not static profile facts.</small></div><div id="performanceSummary" class="kpis compact-kpis"></div><div id="performanceGrid" class="profile-grid"></div></section>
 <section id="matrix" class="view"><div class="heading"><div><span>LANDSCAPE</span><h2>Customer-Competitor Matrix</h2></div></div><div id="matrixTable" class="table-wrap"></div></section>
 <section id="kiqs" class="view">
   <div class="heading">
@@ -243,20 +198,8 @@ Built on Evidence → Signal → Assessment → Opportunity/Risk → Action.
 
 </section>
 
-  <section id="heatmap" class="view"><div class="heading"><div><span>LANDSCAPE</span><h2>Risk-Opportunity Heatmap</h2></div></div><div id="heatmapGrid" class="heatmap-grid"></div></section><section id="themes" class="view">
-  <div class="heading">
-    <div>
-      <span>Intelligence graph</span>
-      <h2>Theme Explorer</h2>
-    </div>
-    <small>Explore themes across signals, assessments, technologies, customers, competitors, opportunities and risks.</small>
-  </div>
-
-  <div id="themeExplorerSummary" class="kpis compact-kpis"></div>
-  <div id="themeExplorerGrid" class="profile-grid"></div>
-
-</section>
-  <section id="decisionBriefs"
+  <section id="heatmap" class="view"><div class="heading"><div><span>LANDSCAPE</span><h2>Risk-Opportunity Heatmap</h2></div></div><div id="heatmapGrid" class="heatmap-grid"></div></section><section id="themes" class="view"><div class="heading"><div><span>INTELLIGENCE</span><h2>Theme Explorer</h2></div><small>Theme intelligence with the merged Momentum view.</small></div><div class="subnav" role="tablist" aria-label="Theme Explorer sections"><button class="subnav-btn active" data-subtab="theme-explorer">Theme Explorer</button><button class="subnav-btn" data-subtab="theme-momentum">Momentum Intelligence</button></div><div class="subpanel active" data-subpanel="theme-explorer"><div id="themeExplorerSummary" class="kpis compact-kpis"></div><div id="themeExplorerGrid" class="profile-grid"></div></div><div class="subpanel" data-subpanel="theme-momentum"><div class="heading compact-heading"><div><span>Momentum Intelligence</span><h2>What is gaining attention?</h2></div><small>Generated from news, signals, assessments and profiles.</small></div><div id="momentumSummary" class="kpis compact-kpis"></div><div class="momentum-grid"><article class="momentum-panel"><h3>Trending technologies</h3><div id="momentumTechCloud" class="momentum-cloud"></div></article><article class="momentum-panel"><h3>Competitor momentum</h3><div id="momentumCompetitorBars"></div></article><article class="momentum-panel"><h3>Customer attention map</h3><div id="momentumCustomerBars"></div></article><article class="momentum-panel"><h3>Automated insights</h3><div id="momentumInsights"></div></article></div></div></section>
+<section id="decisionBriefs"
          class="view">
 
   <div class="heading">
