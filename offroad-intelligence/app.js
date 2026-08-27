@@ -2755,6 +2755,10 @@ setHtml('decisionAlerts', `
 `);
 
   renderPriorityMatrix();
+  console.log(
+  'selectedAssessmentId =',
+  selectedAssessmentId
+);
   renderDecisionBriefWorkspace();
 }
 
