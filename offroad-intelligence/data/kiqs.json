@@ -18,9 +18,20 @@
       "integrated operator environment",
       "cab comfort"
     ],
-    "linkedSignals": [],
-    "linkedAssessments": [],
-    "linkedEvidence": [],
+"linkedSignals": [
+  "INT-001"
+],
+
+"linkedAssessments": [
+  "ASM-001"
+],
+    "linkedDecisionBriefs": [
+  "DB-001"
+],
+
+"linkedEvidence": [
+  "E-001"
+],
     "linkedRisks": [],
     "linkedOpportunities": [],
     "evidenceCoverage": "Low",
