@@ -216,10 +216,6 @@ function confidenceFromPriority(p){return p==='High'?'Medium':p==='Low'?'Low':'M
 function seedFallbackAssessments(){state.data.assessments=(state.data.signals||[]).slice(0,3).map((s,i)=>({assessmentId:`ASM-AUTO-${String(i+1).padStart(3,'0')}`,signalId:s.id,title:s.signal,assessment:s.why||'Analyst assessment not populated yet.',businessImplication:s.why||'Business implication should be added by Market Intelligence.',confidence:confidenceFromPriority(s.priority),forecast:'Forecast statement not populated yet.',timeHorizon:'To be defined',owner:s.owner||'Market Intelligence',reviewDate:s.date||'',opportunityIds:[],riskIds:[]}));}
 function setup(){
  document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=document.getElementById(b.dataset.view);console.log("clicked:", b.dataset.view);if(v)v.classList.add('active');});
- const seg=document.getElementById('segmentFilter'),per=document.getElementById('perspectiveFilter'),pf=document.getElementById('priorityFilter'),si=document.getElementById('searchInput'),rf=document.getElementById('resetFilters');
- if(seg)(state.data.meta.segments||[]).forEach(x=>seg.insertAdjacentHTML('beforeend',`<option>${safeHtml(x)}</option>`)); if(per)(state.data.meta.perspectives||[]).forEach(x=>per.insertAdjacentHTML('beforeend',`<option>${safeHtml(x)}</option>`));
- if(seg)seg.onchange=e=>{state.filters.segment=e.target.value;renderAll();}; if(per)per.onchange=e=>{state.filters.perspective=e.target.value;renderAll();}; if(pf)pf.onchange=e=>{state.filters.priority=e.target.value;renderAll();}; if(si)si.oninput=e=>{state.filters.search=e.target.value;renderAll();};
- if(rf)rf.onclick=()=>{state.filters={segment:'all',perspective:'all',priority:'all',search:''}; if(seg)seg.value='all'; if(per)per.value='all'; if(pf)pf.value='all'; if(si)si.value=''; renderAll();};
   document.querySelectorAll('.subnav').forEach(nav => { nav.querySelectorAll('.subnav-btn').forEach(button => { button.onclick = () => { const view = button.closest('.view'); if(!view) return; nav.querySelectorAll('.subnav-btn').forEach(item => item.classList.remove('active')); view.querySelectorAll('.subpanel').forEach(panel => panel.classList.remove('active')); button.classList.add('active'); const panel = view.querySelector(`[data-subpanel="${button.dataset.subtab}"]`); if(panel) panel.classList.add('active'); }; }); });
 [['showAllNews','all'],['showCustomerNews','customer'],['showCompetitorNews','competitor'],['showTrendNews','trend']].forEach(([id,mode])=>{const el=document.getElementById(id); if(el)el.onclick=()=>{state.newsMode=mode;renderDailyNews();};});
 }
@@ -3467,9 +3463,7 @@ function renderAll(){
   renderDecisionCockpit();
   renderDecisionBriefs();
 
-  const signals = filteredSignals();
-    
-   renderOverview(signals);
+renderOverview(state.data.signals || []);
   renderSignalsTable();
   renderAssessments();
   renderDailyNews();
