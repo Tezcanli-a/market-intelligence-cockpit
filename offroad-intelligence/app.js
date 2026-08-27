@@ -97,7 +97,7 @@ function buildExecutiveProjection(db){
       db.decisionLogic?.whatCouldHappenNext || '',
 
     recommendedDecision:
-      db.decision?.recommendedDecision || '',
+      db.decision?.recommendedDecision || db.decision?.recommendedAction || '',
 
     owner:
       db.decision?.owner || '',
@@ -2967,6 +2967,39 @@ function buildPriorityMatrixData() {
   });
 
 }
+function renderGoldenThread(db){
+  const foundation = db?.intelligenceFoundation || {};
+  const execution = db?.execution || {};
+  const learning = db?.learning || {};
+  const step = (label, values, extraClass = '') => `
+    <div class="golden-step ${extraClass}">
+      <strong>${safeHtml(label)}</strong>
+      ${arr(values).length
+        ? arr(values).map(value => safeHtml(value)).join('<br>')
+        : '<span class="muted">None</span>'}
+    </div>`;
+  const arrow = '<div class="golden-arrow" aria-hidden="true">→</div>';
+  return `
+    <section class="j4-block golden-thread-block">
+      <strong>Golden Thread</strong>
+      <div class="golden-thread">
+        ${step('Evidence', foundation.evidenceIds)}
+        ${arrow}
+        ${step('Signal', foundation.signalIds)}
+        ${arrow}
+        ${step('Assessment', foundation.assessmentIds)}
+        ${arrow}
+        ${step('KIQ', foundation.kiqIds)}
+        ${arrow}
+        ${step('Gap', foundation.gapIds)}
+        ${arrow}
+        ${step('Action', execution.actionIds, 'action')}
+        ${arrow}
+        ${step('Outcome', learning.outcomeIds, 'action')}
+      </div>
+    </section>`;
+}
+
 function renderDecisionBriefWorkspace(){
   const assessment = (state.data.assessments || []).find(
     a => a.assessmentId === selectedAssessmentId
@@ -3024,6 +3057,7 @@ function renderDecisionBriefWorkspace(){
         <span class="pill">Impact: ${safeHtml(executive.impact)}</span>
       </div>
 
+      ${renderGoldenThread(db)}
       <details class="j4-block">
         <summary><strong>Analyst View</strong></summary>
         <p><strong>Assessment IDs:</strong><br>${arr(analyst.assessmentIds).map(safeHtml).join(', ') || 'None'}</p>
@@ -3184,72 +3218,7 @@ const learning =
           ${arr(analyst.unknowns).join('<br>')}
         </p>
       </details>
-      
-<div class="golden-thread">
-
-<div class="golden-step">
-<strong>Evidence</strong>
-${arr(foundation.evidenceIds).join('<br>') || 'None'}
-</div>
-
-<div class="golden-arrow">→</div>
-
-<div class="golden-step">
-<strong>Signal</strong>
-${arr(foundation.signalIds).join('<br>') || 'None'}
-</div>
-
-<div class="golden-arrow">→</div>
-
-<div class="golden-step">
-<strong>Assessment</strong>
-${arr(foundation.assessmentIds).join('<br>') || 'None'}
-</div>
-
-<div class="golden-arrow">→</div>
-
-<div class="golden-step">
-<strong>KIQ</strong>
-${arr(foundation.kiqIds).join('<br>') || 'None'}
-</div>
-
-<div class="golden-arrow">→</div>
-
-<div class="golden-step">
-<strong>Gap</strong>
-${arr(foundation.gapIds).join('<br>') || 'None'}
-</div>
-
-<div class="golden-arrow">→</div>
-
-<div class="golden-step action">
-<strong>Action</strong>
-${arr(execution.actionIds).join('<br>') || 'None'}
-</div>
-
-<div class="golden-arrow">→</div>
-
-<div class="golden-step action">
-<strong>Outcome</strong>
-${arr(learning.outcomeIds).join('<br>') || 'None'}
-</div>
-
-</div>
-
-  <p><strong>Evidence:</strong> ${arr(foundation.evidenceIds).join(', ') || 'None'}</p>
-
-  <p><strong>Signals:</strong> ${arr(foundation.signalIds).join(', ') || 'None'}</p>
-
-  <p><strong>Assessments:</strong> ${arr(foundation.assessmentIds).join(', ') || 'None'}</p>
-
-  <p><strong>KIQs:</strong> ${arr(foundation.kiqIds).join(', ') || 'None'}</p>
-
-  <p><strong>Gaps:</strong> ${arr(foundation.gapIds).join(', ') || 'None'}</p>
-
-  <p><strong>Actions:</strong> ${arr(execution.actionIds).join(', ') || 'None'}</p>
-
-  <p><strong>Outcomes:</strong> ${arr(learning.outcomeIds).join(', ') || 'None'}</p>
-</details>
+      ${renderGoldenThread(db)}
 
       <details class="j4-block">
         <summary><strong>Portfolio View</strong></summary>
