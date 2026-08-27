@@ -3147,6 +3147,14 @@ function renderDecisionBriefPageWorkspace(){
 
   const portfolio =
     buildPortfolioProjection(db);
+  const foundation =
+  db.intelligenceFoundation || {};
+
+const execution =
+  db.execution || {};
+
+const learning =
+  db.learning || {};
 
   setHtml(
     'decisionBriefWorkspacePage',
