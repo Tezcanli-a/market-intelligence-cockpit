@@ -3185,8 +3185,56 @@ const learning =
         </p>
       </details>
       
-<details class="j4-block">
-  <summary><strong>Intelligence Foundation</strong></summary>
+<div class="golden-thread">
+
+<div class="golden-step">
+<strong>Evidence</strong>
+${arr(foundation.evidenceIds).join('<br>') || 'None'}
+</div>
+
+<div class="golden-arrow">→</div>
+
+<div class="golden-step">
+<strong>Signal</strong>
+${arr(foundation.signalIds).join('<br>') || 'None'}
+</div>
+
+<div class="golden-arrow">→</div>
+
+<div class="golden-step">
+<strong>Assessment</strong>
+${arr(foundation.assessmentIds).join('<br>') || 'None'}
+</div>
+
+<div class="golden-arrow">→</div>
+
+<div class="golden-step">
+<strong>KIQ</strong>
+${arr(foundation.kiqIds).join('<br>') || 'None'}
+</div>
+
+<div class="golden-arrow">→</div>
+
+<div class="golden-step">
+<strong>Gap</strong>
+${arr(foundation.gapIds).join('<br>') || 'None'}
+</div>
+
+<div class="golden-arrow">→</div>
+
+<div class="golden-step action">
+<strong>Action</strong>
+${arr(execution.actionIds).join('<br>') || 'None'}
+</div>
+
+<div class="golden-arrow">→</div>
+
+<div class="golden-step action">
+<strong>Outcome</strong>
+${arr(learning.outcomeIds).join('<br>') || 'None'}
+</div>
+
+</div>
 
   <p><strong>Evidence:</strong> ${arr(foundation.evidenceIds).join(', ') || 'None'}</p>
 
