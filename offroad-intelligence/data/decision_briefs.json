@@ -11,7 +11,7 @@
   "assessmentIds": ["ASM-001"],
   "kiqIds": ["KIQ-001"],
   "gapIds": ["GAP-001"]
-}
+},
 
     "context": {
       "themeIds": ["THM-003","THM-008"],
@@ -93,7 +93,7 @@
       "observationIds": [],
       "evidenceIds": [],
       "signalIds": ["INT-002"],
-      "assessmentIds": ["ASM-002"]
+      "assessmentIds": ["ASM-002"],
       "kiqIds": [],
 "gapIds": []
     },
@@ -179,7 +179,7 @@
       "observationIds": [],
       "evidenceIds": [],
       "signalIds": ["INT-002"],
-      "assessmentIds": ["ASM-003"]
+      "assessmentIds": ["ASM-003"],
       "kiqIds": [],
 "gapIds": []
     },
