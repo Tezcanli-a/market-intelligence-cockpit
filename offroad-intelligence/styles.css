@@ -1028,27 +1028,22 @@
     border-top:5px solid #00858c;
     border-radius:14px;
     padding:14px;
-    text-align:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     box-shadow:0 8px 22px rgba(6,63,79,.06);
 }
 
-.theme-rank{
-    font-size:22px;
-    margin-bottom:8px;
-}
-
-.theme-watch-card h4{
-    margin:0 0 10px 0;
+.theme-watch-name{
     font-size:16px;
+    font-weight:700;
     color:#063f4f;
 }
 
-.theme-score{
-    display:inline-block;
-    padding:6px 14px;
-    border-radius:999px;
+.theme-watch-score{
     background:#eef7f8;
     color:#063f4f;
+    border-radius:999px;
+    padding:6px 14px;
     font-weight:800;
-    font-size:14px;
 }
