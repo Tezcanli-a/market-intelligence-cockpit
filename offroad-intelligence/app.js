@@ -1,7 +1,6 @@
 const state = { data: {}, filters: { segment: 'all', perspective: 'all', priority: 'all', search: '' }, newsMode: 'all' };
 let selectedAssessmentId = null;
-let themeFilterMode = 'all';
-let themeSearchText = '';
+
 
 const files = {
   meta:'data/meta.json',
@@ -217,38 +216,85 @@ function getDecisionBriefCards(){
 function confidenceFromPriority(p){return p==='High'?'Medium':p==='Low'?'Low':'Medium';}
 function seedFallbackAssessments(){state.data.assessments=(state.data.signals||[]).slice(0,3).map((s,i)=>({assessmentId:`ASM-AUTO-${String(i+1).padStart(3,'0')}`,signalId:s.id,title:s.signal,assessment:s.why||'Analyst assessment not populated yet.',businessImplication:s.why||'Business implication should be added by Market Intelligence.',confidence:confidenceFromPriority(s.priority),forecast:'Forecast statement not populated yet.',timeHorizon:'To be defined',owner:s.owner||'Market Intelligence',reviewDate:s.date||'',opportunityIds:[],riskIds:[]}));}
 function setup(){
- document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=document.getElementById(b.dataset.view);console.log("clicked:", b.dataset.view);if(v)v.classList.add('active');});
-  document.querySelectorAll('.subnav').forEach(nav => { nav.querySelectorAll('.subnav-btn').forEach(button => { button.onclick = () => { const view = button.closest('.view'); if(!view) return; nav.querySelectorAll('.subnav-btn').forEach(item => item.classList.remove('active')); view.querySelectorAll('.subpanel').forEach(panel => panel.classList.remove('active')); button.classList.add('active'); const panel = view.querySelector(`[data-subpanel="${button.dataset.subtab}"]`); if(panel) panel.classList.add('active'); }; }); });
-[['showAllNews','all'],['showCustomerNews','customer'],['showCompetitorNews','competitor'],['showTrendNews','trend']].forEach(([id,mode])=>{const el=document.getElementById(id); if(el)el.onclick=()=>{state.newsMode=mode;renderDailyNews();const themeSearch =
-    document.getElementById('themeSearch');
 
-if(themeSearch){
-    themeSearch.oninput = e => {
-        themeSearchText =
-            e.target.value.toLowerCase();
-        renderThemeExplorer();
-    };
-}
+ document.querySelectorAll('.nav').forEach(b => {
+   b.onclick = () => {
 
-[
- ['themeFilterAll','all'],
- ['themeFilterHighScore','score'],
- ['themeFilterHighMomentum','momentum'],
- ['themeFilterOpportunity','opportunity'],
- ['themeFilterRisk','risk']
-].forEach(([id,mode]) => {
+     document.querySelectorAll('.nav')
+       .forEach(x => x.classList.remove('active'));
 
-    const btn =
-        document.getElementById(id);
+     document.querySelectorAll('.view')
+       .forEach(x => x.classList.remove('active'));
 
-    if(btn){
-        btn.onclick = () => {
-            themeFilterMode = mode;
-            renderThemeExplorer();
-        };
+     b.classList.add('active');
+
+     const v =
+       document.getElementById(
+         b.dataset.view
+       );
+
+     if(v) v.classList.add('active');
+   };
+ });
+
+ document.querySelectorAll('.subnav')
+ .forEach(nav => {
+
+   nav.querySelectorAll('.subnav-btn')
+   .forEach(button => {
+
+      button.onclick = () => {
+
+         const view =
+           button.closest('.view');
+
+         if(!view) return;
+
+         nav.querySelectorAll('.subnav-btn')
+            .forEach(item =>
+               item.classList.remove('active')
+            );
+
+         view.querySelectorAll('.subpanel')
+            .forEach(panel =>
+               panel.classList.remove('active')
+            );
+
+         button.classList.add('active');
+
+         const panel =
+           view.querySelector(
+             `[data-subpanel="${button.dataset.subtab}"]`
+           );
+
+         if(panel)
+            panel.classList.add('active');
+      };
+
+   });
+
+ });
+
+ [
+   ['showAllNews','all'],
+   ['showCustomerNews','customer'],
+   ['showCompetitorNews','competitor'],
+   ['showTrendNews','trend']
+ ]
+ .forEach(([id,mode]) => {
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+      el.onclick = () => {
+        state.newsMode = mode;
+        renderDailyNews();
+      };
     }
 
-});
+ });
+
 }
 function section(title,html){return `<div class="info-box"><strong>${title}</strong>${html}</div>`;}
 function kv(label,value){return value?`<b>${label}:</b> ${safeHtml(value)}<br>`:'';}
@@ -1175,7 +1221,6 @@ function renderThemeExplorer(){
         return true;
 
     });
-``
   const activeThemes = themeData.filter(d => d.themeScore > 0);
   const highMomentum = themes.filter(t => String(t.momentum || '').toLowerCase() === 'high').length;
   const topThemes = [...themeData].sort((a,b) => b.themeScore - a.themeScore).slice(0,3);
