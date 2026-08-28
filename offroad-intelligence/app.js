@@ -1088,7 +1088,13 @@ const assessments =
     `;
   }).join('');
 
-  setHtml('themeExplorerGrid', cards || '<p class="empty">No themes available. Check data/themes.json.</p>');
+  setHtml(
+    'themeExplorerGrid',
+    cards ||
+    `<p class="empty">
+       No themes found for current filter.
+     </p>`
+);
 }
 function v177Arr(x){
   return Array.isArray(x) ? x : (x ? [x] : []);
