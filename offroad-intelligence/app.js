@@ -877,17 +877,7 @@ const assessments =
       risks.filter(x => v176cRiskThemeMatch(x, themeId)).length;
   }, 0);
 
-  setHtml('themeExplorerSummary', [
-    ['Themes', themes.length],
-    ['Active themes', linkedThemeIds.size],
-    ['Linked objects', totalLinkedObjects],
-    ['High momentum', themes.filter(t => String(t.momentum || '').toLowerCase() === 'high').length]
-  ].map(([label,value]) => `
-    <div class="kpi">
-      <span>${safeHtml(label)}</span>
-      <strong>${safeHtml(value)}</strong>
-    </div>
-  `).join(''));
+  );
 
   const cards = themes.map(theme => {
     const themeId = theme.themeId;
