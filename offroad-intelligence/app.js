@@ -1,6 +1,7 @@
 const state = { data: {}, filters: { segment: 'all', perspective: 'all', priority: 'all', search: '' }, newsMode: 'all' };
 let selectedAssessmentId = null;
-
+let themeFilterMode = 'all';
+let themeSearchText = '';
 
 const files = {
   meta:'data/meta.json',
