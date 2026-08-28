@@ -877,9 +877,7 @@ const assessments =
       risks.filter(x => v176cRiskThemeMatch(x, themeId)).length;
   }, 0);
 
-  );
-
-  const cards = themes.map(theme => {
+   const cards = themes.map(theme => {
     const themeId = theme.themeId;
     const linkedSignals = signals.filter(x => v176cSignalThemeMatch(x, themeId));
     const linkedAssessments = assessments.filter(x => v176cAssessmentThemeMatch(x, themeId));
