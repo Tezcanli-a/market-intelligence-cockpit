@@ -295,7 +295,54 @@ function setup(){
     }
 
  });
+/* Theme Intelligence Search */
 
+const themeSearch =
+  document.getElementById('themeSearch');
+
+if(themeSearch){
+
+  themeSearch.addEventListener(
+    'input',
+    function(){
+
+      themeSearchText =
+        this.value.toLowerCase();
+
+      renderThemeExplorer();
+
+    }
+  );
+
+}
+
+/* Theme Intelligence Filters */
+
+[
+ ['themeFilterAll','all'],
+ ['themeFilterHighScore','score'],
+ ['themeFilterHighMomentum','momentum'],
+ ['themeFilterOpportunity','opportunity'],
+ ['themeFilterRisk','risk']
+]
+.forEach(([id,mode]) => {
+
+  const btn =
+    document.getElementById(id);
+
+  if(btn){
+
+    btn.onclick = () => {
+
+      themeFilterMode = mode;
+
+      renderThemeExplorer();
+
+    };
+
+  }
+
+});
 }
 function section(title,html){return `<div class="info-box"><strong>${title}</strong>${html}</div>`;}
 function kv(label,value){return value?`<b>${label}:</b> ${safeHtml(value)}<br>`:'';}
