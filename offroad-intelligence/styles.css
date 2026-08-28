@@ -352,11 +352,7 @@
 .v177-score-fill.high,
 .v177-score-fill.medium,
 .v177-score-fill.low{
-  background:linear-gradient(
-    90deg,
-    #00858c,
-    #67c7cc
-  );
+  background:linear-gradient(90deg,#00858c,#67c7cc);
 }
 
 .v177-meta-row{

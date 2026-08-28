@@ -1186,15 +1186,9 @@ function v177ThemeData(theme){
   const themeScore = v177Clamp(rawScore, 0, 100);
 
   let balance = 'Monitor';
-if(linkedOpportunities.length > linkedRisks.length)
-  balance = 'Opportunity Focus';
-
-if(linkedRisks.length > linkedOpportunities.length)
-  balance = 'Risk Focus';
-
-if(linkedOpportunities.length === linkedRisks.length &&
-   linkedOpportunities.length > 0)
-  balance = 'Mixed Impact';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity Focus';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk Focus';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Mixed Impact';
 
   let scoreClass = 'low';
   if(themeScore >= 75) scoreClass = 'high';
@@ -1239,11 +1233,8 @@ function renderThemeExplorer(){
     if(themeSearchText && !searchableText.includes(themeSearchText)) return false;
     if(themeFilterMode === 'score') return data.themeScore >= 75;
     if(themeFilterMode === 'momentum') return String(data.theme.momentum || '').toLowerCase() === 'high';
-if(themeFilterMode === 'opportunity')
-  return data.balance === 'Opportunity Focus';
-
-if(themeFilterMode === 'risk')
-  return data.balance === 'Risk Focus';
+    if(themeFilterMode === 'opportunity') return data.balance === 'Opportunity Focus';
+    if(themeFilterMode === 'risk') return data.balance === 'Risk Focus';
     return true;
   });
 
@@ -1361,15 +1352,9 @@ function v178ThemeData(theme){
   const riskPressure = linkedRisks.length >= 2 ? 'High' : linkedRisks.length === 1 ? 'Medium' : 'Low';
 
   let balance = 'Monitor';
- if(linkedOpportunities.length > linkedRisks.length)
-  balance = 'Opportunity Focus';
-
-if(linkedRisks.length > linkedOpportunities.length)
-  balance = 'Risk Focus';
-
-if(linkedOpportunities.length === linkedRisks.length &&
-   linkedOpportunities.length > 0)
-  balance = 'Mixed Impact';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity Focus';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk Focus';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Mixed Impact';
 
   return {
     theme,
