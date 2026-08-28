@@ -1047,3 +1047,32 @@
     padding:6px 14px;
     font-weight:800;
 }
+.theme-toolbar{
+    background:#fff;
+    border:1px solid #dce7ec;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:18px;
+}
+
+.theme-toolbar input{
+    width:100%;
+    margin-bottom:12px;
+}
+
+.theme-filter-buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.theme-filter-buttons button{
+    background:#eef7f8;
+    border:1px solid #cfe5e7;
+    color:#063f4f;
+}
+
+.theme-filter-buttons button:hover{
+    background:#063f4f;
+    color:#fff;
+}
