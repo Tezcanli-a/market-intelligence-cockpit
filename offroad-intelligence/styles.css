@@ -329,9 +329,13 @@
   margin-top:6px;
 }
 
-.v177-score-box.high{background:#ffe5e2;color:#a3291e;border-color:#efb2aa}
-.v177-score-box.medium{background:#fff0d4;color:#8a5b00;border-color:#f6cd75}
-.v177-score-box.low{background:#e7f6ed;color:#236739;border-color:#a6d8b8}
+.v177-score-box.high,
+.v177-score-box.medium,
+.v177-score-box.low{
+  background:#eef7f8;
+  color:#063f4f;
+  border-color:#9cced1;
+}
 
 .v177-score-meter{
   height:12px;
@@ -345,9 +349,15 @@
   border-radius:999px;
 }
 
-.v177-score-fill.high{background:linear-gradient(90deg,#bd1e1e,#f28c7b)}
-.v177-score-fill.medium{background:linear-gradient(90deg,#f39c12,#f6cd75)}
-.v177-score-fill.low{background:linear-gradient(90deg,#1f9d55,#a6d8b8)}
+.v177-score-fill.high,
+.v177-score-fill.medium,
+.v177-score-fill.low{
+  background:linear-gradient(
+    90deg,
+    #00858c,
+    #67c7cc
+  );
+}
 
 .v177-meta-row{
   display:flex;
