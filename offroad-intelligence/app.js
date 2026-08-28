@@ -1186,9 +1186,9 @@ function v177ThemeData(theme){
   const themeScore = v177Clamp(rawScore, 0, 100);
 
   let balance = 'Monitor';
-  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity Focus';
-  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk Focus';
-  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Mixed Impact';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity dominant';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk dominant';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Balanced pressure';
 
   let scoreClass = 'low';
   if(themeScore >= 75) scoreClass = 'high';
@@ -1217,9 +1217,9 @@ function v177ThemeSummaryText(data){
   const momentum = String(theme.momentum || 'Low').toLowerCase();
   const parts = [];
   parts.push(relevance || `${name} remains relevant to the Offroad intelligence portfolio.`);
-  if(data.balance === 'Opportunity Focus') parts.push('The current intelligence balance indicates stronger opportunity potential than risk pressure.');
-  else if(data.balance === 'Risk Focus') parts.push('The current intelligence balance indicates stronger risk pressure and requires closer monitoring.');
-  else if(data.balance === 'Mixed Impact') parts.push('Opportunity potential and risk pressure are currently balanced.');
+  if(data.balance === 'Opportunity dominant') parts.push('The current intelligence balance indicates stronger opportunity potential than risk pressure.');
+  else if(data.balance === 'Risk dominant') parts.push('The current intelligence balance indicates stronger risk pressure and requires closer monitoring.');
+  else if(data.balance === 'Balanced pressure') parts.push('Opportunity potential and risk pressure are currently balanced.');
   if(momentum === 'high') parts.push('Momentum is high, so the theme should remain under active review.');
   else if(data.themeScore >= 75) parts.push('The theme has high intelligence weight and should remain under active review.');
   if(action) parts.push(`Recommended focus: ${action}`);
@@ -1233,8 +1233,8 @@ function renderThemeExplorer(){
     if(themeSearchText && !searchableText.includes(themeSearchText)) return false;
     if(themeFilterMode === 'score') return data.themeScore >= 75;
     if(themeFilterMode === 'momentum') return String(data.theme.momentum || '').toLowerCase() === 'high';
-    if(themeFilterMode === 'opportunity') return data.balance === 'Opportunity Focus';
-    if(themeFilterMode === 'risk') return data.balance === 'Risk Focus';
+    if(themeFilterMode === 'opportunity') return data.balance === 'Opportunity dominant';
+    if(themeFilterMode === 'risk') return data.balance === 'Risk dominant';
     return true;
   });
 
@@ -1242,30 +1242,30 @@ function renderThemeExplorer(){
     const theme = data.theme;
     const momentumClass = v177MomentumClass(theme.momentum);
     const marketContext = [
-      data.linkedCustomers.length ? `<div class="v177-section"><strong>Customers</strong><p>${v177MiniList(data.linkedCustomers,['name','customer','customerId'],5)}</p></div>` : '',
-      data.linkedCompetitors.length ? `<div class="v177-section"><strong>Competitors</strong><p>${v177MiniList(data.linkedCompetitors,['name','competitor','competitorId'],5)}</p></div>` : '',
-      data.linkedTechnologies.length ? `<div class="v177-section"><strong>Technologies</strong><p>${v177MiniList(data.linkedTechnologies,['theme','name','id'],5)}</p></div>` : ''
-    ].filter(Boolean).join('');
+      `<div class="v177-section"><strong>Customers</strong><p>${data.linkedCustomers.length ? v177MiniList(data.linkedCustomers,['name','customer','customerId'],5) : '<span class="muted">No customers linked yet.</span>'}</p></div>`,
+      `<div class="v177-section"><strong>Competitors</strong><p>${data.linkedCompetitors.length ? v177MiniList(data.linkedCompetitors,['name','competitor','competitorId'],5) : '<span class="muted">No competitors linked yet.</span>'}</p></div>`,
+      `<div class="v177-section"><strong>Technologies</strong><p>${data.linkedTechnologies.length ? v177MiniList(data.linkedTechnologies,['theme','name','id'],5) : '<span class="muted">No technologies linked yet.</span>'}</p></div>`
+    ].join('');
     const businessContext = [
-      data.linkedOpportunities.length ? `<div class="v177-section"><strong>Opportunities</strong><p>${v177MiniList(data.linkedOpportunities,['opportunity','title','description','id'],4)}</p></div>` : '',
-      data.linkedRisks.length ? `<div class="v177-section"><strong>Risks</strong><p>${v177MiniList(data.linkedRisks,['riskDescription','title','description','id'],4)}</p></div>` : ''
-    ].filter(Boolean).join('');
+      `<div class="v177-section"><strong>Opportunities</strong><p>${data.linkedOpportunities.length ? v177MiniList(data.linkedOpportunities,['opportunity','title','description','id'],4) : '<span class="muted">No opportunities linked yet.</span>'}</p></div>`,
+      `<div class="v177-section"><strong>Risks</strong><p>${data.linkedRisks.length ? v177MiniList(data.linkedRisks,['riskDescription','title','description','id'],4) : '<span class="muted">No risks linked yet.</span>'}</p></div>`
+    ].join('');
     return `
       <article class="v177-theme-card">
         <div class="v177-theme-top">
           <div><span class="meta">${safeHtml(theme.themeId || '')} · ${safeHtml(theme.category || 'Theme')}</span><h3>${safeHtml(theme.name || 'Unnamed theme')}</h3></div>
-          <div class="v177-score-box ${data.scoreClass}"><span>Theme Score</span><strong>${safeHtml(data.themeScore)}</strong></div>
+          <div class="v177-score-box ${data.scoreClass}"><span>Attention Score</span><strong>${safeHtml(data.themeScore)}</strong></div>
         </div>
         <div class="v177-score-meter"><div class="v177-score-fill ${data.scoreClass}" style="width:${data.themeScore}%"></div></div>
         <div class="v177-meta-row">
           <span class="score-pill ${momentumClass}"><small>Momentum</small><b>${safeHtml(theme.momentum || 'Low')}</b></span>
-          <span class="v177-balance-pill"><small>Theme Outlook</small><b>${safeHtml(data.balance)}</b></span>
+          <span class="v177-balance-pill"><small>Opportunity/Risk</small><b>${safeHtml(data.balance)}</b></span>
         </div>
         <p class="v177-theme-description">${safeHtml(theme.description || 'No description populated yet.')}</p>
         <div class="v177-section v177-summary-box"><strong>Management Implication</strong><p>${safeHtml(v177ThemeSummaryText(data))}</p></div>
         <div class="v177-section"><strong>Strategic relevance</strong><p>${safeHtml(theme.strategicRelevance || 'Not populated yet.')}</p></div>
-        ${marketContext ? `<div class="v177-section-grid v177-three-grid">${marketContext}</div>` : ''}
-        ${businessContext ? `<div class="v177-section-grid">${businessContext}</div>` : ''}
+        <div class="v177-section-grid v177-three-grid">${marketContext}</div>
+        <div class="v177-section-grid">${businessContext}</div>
         <div class="v177-action-box"><strong>Recommended action</strong><p>${safeHtml(theme.recommendedAction || 'Define function-specific next action.')}</p></div>
       </article>`;
   }).join('');
@@ -1352,9 +1352,9 @@ function v178ThemeData(theme){
   const riskPressure = linkedRisks.length >= 2 ? 'High' : linkedRisks.length === 1 ? 'Medium' : 'Low';
 
   let balance = 'Monitor';
-  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity Focus';
-  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk Focus';
-  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Mixed Impact';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity dominant';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk dominant';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Balanced pressure';
 
   return {
     theme,
