@@ -1076,3 +1076,10 @@
     background:#063f4f;
     color:#fff;
 }
+
+
+/* V21.4 Theme Intelligence cleanup */
+.theme-filter-buttons button.active,
+.theme-filter-buttons button[aria-pressed="true"]{background:#063f4f;border-color:#063f4f;color:#fff;box-shadow:0 0 0 3px rgba(0,133,140,.14)}
+.theme-filter-buttons button:focus-visible{outline:3px solid rgba(0,133,140,.28);outline-offset:2px}
+.v177-theme-card{align-content:start}

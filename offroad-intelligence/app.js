@@ -296,53 +296,43 @@ function setup(){
 
  });
 /* Theme Intelligence Search */
-
-const themeSearch =
-  document.getElementById('themeSearch');
-
+const themeSearch = document.getElementById('themeSearch');
 if(themeSearch){
-
-  themeSearch.addEventListener(
-    'input',
-    function(){
-
-      themeSearchText =
-        this.value.toLowerCase();
-
-      renderThemeExplorer();
-
-    }
-  );
-
+  themeSearch.addEventListener('input', function(){
+    themeSearchText = this.value.trim().toLowerCase();
+    renderThemeExplorer();
+  });
 }
 
 /* Theme Intelligence Filters */
-
-[
- ['themeFilterAll','all'],
- ['themeFilterHighScore','score'],
- ['themeFilterHighMomentum','momentum'],
- ['themeFilterOpportunity','opportunity'],
- ['themeFilterRisk','risk']
-]
-.forEach(([id,mode]) => {
-
-  const btn =
-    document.getElementById(id);
-
+const themeFilterButtons = [
+  ['themeFilterAll','all'],
+  ['themeFilterHighScore','score'],
+  ['themeFilterHighMomentum','momentum'],
+  ['themeFilterOpportunity','opportunity'],
+  ['themeFilterRisk','risk']
+];
+const updateThemeFilterButtons = () => {
+  themeFilterButtons.forEach(([id,mode]) => {
+    const button = document.getElementById(id);
+    if(button){
+      const selected = themeFilterMode === mode;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    }
+  });
+};
+themeFilterButtons.forEach(([id,mode]) => {
+  const btn = document.getElementById(id);
   if(btn){
-
     btn.onclick = () => {
-
       themeFilterMode = mode;
-
+      updateThemeFilterButtons();
       renderThemeExplorer();
-
     };
-
   }
-
 });
+updateThemeFilterButtons();
 }
 function section(title,html){return `<div class="info-box"><strong>${title}</strong>${html}</div>`;}
 function kv(label,value){return value?`<b>${label}:</b> ${safeHtml(value)}<br>`:'';}
@@ -1220,195 +1210,66 @@ function v177ThemeData(theme){
 }
 
 function v177ThemeSummaryText(data){
-  const name = data.theme.name || 'This theme';
+  const theme = data.theme || {};
+  const name = theme.name || 'This theme';
+  const relevance = theme.strategicRelevance || theme.description || '';
+  const action = theme.recommendedAction || '';
+  const momentum = String(theme.momentum || 'Low').toLowerCase();
   const parts = [];
-  parts.push(`${name} is linked to ${data.linkedSignals.length} signal(s), ${data.linkedAssessments.length} assessment(s), ${data.linkedTechnologies.length} technology item(s), ${data.linkedCustomers.length} customer profile(s) and ${data.linkedCompetitors.length} competitor profile(s).`);
-  if(data.linkedOpportunities.length || data.linkedRisks.length){
-    parts.push(`Opportunity/risk balance: ${data.balance}.`);
-  }
-  if(data.themeScore >= 75){
-    parts.push('This is a high-priority intelligence theme and should be reviewed actively.');
-  }else if(data.themeScore >= 50){
-    parts.push('This theme has moderate intelligence weight and should remain in the regular monitoring cycle.');
-  }else{
-    parts.push('This theme currently has limited linked intelligence and should be enriched when new evidence appears.');
-  }
+  parts.push(relevance || `${name} remains relevant to the Offroad intelligence portfolio.`);
+  if(data.balance === 'Opportunity dominant') parts.push('The current intelligence balance indicates stronger opportunity potential than risk pressure.');
+  else if(data.balance === 'Risk dominant') parts.push('The current intelligence balance indicates stronger risk pressure and requires closer monitoring.');
+  else if(data.balance === 'Balanced pressure') parts.push('Opportunity potential and risk pressure are currently balanced.');
+  if(momentum === 'high') parts.push('Momentum is high, so the theme should remain under active review.');
+  else if(data.themeScore >= 75) parts.push('The theme has high intelligence weight and should remain under active review.');
+  if(action) parts.push(`Recommended focus: ${action}`);
   return parts.join(' ');
 }
-
 function renderThemeExplorer(){
   const themes = state.data.themes || [];
   const themeData = themes.map(v177ThemeData);
-  let filteredThemeData =
-    themeData.filter(d => {
+  const filteredThemeData = themeData.filter(data => {
+    const searchableText = [data.theme.name,data.theme.category,data.theme.description,data.theme.strategicRelevance,data.theme.recommendedAction].filter(Boolean).join(' ').toLowerCase();
+    if(themeSearchText && !searchableText.includes(themeSearchText)) return false;
+    if(themeFilterMode === 'score') return data.themeScore >= 75;
+    if(themeFilterMode === 'momentum') return String(data.theme.momentum || '').toLowerCase() === 'high';
+    if(themeFilterMode === 'opportunity') return data.balance === 'Opportunity dominant';
+    if(themeFilterMode === 'risk') return data.balance === 'Risk dominant';
+    return true;
+  });
 
-        const matchesSearch =
-            !themeSearchText ||
-            (d.theme.name || '')
-            .toLowerCase()
-            .includes(themeSearchText);
-
-        if(!matchesSearch){
-            return false;
-        }
-
-        if(themeFilterMode === 'score'){
-            return d.themeScore >= 75;
-        }
-
-        if(themeFilterMode === 'momentum'){
-            return String(
-                d.theme.momentum || ''
-            ).toLowerCase() === 'high';
-        }
-
-        if(themeFilterMode === 'opportunity'){
-            return d.balance ===
-                   'Opportunity dominant';
-        }
-
-        if(themeFilterMode === 'risk'){
-            return d.balance ===
-                   'Risk dominant';
-        }
-
-        return true;
-
-    });
-  const activeThemes = themeData.filter(d => d.themeScore > 0);
-  const highMomentum = themes.filter(t => String(t.momentum || '').toLowerCase() === 'high').length;
-  const topThemes = [...themeData].sort((a,b) => b.themeScore - a.themeScore).slice(0,3);
-  const linkedObjects = themeData.reduce((sum,d) => sum + d.linkedSignals.length + d.linkedAssessments.length + d.linkedTechnologies.length + d.linkedCustomers.length + d.linkedCompetitors.length + d.linkedOpportunities.length + d.linkedRisks.length, 0);
-
-  setHtml('themeExplorerSummary', [
-    ['Themes', themes.length],
-    ['Active themes', activeThemes.length],
-    ['Linked objects', linkedObjects],
-    ['High momentum', highMomentum]
-  ].map(([label,value]) => `
-    <div class="kpi">
-      <span>${safeHtml(label)}</span>
-      <strong>${safeHtml(value)}</strong>
-    </div>
-  `).join(''));
-
-const topThemeHtml = topThemes.length ? `
-<div class="theme-watchlist-row">
-
-${topThemes.map((d) => `
-  <div class="theme-watch-card">
-
-      <div class="theme-watch-name">
-        ${safeHtml(d.theme.name || 'Unnamed theme')}
-      </div>
-
-      <div class="theme-watch-score">
-        ${safeHtml(d.themeScore)}
-      </div>
-
-  </div>
-`).join('')}
-
-</div>
-` : '';
-
- const cards = filteredThemeData.map(data => {
+  const cards = filteredThemeData.map(data => {
     const theme = data.theme;
     const momentumClass = v177MomentumClass(theme.momentum);
-
+    const marketContext = [
+      data.linkedCustomers.length ? `<div class="v177-section"><strong>Customers</strong><p>${v177MiniList(data.linkedCustomers,['name','customer','customerId'],5)}</p></div>` : '',
+      data.linkedCompetitors.length ? `<div class="v177-section"><strong>Competitors</strong><p>${v177MiniList(data.linkedCompetitors,['name','competitor','competitorId'],5)}</p></div>` : '',
+      data.linkedTechnologies.length ? `<div class="v177-section"><strong>Technologies</strong><p>${v177MiniList(data.linkedTechnologies,['theme','name','id'],5)}</p></div>` : ''
+    ].filter(Boolean).join('');
+    const businessContext = [
+      data.linkedOpportunities.length ? `<div class="v177-section"><strong>Opportunities</strong><p>${v177MiniList(data.linkedOpportunities,['opportunity','title','description','id'],4)}</p></div>` : '',
+      data.linkedRisks.length ? `<div class="v177-section"><strong>Risks</strong><p>${v177MiniList(data.linkedRisks,['riskDescription','title','description','id'],4)}</p></div>` : ''
+    ].filter(Boolean).join('');
     return `
       <article class="v177-theme-card">
         <div class="v177-theme-top">
-          <div>
-            <span class="meta">${safeHtml(theme.themeId || '')} · ${safeHtml(theme.category || 'Theme')}</span>
-            <h3>${safeHtml(theme.name || 'Unnamed theme')}</h3>
-          </div>
-          <div class="v177-score-box ${data.scoreClass}">
-            <span>Theme Score</span>
-            <strong>${safeHtml(data.themeScore)}</strong>
-          </div>
+          <div><span class="meta">${safeHtml(theme.themeId || '')} · ${safeHtml(theme.category || 'Theme')}</span><h3>${safeHtml(theme.name || 'Unnamed theme')}</h3></div>
+          <div class="v177-score-box ${data.scoreClass}"><span>Theme Score</span><strong>${safeHtml(data.themeScore)}</strong></div>
         </div>
-
-        <div class="v177-score-meter">
-          <div class="v177-score-fill ${data.scoreClass}" style="width:${data.themeScore}%"></div>
-        </div>
-
+        <div class="v177-score-meter"><div class="v177-score-fill ${data.scoreClass}" style="width:${data.themeScore}%"></div></div>
         <div class="v177-meta-row">
           <span class="score-pill ${momentumClass}"><small>Momentum</small><b>${safeHtml(theme.momentum || 'Low')}</b></span>
           <span class="v177-balance-pill"><small>Opportunity/Risk</small><b>${safeHtml(data.balance)}</b></span>
         </div>
-
         <p class="v177-theme-description">${safeHtml(theme.description || 'No description populated yet.')}</p>
-
-        <div class="v177-kpi-grid">
-          <div class="v17-score"><span>Signals</span><strong>${data.linkedSignals.length}</strong></div>
-          <div class="v17-score"><span>Assessments</span><strong>${data.linkedAssessments.length}</strong></div>
-          <div class="v17-score"><span>Technologies</span><strong>${data.linkedTechnologies.length}</strong></div>
-          <div class="v17-score"><span>Customers</span><strong>${data.linkedCustomers.length}</strong></div>
-          <div class="v17-score"><span>Competitors</span><strong>${data.linkedCompetitors.length}</strong></div>
-          <div class="v17-score"><span>Opp / Risk</span><strong>${data.linkedOpportunities.length + data.linkedRisks.length}</strong></div>
-        </div>
-
-        <div class="v177-section v177-summary-box">
-          <strong>Theme Intelligence Summary</strong>
-          <p>${safeHtml(v177ThemeSummaryText(data))}</p>
-        </div>
-
-        <div class="v177-section">
-          <strong>Strategic relevance</strong>
-          <p>${safeHtml(theme.strategicRelevance || 'Not populated yet.')}</p>
-        </div>
-
-        <div class="v177-section-grid">
-          <div class="v177-section">
-            <strong>Related signals</strong>
-            <p>${v177MiniList(data.linkedSignals, ['signal','title','id'], 5)}</p>
-          </div>
-          <div class="v177-section">
-            <strong>Related assessments</strong>
-            <p>${v177MiniList(data.linkedAssessments, ['title','assessmentId','assessment'], 5)}</p>
-          </div>
-        </div>
-
-        <div class="v177-section-grid v177-three-grid">
-          <div class="v177-section">
-            <strong>Customers</strong>
-            <p>${v177MiniList(data.linkedCustomers, ['name','customer','customerId'], 5)}</p>
-          </div>
-          <div class="v177-section">
-            <strong>Competitors</strong>
-            <p>${v177MiniList(data.linkedCompetitors, ['name','competitor','competitorId'], 5)}</p>
-          </div>
-          <div class="v177-section">
-            <strong>Technologies</strong>
-            <p>${v177MiniList(data.linkedTechnologies, ['theme','name','id'], 5)}</p>
-          </div>
-        </div>
-
-        <div class="v177-section-grid">
-          <div class="v177-section">
-            <strong>Opportunities</strong>
-            <p>${v177MiniList(data.linkedOpportunities, ['opportunity','title','description','id'], 4)}</p>
-          </div>
-          <div class="v177-section">
-            <strong>Risks</strong>
-            <p>${v177MiniList(data.linkedRisks, ['riskDescription','title','description','id'], 4)}</p>
-          </div>
-        </div>
-
-        <div class="v177-action-box">
-          <strong>Recommended action</strong>
-          <p>${safeHtml(theme.recommendedAction || 'Define function-specific next action.')}</p>
-        </div>
-      </article>
-    `;
+        <div class="v177-section v177-summary-box"><strong>Management Implication</strong><p>${safeHtml(v177ThemeSummaryText(data))}</p></div>
+        <div class="v177-section"><strong>Strategic relevance</strong><p>${safeHtml(theme.strategicRelevance || 'Not populated yet.')}</p></div>
+        ${marketContext ? `<div class="v177-section-grid v177-three-grid">${marketContext}</div>` : ''}
+        ${businessContext ? `<div class="v177-section-grid">${businessContext}</div>` : ''}
+        <div class="v177-action-box"><strong>Recommended action</strong><p>${safeHtml(theme.recommendedAction || 'Define function-specific next action.')}</p></div>
+      </article>`;
   }).join('');
-
-setHtml(
-    'themeExplorerGrid',
-    cards ||
-    '<p class="empty">No themes available. Check data/themes.json.</p>'
-);
+  setHtml('themeExplorerGrid',cards || '<p class="empty">No themes found for the current search or filter.</p>');
 }
 function v178Arr(x){
   return Array.isArray(x) ? x : (x ? [x] : []);
