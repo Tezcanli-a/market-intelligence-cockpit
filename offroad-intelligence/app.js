@@ -1186,9 +1186,9 @@ function v177ThemeData(theme){
   const themeScore = v177Clamp(rawScore, 0, 100);
 
   let balance = 'Monitor';
-  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity dominant';
-  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk dominant';
-  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Balanced pressure';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity Focus';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk Focus';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Mixed Impact';
 
   let scoreClass = 'low';
   if(themeScore >= 75) scoreClass = 'high';
@@ -1217,9 +1217,9 @@ function v177ThemeSummaryText(data){
   const momentum = String(theme.momentum || 'Low').toLowerCase();
   const parts = [];
   parts.push(relevance || `${name} remains relevant to the Offroad intelligence portfolio.`);
-  if(data.balance === 'Opportunity dominant') parts.push('The current intelligence balance indicates stronger opportunity potential than risk pressure.');
-  else if(data.balance === 'Risk dominant') parts.push('The current intelligence balance indicates stronger risk pressure and requires closer monitoring.');
-  else if(data.balance === 'Balanced pressure') parts.push('Opportunity potential and risk pressure are currently balanced.');
+  if(data.balance === 'Opportunity Focus') parts.push('The current intelligence balance indicates stronger opportunity potential than risk pressure.');
+  else if(data.balance === 'Risk Focus') parts.push('The current intelligence balance indicates stronger risk pressure and requires closer monitoring.');
+  else if(data.balance === 'Mixed Impact') parts.push('Opportunity potential and risk pressure are currently balanced.');
   if(momentum === 'high') parts.push('Momentum is high, so the theme should remain under active review.');
   else if(data.themeScore >= 75) parts.push('The theme has high intelligence weight and should remain under active review.');
   if(action) parts.push(`Recommended focus: ${action}`);
@@ -1233,8 +1233,8 @@ function renderThemeExplorer(){
     if(themeSearchText && !searchableText.includes(themeSearchText)) return false;
     if(themeFilterMode === 'score') return data.themeScore >= 75;
     if(themeFilterMode === 'momentum') return String(data.theme.momentum || '').toLowerCase() === 'high';
-    if(themeFilterMode === 'opportunity') return data.balance === 'Opportunity dominant';
-    if(themeFilterMode === 'risk') return data.balance === 'Risk dominant';
+    if(themeFilterMode === 'opportunity') return data.balance === 'Opportunity Focus';
+    if(themeFilterMode === 'risk') return data.balance === 'Risk Focus';
     return true;
   });
 
@@ -1259,7 +1259,7 @@ function renderThemeExplorer(){
         <div class="v177-score-meter"><div class="v177-score-fill ${data.scoreClass}" style="width:${data.themeScore}%"></div></div>
         <div class="v177-meta-row">
           <span class="score-pill ${momentumClass}"><small>Momentum</small><b>${safeHtml(theme.momentum || 'Low')}</b></span>
-          <span class="v177-balance-pill"><small>Opportunity/Risk</small><b>${safeHtml(data.balance)}</b></span>
+          <span class="v177-balance-pill"><small>Theme Outlook</small><b>${safeHtml(data.balance)}</b></span>
         </div>
         <p class="v177-theme-description">${safeHtml(theme.description || 'No description populated yet.')}</p>
         <div class="v177-section v177-summary-box"><strong>Management Implication</strong><p>${safeHtml(v177ThemeSummaryText(data))}</p></div>
@@ -1352,9 +1352,9 @@ function v178ThemeData(theme){
   const riskPressure = linkedRisks.length >= 2 ? 'High' : linkedRisks.length === 1 ? 'Medium' : 'Low';
 
   let balance = 'Monitor';
-  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity dominant';
-  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk dominant';
-  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Balanced pressure';
+  if(linkedOpportunities.length > linkedRisks.length) balance = 'Opportunity Focus';
+  if(linkedRisks.length > linkedOpportunities.length) balance = 'Risk Focus';
+  if(linkedOpportunities.length === linkedRisks.length && linkedOpportunities.length > 0) balance = 'Mixed Impact';
 
   return {
     theme,
