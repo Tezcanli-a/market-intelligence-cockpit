@@ -1127,20 +1127,25 @@ function renderThemeExplorer(){
     </div>
   `).join(''));
 
-  const topThemeHtml = topThemes.length ? `
-    <div class="v177-top-themes">
-      <div class="v177-top-heading">
-        <span>Theme Intelligence</span>
-        <h3>Top Themes by intelligence weight</h3>
+const topThemeHtml = topThemes.length ? `
+<div class="theme-watchlist-row">
+
+${topThemes.map((d) => `
+  <div class="theme-watch-card">
+
+      <div class="theme-watch-name">
+        ${safeHtml(d.theme.name || 'Unnamed theme')}
       </div>
-      ${topThemes.map((d,i) => `
-        <div class="v177-top-row">
-          <strong>#${i + 1} ${safeHtml(d.theme.name || 'Unnamed theme')}</strong>
-          <span>${safeHtml(d.themeScore)}</span>
-        </div>
-      `).join('')}
-    </div>
-  ` : '';
+
+      <div class="theme-watch-score">
+        ${safeHtml(d.themeScore)}
+      </div>
+
+  </div>
+`).join('')}
+
+</div>
+` : '';
 
   const cards = themeData.map(data => {
     const theme = data.theme;
@@ -1234,7 +1239,11 @@ function renderThemeExplorer(){
     `;
   }).join('');
 
-  setHtml('themeExplorerGrid', topThemeHtml + (cards || '<p class="empty">No themes available. Check data/themes.json.</p>'));
+setHtml(
+    'themeExplorerGrid',
+    cards ||
+    '<p class="empty">No themes available. Check data/themes.json.</p>'
+);
 }
 function v178Arr(x){
   return Array.isArray(x) ? x : (x ? [x] : []);
