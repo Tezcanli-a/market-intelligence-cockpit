@@ -1,5 +1,7 @@
 const state = { data: {}, filters: { segment: 'all', perspective: 'all', priority: 'all', search: '' }, newsMode: 'all' };
 let selectedAssessmentId = null;
+let themeFilterMode = 'all';
+let themeSearchText = '';
 
 const files = {
   meta:'data/meta.json',
@@ -217,7 +219,36 @@ function seedFallbackAssessments(){state.data.assessments=(state.data.signals||[
 function setup(){
  document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=document.getElementById(b.dataset.view);console.log("clicked:", b.dataset.view);if(v)v.classList.add('active');});
   document.querySelectorAll('.subnav').forEach(nav => { nav.querySelectorAll('.subnav-btn').forEach(button => { button.onclick = () => { const view = button.closest('.view'); if(!view) return; nav.querySelectorAll('.subnav-btn').forEach(item => item.classList.remove('active')); view.querySelectorAll('.subpanel').forEach(panel => panel.classList.remove('active')); button.classList.add('active'); const panel = view.querySelector(`[data-subpanel="${button.dataset.subtab}"]`); if(panel) panel.classList.add('active'); }; }); });
-[['showAllNews','all'],['showCustomerNews','customer'],['showCompetitorNews','competitor'],['showTrendNews','trend']].forEach(([id,mode])=>{const el=document.getElementById(id); if(el)el.onclick=()=>{state.newsMode=mode;renderDailyNews();};});
+[['showAllNews','all'],['showCustomerNews','customer'],['showCompetitorNews','competitor'],['showTrendNews','trend']].forEach(([id,mode])=>{const el=document.getElementById(id); if(el)el.onclick=()=>{state.newsMode=mode;renderDailyNews();const themeSearch =
+    document.getElementById('themeSearch');
+
+if(themeSearch){
+    themeSearch.oninput = e => {
+        themeSearchText =
+            e.target.value.toLowerCase();
+        renderThemeExplorer();
+    };
+}
+
+[
+ ['themeFilterAll','all'],
+ ['themeFilterHighScore','score'],
+ ['themeFilterHighMomentum','momentum'],
+ ['themeFilterOpportunity','opportunity'],
+ ['themeFilterRisk','risk']
+].forEach(([id,mode]) => {
+
+    const btn =
+        document.getElementById(id);
+
+    if(btn){
+        btn.onclick = () => {
+            themeFilterMode = mode;
+            renderThemeExplorer();
+        };
+    }
+
+});
 }
 function section(title,html){return `<div class="info-box"><strong>${title}</strong>${html}</div>`;}
 function kv(label,value){return value?`<b>${label}:</b> ${safeHtml(value)}<br>`:'';}
@@ -1108,6 +1139,43 @@ function v177ThemeSummaryText(data){
 function renderThemeExplorer(){
   const themes = state.data.themes || [];
   const themeData = themes.map(v177ThemeData);
+  let filteredThemeData =
+    themeData.filter(d => {
+
+        const matchesSearch =
+            !themeSearchText ||
+            (d.theme.name || '')
+            .toLowerCase()
+            .includes(themeSearchText);
+
+        if(!matchesSearch){
+            return false;
+        }
+
+        if(themeFilterMode === 'score'){
+            return d.themeScore >= 75;
+        }
+
+        if(themeFilterMode === 'momentum'){
+            return String(
+                d.theme.momentum || ''
+            ).toLowerCase() === 'high';
+        }
+
+        if(themeFilterMode === 'opportunity'){
+            return d.balance ===
+                   'Opportunity dominant';
+        }
+
+        if(themeFilterMode === 'risk'){
+            return d.balance ===
+                   'Risk dominant';
+        }
+
+        return true;
+
+    });
+``
   const activeThemes = themeData.filter(d => d.themeScore > 0);
   const highMomentum = themes.filter(t => String(t.momentum || '').toLowerCase() === 'high').length;
   const topThemes = [...themeData].sort((a,b) => b.themeScore - a.themeScore).slice(0,3);
@@ -1145,7 +1213,7 @@ ${topThemes.map((d) => `
 </div>
 ` : '';
 
-  const cards = themeData.map(data => {
+ const cards = filteredThemeData.map(data => {
     const theme = data.theme;
     const momentumClass = v177MomentumClass(theme.momentum);
 
