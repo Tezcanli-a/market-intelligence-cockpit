@@ -929,7 +929,7 @@
 }
 .decision-grid{
     display:grid;
-    grid-template-columns:45% 55%;
+    grid-template-columns:65% 35%;
     gap:16px;
     align-items:start;
 }
