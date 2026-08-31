@@ -276,7 +276,7 @@ function setup(){
   panel
 );
     
-
+);
    });
 
  });
