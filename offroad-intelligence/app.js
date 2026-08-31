@@ -238,46 +238,44 @@ function setup(){
    };
  });
 
- document.querySelectorAll('.subnav')
- .forEach(nav => {
+document.querySelectorAll('.subnav')
+.forEach(nav => {
+  nav.querySelectorAll('.subnav-btn')
+  .forEach(button => {
+    button.onclick = () => {
+      const view =
+        button.closest('.view');
 
-   nav.querySelectorAll('.subnav-btn')
-   .forEach(button => {
+      if(!view) return;
 
-      button.onclick = () => {
+      nav.querySelectorAll('.subnav-btn')
+        .forEach(item =>
+          item.classList.remove('active')
+        );
 
-         const view =
-           button.closest('.view');
+      view.querySelectorAll('.subpanel')
+        .forEach(panel =>
+          panel.classList.remove('active')
+        );
 
-         if(!view) return;
+      button.classList.add('active');
 
-         nav.querySelectorAll('.subnav-btn')
-            .forEach(item =>
-               item.classList.remove('active')
-            );
+      const panel =
+        view.querySelector(
+          `[data-subpanel="${button.dataset.subtab}"]`
+        );
 
-         view.querySelectorAll('.subpanel')
-            .forEach(panel =>
-               panel.classList.remove('active')
-            );
+      if(panel){
+        panel.classList.add('active');
 
-         button.classList.add('active');
-
-         const panel =
-           view.querySelector(
-             `[data-subpanel="${button.dataset.subtab}"]`
-           );
-
-if(panel){
-    panel.classList.add('active');
-
-    console.log(
-        'TAB SWITCH',
-        button.dataset.subtab,
-        panel
-    );
-}
-    
+        console.log(
+          'TAB SWITCH',
+          button.dataset.subtab,
+          panel
+        );
+      }
+    };
+  });
 });
 
  [
