@@ -268,15 +268,17 @@ function setup(){
              `[data-subpanel="${button.dataset.subtab}"]`
            );
 
-         if(panel)
-            panel.classList.add('active');
-        console.log(
-  'TAB SWITCH',
-  button.dataset.subtab,
-  panel
-);
+if(panel){
+    panel.classList.add('active');
+
+    console.log(
+        'TAB SWITCH',
+        button.dataset.subtab,
+        panel
+    );
+}
     
-);
+
    });
 
  });
