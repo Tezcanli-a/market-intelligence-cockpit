@@ -2531,7 +2531,7 @@ const projection =
   projection?.openGap ||
   d.openGap ||
   unknowns[0] ||
-  'No explicit What We Still Don't Know populated yet.';
+  'No explicit What We Still Do Not Know populated yet.';
       const decisionTask =
   projection?.recommendedDecision ||
   action.title ||
