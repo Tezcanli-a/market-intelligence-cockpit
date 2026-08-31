@@ -278,10 +278,7 @@ if(panel){
     );
 }
     
-
-   });
-
- });
+});
 
  [
    ['showAllNews','all'],
