@@ -270,7 +270,12 @@ function setup(){
 
          if(panel)
             panel.classList.add('active');
-      };
+        console.log(
+  'TAB SWITCH',
+  button.dataset.subtab,
+  panel
+);
+    
 
    });
 
