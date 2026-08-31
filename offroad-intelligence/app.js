@@ -2531,7 +2531,7 @@ const projection =
   projection?.openGap ||
   d.openGap ||
   unknowns[0] ||
-  'No explicit open gap populated yet.';
+  'No explicit What We Still Don't Know populated yet.';
       const decisionTask =
   projection?.recommendedDecision ||
   action.title ||
@@ -2601,7 +2601,7 @@ const projection =
           </div>
 
           <div class="j4-gap-row">
-            <strong>Open gap:</strong> ${safeHtml(openGap)}
+            <strong>What We Still Don't Know:</strong> ${safeHtml(openGap)}
           </div>
         </article>
       `;
@@ -2777,7 +2777,7 @@ setHtml('decisionAlerts', `
       </span>
 
       <span class="pill">
-        Open Gaps:
+        What We Still Don't Know:
         ${criticalGaps.length}
       </span>
 
@@ -3094,24 +3094,15 @@ function renderDecisionBriefWorkspace(){
         <span class="pill">Impact: ${safeHtml(executive.impact)}</span>
       </div>
 
-      ${renderGoldenThread(db)}
-      <details class="j4-block">
-        <summary><strong>Analyst View</strong></summary>
-        <p><strong>Assessment IDs:</strong><br>${arr(analyst.assessmentIds).map(safeHtml).join(', ') || 'None'}</p>
-        <p><strong>Signal IDs:</strong><br>${arr(analyst.signalIds).map(safeHtml).join(', ') || 'None'}</p>
-        <p><strong>Evidence IDs:</strong><br>${arr(analyst.evidenceIds).map(safeHtml).join(', ') || 'None'}</p>
-        <p><strong>Open Gap:</strong><br>${safeHtml(analyst.openGap || 'None')}</p>
-        <p><strong>Unknowns:</strong><br>${arr(analyst.unknowns).map(safeHtml).join('<br>') || 'None'}</p>
-      </details>
+      <div class="j4-block">
+    <strong>Affected Areas</strong>
+    <p>
+        Customers: ${arr(portfolio.customerIds).length || 0}<br>
+        Competitors: ${arr(portfolio.competitorIds).length || 0}<br>
+        Technologies: ${arr(portfolio.technologyIds).length || 0}
+    </p>
+</div>
 
-      <details class="j4-block">
-        <summary><strong>Portfolio View</strong></summary>
-        <p><strong>Themes:</strong><br>${arr(portfolio.themeIds).map(safeHtml).join(', ') || 'None'}</p>
-        <p><strong>Customers:</strong><br>${arr(portfolio.customerIds).map(safeHtml).join(', ') || 'None'}</p>
-        <p><strong>Competitors:</strong><br>${arr(portfolio.competitorIds).map(safeHtml).join(', ') || 'None'}</p>
-        <p><strong>Technologies:</strong><br>${arr(portfolio.technologyIds).map(safeHtml).join(', ') || 'None'}</p>
-        <p><strong>Status:</strong><br>${safeHtml(portfolio.status)}</p>
-      </details>
     </article>
     `
   );
@@ -3246,7 +3237,7 @@ const learning =
         </p>
 
         <p>
-          <strong>Open Gap:</strong><br>
+          <strong>What We Still Don't Know:</strong><br>
           ${safeHtml(analyst.openGap)}
         </p>
 
