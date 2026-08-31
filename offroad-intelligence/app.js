@@ -2737,7 +2737,7 @@ setHtml('decisionPanel', `
   </div>
 
   <div class="j4-block">
-    <strong>Open Intelligence Gap</strong>
+    <strong>What We Still Don't Know</strong>
     <p>${safeHtml(
       d.openGap ||
       arr(d.unknowns)[0] ||
@@ -2803,8 +2803,8 @@ function renderPriorityMatrix() {
 const ctx = canvas.getContext('2d');
 
 /* J.6B: compact matrix dimensions */
-canvas.width = 620;
-canvas.height = 300;
+canvas.width = 760;
+canvas.height = 400;
 
 const w = canvas.width;
 const h = canvas.height;
@@ -3048,64 +3048,110 @@ function renderDecisionBriefWorkspace(){
   }
 
   const db = decisionBriefForAssessment(assessment.assessmentId);
-
   if(!db){
-    setHtml(
-      'decisionBriefWorkspace',
-      '<p class="muted">No Decision Brief is linked to this assessment.</p>'
-    );
+    setHtml('decisionBriefWorkspace', '');
     return;
   }
 
   const executive = buildExecutiveProjection(db);
-  const analyst = buildAnalystProjection(db);
   const portfolio = buildPortfolioProjection(db);
+  const context = db.context || {};
 
-  setHtml(
-    'decisionBriefWorkspace',
-    `
-    <article class="profile-card">
-      <h2>${safeHtml(executive.title)}</h2>
-
-      <div class="j4-block">
-        <strong>What Changed</strong>
-        <p>${safeHtml(executive.whatChanged)}</p>
-      </div>
-
-      <div class="j4-block">
-        <strong>Why It Matters</strong>
-        <p>${safeHtml(executive.whyItMatters)}</p>
-      </div>
-
-      <div class="j4-block">
-        <strong>What Could Happen Next</strong>
-        <p>${safeHtml(executive.whatCouldHappenNext)}</p>
-      </div>
-
-      <div class="j4-block">
-        <strong>Recommended Decision</strong>
-        <p>${safeHtml(executive.recommendedDecision)}</p>
-      </div>
-
-      <div class="pill-row">
-        <span class="pill">Owner: ${safeHtml(executive.owner)}</span>
-        <span class="pill">Due: ${safeHtml(executive.dueDate)}</span>
-        <span class="pill">Confidence: ${safeHtml(executive.confidence)}</span>
-        <span class="pill">Impact: ${safeHtml(executive.impact)}</span>
-      </div>
-
-      <div class="j4-block">
-    <strong>Affected Areas</strong>
-    <p>
-        Customers: ${arr(portfolio.customerIds).length || 0}<br>
-        Competitors: ${arr(portfolio.competitorIds).length || 0}<br>
-        Technologies: ${arr(portfolio.technologyIds).length || 0}
-    </p>
-</div>
-
-    </article>
-    `
+  const unique = values => [...new Set(arr(values).filter(Boolean))];
+  const findById = (items, id) => (items || []).find(item =>
+    item.id === id ||
+    item.customerId === id ||
+    item.competitorId === id ||
+    item.technologyId === id ||
+    item.opportunityId === id ||
+    item.riskId === id
   );
+  const namesFromIds = (items, ids, nameKeys) => unique(ids).map(id => {
+    const item = findById(items, id);
+    if(!item) return id;
+    return nameKeys.map(key => item[key]).find(Boolean) || id;
+  });
+  const tagsOrEmpty = (values, emptyText) => values.length
+    ? values.map(value => tag(value)).join('')
+    : `<span class="muted">${safeHtml(emptyText)}</span>`;
+
+  const customerNames = namesFromIds(
+    [...(state.data.customers || []), ...(state.data.customerProfiles || [])],
+    portfolio.customerIds,
+    ['name','customer']
+  );
+  const competitorNames = namesFromIds(
+    [...(state.data.competitors || []), ...(state.data.competitorProfiles || [])],
+    portfolio.competitorIds,
+    ['name','competitor']
+  );
+  const technologyNames = namesFromIds(
+    state.data.technologies || [],
+    portfolio.technologyIds,
+    ['theme','name','technology']
+  );
+
+  const opportunityIds = unique([
+    ...arr(context.opportunityIds),
+    ...arr(assessment.linkedOpportunityIds),
+    ...arr(assessment.opportunityIds)
+  ]);
+  const riskIds = unique([
+    ...arr(context.riskIds),
+    ...arr(assessment.linkedRiskIds),
+    ...arr(assessment.riskIds)
+  ]);
+  const opportunityNames = namesFromIds(
+    state.data.opportunities || [],
+    opportunityIds,
+    ['opportunity','title','description','name']
+  );
+  const riskNames = namesFromIds(
+    state.data.risks || [],
+    riskIds,
+    ['riskDescription','title','description','name']
+  );
+
+  setHtml('decisionBriefWorkspace', `
+    <article class="profile-card business-impact-card">
+      <h3>Business Impact Overview</h3>
+
+      <div class="business-impact-grid">
+        <div class="j4-block">
+          <strong>Affected Customers</strong>
+          <p>${tagsOrEmpty(customerNames, 'No customers linked yet.')}</p>
+        </div>
+        <div class="j4-block">
+          <strong>Affected Competitors</strong>
+          <p>${tagsOrEmpty(competitorNames, 'No competitors linked yet.')}</p>
+        </div>
+        <div class="j4-block">
+          <strong>Affected Technologies</strong>
+          <p>${tagsOrEmpty(technologyNames, 'No technologies linked yet.')}</p>
+        </div>
+      </div>
+
+      <div class="business-impact-bottom">
+        <div class="j4-block">
+          <strong>Key Opportunities</strong>
+          <p>${tagsOrEmpty(opportunityNames, 'No opportunity linked yet.')}</p>
+        </div>
+        <div class="j4-block">
+          <strong>Key Risks</strong>
+          <p>${tagsOrEmpty(riskNames, 'No risk linked yet.')}</p>
+        </div>
+        <div class="j4-block business-impact-owner">
+          <strong>Ownership</strong>
+          <div class="j4-owner-row">
+            <span><b>Owner:</b> ${safeHtml(executive.owner || assessment.owner || 'Not assigned')}</span>
+            <span><b>Due:</b> ${safeHtml(executive.dueDate || assessment.reviewDate || 'Not defined')}</span>
+            <span><b>Confidence:</b> ${safeHtml(executive.confidence || assessment.confidenceScore || 'n/a')}</span>
+            <span><b>Impact:</b> ${safeHtml(executive.impact || assessment.impact || 'n/a')}</span>
+          </div>
+        </div>
+      </div>
+    </article>
+  `);
 }
 function renderDecisionBriefPageWorkspace(){
 

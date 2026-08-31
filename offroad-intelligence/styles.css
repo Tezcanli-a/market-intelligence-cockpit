@@ -929,9 +929,25 @@
 }
 .decision-grid{
     display:grid;
-    grid-template-columns:65% 35%;
-    gap:16px;
+    grid-template-columns:minmax(0,55%) minmax(0,45%);
+    gap:20px;
     align-items:start;
+}
+.decision-panel{min-width:0}
+.decision-panel > h3{margin:0 0 14px}
+#decisionPanel .profile-card{min-height:360px}
+#priorityMatrix{width:100%;max-width:none;height:auto}
+.business-impact-card{margin-top:14px;border-top:4px solid var(--navy)}
+.business-impact-card h3{margin:0 0 2px;font-size:17px}
+.business-impact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.business-impact-grid .j4-block{min-height:86px}
+.business-impact-grid .tag{margin:2px 4px 2px 0}
+.business-impact-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.business-impact-owner{grid-column:1 / -1}
+@media(max-width:1100px){
+  .decision-grid{grid-template-columns:1fr}
+  .business-impact-grid,.business-impact-bottom{grid-template-columns:1fr}
+  .business-impact-owner{grid-column:auto}
 }
 /* V20.0J.6B - Compact Since Last Review */
 #decisionChanged .profile-card{
