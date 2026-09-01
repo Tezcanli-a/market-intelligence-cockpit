@@ -889,7 +889,10 @@
 .j4-panel-card{
   border-top:0;
 }
-
+.j4-forecast{
+  background:#ecf8fa;
+  border-left:6px solid #00858c;
+}
 .j4-forecast p{
   font-size:13px;
   line-height:1.4;
