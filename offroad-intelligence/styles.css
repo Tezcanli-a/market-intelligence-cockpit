@@ -1213,3 +1213,53 @@
   font-size:13px;
   line-height:1.5;
 }
+/* V21.4 Entity Relationships final visual alignment */
+
+/* Same background and frame for every flow box */
+.v176b-flow-step,
+.v176b-signal-step,
+.v176b-action-step{
+  background:#f6fafb;
+  border:1px solid #dce7ec;
+  border-left:1px solid #dce7ec;
+  border-radius:12px;
+}
+
+/* Same readable body text in Signal and Action */
+.v176b-flow-step p,
+.v176b-signal-step p,
+.v176b-action-step p{
+  font-size:14px;
+  line-height:1.5;
+  font-weight:400;
+  color:#12333d;
+}
+
+/* Larger text inside all relationship chips */
+.v176b-flow-step .tag,
+.v176b-entity-box .tag{
+  font-size:13px;
+  line-height:1.35;
+  padding:6px 10px;
+  font-weight:500;
+}
+
+/* Same chip appearance throughout the relationship card */
+.v176b-flow-step .tag,
+.v176b-entity-box .tag{
+  background:#edf6f7;
+  color:#006c73;
+}
+
+/* Larger entity text: Customers, Competitors, Technologies */
+.v176b-entity-box p{
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* Larger Why This Matters text */
+.v176b-why-box p{
+  font-size:14px;
+  line-height:1.5;
+  color:#12333d;
+}
