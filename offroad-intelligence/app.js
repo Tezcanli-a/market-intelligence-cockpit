@@ -3129,7 +3129,7 @@ else if(item.status === 'Investigate'){
   ctx.fillStyle = '#2563eb';
 }
 else{
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#fbbf24';
 }
 
     ctx.beginPath();
