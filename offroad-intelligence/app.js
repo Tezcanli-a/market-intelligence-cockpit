@@ -2046,13 +2046,8 @@ document.getElementById(
       const linkedRisks = a.linkedRiskIds || a.riskIds || [];
       
 
-      return `
-
-         ${safeHtml(
-  db?.status
- || 'Monitor'
-)}
-        <article class="profile-card">
+return `
+   <article class="profile-card">
 
 <div class="profile-head">
 
@@ -2077,12 +2072,8 @@ document.getElementById(
 
           <h3>${safeHtml(a.title || '')}</h3>
           <div class="pill-row">
-  <span class="pill">
-
-  </span>
-
-
-  <span class="pill">
+ 
+   <span class="pill">
     Confidence:
     ${safeHtml(a.confidenceScore || 'n/a')}%
   </span>
