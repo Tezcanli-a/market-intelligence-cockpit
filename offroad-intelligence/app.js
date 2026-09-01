@@ -1116,8 +1116,8 @@ function renderRelationships(){
           </div>
           <div class="v176b-arrow">→</div>
           <div class="v176b-flow-step v176b-signal-step">
-            <strong>Signal</strong>
-            <p>${safeHtml(signalId)}</p>
+<strong>Signal</strong>
+<p>${safeHtml(s.signal || signalId)}</p>
           </div>
           <div class="v176b-arrow">→</div>
           <div class="v176b-flow-step">
