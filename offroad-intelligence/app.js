@@ -1950,6 +1950,29 @@ function renderProvenance(){
   const low = assessments.filter(a =>
     (a.confidence || '').toLowerCase() === 'low'
   );
+  function trustState(a){
+
+  const validation =
+    validationInfo(a.signalId);
+
+  const review =
+    reviewStatus(a.reviewDate);
+
+  if(
+    validation.sourceCount > 0 &&
+    review.label === 'Current' &&
+    String(a.confidence || '')
+      .toLowerCase() === 'high'
+  ){
+    return 'High';
+  }
+
+  if(validation.sourceCount > 0){
+    return 'Medium';
+  }
+
+  return 'Low';
+}
 const evidenceLinked =
   assessments.filter(
     a => evidenceForSignal(a.signalId).length > 0
@@ -2047,10 +2070,26 @@ document.getElementById(
 )}
         <article class="profile-card">
 
-          <div class="profile-head">
-            <span class="meta">${safeHtml(a.assessmentId || '')}</span>
-            <span class="pill">${safeHtml(a.confidence || 'Unknown')}</span>
-          </div>
+<div class="profile-head">
+
+  <span class="meta">
+    ${safeHtml(a.assessmentId || '')}
+  </span>
+
+  <div style="display:flex;gap:6px;align-items:center;">
+
+    <span class="pill">
+      Trust:
+      ${safeHtml(trustState(a))}
+    </span>
+
+    <span class="pill">
+      ${safeHtml(a.confidence || 'Unknown')}
+    </span>
+
+  </div>
+
+</div>
 
           <h3>${safeHtml(a.title || '')}</h3>
           <div class="pill-row">
@@ -2096,6 +2135,41 @@ document.getElementById(
             <strong>Owner:</strong><br>
             ${safeHtml(a.owner || '')}
           </p>
+            <p>
+  <strong>Validated By:</strong><br>
+  ${safeHtml(
+    validationInfo(a.signalId).validatedBy
+  )}
+</p>
+
+<p>
+  <strong>Last Validation:</strong><br>
+  ${safeHtml(
+    validationInfo(a.signalId).validatedDate
+  )}
+</p>
+
+<p>
+  <strong>Evidence Strength:</strong><br>
+  ${safeHtml(
+    evidenceStrength(
+      validationInfo(a.signalId).sourceCount
+    )
+  )}
+</p>
+
+<p>
+  <strong>Review Status:</strong><br>
+
+  <span class="${
+    reviewStatus(a.reviewDate).className
+  }">
+    ${
+      reviewStatus(a.reviewDate).label
+    }
+  </span>
+
+</p>
 
           <p>
             <strong>Review Date:</strong><br>
