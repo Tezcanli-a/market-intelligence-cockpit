@@ -654,112 +654,126 @@ function renderRelationships(){
  const signals=(state.data.signals||[]).filter(searchMatch);const customers=state.data.customers||[],competitors=state.data.competitors||[],techs=state.data.technologies||[];
  v17set('relationshipGrid',signals.map(s=>{const sc=s.priority||'Medium';const cust=customers.filter(c=>v17a(s.customerIds).includes(c.id));const comp=competitors.filter(c=>v17a(s.competitorIds).includes(c.id));const tech=techs.filter(t=>v17a(s.technologyIds).includes(t.id));const ass=(state.data.assessments||[]).find(a=>a.signalId===s.id);return`<article class="v17-network-card"><div class="v17-network-top"><div><span class="meta">${v17e(s.id)}</span><h3>${v17e(s.signal)}</h3></div><span class="badge ${v17n(sc)}">${v17e(sc)}</span></div><div class="v17-network-cols"><div class="v17-network-col"><strong>Customers</strong>${cust.length?cust.map(c=>v17tag(c.customer||c.name)).join(''):'<span class="v17-muted">None linked</span>'}</div><div class="v17-network-col"><strong>Competitors</strong>${comp.length?comp.map(c=>v17tag(c.name)).join(''):'<span class="v17-muted">None linked</span>'}</div><div class="v17-network-col"><strong>Technologies</strong>${tech.length?tech.map(t=>v17tag(t.theme||t.name)).join(''):'<span class="v17-muted">None linked</span>'}</div><div class="v17-network-col"><strong>Opportunity</strong>${ass&&v17a(ass.opportunityIds).length?v17a(ass.opportunityIds).map(v17tag).join(''):'<span class="v17-muted">Not linked</span>'}</div><div class="v17-network-col"><strong>Risk</strong>${ass&&v17a(ass.riskIds).length?v17a(ass.riskIds).map(v17tag).join(''):'<span class="v17-muted">Not linked</span>'}</div></div><div class="v17-action"><b>Recommended action:</b> ${v17e(s.action||ass?.businessImplication||'Define next action')}</div></article>`}).join('')||'<p class="empty">No relationships found.</p>')
 }
+function technologyPriorityLabel(value){
+  const v = String(value || '').toLowerCase();
+
+  if(v === 'high') return 'Core Focus';
+  if(v === 'medium') return 'Important';
+
+  return 'Monitor';
+}
+
 function renderTechnology(){
-  setHtml('technologyGrid',
-    state.data.technologies.filter(searchMatch).map(t=>{
 
-      const customerCount = arr(t.customerAdoption).length;
-      const competitorCount = arr(t.competitorAdoption).length;
-      const momentum = customerCount + competitorCount;
+  setHtml(
+    'technologyGrid',
 
-      let radarScore = 40;
-      if(String(t.relevance||'').toLowerCase()==='high') radarScore += 20;
-      if(String(t.revenuePotential||'').toLowerCase()==='high') radarScore += 20;
-      if(String(t.grammerReadiness||'').toLowerCase()==='high') radarScore += 10;
-      radarScore += Math.min(momentum*2,10);
+    state.data.technologies
+      .filter(searchMatch)
+      .map(t => {
 
-      let action = 'Continue monitoring.';
-      if(String(t.revenuePotential||'').toLowerCase()==='high'){
-        action='Engage Sales and Product Management.';
-      }else if(String(t.grammerReadiness||'').toLowerCase()==='low'){
-        action='Validate R&D roadmap and monitor development.';
-      }
+        const linkedThemes =
+          arr(t.themeIds);
 
-      return `
-      <article class="v17-tech-card">
+        const linkedActions =
+          (state.data.actions || [])
+            .filter(a =>
+              arr(a.technologyIds).includes(t.id) ||
+              arr(a.themeIds).some(
+                id => linkedThemes.includes(id)
+              )
+            );
 
-        <div class="card-top">
-          <div>
-            <h3>${safeHtml(t.theme)}</h3>
-            ${badge(t.relevance||'Medium')}
-          </div>
+        const relatedThemeDescriptions =
+          (state.data.themes || [])
+            .filter(theme =>
+              linkedThemes.includes(theme.themeId)
+            )
+            .map(theme =>
+              theme.strategicRelevance
+            )
+            .filter(Boolean);
 
-          <div class="score-pill ${
-            radarScore>=75?'high':
-            radarScore>=55?'medium':'low'
-          }">
-            <span>Radar Score</span>
-            <strong>${radarScore}</strong>
-          </div>
-        </div>
+        const whyItMatters =
+          relatedThemeDescriptions[0] ||
+          'Assessment pending. Strategic relevance has not yet been formally assessed.';
 
-        <div class="v17-score-row">
+        const actionBlock =
+          linkedActions.length
+          ? linkedActions.map(a => `
+              <div>
+                <b>${safeHtml(a.title)}</b><br>
+                Owner: ${safeHtml(a.owner || 'Not Assigned')}<br>
+                Review: ${safeHtml(a.reviewDate || 'Not Available')}
+              </div>
+            `).join('<br>')
+          :
+            'Assessment pending. No governed action currently linked.';
 
-          <div class="v17-score">
-            <span>Customer Adoption</span>
-            <strong>${customerCount}</strong>
-          </div>
+        return `
+          <article class="v17-tech-card">
 
-          <div class="v17-score">
-            <span>Competitor Activity</span>
-            <strong>${competitorCount}</strong>
-          </div>
+            <div class="card-top">
+              <div>
+                <h3>${safeHtml(t.theme)}</h3>
+                ${tag(
+                  technologyPriorityLabel(
+                    t.relevance
+                  )
+                )}
+              </div>
+            </div>
 
-          <div class="v17-score">
-            <span>Momentum</span>
-            <strong>${momentum}</strong>
-          </div>
+            <div class="v17-tech-section">
+              <strong>Technology Profile</strong>
+              <p>
+                <b>Maturity:</b> ${safeHtml(t.maturity || 'Not Available')}<br>
+                <b>Affected Segments:</b> ${safeHtml(t.segments || 'Not Available')}<br>
+                <b>Watch Signals:</b> ${safeHtml(t.watchSignals || 'Not Available')}
+              </p>
+            </div>
 
-        </div>
+            <div class="v17-tech-section">
+              <strong>Why It Matters to GRAMMER</strong>
+              <p>${safeHtml(whyItMatters)}</p>
+            </div>
 
-        <div class="v17-tech-section">
-          <strong>Technology Profile</strong>
+            <div class="v17-tech-section">
+              <strong>Customer Adoption</strong>
+              <p>Not Assessed</p>
+            </div>
 
-          <p>
-            <b>Maturity:</b> ${safeHtml(t.maturity)}<br>
-            <b>Affected segments:</b> ${safeHtml(t.segments)}<br>
-            <b>Watch signals:</b> ${safeHtml(t.watchSignals)}
-          </p>
-        </div>
+            <div class="v17-tech-section">
+              <strong>Competitor Activity</strong>
+              <p>Not Assessed</p>
+            </div>
 
-        <div class="v17-tech-section">
-          <strong>Customer Adoption</strong>
-          <p>
-            ${customerCount
-              ? arr(t.customerAdoption).map(x=>tag(x)).join('')
-              : '<span class="muted">Not populated yet</span>'
-            }
-          </p>
-        </div>
+            <div class="v17-tech-section">
+              <strong>Confidence & Evidence</strong>
+              <p>
+                <b>Confidence:</b> Not Assessed<br>
+                <b>Evidence State:</b> No linked evidence<br>
+                <b>Last Validated:</b> Not Available<br>
+                <b>Source Diversity:</b> Not Available
+              </p>
+            </div>
 
-        <div class="v17-tech-section">
-          <strong>Competitor Activity</strong>
-          <p>
-            ${competitorCount
-              ? arr(t.competitorAdoption).map(x=>tag(x)).join('')
-              : '<span class="muted">Not populated yet</span>'
-            }
-          </p>
-        </div>
+            <div class="v17-tech-section">
+              <strong>Recommended Action</strong>
+              <p>${actionBlock}</p>
+            </div>
 
-        ${section(
-          'Technology Radar',
-          kv('Market adoption',t.marketAdoption)+
-          kv('GRAMMER readiness',t.grammerReadiness)+
-          kv('Revenue potential',t.revenuePotential)
-        )}
+          </article>
+        `;
+      })
+      .join('')
 
-        <div class="v17-tech-section">
-          <strong>Recommended Action</strong>
-          <p>${safeHtml(action)}</p>
-        </div>
+      ||
 
-      </article>
-      `;
-    }).join('') ||
-    '<p class="empty">No technology data available.</p>'
+      '<p class="empty">No technology data available.</p>'
   );
 }
+
 function renderBenchmarking(){
  const items=(state.data.benchmarking||[]).filter(searchMatch);v17set('benchmarkGrid',items.map(b=>{const dims=v17a(b.dimensions);return`<article class="v17-benchmark-card"><span class="meta">${v17e(b.benchmarkId||b.id||'')} · ${v17e(b.type||'')}</span><h3>${v17e(b.title)}</h3>${dims.length?dims.map(d=>`<div class="v17-dimension"><div class="v17-dimension-name">${v17e(d.dimension||'Dimension')}</div><div class="v17-position"><b>GRAMMER</b><br>${v17e(d.grammerPosition||d.value||'Not populated')}</div><div class="v17-position"><b>Benchmark</b><br>${v17e(d.competitorPosition||d.comment||'Not populated')}</div></div>`).join(''):'<p class="v17-muted">No dimensions yet.</p>'}</article>`}).join('')||'<p class="empty">No benchmarking available.</p>')
 }
