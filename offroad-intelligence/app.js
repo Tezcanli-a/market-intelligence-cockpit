@@ -1026,18 +1026,17 @@ return evidence.length
 }
 
 function v176bAssessmentTags(signal){
-  const explicitIds = arr(signal.linkedAssessmentIds);
-  if(explicitIds.length) return explicitIds.map(tag).join('');
-  const assessment =
-  assessmentForSignal(
-    signal.id || signal.signalId
-  );
 
-return assessment
-  ? tag(
-      assessment.title
-    )
-  : '<span class="muted">No assessment linked yet</span>';
+  const assessment =
+    assessmentForSignal(
+      signal.id || signal.signalId
+    );
+
+  return assessment
+    ? tag(
+        assessment.title
+      )
+    : '<span class="muted">No assessment linked yet</span>';
 }
 
 function v176bOpportunityRiskTags(signal){
@@ -1098,8 +1097,13 @@ function renderRelationships(){
       <article class="v176b-network-card">
         <div class="v176b-network-top">
           <div>
-            <span class="meta">${safeHtml(s.perspective)}
- Perspective || 'Perspective not set')}</span>
+<span class="meta">
+${safeHtml(
+  s.perspective
+    ? `${s.perspective} Perspective`
+    : 'Perspective not set'
+)}
+</span>
             <h3>${safeHtml(s.signal || s.title || 'Untitled signal')}</h3>
           </div>
           <div>${badge(s.priority || 'Medium')}</div>
