@@ -95,6 +95,32 @@ function relevantNews(){let out=(state.data.newsRaw.news||[]).filter(isOffroadRe
 function filteredSignals(){return (state.data.signals||[]).filter(s=>segMatch(val(s,['segment','industrySegment'],''),state.filters.segment)&&(state.filters.perspective==='all'||s.perspective===state.filters.perspective)&&(state.filters.priority==='all'||s.priority===state.filters.priority)&&searchMatch(s));}
 function assessmentForSignal(id){return (state.data.assessments||[]).find(a=>a.signalId===id);}
 function evidenceForSignal(id){return (state.data.evidence||[]).filter(e=>(e.linkedSignalIds||[]).includes(id)||e.linkedSignalId===id);}
+function validationInfo(signalId){
+
+  const evidence =
+    evidenceForSignal(signalId);
+
+  if(!evidence.length){
+    return {
+      validatedBy:'Not Available',
+      validatedDate:'Not Available',
+      sourceCount:0
+    };
+  }
+
+  return {
+    validatedBy:
+      evidence[0].verifiedBy ||
+      'Not Available',
+
+    validatedDate:
+      evidence[0].lastVerifiedDate ||
+      'Not Available',
+
+    sourceCount:
+      evidence.length
+  };
+}
 function signalById(id){return (state.data.signals||[]).find(s=>s.id===id||s.signalId===id);}
 function decisionBriefById(id){
   return (state.data.decisionBriefs || [])
@@ -380,14 +406,29 @@ function businessImplication(s){const a=assessmentForSignal(s.id);return a?.busi
 function renderKpis(signals){const kpis=[['Signals',signals.length],['Assessments',state.data.assessments.length],['Evidence items',state.data.evidence.length],['Opportunities',state.data.opportunities.length],['High risks',state.data.risks.filter(r=>r.priority==='High'||r.riskLevel==='High').length],['News updated',state.data.newsRaw.lastUpdated?new Date(state.data.newsRaw.lastUpdated).toLocaleDateString():'n/a']]; setHtml('kpis',kpis.map(([l,v])=>`<div class="kpi"><span>${safeHtml(l)}</span><strong>${safeHtml(v)}</strong></div>`).join(''));}
 function overviewList(items){if(!items.length)return'<p class="empty">No items yet.</p>';return items.map(x=>`<div class="compact-row"><div>${badge(val(x,['priority','riskLevel'],'Medium'))}</div><div><h4>${safeHtml(val(x,['opportunity','description','riskDescription','title','name'],'Untitled'))}</h4><p>${safeHtml(val(x,['nextAction','mitigation','mitigation / watch action','potentialImpact','whyAttractive','why attractive','status'],''))}</p></div></div>`).join('');}
 function renderOverview(signals){const top=(signals.length?signals:state.data.signals).slice(0,3); } function renderSignalsTable(){const signals=filteredSignals();setHtml('signalsTable',`<table><tr><th>ID</th><th>Priority</th><th>Confidence</th><th>Evidence</th><th>Perspective</th><th>Signal</th><th>Linked entities</th><th>Business implication</th><th>Recommended action</th><th>Assessment</th></tr>${signals.map(s=>{const a=assessmentForSignal(s.id);const e=evidenceForSignal(s.id);return `<tr><td>${safeHtml(s.id||'')}</td><td>${badge(s.priority||'Medium')}</td><td>${a?badge(a.confidence||'Medium'):'<span class="muted">No assessment</span>'}</td><td>${e.length?`${e.length} source${e.length>1?'s':''}`:'0 sources'}</td><td>${safeHtml(s.perspective)}</td><td>${safeHtml(s.signal)}</td><td>${entityTags(s)}</td><td>${safeHtml(businessImplication(s))}</td><td>${safeHtml(s.action)}</td><td>${a?tag(a.assessmentId):'<span class="muted">No assessment</span>'}</td></tr>`}).join('')}</table>`);}
-function renderAssessments(){const items=state.data.assessments.filter(searchMatch); setHtml('assessmentGrid',items.map(a=>{const s=signalById(a.signalId)||{};const ev=evidenceForSignal(a.signalId);return `<article class="profile-card"><div class="profile-head"><div><span class="meta">${safeHtml(a.assessmentId)} · linked to ${safeHtml(a.signalId)}</span><h3>${safeHtml(a.title)}</h3></div>${badge(a.confidence||'Medium')}</div>${section('Evidence',ev.length?`<ul>${ev.map(e=>`<li>
+function renderAssessments(){const items=state.data.assessments.filter(searchMatch); setHtml('assessmentGrid',items.map(a=>{const s=signalById(a.signalId)||{};const ev=evidenceForSignal(a.signalId);const validation =
+  validationInfo(a.signalId);return `<article class="profile-card"><div class="profile-head"><div><span class="meta">${safeHtml(a.assessmentId)} · linked to ${safeHtml(a.signalId)}</span><h3>${safeHtml(a.title)}</h3></div>${badge(a.confidence||'Medium')}</div>${section('Evidence',ev.length?`<ul>${ev.map(e=>`<li>
 ${safeHtml(e.evidenceId)}
 ·
 ${safeHtml(e.title)}
 ·
 Reliability ${safeHtml(e.reliability)}
 </li>
-`).join('')}</ul>`:'<span class="muted">No evidence linked yet.</span>')}${section('Assessment',`<b>Market Signal:</b> ${safeHtml(s.signal||a.title)}<br><b>Assessment:</b> ${safeHtml(a.assessment)}<br><b>Why it matters:</b> ${safeHtml(a.businessImplication)}`)}${section('Recommended Action',`<b>Forecast:</b> ${safeHtml(a.forecast)}<br><b>Time horizon:</b> ${safeHtml(a.timeHorizon)}<br><b>Owner:</b> ${safeHtml(a.owner)}<br><b>Review:</b> ${safeHtml(a.reviewDate)}
+`).join('')}</ul>`:'<span class="muted">No evidence linked yet.</span>')}${section('Assessment',`<b>Market Signal:</b> ${safeHtml(s.signal||a.title)}<br><b>Assessment:</b> ${safeHtml(a.assessment)}<br><b>Why it matters:</b> ${safeHtml(a.businessImplication)}`)}${section(
+  'Validation',
+  `
+  <b>Validated By:</b>
+  ${safeHtml(validation.validatedBy)}
+  <br>
+
+  <b>Last Validation:</b>
+  ${safeHtml(validation.validatedDate)}
+  <br>
+
+  <b>Evidence Sources:</b>
+  ${safeHtml(validation.sourceCount)}
+  `
+)}${section('Recommended Action',`<b>Forecast:</b> ${safeHtml(a.forecast)}<br><b>Time horizon:</b> ${safeHtml(a.timeHorizon)}<br><b>Owner:</b> ${safeHtml(a.owner)}<br><b>Review:</b> ${safeHtml(a.reviewDate)}
 
 <br>
 
