@@ -90,7 +90,7 @@
 .v176b-why-box strong{
   display:block;
   color:#006c73;
-  font-size:11px;
+  font-size:12px;
   text-transform:uppercase;
   letter-spacing:.6px;
   margin-bottom:7px;
@@ -1182,4 +1182,34 @@
 }
 #assessmentGrid .profile-card{
   padding:22px;
+}
+.v176b-flow-step{
+  font-size:13px;
+}
+
+.v176b-flow-step p{
+  font-size:13px;
+  line-height:1.5;
+}
+
+.v176b-flow-step .tag{
+  font-size:13px;
+}
+
+.v176b-entity-box{
+  font-size:13px;
+}
+
+.v176b-entity-box p{
+  font-size:13px;
+  line-height:1.5;
+}
+
+.v176b-why-box{
+  font-size:13px;
+}
+
+.v176b-why-box p{
+  font-size:13px;
+  line-height:1.5;
 }
