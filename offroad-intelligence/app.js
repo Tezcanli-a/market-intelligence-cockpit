@@ -1950,12 +1950,65 @@ function renderProvenance(){
   const low = assessments.filter(a =>
     (a.confidence || '').toLowerCase() === 'low'
   );
+const evidenceLinked =
+  assessments.filter(
+    a => evidenceForSignal(a.signalId).length > 0
+  );
 
-  document.getElementById('confidenceSummary').innerHTML = `
-    <div class="kpi-card">
-      <div class="value">${assessments.length}</div>
-      <div class="label">Assessments</div>
-    </div>
+const dueForReview =
+  assessments.filter(
+    a =>
+      reviewStatus(a.reviewDate).label ===
+      'Due For Review'
+  );
+
+const lowConfidence =
+  assessments.filter(
+    a =>
+      String(a.confidence || '')
+        .toLowerCase() === 'low'
+  );
+document.getElementById(
+  'confidenceSummary'
+).innerHTML =
+
+`
+<div class="kpi-card">
+  <div class="value">
+    ${assessments.length}
+  </div>
+  <div class="label">
+    Assessments
+  </div>
+</div>
+
+<div class="kpi-card">
+  <div class="value">
+    ${evidenceLinked.length}
+  </div>
+  <div class="label">
+    Evidence Linked
+  </div>
+</div>
+
+<div class="kpi-card">
+  <div class="value">
+    ${dueForReview.length}
+  </div>
+  <div class="label">
+    Due For Review
+  </div>
+</div>
+
+<div class="kpi-card">
+  <div class="value">
+    ${lowConfidence.length}
+  </div>
+  <div class="label">
+    Low Confidence
+  </div>
+</div>
+`;
 
     <div class="kpi-card">
       <div class="value">${high.length}</div>
