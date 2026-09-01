@@ -2966,6 +2966,33 @@ setHtml('decisionPanel', `
       'No explicit gap populated.'
     )}</p>
   </div>
+  <div class="j4-block">
+
+  <strong>
+    Trust & Validation
+  </strong>
+
+  <p>
+
+    Confidence:
+    ${
+      safeHtml(
+        decisionCandidate?.confidenceScore
+      )
+    }%
+
+    <br>
+
+    Review Status:
+    ${
+      reviewStatus(
+        decisionCandidate?.reviewDate
+      ).label
+    }
+
+  </p>
+
+</div>
 
 <div class="j4-block">
     <strong>Possible Consequence</strong>
