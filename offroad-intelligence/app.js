@@ -46,6 +46,43 @@ const safeHtml=v=>cleanText(v).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>'
 const extractUrl=v=>{const m=String(v||'').match(/https?:\/\/[^\s"<>]+/); return m?m[0]:'';};
 const val=(o,keys,fb='')=>{for(const k of keys){if(o && o[k]!==undefined && o[k]!==null && o[k]!== '') return o[k];} return fb;};
 const setHtml=(id,html)=>{const el=document.getElementById(id); if(el) el.innerHTML=html;};
+function reviewStatus(dateString){
+
+  if(!dateString){
+    return {
+      label:'Review Not Scheduled',
+      className:'review-missing'
+    };
+  }
+
+  const today = new Date();
+  const review = new Date(dateString);
+
+  const diffDays =
+    Math.ceil(
+      (review - today) /
+      (1000 * 60 * 60 * 24)
+    );
+
+  if(diffDays < 0){
+    return {
+      label:'Stale',
+      className:'review-stale'
+    };
+  }
+
+  if(diffDays <= 14){
+    return {
+      label:'Due For Review',
+      className:'review-due'
+    };
+  }
+
+  return {
+    label:'Current',
+    className:'review-current'
+  };
+}
 const badge=p=>`<span class="badge ${norm(p)}">${safeHtml(p)}</span>`;
 const tag=t=>`<span class="tag">${safeHtml(t)}</span>`;
 const list=a=>arr(a).length?`<ul>${arr(a).map(x=>`<li>${safeHtml(typeof x==='object'?JSON.stringify(x):x)}</li>`).join('')}</ul>`:'<span class="muted">Not populated yet</span>';
