@@ -1009,21 +1009,75 @@ function v176bThemeTags(signal){
 function v176bEvidenceTags(signal){
   const explicitIds = arr(signal.linkedEvidenceIds);
   if(explicitIds.length) return explicitIds.map(tag).join('');
-  const evidence = evidenceForSignal(signal.id || signal.signalId);
-  return evidence.length ? evidence.map(e => tag(e.evidenceId || e.id || e.title)).join('') : '<span class="muted">No evidence linked yet</span>';
+const evidence =
+  evidenceForSignal(
+    signal.id || signal.signalId
+  );
+
+return evidence.length
+  ? evidence
+      .map(
+        e => tag(
+          e.title
+        )
+      )
+      .join('')
+  : '<span class="muted">No evidence linked yet</span>';
 }
 
 function v176bAssessmentTags(signal){
   const explicitIds = arr(signal.linkedAssessmentIds);
   if(explicitIds.length) return explicitIds.map(tag).join('');
-  const assessment = assessmentForSignal(signal.id || signal.signalId);
-  return assessment ? tag(assessment.assessmentId || assessment.id || assessment.title) : '<span class="muted">No assessment linked yet</span>';
+  const assessment =
+  assessmentForSignal(
+    signal.id || signal.signalId
+  );
+
+return assessment
+  ? tag(
+      assessment.title
+    )
+  : '<span class="muted">No assessment linked yet</span>';
 }
 
 function v176bOpportunityRiskTags(signal){
-  const opp = arr(signal.opportunityIds).map(tag).join('');
-  const risk = arr(signal.riskIds).map(tag).join('');
-  return (opp || risk) ? (opp + risk) : '<span class="muted">No opportunity or risk linked yet</span>';
+const oppTags =
+  arr(signal.opportunityIds)
+    .map(id => {
+
+      const opp =
+        (state.data.opportunities || [])
+          .find(
+            o => o.id === id
+          );
+
+      return tag(
+        opp?.opportunity || id
+      );
+
+    })
+    .join('');
+
+const riskTags =
+  arr(signal.riskIds)
+    .map(id => {
+
+      const risk =
+        (state.data.risks || [])
+          .find(
+            r => r.id === id
+          );
+
+      return tag(
+        risk?.description || id
+      );
+
+    })
+    .join('');
+
+return (oppTags || riskTags)
+  ? oppTags + riskTags
+  : '<span class="muted">No opportunity or risk linked yet</span>';
 }
 
 function renderRelationships(){
