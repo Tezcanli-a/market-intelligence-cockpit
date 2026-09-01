@@ -407,7 +407,18 @@ function renderKpis(signals){const kpis=[['Signals',signals.length],['Assessment
 function overviewList(items){if(!items.length)return'<p class="empty">No items yet.</p>';return items.map(x=>`<div class="compact-row"><div>${badge(val(x,['priority','riskLevel'],'Medium'))}</div><div><h4>${safeHtml(val(x,['opportunity','description','riskDescription','title','name'],'Untitled'))}</h4><p>${safeHtml(val(x,['nextAction','mitigation','mitigation / watch action','potentialImpact','whyAttractive','why attractive','status'],''))}</p></div></div>`).join('');}
 function renderOverview(signals){const top=(signals.length?signals:state.data.signals).slice(0,3); } function renderSignalsTable(){const signals=filteredSignals();setHtml('signalsTable',`<table><tr><th>ID</th><th>Priority</th><th>Confidence</th><th>Evidence</th><th>Perspective</th><th>Signal</th><th>Linked entities</th><th>Business implication</th><th>Recommended action</th><th>Assessment</th></tr>${signals.map(s=>{const a=assessmentForSignal(s.id);const e=evidenceForSignal(s.id);return `<tr><td>${safeHtml(s.id||'')}</td><td>${badge(s.priority||'Medium')}</td><td>${a?badge(a.confidence||'Medium'):'<span class="muted">No assessment</span>'}</td><td>${e.length?`${e.length} source${e.length>1?'s':''}`:'0 sources'}</td><td>${safeHtml(s.perspective)}</td><td>${safeHtml(s.signal)}</td><td>${entityTags(s)}</td><td>${safeHtml(businessImplication(s))}</td><td>${safeHtml(s.action)}</td><td>${a?tag(a.assessmentId):'<span class="muted">No assessment</span>'}</td></tr>`}).join('')}</table>`);}
 function renderAssessments(){const items=state.data.assessments.filter(searchMatch); setHtml('assessmentGrid',items.map(a=>{const s=signalById(a.signalId)||{};const ev=evidenceForSignal(a.signalId);const validation =
-  validationInfo(a.signalId);return `<article class="profile-card"><div class="profile-head">
+  validationInfo(a.signalId);const db =
+  decisionBriefForAssessment(
+    a.assessmentId
+  );
+
+const openGap =
+  db?.uncertainty?.openGap ||
+  'No explicit gap recorded';
+
+const unknowns =
+  db?.uncertainty?.unknowns ||
+  [];return `<article class="profile-card"><div class="profile-head">
 
   <div>
 <span class="meta">
@@ -454,6 +465,32 @@ ${safeHtml(e.reliability)}
 
   <b>Evidence Sources:</b>
   ${safeHtml(validation.sourceCount)}
+  `
+)}${section(
+  'What We Still Do Not Know',
+  `
+  <b>Open Gap:</b><br>
+  ${safeHtml(openGap)}
+
+  <br><br>
+
+  ${
+    unknowns.length
+      ? `
+        <b>Key Unknowns:</b>
+        <ul>
+          ${
+            unknowns
+              .map(
+                x =>
+                  `<li>${safeHtml(x)}</li>`
+              )
+              .join('')
+          }
+        </ul>
+      `
+      : ''
+  }
   `
 )}${section('Recommended Action',`<b>Forecast:</b> ${safeHtml(a.forecast)}<br><b>Time horizon:</b> ${safeHtml(a.timeHorizon)}<br><b>Owner:</b> ${safeHtml(a.owner)}<br><b>Review:</b> ${safeHtml(a.reviewDate)}
 
