@@ -2033,23 +2033,7 @@ document.getElementById(
 </div>
 `;
 
-    <div class="kpi-card">
-      <div class="value">${high.length}</div>
-      <div class="label">High Confidence</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${medium.length}</div>
-      <div class="label">Medium Confidence</div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="value">${low.length}</div>
-      <div class="label">Low Confidence</div>
-    </div>
-  `;
-
-  document.getElementById('confidenceGrid').innerHTML =
+     document.getElementById('confidenceGrid').innerHTML =
     assessments.map(a => {      
 
         const db =
