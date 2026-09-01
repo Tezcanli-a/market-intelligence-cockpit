@@ -774,7 +774,10 @@
     display:grid;
     grid-template-columns: 0.9fr 0.7fr 1.6fr;
     gap:10px;
-    align-items:start;
+    align-items:stretch;
+}
+.j4-agenda-body > .j4-block{
+  height:100%;
 }
 .j4-block{
   background:#f6fafb;
@@ -892,8 +895,7 @@
   border-top:0;
 }
 .j4-forecast{
-  background:#ecf8fa;
-  border-left:6px solid #00858c;
+  border-left:none;
 }
 .j4-forecast p{
   font-size:14px;
