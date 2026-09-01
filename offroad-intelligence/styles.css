@@ -785,16 +785,17 @@
 .j4-block strong{
   display:block;
   color:#006c73;
-  font-size:10px;
+  font-size:11px;
   text-transform:uppercase;
   letter-spacing:1px;
   margin-bottom:5px;
 }
 .j4-block p{
   margin:0;
-  line-height:1.45;
-  font-size:13px;
+  line-height:1.55;
+  font-size:14px;
 }
+
 .j4-main-text{
   background:#ecf8fa;
   border-left:6px solid #00858c;
