@@ -855,8 +855,12 @@
   color:#12333d;
   text-transform:none;
   letter-spacing:0;
-  font-size:12px;
-  margin-bottom:3px;
+  font-size:13px;
+  margin-bottom:4px;
+}
+.j4-scenario-row p{
+  font-size:13px;
+  line-height:1.55;
 }
 .j4-owner-row,
 .j4-footer-row{
