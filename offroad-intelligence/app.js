@@ -2343,8 +2343,20 @@ function renderActionEngine(){
         </p>
 
         <p>
-          <strong>Review Date:</strong><br>
-          ${safeHtml(a.reviewDate || '')}
+<strong>Review Date:</strong><br>
+${safeHtml(a.reviewDate || '')}
+
+<br><br>
+
+<strong>Review Status:</strong><br>
+
+<span class="${
+  reviewStatus(a.reviewDate).className
+}">
+${
+  reviewStatus(a.reviewDate).label
+}
+</span>
         </p>
 
         <div class="pill-row">
@@ -3362,10 +3374,24 @@ function renderDecisionBriefs(){
             ${safeHtml(db.owner || 'Not assigned')}
           </p>
 
-          <p>
-            <strong>Due:</strong><br>
-            ${safeHtml(db.dueDate || 'Not defined')}
-          </p>
+<p>
+<strong>Due:</strong><br>
+${safeHtml(db.dueDate || 'Not defined')}
+</p>
+
+<p>
+<strong>Review Status:</strong><br>
+
+<span class="${
+  reviewStatus(db.dueDate).className
+}">
+${
+  reviewStatus(db.dueDate).label
+}
+</span>
+
+</p>
+
 
           <div class="j4-gap-row">
             Open Decision Brief
