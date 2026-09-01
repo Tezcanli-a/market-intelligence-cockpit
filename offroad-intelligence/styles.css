@@ -1263,3 +1263,19 @@
   line-height:1.5;
   color:#12333d;
 }
+/* V21.4 Entity Relationship typography consistency */
+
+.v176b-flow-step p,
+.v176b-flow-step .tag,
+.v176b-entity-box p,
+.v176b-entity-box .tag{
+  font-size:14px !important;
+  font-weight:400 !important;
+  line-height:1.5;
+}
+
+.v176b-why-box p{
+  font-size:14px !important;
+  font-weight:400 !important;
+  line-height:1.5;
+}
