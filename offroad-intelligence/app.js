@@ -121,6 +121,19 @@ function validationInfo(signalId){
       evidence.length
   };
 }
+function evidenceStrength(sourceCount){
+
+  if(sourceCount >= 5){
+    return 'Strong';
+  }
+
+  if(sourceCount >= 2){
+    return 'Moderate';
+  }
+
+  return 'Limited';
+}
+
 function signalById(id){return (state.data.signals||[]).find(s=>s.id===id||s.signalId===id);}
 function decisionBriefById(id){
   return (state.data.decisionBriefs || [])
@@ -463,8 +476,17 @@ ${safeHtml(e.reliability)}
   ${safeHtml(validation.validatedDate)}
   <br>
 
-  <b>Evidence Sources:</b>
-  ${safeHtml(validation.sourceCount)}
+ <b>Evidence Sources:</b>
+${safeHtml(validation.sourceCount)}
+
+<br>
+
+<b>Evidence Strength:</b>
+${safeHtml(
+  evidenceStrength(
+    validation.sourceCount
+  )
+)}
   `
 )}${section(
   'What We Still Do Not Know',
