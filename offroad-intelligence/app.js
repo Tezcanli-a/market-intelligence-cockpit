@@ -1098,7 +1098,8 @@ function renderRelationships(){
       <article class="v176b-network-card">
         <div class="v176b-network-top">
           <div>
-            <span class="meta">${safeHtml(signalId)} · ${safeHtml(s.perspective || 'Perspective not set')}</span>
+            <span class="meta">${safeHtml(s.perspective)}
+ Perspective || 'Perspective not set')}</span>
             <h3>${safeHtml(s.signal || s.title || 'Untitled signal')}</h3>
           </div>
           <div>${badge(s.priority || 'Medium')}</div>
