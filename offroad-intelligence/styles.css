@@ -1116,3 +1116,42 @@
 #themeExplorerGrid .v177-theme-card{height:100%;grid-template-rows:auto auto auto auto auto auto auto auto}
 #themeExplorerGrid .v177-action-box{margin-top:auto}
 .v177-section .muted{color:#667d86;font-style:italic}
+.review-current{
+  background:#eef7f8;
+  color:#006c73;
+  border:1px solid #9cced1;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.review-due{
+  background:#fff7ed;
+  color:#9a3412;
+  border:1px solid #fdba74;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.review-stale{
+  background:#fef2f2;
+  color:#b91c1c;
+  border:1px solid #fecaca;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.review-missing{
+  background:#f8fafc;
+  color:#64748b;
+  border:1px solid #cbd5e1;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+}
