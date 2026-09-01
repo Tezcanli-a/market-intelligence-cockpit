@@ -1279,3 +1279,20 @@
   font-weight:400 !important;
   line-height:1.5;
 }
+/* Final Entity Relationship typography */
+
+.v176b-network-card .tag{
+  font-size:14px !important;
+  font-weight:400 !important;
+  line-height:1.5 !important;
+  padding:7px 12px !important;
+  color:#12333d !important;
+}
+.v176b-flow-step p,
+.v176b-entity-box p,
+.v176b-why-box p{
+  font-size:14px !important;
+  font-weight:400 !important;
+  line-height:1.5 !important;
+  color:#12333d !important;
+}
