@@ -859,8 +859,10 @@
   margin-bottom:4px;
 }
 .j4-scenario-row p{
-  font-size:13px;
+  font-size:14px;
   line-height:1.55;
+  font-weight:400;
+  color:#12333d;
 }
 .j4-owner-row,
 .j4-footer-row{
@@ -894,10 +896,10 @@
   border-left:6px solid #00858c;
 }
 .j4-forecast p{
-  font-size:13px;
-  line-height:1.4;
-  font-weight:600;
-  color:#063f4f;
+  font-size:14px;
+  line-height:1.55;
+  font-weight:400;
+  color:#12333d;
 }
 @media(max-width:1200px){
   .j4-agenda-body{
