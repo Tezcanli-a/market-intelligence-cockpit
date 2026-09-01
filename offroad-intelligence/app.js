@@ -410,11 +410,11 @@ function renderAssessments(){const items=state.data.assessments.filter(searchMat
   validationInfo(a.signalId);return `<article class="profile-card"><div class="profile-head">
 
   <div>
-    <span class="meta">
-      ${safeHtml(a.assessmentId)}
-      · linked to
-      ${safeHtml(a.signalId)}
-    </span>
+<span class="meta">
+
+Market Intelligence Assessment
+
+</span>
 
     <h3>${safeHtml(a.title)}</h3>
   </div>
