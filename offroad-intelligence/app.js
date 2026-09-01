@@ -441,7 +441,7 @@ ${safeHtml(e.title)}
 Reliability:
 ${safeHtml(e.reliability)}
 </li>
-`).join('')}</ul>`:'<span class="muted">No evidence linked yet.</span>')}${section('Assessment',`<b>Market Signal:</b> ${safeHtml(s.signal||a.title)}<br><b>Assessment:</b> ${safeHtml(a.assessment)}<br><b>Why it matters:</b> ${safeHtml(a.businessImplication)}`)}${section(
+`).join('')}</ul>`:'<span class="muted">No evidence linked yet.</span>')}${section('Analyst Assessment',`<b>Market Signal:</b> ${safeHtml(s.signal||a.title)}<br><b>Assessment:</b> ${safeHtml(a.assessment)}<br><b>Why it matters:</b> ${safeHtml(a.businessImplication)}`)}${section(
   'Validation',
   `
   <b>Validated By:</b>
